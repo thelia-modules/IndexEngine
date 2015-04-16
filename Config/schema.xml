@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database defaultIdMethod="native" name="thelia"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="../../../../core/vendor/propel/propel/resources/xsd/database.xsd" >
+
+    <table name="index_engine_index" namespace="IndexEngine\Model">
+        <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER" />
+        <column defaultValue="0" name="visible" required="true" type="TINYINT" />
+
+        <column name="code" size="255" type="VARCHAR" required="true" />
+        <column name="title" size="255" type="VARCHAR" required="true" />
+        <column name="table" size="64" type="VARCHAR" required="true" />
+        <column name="columns" type="CLOB" required="true" />
+        <column name="serialized_condition" type="CLOB" required="true" />
+
+        <column name="index_engine_driver_configuration_id" type="INTEGER" required="true" />
+
+        <foreign-key foreignTable="index_engine_driver_configuration" name="fk_index_engine_index_index_engine_driver_configuration_id">
+            <reference local="index_engine_driver_configuration_id" foreign="id" />
+        </foreign-key>
+        <index name="idx_index_engine_index_index_engine_driver_configuration_fk">
+            <index-column name="index_engine_driver_configuration_id" />
+        </index>
+
+        <behavior name="timestampable" />
+        <behavior name="versionable">
+            <parameter name="log_created_at" value="true" />
+            <parameter name="log_created_by" value="true" />
+        </behavior>
+    </table>
+
+    <table name="index_engine_driver_configuration">
+        <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER" />
+
+        <column name="driver_code" type="VARCHAR" size="64" required="true" />
+        <column name="title" type="VARCHAR" size="255" required="true" />
+
+        <column name="serialized_configuration" type="CLOB" required="true" />
+    </table>
+
+    <external-schema filename="local/config/schema.xml" referenceOnly="true" />
+</database>
