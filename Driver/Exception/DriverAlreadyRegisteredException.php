@@ -12,13 +12,14 @@
 
 namespace IndexEngine\Driver\Exception;
 
+use IndexEngine\Exception\InvalidArgumentException;
 
 /**
  * Class DriverAlreadyRegisteredException
  * @package IndexEngine\Driver\Exception
  * @author Benjamin Perche <benjamin@thelia.net>
  */
-class DriverAlreadyRegisteredException extends \InvalidArgumentException
+class DriverAlreadyRegisteredException extends InvalidArgumentException
 {
 
 }

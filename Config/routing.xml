@@ -1,10 +1,6 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-
-<routes xmlns="http://symfony.com/schema/routing"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
-
-    <!--
+<?xml version="1.0" encoding="UTF-8"?>
+<routes xmlns="http://symfony.com/schema/routing" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
+  <!--
 
     if a /admin/module/indexengine/ route is provided, a "Configuration" button will be displayed
     for the module in the module list. Clicking this button will invoke this route.
@@ -27,5 +23,55 @@
     ...
     </route>
     -->
-
+  <route id="indexengine.index_engine_index.list" path="/admin/module/IndexEngine/index_engine_index" methods="get">
+    <default key="_controller">IndexEngine:IndexEngineIndex:default</default>
+  </route>
+  <route id="indexengine.index_engine_index.create" path="/admin/module/IndexEngine/index_engine_index" methods="post">
+    <default key="_controller">IndexEngine:IndexEngineIndex:create</default>
+  </route>
+  <route id="indexengine.index_engine_index.view" path="/admin/module/IndexEngine/index_engine_index/edit" methods="get">
+    <default key="_controller">IndexEngine:IndexEngineIndex:update</default>
+  </route>
+  <route id="indexengine.index_engine_index.edit" path="/admin/module/IndexEngine/index_engine_index/edit" methods="post">
+    <default key="_controller">IndexEngine:IndexEngineIndex:processUpdate</default>
+  </route>
+  <route id="indexengine.index_engine_index.delete" path="/admin/module/IndexEngine/index_engine_index/delete" methods="post">
+    <default key="_controller">IndexEngine:IndexEngineIndex:delete</default>
+  </route>
+  <route id="indexengine.index_engine_index.toggle_visibility" path="/admin/module/IndexEngine/index_engine_index/toggleVisibility" methods="get">
+    <default key="_controller">IndexEngine:IndexEngineIndex:setToggleVisibility</default>
+  </route>
+  <route id="indexengine.index_engine_driver_configuration.list" path="/admin/module/IndexEngine/index_engine_driver_configuration" methods="get">
+    <default key="_controller">IndexEngine:IndexEngineDriverConfiguration:default</default>
+  </route>
+  <route id="indexengine.index_engine_driver_configuration.create" path="/admin/module/IndexEngine/index_engine_driver_configuration" methods="post">
+    <default key="_controller">IndexEngine:IndexEngineDriverConfiguration:create</default>
+  </route>
+  <route id="indexengine.index_engine_driver_configuration.view" path="/admin/module/IndexEngine/index_engine_driver_configuration/edit" methods="get">
+    <default key="_controller">IndexEngine:IndexEngineDriverConfiguration:update</default>
+  </route>
+  <route id="indexengine.index_engine_driver_configuration.edit" path="/admin/module/IndexEngine/index_engine_driver_configuration/edit" methods="post">
+    <default key="_controller">IndexEngine:IndexEngineDriverConfiguration:processUpdate</default>
+  </route>
+  <route id="indexengine.index_engine_driver_configuration.delete" path="/admin/module/IndexEngine/index_engine_driver_configuration/delete" methods="post">
+    <default key="_controller">IndexEngine:IndexEngineDriverConfiguration:delete</default>
+  </route>
+  <route id="indexengine.index_engine_index_template.list" path="/admin/module/IndexEngine/index_engine_index_template" methods="get">
+    <default key="_controller">IndexEngine:IndexEngineIndexTemplate:default</default>
+  </route>
+  <route id="indexengine.index_engine_index_template.create" path="/admin/module/IndexEngine/index_engine_index_template" methods="post">
+    <default key="_controller">IndexEngine:IndexEngineIndexTemplate:create</default>
+  </route>
+  <route id="indexengine.index_engine_index_template.view" path="/admin/module/IndexEngine/index_engine_index_template/edit" methods="get">
+    <default key="_controller">IndexEngine:IndexEngineIndexTemplate:update</default>
+  </route>
+  <route id="indexengine.index_engine_index_template.edit" path="/admin/module/IndexEngine/index_engine_index_template/edit" methods="post">
+    <default key="_controller">IndexEngine:IndexEngineIndexTemplate:processUpdate</default>
+  </route>
+  <route id="indexengine.index_engine_index_template.delete" path="/admin/module/IndexEngine/index_engine_index_template/delete" methods="post">
+    <default key="_controller">IndexEngine:IndexEngineIndexTemplate:delete</default>
+  </route>
+  <route id="indexengine.index_engine_index_template.toggle_visibility" path="/admin/module/IndexEngine/index_engine_index_template/toggleVisibility" methods="get">
+    <default key="_controller">IndexEngine:IndexEngineIndexTemplate:setToggleVisibility</default>
+  </route>
 </routes>

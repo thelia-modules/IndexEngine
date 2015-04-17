@@ -14,6 +14,7 @@ namespace IndexEngine\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Reference;
 
 
 /**
@@ -35,6 +36,14 @@ class RegisterIndexProviderPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
+        if (!$container->hasDefinition(static::REGISTRY_NAME)) {
+            return;
+        }
 
+        $registry = $container->getDefinition(static::REGISTRY_NAME);
+
+        foreach ($container->findTaggedServiceIds(static::TAG_NAME) as $id => $tag) {
+            $registry->addMethodCall("addDriver", [new Reference($id)]);
+        }
     }
 }

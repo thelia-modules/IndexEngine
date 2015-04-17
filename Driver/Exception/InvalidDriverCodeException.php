@@ -18,6 +18,6 @@ namespace IndexEngine\Driver\Exception;
  * @package IndexEngine\Driver\Exception
  * @author Benjamin Perche <benjamin@thelia.net>
  */
-class InvalidDriverCodeException extends \UnexpectedValueException
+class InvalidDriverCodeException extends InvalidNameException
 {
 }

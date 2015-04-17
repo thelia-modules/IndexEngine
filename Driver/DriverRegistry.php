@@ -22,34 +22,12 @@ use IndexEngine\Exception\InvalidArgumentException;
  * @package IndexEngine\Driver
  * @author Benjamin Perche <benjamin@thelia.net>
  */
-class DriverRegistry implements DriverRegistryInterface
+class DriverRegistry extends AbstractCollection implements DriverRegistryInterface
 {
     /**
      * @var array
      */
     private $drivers = array();
-
-    /**
-     * @var array
-     */
-    private static $addDriverModes = [
-        self::MODE_OVERRIDE,
-        self::MODE_IGNORE_OVERRIDE,
-        self::MODE_THROW_EXCEPTION_IF_EXISTS,
-    ];
-
-    /**
-     * @var array
-     */
-    private static $isDriverCodeValidModes = [
-        self::MODE_THROW_EXCEPTION_ON_ERROR,
-        self::MODE_RETURN_BOOLEAN,
-    ];
-
-    private static $deleteDriverModes = [
-        self::MODE_THROW_EXCEPTION_ON_ERROR,
-        self::MODE_RETURN_BOOLEAN,
-    ];
 
     /**
      * @param DriverInterface $driver
@@ -64,10 +42,7 @@ class DriverRegistry implements DriverRegistryInterface
      */
     public function addDriver(DriverInterface $driver, $mode = self::MODE_OVERRIDE)
     {
-        if (!in_array($mode, static::$addDriverModes)) {
-            $this->throwUnknownModeException($mode, __METHOD__);
-        }
-
+        $this->checkAddMode($mode, __METHOD__);
         $driverExists = $this->hasDriver($driver);
 
         if ($driverExists) {
@@ -105,10 +80,7 @@ class DriverRegistry implements DriverRegistryInterface
      */
     public function deleteDriver($codeOrDriver, $mode = self::MODE_THROW_EXCEPTION_ON_ERROR)
     {
-        if (!in_array($mode, static::$deleteDriverModes)) {
-            $this->throwUnknownModeException($mode, __METHOD__);
-        }
-
+        $this->checkDeleteMode($mode, __METHOD__);
         $resolvedCode = $this->resolveCode($codeOrDriver, __METHOD__);
 
         if (!$this->hasDriver($resolvedCode)) {
@@ -136,11 +108,7 @@ class DriverRegistry implements DriverRegistryInterface
      */
     public function isDriverCodeValid(DriverInterface $driver, $mode = self::MODE_RETURN_BOOLEAN)
     {
-        if (!in_array($mode, static::$isDriverCodeValidModes)) {
-            $this->throwUnknownModeException($mode, __METHOD__);
-        }
-
-        return (bool) preg_match("/^[a-z\d\-_\.]{1,64}$/i", $driver->getCode());
+        return $this->isValid($driver->getCode(), $mode, __METHOD__);
     }
 
     /**
@@ -164,24 +132,6 @@ class DriverRegistry implements DriverRegistryInterface
     }
 
     /**
-     * @param mixed $currentMode
-     * @param string $method
-     *
-     * @throws \IndexEngine\Driver\Exception\UnknownModeException
-     *
-     * This method is a helper for formatting UnknownModeException
-     */
-    protected function throwUnknownModeException($currentMode, $method)
-    {
-        throw new UnknownModeException(sprintf(
-            "Invalid mode '%s' given to %s::%s",
-            $currentMode,
-            __CLASS__,
-            $method
-        ));
-    }
-
-    /**
      * @param mixed $codeOrDriver
      * @return string
      *
@@ -195,15 +145,6 @@ class DriverRegistry implements DriverRegistryInterface
             $codeOrDriver = $codeOrDriver->getCode();
         }
 
-        if (!is_string($codeOrDriver) || (is_object($codeOrDriver) && !method_exists($codeOrDriver, "__toString"))) {
-            throw new InvalidArgumentException(sprintf(
-                "Invalid argument given to %s::%s, expected a string, %s given",
-                __CLASS__,
-                $method,
-                is_object($codeOrDriver) ? get_class($codeOrDriver) : gettype($codeOrDriver)
-            ));
-        }
-
-        return (string) $codeOrDriver;
+        return $this->resolveString($codeOrDriver, $method);
     }
 }

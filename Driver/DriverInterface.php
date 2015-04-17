@@ -11,6 +11,7 @@
 /*************************************************************************************/
 
 namespace IndexEngine\Driver;
+use IndexEngine\Driver\Configuration\ArgumentCollection;
 
 /**
  * Interface DriverInterface
@@ -20,12 +21,23 @@ namespace IndexEngine\Driver;
 interface DriverInterface
 {
     /**
-     * @return \IndexEngine\Driver\Configuration\ArgumentCollectionInterface
+     * @return \IndexEngine\Driver\Configuration\ArgumentCollectionInterface|null
      *
      * This method is used to build the driver configuration form.
      * Set all your the configuration fields you need here (server address, port, authentication, ...)
+     *
+     * If you return null, no configuration form will be generated.
      */
     public function getConfiguration();
+
+    /**
+     * @param ArgumentCollection $configuration
+     * @return void
+     *
+     * If a configuration is provided in getConfiguration(), this method is called to
+     * initialize the driver ( establish connection, load resources, ... )
+     */
+    public function loadConfiguration(ArgumentCollection $configuration);
 
     /**
      * @return string
@@ -36,5 +48,5 @@ interface DriverInterface
      *
      * Example: Elasticsearch, OpenSearchServer, ...
      */
-    public function getCode();
+    public static function getCode();
 }

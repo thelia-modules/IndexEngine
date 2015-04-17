@@ -9,18 +9,22 @@
 
         <column name="code" size="255" type="VARCHAR" required="true" />
         <column name="title" size="255" type="VARCHAR" required="true" />
-        <column name="table" size="64" type="VARCHAR" required="true" />
-        <column name="columns" type="CLOB" required="true" />
+        <column name="entity" size="64" type="VARCHAR" required="true" />
+        <column name="serialized_columns" type="CLOB" required="true" />
         <column name="serialized_condition" type="CLOB" required="true" />
 
         <column name="index_engine_driver_configuration_id" type="INTEGER" required="true" />
 
-        <foreign-key foreignTable="index_engine_driver_configuration" name="fk_index_engine_index_index_engine_driver_configuration_id">
+        <foreign-key foreignTable="index_engine_driver_configuration" name="fk_index_engine_index_index_engine_driver_configuration_id" onUpdate="CASCADE" onDelete="CASCADE">
             <reference local="index_engine_driver_configuration_id" foreign="id" />
         </foreign-key>
         <index name="idx_index_engine_index_index_engine_driver_configuration_fk">
             <index-column name="index_engine_driver_configuration_id" />
         </index>
+
+        <unique name="unique_index_engine_index_code">
+            <unique-column name="code" />
+        </unique>
 
         <behavior name="timestampable" />
         <behavior name="versionable">
@@ -36,6 +40,36 @@
         <column name="title" type="VARCHAR" size="255" required="true" />
 
         <column name="serialized_configuration" type="CLOB" required="true" />
+    </table>
+
+    <table name="index_engine_index_template">
+        <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER" />
+        <column defaultValue="0" name="visible" required="true" type="TINYINT" />
+
+        <column name="code" size="255" type="VARCHAR" required="true" />
+        <column name="title" size="255" type="VARCHAR" required="true" />
+        <column name="entity" size="64" type="VARCHAR" required="true" />
+        <column name="serialized_columns" type="CLOB" required="true" />
+        <column name="serialized_condition" type="CLOB" required="true" />
+
+        <column name="index_engine_driver_configuration_id" type="INTEGER" />
+
+        <foreign-key foreignTable="index_engine_driver_configuration" name="fk_index_engine_index_index_engine_driver_configuration_id" onUpdate="CASCADE" onDelete="CASCADE">
+            <reference local="index_engine_driver_configuration_id" foreign="id" />
+        </foreign-key>
+        <index name="idx_index_engine_index_index_engine_driver_configuration_fk">
+            <index-column name="index_engine_driver_configuration_id" />
+        </index>
+
+        <unique name="unique_index_engine_index_code">
+            <unique-column name="code" />
+        </unique>
+
+        <behavior name="timestampable" />
+        <behavior name="versionable">
+            <parameter name="log_created_at" value="true" />
+            <parameter name="log_created_by" value="true" />
+        </behavior>
     </table>
 
     <external-schema filename="local/config/schema.xml" referenceOnly="true" />

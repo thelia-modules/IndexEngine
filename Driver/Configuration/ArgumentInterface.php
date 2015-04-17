@@ -26,7 +26,7 @@ interface ArgumentInterface
      * The value must be casted as a string.
      * If the given one is an object, check that it implements __toString
      */
-    const TYPE_STRING = 1;
+    const TYPE_STRING = "string";
 
     /**
      * Argument type integer.
@@ -37,7 +37,7 @@ interface ArgumentInterface
      *
      * Floats are floored
      */
-    const TYPE_INTEGER = 2;
+    const TYPE_INTEGER = "integer";
 
     /**
      * Argument type float.
@@ -46,7 +46,7 @@ interface ArgumentInterface
      * If the given one is an object, check that it implements __toString,
      * Then try to cast the string as an float.
      */
-    const TYPE_FLOAT = 3;
+    const TYPE_FLOAT = "float";
 
     /**
      * Argument type boolean.
@@ -59,14 +59,14 @@ interface ArgumentInterface
      * If the string is empty or contains "false" or 0, cast it as false.
      * All the other values leads to an exception
      */
-    const TYPE_BOOLEAN = 4;
+    const TYPE_BOOLEAN = "boolean";
 
     /**
      * Argument type enum.
      *
      * The given value must be in the choice possibilities
      */
-    const TYPE_ENUM = 5;
+    const TYPE_ENUM = "enum";
 
     /**
      * @param $value
@@ -86,10 +86,12 @@ interface ArgumentInterface
     public function getValue();
 
     /**
-     * @return int
+     * @return string
      *
      * This method return the argument type.
      * It must be one of the constants that begins with "TYPE_" defined in the interface
+     *
+     * If the argument is a vector, it must return: Vector<TYPE>
      */
     public function getType();
 

@@ -1,0 +1,101 @@
+{extends file="admin-layout.tpl"}
+{default_translation_domain domain='indexengine.bo.default'}
+
+{block name="no-return-functions"}
+    {$admin_current_location = 'tools'}
+{/block}
+
+{block name="page-title"}{intl l='IndexEngineDriverConfiguration'}{/block}
+
+{block name="check-resource"}admin.module{/block}
+{block name="check-access"}update{/block}
+{block name="check-module"}IndexEngine{/block}
+
+{block name="main-content"}
+
+    {form name="index_engine_driver_configuration.update"}
+        <div id="wrapper" class="container">
+
+            {if $form_error}
+                <div class="alert alert-danger">{$form_error_message}</div>
+            {/if}
+
+            <div class="general-block-decorator">
+                <div class="title title-without-tabs">
+                    {intl l="IndexEngineDriverConfiguration edit" d="indexengine.bo.default"}
+                </div>
+
+                <div class="form-container">
+                    <form method="POST" action="{$current_url}" {form_enctype form=$form} class="clearfix" >
+
+                        {include "includes/inner-form-toolbar.html"
+                        close_url = {url path="/admin/module/IndexEngine/index_engine_driver_configuration"}
+                        }
+
+                        {form_field form=$form field="id"}
+                        {assign "index_engine_driver_configuration_id" $value}
+                            <input type="hidden" name="{$name}" value="{$value}"/>
+                        {/form_field}
+                        {form_field form=$form field="success_url"}
+                            <input type="hidden" name="{$name}" value="{url path='/admin/module/IndexEngine'}/index_engine_driver_configuration"/>
+                        {/form_field}
+                        {form_hidden_fields form=$form}
+
+                        {loop name="index_engine_driver_configuration_update" type="index-engine-driver-configuration" backend_context="yes" id=$index_engine_driver_configuration_id lang=$edit_language_id}
+                            <div class="row">
+                                <div class="col-md-12">
+                                    {form_field form=$form field="driver_code"}
+                                        <div class="form-group">
+                                            <label class="control-label" for="{$label_attr.for}">
+                                                {$label}
+                                                {if $required}<span class="required">*</span>{/if}
+                                            </label>
+
+                                            {form_error form=$form field="driver_code"}{$message}{/form_error}
+
+                                                <input type="text" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$DRIVER_CODE}" placeholder="{intl l='The IndexEngineDriverConfiguration driver_code'}" />
+                                        </div>
+                                    {/form_field}
+                                    {form_field form=$form field="title"}
+                                        <div class="form-group">
+                                            <label class="control-label" for="{$label_attr.for}">
+                                                {$label}
+                                                {if $required}<span class="required">*</span>{/if}
+                                            </label>
+
+                                            {form_error form=$form field="title"}{$message}{/form_error}
+
+                                                <input type="text" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$TITLE}" placeholder="{intl l='The IndexEngineDriverConfiguration title'}" />
+                                        </div>
+                                    {/form_field}
+                                    {form_field form=$form field="serialized_configuration"}
+                                        <div class="form-group">
+                                            <label class="control-label" for="{$label_attr.for}">
+                                                {$label}
+                                                {if $required}<span class="required">*</span>{/if}
+                                            </label>
+
+                                            {form_error form=$form field="serialized_configuration"}{$message}{/form_error}
+
+                                                <textarea class="form-control" name="{$name}" id="{$label_attr.for}" placeholder="{intl l='The IndexEngineDriverConfiguration serialized_configuration'}">{$SERIALIZED_CONFIGURATION}</textarea>
+                                        </div>
+                                    {/form_field}
+
+                                    {include "includes/inner-form-toolbar.html"
+                                        hide_flags = true
+                                        close_url = {url path="/admin/module/IndexEngine/index_engine_driver_configuration"}
+                                    }
+
+                                </div>
+                            </div>
+                        {/loop}
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    {/form}
+{/block}
+
+{block name="javascript-initialization"}
+{/block}

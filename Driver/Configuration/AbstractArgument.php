@@ -22,6 +22,7 @@ use IndexEngine\Exception\InvalidArgumentException;
 abstract class AbstractArgument implements ArgumentInterface
 {
     protected $value;
+
     private $name;
 
     public function __construct($name, $value = null)
@@ -69,14 +70,25 @@ abstract class AbstractArgument implements ArgumentInterface
     {
         if (!is_string($value) || (is_object($value) && !method_exists($value, "__toString"))) {
             throw new InvalidArgumentException(sprintf(
-                "Invalid argument given to %s::%s, expected a string, %s given",
-                __CLASS__,
-                "setValue",
+                "Invalid argument given to %s, expected a string, %s given",
+                __METHOD__,
                 is_object($value) ? get_class($value) : gettype($value)
             ));
         }
 
-        $this->value = (string) $value;
+        $value = (string) $value;
+
+        if (null !== $regex = $this->getValidationRegex()) {
+            if (! preg_match($regex, $value)) {
+                throw new InvalidArgumentException(sprintf(
+                    "The given value '%s' doesn't match the validation regular expression: %s",
+                    $value,
+                    $regex
+                ));
+            }
+        }
+
+        $this->value = $value;
 
         return $this;
     }
@@ -84,5 +96,10 @@ abstract class AbstractArgument implements ArgumentInterface
     protected function validateName($name)
     {
         return (bool) preg_match("/^[a-z\d\-_\.]{1,64}$/i", $name);
+    }
+
+    protected function getValidationRegex()
+    {
+        return null;
     }
 }

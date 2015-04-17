@@ -42,7 +42,7 @@ class FloatArgument extends AbstractArgument
     }
 
     /**
-     * @return int
+     * @return string
      *
      * This method return the argument type.
      * It must be one of the constants that begins with "TYPE_" defined in the interface

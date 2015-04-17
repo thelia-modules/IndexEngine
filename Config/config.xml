@@ -1,50 +1,94 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns="http://thelia.net/schema/dic/config" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://thelia.net/schema/dic/config http://thelia.net/schema/dic/config/thelia-1.0.xsd">
+  <parameters>
+    <parameter key="index_engine.indexable_entity_repository.class">IndexEngine\Repository\IndexableEntityRepository</parameter>
+    <parameter key="index_engine.driver.registry.class">IndexEngine\Driver\DriverRegistry</parameter>
+    <parameter key="index_engine.event_dispatcher.class">Symfony\Component\EventDispatcher\EventDispatcher</parameter>
+    <parameter key="index_engine.driver.elastic_search.class">IndexEngine\Driver\Bridge\ElasticSearchDriver</parameter>
 
-<config xmlns="http://thelia.net/schema/dic/config"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://thelia.net/schema/dic/config http://thelia.net/schema/dic/config/thelia-1.0.xsd">
-
-    <loops>
-        <!-- sample definition
+    <parameter key="index_engine.database_collector.class">IndexEngine\Collector\DatabaseSubscriber</parameter>
+    <parameter key="index_engine.loop_collector.class">IndexEngine\Collector\LoopSubscriber</parameter>
+  </parameters>
+  <loops>
+    <!-- sample definition
         <loop name="MySuperLoop" class="IndexEngine\Loop\MySuperLoop" />
         -->
-    </loops>
-
-    <forms>
-        <!--
+    <loop name="index-engine-index" class="IndexEngine\Loop\IndexEngineIndex"/>
+    <loop name="index-engine-driver-configuration" class="IndexEngine\Loop\IndexEngineDriverConfiguration"/>
+    <loop name="index-engine-index-template" class="IndexEngine\Loop\IndexEngineIndexTemplate"/>
+  </loops>
+  <forms>
+    <!--
         <form name="MyFormName" class="IndexEngine\Form\MySuperForm" />
         -->
-    </forms>
-
-    <commands>
-        <!--
+    <form name="index_engine_index.create" class="IndexEngine\Form\IndexEngineIndexCreateForm"/>
+    <form name="index_engine_index.update" class="IndexEngine\Form\IndexEngineIndexUpdateForm"/>
+    <form name="index_engine_driver_configuration.create" class="IndexEngine\Form\IndexEngineDriverConfigurationCreateForm"/>
+    <form name="index_engine_driver_configuration.update" class="IndexEngine\Form\IndexEngineDriverConfigurationUpdateForm"/>
+    <form name="index_engine_index_template.create" class="IndexEngine\Form\IndexEngineIndexTemplateCreateForm"/>
+    <form name="index_engine_index_template.update" class="IndexEngine\Form\IndexEngineIndexTemplateUpdateForm"/>
+  </forms>
+  <commands>
+    <!--
         <command class="IndexEngine\Command\MySuperCommand" />
         -->
-    </commands>
+  </commands>
 
-    <!--
-    <services>
+  <services>
+    <service id="index_engine.indexable_entity_repository" class="%index_engine.indexable_entity_repository.class%">
+        <argument type="service" id="index_engine.event_dispatcher"/>
+    </service>
 
-    </services>
-    -->
+    <service id="index_engine.database_collector" class="%index_engine.database_collector.class%">
+      <argument type="service" id="index_engine.propel_connection" />
+      <tag name="index_engine.event_subscriber" />
+    </service>
 
-    <!--
-    <hooks>
-        <hook id="indexengine.hook" class="IndexEngine\Hook\MySuperHook" scope="request">
-            <tag name="hook.event_listener" event="main.body.bottom" type="front|back|pdf|email" method="onMainBodyBottom" />
-        </hook>
-    </hooks>
-    -->
+    <service id="index_engine.loop_collector" class="%index_engine.loop_collector.class%">
+      <argument>%Thelia.parser.loops%</argument>
+      <argument type="service" id="service_container" />
+      <argument type="service" id="thelia.logger" />
 
-    <!--
-    <exports>
+      <tag name="index_engine.event_subscriber" />
+    </service>
 
-    </exports>
-    -->
+    <service id="index_engine.driver.registry" class="%index_engine.driver.registry.class%" />
+    <service id="index_engine.event_dispatcher" class="%index_engine.event_dispatcher.class%"/>
 
-    <!--
-    <imports>
+    <!-- Bridge drivers -->
+    <service id="index_engine.driver.elastic_search" class="%index_engine.driver.elastic_search.class%">
+      <tag name="index_engine.driver"/>
+    </service>
 
-    </imports>
-    -->
+      <!-- Thelia Studio -->
+    <service id="action.indexengine.index_engine_index_table" class="IndexEngine\Action\IndexEngineIndexAction">
+      <tag name="kernel.event_subscriber"/>
+    </service>
+    <service id="indexengine.form.type.index_engine_index_id" class="IndexEngine\Form\Type\IndexEngineIndexIdType">
+      <argument id="thelia.translator" type="service"/>
+      <tag name="thelia.form.type"/>
+    </service>
+    <service id="action.indexengine.index_engine_driver_configuration_table" class="IndexEngine\Action\IndexEngineDriverConfigurationAction">
+      <tag name="kernel.event_subscriber"/>
+    </service>
+    <service id="indexengine.form.type.index_engine_driver_configuration_id" class="IndexEngine\Form\Type\IndexEngineDriverConfigurationIdType">
+      <argument id="thelia.translator" type="service"/>
+      <tag name="thelia.form.type"/>
+    </service>
+    <service id="action.indexengine.index_engine_index_template_table" class="IndexEngine\Action\IndexEngineIndexTemplateAction">
+      <tag name="kernel.event_subscriber"/>
+    </service>
+    <service id="indexengine.form.type.index_engine_index_template_id" class="IndexEngine\Form\Type\IndexEngineIndexTemplateIdType">
+      <argument id="thelia.translator" type="service"/>
+      <tag name="thelia.form.type"/>
+    </service>
+
+      <!-- Well ... -->
+      <service id="index_engine.propel_connection_wrapper" factory-class="Propel\Runtime\Propel" factory-method="getConnection" class="\Propel\Runtime\Connection\ConnectionWrapper"/>
+      <service id="index_engine.propel_connection" factory-service="index_engine.propel_connection_wrapper" factory-method="getWrappedConnection" class="PDO"/>
+
+      <!-- FIX FOR THELIA 2.1 -->
+      <service id="thelia.logger" class="Thelia\Tlog\Tlog" factory-class="Thelia\Tlog\Tlog" factory-method="getInstance" />
+  </services>
+
 </config>
