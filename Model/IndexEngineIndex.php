@@ -16,4 +16,24 @@ use Thelia\Model\Tools\ModelEventDispatcherTrait;
 class IndexEngineIndex extends BaseIndexEngineIndex
 {
     use ModelEventDispatcherTrait;
+
+    public function getConditions()
+    {
+        return json_decode(base64_decode($this->getSerializedCondition()), true);
+    }
+
+    public function setConditions(array $conditions)
+    {
+        return $this->setSerializedCondition(base64_encode(json_encode($conditions)));
+    }
+
+    public function getColumns()
+    {
+        return json_decode(base64_decode($this->getSerializedColumns()), true);
+    }
+
+    public function setColumns(array $columns)
+    {
+        return $this->setSerializedColumns(base64_encode(json_encode($columns)));
+    }
 }

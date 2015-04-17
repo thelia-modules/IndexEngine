@@ -14,4 +14,13 @@ use IndexEngine\Model\Base\IndexEngineDriverConfiguration as BaseIndexEngineDriv
  */
 class IndexEngineDriverConfiguration extends BaseIndexEngineDriverConfiguration
 {
+    public function getConfiguration()
+    {
+        return json_decode(base64_decode($this->getSerializedConfiguration()), true);
+    }
+
+    public function setConfiguration(array $conditions)
+    {
+        return $this->setSerializedConfiguration(base64_encode(json_encode($conditions)));
+    }
 }

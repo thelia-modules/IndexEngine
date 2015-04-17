@@ -66,8 +66,8 @@ CREATE TABLE IF NOT EXISTS `index_engine_index_template`
     `version_created_by` VARCHAR(100),
     PRIMARY KEY (`id`),
     UNIQUE INDEX `unique_index_engine_index_code` (`code`),
-    INDEX `idx_index_engine_index_index_engine_driver_configuration_fk` (`index_engine_driver_configuration_id`),
-    CONSTRAINT `fk_index_engine_index_index_engine_driver_configuration_id`
+    INDEX `idx_index_engine_index_template_engine_driver_configuration_fk` (`index_engine_driver_configuration_id`),
+    CONSTRAINT `fk_index_engine_index_template_engine_driver_configuration_id`
         FOREIGN KEY (`index_engine_driver_configuration_id`)
         REFERENCES `index_engine_driver_configuration` (`id`)
         ON UPDATE CASCADE
