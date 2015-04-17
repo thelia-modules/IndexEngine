@@ -4,9 +4,9 @@ namespace IndexEngine\Model\Base;
 
 use \Exception;
 use \PDO;
-use IndexEngine\Model\IndexEngineIndex as ChildIndexEngineIndex;
-use IndexEngine\Model\IndexEngineIndexQuery as ChildIndexEngineIndexQuery;
-use IndexEngine\Model\Map\IndexEngineIndexTableMap;
+use IndexEngine\Model\IndexEngineIndexTemplateVersion as ChildIndexEngineIndexTemplateVersion;
+use IndexEngine\Model\IndexEngineIndexTemplateVersionQuery as ChildIndexEngineIndexTemplateVersionQuery;
+use IndexEngine\Model\Map\IndexEngineIndexTemplateVersionTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
@@ -17,118 +17,107 @@ use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\Exception\PropelException;
 
 /**
- * Base class that represents a query for the 'index_engine_index' table.
+ * Base class that represents a query for the 'index_engine_index_template_version' table.
  *
  *
  *
- * @method     ChildIndexEngineIndexQuery orderById($order = Criteria::ASC) Order by the id column
- * @method     ChildIndexEngineIndexQuery orderByVisible($order = Criteria::ASC) Order by the visible column
- * @method     ChildIndexEngineIndexQuery orderByCode($order = Criteria::ASC) Order by the code column
- * @method     ChildIndexEngineIndexQuery orderByTitle($order = Criteria::ASC) Order by the title column
- * @method     ChildIndexEngineIndexQuery orderByEntity($order = Criteria::ASC) Order by the entity column
- * @method     ChildIndexEngineIndexQuery orderBySerializedColumns($order = Criteria::ASC) Order by the serialized_columns column
- * @method     ChildIndexEngineIndexQuery orderBySerializedCondition($order = Criteria::ASC) Order by the serialized_condition column
- * @method     ChildIndexEngineIndexQuery orderByIndexEngineDriverConfigurationId($order = Criteria::ASC) Order by the index_engine_driver_configuration_id column
- * @method     ChildIndexEngineIndexQuery orderByCreatedAt($order = Criteria::ASC) Order by the created_at column
- * @method     ChildIndexEngineIndexQuery orderByUpdatedAt($order = Criteria::ASC) Order by the updated_at column
- * @method     ChildIndexEngineIndexQuery orderByVersion($order = Criteria::ASC) Order by the version column
- * @method     ChildIndexEngineIndexQuery orderByVersionCreatedAt($order = Criteria::ASC) Order by the version_created_at column
- * @method     ChildIndexEngineIndexQuery orderByVersionCreatedBy($order = Criteria::ASC) Order by the version_created_by column
+ * @method     ChildIndexEngineIndexTemplateVersionQuery orderById($order = Criteria::ASC) Order by the id column
+ * @method     ChildIndexEngineIndexTemplateVersionQuery orderByVisible($order = Criteria::ASC) Order by the visible column
+ * @method     ChildIndexEngineIndexTemplateVersionQuery orderByCode($order = Criteria::ASC) Order by the code column
+ * @method     ChildIndexEngineIndexTemplateVersionQuery orderByTitle($order = Criteria::ASC) Order by the title column
+ * @method     ChildIndexEngineIndexTemplateVersionQuery orderByEntity($order = Criteria::ASC) Order by the entity column
+ * @method     ChildIndexEngineIndexTemplateVersionQuery orderBySerializedColumns($order = Criteria::ASC) Order by the serialized_columns column
+ * @method     ChildIndexEngineIndexTemplateVersionQuery orderBySerializedCondition($order = Criteria::ASC) Order by the serialized_condition column
+ * @method     ChildIndexEngineIndexTemplateVersionQuery orderByIndexEngineDriverConfigurationId($order = Criteria::ASC) Order by the index_engine_driver_configuration_id column
+ * @method     ChildIndexEngineIndexTemplateVersionQuery orderByCreatedAt($order = Criteria::ASC) Order by the created_at column
+ * @method     ChildIndexEngineIndexTemplateVersionQuery orderByUpdatedAt($order = Criteria::ASC) Order by the updated_at column
+ * @method     ChildIndexEngineIndexTemplateVersionQuery orderByVersion($order = Criteria::ASC) Order by the version column
+ * @method     ChildIndexEngineIndexTemplateVersionQuery orderByVersionCreatedAt($order = Criteria::ASC) Order by the version_created_at column
+ * @method     ChildIndexEngineIndexTemplateVersionQuery orderByVersionCreatedBy($order = Criteria::ASC) Order by the version_created_by column
  *
- * @method     ChildIndexEngineIndexQuery groupById() Group by the id column
- * @method     ChildIndexEngineIndexQuery groupByVisible() Group by the visible column
- * @method     ChildIndexEngineIndexQuery groupByCode() Group by the code column
- * @method     ChildIndexEngineIndexQuery groupByTitle() Group by the title column
- * @method     ChildIndexEngineIndexQuery groupByEntity() Group by the entity column
- * @method     ChildIndexEngineIndexQuery groupBySerializedColumns() Group by the serialized_columns column
- * @method     ChildIndexEngineIndexQuery groupBySerializedCondition() Group by the serialized_condition column
- * @method     ChildIndexEngineIndexQuery groupByIndexEngineDriverConfigurationId() Group by the index_engine_driver_configuration_id column
- * @method     ChildIndexEngineIndexQuery groupByCreatedAt() Group by the created_at column
- * @method     ChildIndexEngineIndexQuery groupByUpdatedAt() Group by the updated_at column
- * @method     ChildIndexEngineIndexQuery groupByVersion() Group by the version column
- * @method     ChildIndexEngineIndexQuery groupByVersionCreatedAt() Group by the version_created_at column
- * @method     ChildIndexEngineIndexQuery groupByVersionCreatedBy() Group by the version_created_by column
+ * @method     ChildIndexEngineIndexTemplateVersionQuery groupById() Group by the id column
+ * @method     ChildIndexEngineIndexTemplateVersionQuery groupByVisible() Group by the visible column
+ * @method     ChildIndexEngineIndexTemplateVersionQuery groupByCode() Group by the code column
+ * @method     ChildIndexEngineIndexTemplateVersionQuery groupByTitle() Group by the title column
+ * @method     ChildIndexEngineIndexTemplateVersionQuery groupByEntity() Group by the entity column
+ * @method     ChildIndexEngineIndexTemplateVersionQuery groupBySerializedColumns() Group by the serialized_columns column
+ * @method     ChildIndexEngineIndexTemplateVersionQuery groupBySerializedCondition() Group by the serialized_condition column
+ * @method     ChildIndexEngineIndexTemplateVersionQuery groupByIndexEngineDriverConfigurationId() Group by the index_engine_driver_configuration_id column
+ * @method     ChildIndexEngineIndexTemplateVersionQuery groupByCreatedAt() Group by the created_at column
+ * @method     ChildIndexEngineIndexTemplateVersionQuery groupByUpdatedAt() Group by the updated_at column
+ * @method     ChildIndexEngineIndexTemplateVersionQuery groupByVersion() Group by the version column
+ * @method     ChildIndexEngineIndexTemplateVersionQuery groupByVersionCreatedAt() Group by the version_created_at column
+ * @method     ChildIndexEngineIndexTemplateVersionQuery groupByVersionCreatedBy() Group by the version_created_by column
  *
- * @method     ChildIndexEngineIndexQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
- * @method     ChildIndexEngineIndexQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
- * @method     ChildIndexEngineIndexQuery innerJoin($relation) Adds a INNER JOIN clause to the query
+ * @method     ChildIndexEngineIndexTemplateVersionQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
+ * @method     ChildIndexEngineIndexTemplateVersionQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
+ * @method     ChildIndexEngineIndexTemplateVersionQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
- * @method     ChildIndexEngineIndexQuery leftJoinIndexEngineDriverConfiguration($relationAlias = null) Adds a LEFT JOIN clause to the query using the IndexEngineDriverConfiguration relation
- * @method     ChildIndexEngineIndexQuery rightJoinIndexEngineDriverConfiguration($relationAlias = null) Adds a RIGHT JOIN clause to the query using the IndexEngineDriverConfiguration relation
- * @method     ChildIndexEngineIndexQuery innerJoinIndexEngineDriverConfiguration($relationAlias = null) Adds a INNER JOIN clause to the query using the IndexEngineDriverConfiguration relation
+ * @method     ChildIndexEngineIndexTemplateVersionQuery leftJoinIndexEngineIndexTemplate($relationAlias = null) Adds a LEFT JOIN clause to the query using the IndexEngineIndexTemplate relation
+ * @method     ChildIndexEngineIndexTemplateVersionQuery rightJoinIndexEngineIndexTemplate($relationAlias = null) Adds a RIGHT JOIN clause to the query using the IndexEngineIndexTemplate relation
+ * @method     ChildIndexEngineIndexTemplateVersionQuery innerJoinIndexEngineIndexTemplate($relationAlias = null) Adds a INNER JOIN clause to the query using the IndexEngineIndexTemplate relation
  *
- * @method     ChildIndexEngineIndexQuery leftJoinIndexEngineIndexVersion($relationAlias = null) Adds a LEFT JOIN clause to the query using the IndexEngineIndexVersion relation
- * @method     ChildIndexEngineIndexQuery rightJoinIndexEngineIndexVersion($relationAlias = null) Adds a RIGHT JOIN clause to the query using the IndexEngineIndexVersion relation
- * @method     ChildIndexEngineIndexQuery innerJoinIndexEngineIndexVersion($relationAlias = null) Adds a INNER JOIN clause to the query using the IndexEngineIndexVersion relation
+ * @method     ChildIndexEngineIndexTemplateVersion findOne(ConnectionInterface $con = null) Return the first ChildIndexEngineIndexTemplateVersion matching the query
+ * @method     ChildIndexEngineIndexTemplateVersion findOneOrCreate(ConnectionInterface $con = null) Return the first ChildIndexEngineIndexTemplateVersion matching the query, or a new ChildIndexEngineIndexTemplateVersion object populated from the query conditions when no match is found
  *
- * @method     ChildIndexEngineIndex findOne(ConnectionInterface $con = null) Return the first ChildIndexEngineIndex matching the query
- * @method     ChildIndexEngineIndex findOneOrCreate(ConnectionInterface $con = null) Return the first ChildIndexEngineIndex matching the query, or a new ChildIndexEngineIndex object populated from the query conditions when no match is found
+ * @method     ChildIndexEngineIndexTemplateVersion findOneById(int $id) Return the first ChildIndexEngineIndexTemplateVersion filtered by the id column
+ * @method     ChildIndexEngineIndexTemplateVersion findOneByVisible(int $visible) Return the first ChildIndexEngineIndexTemplateVersion filtered by the visible column
+ * @method     ChildIndexEngineIndexTemplateVersion findOneByCode(string $code) Return the first ChildIndexEngineIndexTemplateVersion filtered by the code column
+ * @method     ChildIndexEngineIndexTemplateVersion findOneByTitle(string $title) Return the first ChildIndexEngineIndexTemplateVersion filtered by the title column
+ * @method     ChildIndexEngineIndexTemplateVersion findOneByEntity(string $entity) Return the first ChildIndexEngineIndexTemplateVersion filtered by the entity column
+ * @method     ChildIndexEngineIndexTemplateVersion findOneBySerializedColumns(string $serialized_columns) Return the first ChildIndexEngineIndexTemplateVersion filtered by the serialized_columns column
+ * @method     ChildIndexEngineIndexTemplateVersion findOneBySerializedCondition(string $serialized_condition) Return the first ChildIndexEngineIndexTemplateVersion filtered by the serialized_condition column
+ * @method     ChildIndexEngineIndexTemplateVersion findOneByIndexEngineDriverConfigurationId(int $index_engine_driver_configuration_id) Return the first ChildIndexEngineIndexTemplateVersion filtered by the index_engine_driver_configuration_id column
+ * @method     ChildIndexEngineIndexTemplateVersion findOneByCreatedAt(string $created_at) Return the first ChildIndexEngineIndexTemplateVersion filtered by the created_at column
+ * @method     ChildIndexEngineIndexTemplateVersion findOneByUpdatedAt(string $updated_at) Return the first ChildIndexEngineIndexTemplateVersion filtered by the updated_at column
+ * @method     ChildIndexEngineIndexTemplateVersion findOneByVersion(int $version) Return the first ChildIndexEngineIndexTemplateVersion filtered by the version column
+ * @method     ChildIndexEngineIndexTemplateVersion findOneByVersionCreatedAt(string $version_created_at) Return the first ChildIndexEngineIndexTemplateVersion filtered by the version_created_at column
+ * @method     ChildIndexEngineIndexTemplateVersion findOneByVersionCreatedBy(string $version_created_by) Return the first ChildIndexEngineIndexTemplateVersion filtered by the version_created_by column
  *
- * @method     ChildIndexEngineIndex findOneById(int $id) Return the first ChildIndexEngineIndex filtered by the id column
- * @method     ChildIndexEngineIndex findOneByVisible(int $visible) Return the first ChildIndexEngineIndex filtered by the visible column
- * @method     ChildIndexEngineIndex findOneByCode(string $code) Return the first ChildIndexEngineIndex filtered by the code column
- * @method     ChildIndexEngineIndex findOneByTitle(string $title) Return the first ChildIndexEngineIndex filtered by the title column
- * @method     ChildIndexEngineIndex findOneByEntity(string $entity) Return the first ChildIndexEngineIndex filtered by the entity column
- * @method     ChildIndexEngineIndex findOneBySerializedColumns(string $serialized_columns) Return the first ChildIndexEngineIndex filtered by the serialized_columns column
- * @method     ChildIndexEngineIndex findOneBySerializedCondition(string $serialized_condition) Return the first ChildIndexEngineIndex filtered by the serialized_condition column
- * @method     ChildIndexEngineIndex findOneByIndexEngineDriverConfigurationId(int $index_engine_driver_configuration_id) Return the first ChildIndexEngineIndex filtered by the index_engine_driver_configuration_id column
- * @method     ChildIndexEngineIndex findOneByCreatedAt(string $created_at) Return the first ChildIndexEngineIndex filtered by the created_at column
- * @method     ChildIndexEngineIndex findOneByUpdatedAt(string $updated_at) Return the first ChildIndexEngineIndex filtered by the updated_at column
- * @method     ChildIndexEngineIndex findOneByVersion(int $version) Return the first ChildIndexEngineIndex filtered by the version column
- * @method     ChildIndexEngineIndex findOneByVersionCreatedAt(string $version_created_at) Return the first ChildIndexEngineIndex filtered by the version_created_at column
- * @method     ChildIndexEngineIndex findOneByVersionCreatedBy(string $version_created_by) Return the first ChildIndexEngineIndex filtered by the version_created_by column
- *
- * @method     array findById(int $id) Return ChildIndexEngineIndex objects filtered by the id column
- * @method     array findByVisible(int $visible) Return ChildIndexEngineIndex objects filtered by the visible column
- * @method     array findByCode(string $code) Return ChildIndexEngineIndex objects filtered by the code column
- * @method     array findByTitle(string $title) Return ChildIndexEngineIndex objects filtered by the title column
- * @method     array findByEntity(string $entity) Return ChildIndexEngineIndex objects filtered by the entity column
- * @method     array findBySerializedColumns(string $serialized_columns) Return ChildIndexEngineIndex objects filtered by the serialized_columns column
- * @method     array findBySerializedCondition(string $serialized_condition) Return ChildIndexEngineIndex objects filtered by the serialized_condition column
- * @method     array findByIndexEngineDriverConfigurationId(int $index_engine_driver_configuration_id) Return ChildIndexEngineIndex objects filtered by the index_engine_driver_configuration_id column
- * @method     array findByCreatedAt(string $created_at) Return ChildIndexEngineIndex objects filtered by the created_at column
- * @method     array findByUpdatedAt(string $updated_at) Return ChildIndexEngineIndex objects filtered by the updated_at column
- * @method     array findByVersion(int $version) Return ChildIndexEngineIndex objects filtered by the version column
- * @method     array findByVersionCreatedAt(string $version_created_at) Return ChildIndexEngineIndex objects filtered by the version_created_at column
- * @method     array findByVersionCreatedBy(string $version_created_by) Return ChildIndexEngineIndex objects filtered by the version_created_by column
+ * @method     array findById(int $id) Return ChildIndexEngineIndexTemplateVersion objects filtered by the id column
+ * @method     array findByVisible(int $visible) Return ChildIndexEngineIndexTemplateVersion objects filtered by the visible column
+ * @method     array findByCode(string $code) Return ChildIndexEngineIndexTemplateVersion objects filtered by the code column
+ * @method     array findByTitle(string $title) Return ChildIndexEngineIndexTemplateVersion objects filtered by the title column
+ * @method     array findByEntity(string $entity) Return ChildIndexEngineIndexTemplateVersion objects filtered by the entity column
+ * @method     array findBySerializedColumns(string $serialized_columns) Return ChildIndexEngineIndexTemplateVersion objects filtered by the serialized_columns column
+ * @method     array findBySerializedCondition(string $serialized_condition) Return ChildIndexEngineIndexTemplateVersion objects filtered by the serialized_condition column
+ * @method     array findByIndexEngineDriverConfigurationId(int $index_engine_driver_configuration_id) Return ChildIndexEngineIndexTemplateVersion objects filtered by the index_engine_driver_configuration_id column
+ * @method     array findByCreatedAt(string $created_at) Return ChildIndexEngineIndexTemplateVersion objects filtered by the created_at column
+ * @method     array findByUpdatedAt(string $updated_at) Return ChildIndexEngineIndexTemplateVersion objects filtered by the updated_at column
+ * @method     array findByVersion(int $version) Return ChildIndexEngineIndexTemplateVersion objects filtered by the version column
+ * @method     array findByVersionCreatedAt(string $version_created_at) Return ChildIndexEngineIndexTemplateVersion objects filtered by the version_created_at column
+ * @method     array findByVersionCreatedBy(string $version_created_by) Return ChildIndexEngineIndexTemplateVersion objects filtered by the version_created_by column
  *
  */
-abstract class IndexEngineIndexQuery extends ModelCriteria
+abstract class IndexEngineIndexTemplateVersionQuery extends ModelCriteria
 {
 
-    // versionable behavior
-
     /**
-     * Whether the versioning is enabled
-     */
-    static $isVersioningEnabled = true;
-
-    /**
-     * Initializes internal state of \IndexEngine\Model\Base\IndexEngineIndexQuery object.
+     * Initializes internal state of \IndexEngine\Model\Base\IndexEngineIndexTemplateVersionQuery object.
      *
      * @param     string $dbName The database name
      * @param     string $modelName The phpName of a model, e.g. 'Book'
      * @param     string $modelAlias The alias for the model in this query, e.g. 'b'
      */
-    public function __construct($dbName = 'thelia', $modelName = '\\IndexEngine\\Model\\IndexEngineIndex', $modelAlias = null)
+    public function __construct($dbName = 'thelia', $modelName = '\\IndexEngine\\Model\\IndexEngineIndexTemplateVersion', $modelAlias = null)
     {
         parent::__construct($dbName, $modelName, $modelAlias);
     }
 
     /**
-     * Returns a new ChildIndexEngineIndexQuery object.
+     * Returns a new ChildIndexEngineIndexTemplateVersionQuery object.
      *
      * @param     string $modelAlias The alias of a model in the query
      * @param     Criteria $criteria Optional Criteria to build the query from
      *
-     * @return ChildIndexEngineIndexQuery
+     * @return ChildIndexEngineIndexTemplateVersionQuery
      */
     public static function create($modelAlias = null, $criteria = null)
     {
-        if ($criteria instanceof \IndexEngine\Model\IndexEngineIndexQuery) {
+        if ($criteria instanceof \IndexEngine\Model\IndexEngineIndexTemplateVersionQuery) {
             return $criteria;
         }
-        $query = new \IndexEngine\Model\IndexEngineIndexQuery();
+        $query = new \IndexEngine\Model\IndexEngineIndexTemplateVersionQuery();
         if (null !== $modelAlias) {
             $query->setModelAlias($modelAlias);
         }
@@ -145,25 +134,25 @@ abstract class IndexEngineIndexQuery extends ModelCriteria
      * Go fast if the query is untouched.
      *
      * <code>
-     * $obj  = $c->findPk(12, $con);
+     * $obj = $c->findPk(array(12, 34), $con);
      * </code>
      *
-     * @param mixed $key Primary key to use for the query
+     * @param array[$id, $version] $key Primary key to use for the query
      * @param ConnectionInterface $con an optional connection object
      *
-     * @return ChildIndexEngineIndex|array|mixed the result, formatted by the current formatter
+     * @return ChildIndexEngineIndexTemplateVersion|array|mixed the result, formatted by the current formatter
      */
     public function findPk($key, $con = null)
     {
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = IndexEngineIndexTableMap::getInstanceFromPool((string) $key))) && !$this->formatter) {
+        if ((null !== ($obj = IndexEngineIndexTemplateVersionTableMap::getInstanceFromPool(serialize(array((string) $key[0], (string) $key[1]))))) && !$this->formatter) {
             // the object is already in the instance pool
             return $obj;
         }
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getReadConnection(IndexEngineIndexTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getReadConnection(IndexEngineIndexTemplateVersionTableMap::DATABASE_NAME);
         }
         $this->basePreSelect($con);
         if ($this->formatter || $this->modelAlias || $this->with || $this->select
@@ -182,14 +171,15 @@ abstract class IndexEngineIndexQuery extends ModelCriteria
      * @param     mixed $key Primary key to use for the query
      * @param     ConnectionInterface $con A connection object
      *
-     * @return   ChildIndexEngineIndex A model object, or null if the key is not found
+     * @return   ChildIndexEngineIndexTemplateVersion A model object, or null if the key is not found
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT ID, VISIBLE, CODE, TITLE, ENTITY, SERIALIZED_COLUMNS, SERIALIZED_CONDITION, INDEX_ENGINE_DRIVER_CONFIGURATION_ID, CREATED_AT, UPDATED_AT, VERSION, VERSION_CREATED_AT, VERSION_CREATED_BY FROM index_engine_index WHERE ID = :p0';
+        $sql = 'SELECT ID, VISIBLE, CODE, TITLE, ENTITY, SERIALIZED_COLUMNS, SERIALIZED_CONDITION, INDEX_ENGINE_DRIVER_CONFIGURATION_ID, CREATED_AT, UPDATED_AT, VERSION, VERSION_CREATED_AT, VERSION_CREATED_BY FROM index_engine_index_template_version WHERE ID = :p0 AND VERSION = :p1';
         try {
             $stmt = $con->prepare($sql);
-            $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
+            $stmt->bindValue(':p0', $key[0], PDO::PARAM_INT);
+            $stmt->bindValue(':p1', $key[1], PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
             Propel::log($e->getMessage(), Propel::LOG_ERR);
@@ -197,9 +187,9 @@ abstract class IndexEngineIndexQuery extends ModelCriteria
         }
         $obj = null;
         if ($row = $stmt->fetch(\PDO::FETCH_NUM)) {
-            $obj = new ChildIndexEngineIndex();
+            $obj = new ChildIndexEngineIndexTemplateVersion();
             $obj->hydrate($row);
-            IndexEngineIndexTableMap::addInstanceToPool($obj, (string) $key);
+            IndexEngineIndexTemplateVersionTableMap::addInstanceToPool($obj, serialize(array((string) $key[0], (string) $key[1])));
         }
         $stmt->closeCursor();
 
@@ -212,7 +202,7 @@ abstract class IndexEngineIndexQuery extends ModelCriteria
      * @param     mixed $key Primary key to use for the query
      * @param     ConnectionInterface $con A connection object
      *
-     * @return ChildIndexEngineIndex|array|mixed the result, formatted by the current formatter
+     * @return ChildIndexEngineIndexTemplateVersion|array|mixed the result, formatted by the current formatter
      */
     protected function findPkComplex($key, $con)
     {
@@ -228,7 +218,7 @@ abstract class IndexEngineIndexQuery extends ModelCriteria
     /**
      * Find objects by primary key
      * <code>
-     * $objs = $c->findPks(array(12, 56, 832), $con);
+     * $objs = $c->findPks(array(array(12, 56), array(832, 123), array(123, 456)), $con);
      * </code>
      * @param     array $keys Primary keys to use for the query
      * @param     ConnectionInterface $con an optional connection object
@@ -254,12 +244,14 @@ abstract class IndexEngineIndexQuery extends ModelCriteria
      *
      * @param     mixed $key Primary key to use for the query
      *
-     * @return ChildIndexEngineIndexQuery The current query, for fluid interface
+     * @return ChildIndexEngineIndexTemplateVersionQuery The current query, for fluid interface
      */
     public function filterByPrimaryKey($key)
     {
+        $this->addUsingAlias(IndexEngineIndexTemplateVersionTableMap::ID, $key[0], Criteria::EQUAL);
+        $this->addUsingAlias(IndexEngineIndexTemplateVersionTableMap::VERSION, $key[1], Criteria::EQUAL);
 
-        return $this->addUsingAlias(IndexEngineIndexTableMap::ID, $key, Criteria::EQUAL);
+        return $this;
     }
 
     /**
@@ -267,12 +259,21 @@ abstract class IndexEngineIndexQuery extends ModelCriteria
      *
      * @param     array $keys The list of primary key to use for the query
      *
-     * @return ChildIndexEngineIndexQuery The current query, for fluid interface
+     * @return ChildIndexEngineIndexTemplateVersionQuery The current query, for fluid interface
      */
     public function filterByPrimaryKeys($keys)
     {
+        if (empty($keys)) {
+            return $this->add(null, '1<>1', Criteria::CUSTOM);
+        }
+        foreach ($keys as $key) {
+            $cton0 = $this->getNewCriterion(IndexEngineIndexTemplateVersionTableMap::ID, $key[0], Criteria::EQUAL);
+            $cton1 = $this->getNewCriterion(IndexEngineIndexTemplateVersionTableMap::VERSION, $key[1], Criteria::EQUAL);
+            $cton0->addAnd($cton1);
+            $this->addOr($cton0);
+        }
 
-        return $this->addUsingAlias(IndexEngineIndexTableMap::ID, $keys, Criteria::IN);
+        return $this;
     }
 
     /**
@@ -285,24 +286,26 @@ abstract class IndexEngineIndexQuery extends ModelCriteria
      * $query->filterById(array('min' => 12)); // WHERE id > 12
      * </code>
      *
+     * @see       filterByIndexEngineIndexTemplate()
+     *
      * @param     mixed $id The value to use as filter.
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return ChildIndexEngineIndexQuery The current query, for fluid interface
+     * @return ChildIndexEngineIndexTemplateVersionQuery The current query, for fluid interface
      */
     public function filterById($id = null, $comparison = null)
     {
         if (is_array($id)) {
             $useMinMax = false;
             if (isset($id['min'])) {
-                $this->addUsingAlias(IndexEngineIndexTableMap::ID, $id['min'], Criteria::GREATER_EQUAL);
+                $this->addUsingAlias(IndexEngineIndexTemplateVersionTableMap::ID, $id['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
             if (isset($id['max'])) {
-                $this->addUsingAlias(IndexEngineIndexTableMap::ID, $id['max'], Criteria::LESS_EQUAL);
+                $this->addUsingAlias(IndexEngineIndexTemplateVersionTableMap::ID, $id['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -313,7 +316,7 @@ abstract class IndexEngineIndexQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(IndexEngineIndexTableMap::ID, $id, $comparison);
+        return $this->addUsingAlias(IndexEngineIndexTemplateVersionTableMap::ID, $id, $comparison);
     }
 
     /**
@@ -332,18 +335,18 @@ abstract class IndexEngineIndexQuery extends ModelCriteria
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return ChildIndexEngineIndexQuery The current query, for fluid interface
+     * @return ChildIndexEngineIndexTemplateVersionQuery The current query, for fluid interface
      */
     public function filterByVisible($visible = null, $comparison = null)
     {
         if (is_array($visible)) {
             $useMinMax = false;
             if (isset($visible['min'])) {
-                $this->addUsingAlias(IndexEngineIndexTableMap::VISIBLE, $visible['min'], Criteria::GREATER_EQUAL);
+                $this->addUsingAlias(IndexEngineIndexTemplateVersionTableMap::VISIBLE, $visible['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
             if (isset($visible['max'])) {
-                $this->addUsingAlias(IndexEngineIndexTableMap::VISIBLE, $visible['max'], Criteria::LESS_EQUAL);
+                $this->addUsingAlias(IndexEngineIndexTemplateVersionTableMap::VISIBLE, $visible['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -354,7 +357,7 @@ abstract class IndexEngineIndexQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(IndexEngineIndexTableMap::VISIBLE, $visible, $comparison);
+        return $this->addUsingAlias(IndexEngineIndexTemplateVersionTableMap::VISIBLE, $visible, $comparison);
     }
 
     /**
@@ -370,7 +373,7 @@ abstract class IndexEngineIndexQuery extends ModelCriteria
      *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return ChildIndexEngineIndexQuery The current query, for fluid interface
+     * @return ChildIndexEngineIndexTemplateVersionQuery The current query, for fluid interface
      */
     public function filterByCode($code = null, $comparison = null)
     {
@@ -383,7 +386,7 @@ abstract class IndexEngineIndexQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(IndexEngineIndexTableMap::CODE, $code, $comparison);
+        return $this->addUsingAlias(IndexEngineIndexTemplateVersionTableMap::CODE, $code, $comparison);
     }
 
     /**
@@ -399,7 +402,7 @@ abstract class IndexEngineIndexQuery extends ModelCriteria
      *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return ChildIndexEngineIndexQuery The current query, for fluid interface
+     * @return ChildIndexEngineIndexTemplateVersionQuery The current query, for fluid interface
      */
     public function filterByTitle($title = null, $comparison = null)
     {
@@ -412,7 +415,7 @@ abstract class IndexEngineIndexQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(IndexEngineIndexTableMap::TITLE, $title, $comparison);
+        return $this->addUsingAlias(IndexEngineIndexTemplateVersionTableMap::TITLE, $title, $comparison);
     }
 
     /**
@@ -428,7 +431,7 @@ abstract class IndexEngineIndexQuery extends ModelCriteria
      *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return ChildIndexEngineIndexQuery The current query, for fluid interface
+     * @return ChildIndexEngineIndexTemplateVersionQuery The current query, for fluid interface
      */
     public function filterByEntity($entity = null, $comparison = null)
     {
@@ -441,7 +444,7 @@ abstract class IndexEngineIndexQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(IndexEngineIndexTableMap::ENTITY, $entity, $comparison);
+        return $this->addUsingAlias(IndexEngineIndexTemplateVersionTableMap::ENTITY, $entity, $comparison);
     }
 
     /**
@@ -457,7 +460,7 @@ abstract class IndexEngineIndexQuery extends ModelCriteria
      *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return ChildIndexEngineIndexQuery The current query, for fluid interface
+     * @return ChildIndexEngineIndexTemplateVersionQuery The current query, for fluid interface
      */
     public function filterBySerializedColumns($serializedColumns = null, $comparison = null)
     {
@@ -470,7 +473,7 @@ abstract class IndexEngineIndexQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(IndexEngineIndexTableMap::SERIALIZED_COLUMNS, $serializedColumns, $comparison);
+        return $this->addUsingAlias(IndexEngineIndexTemplateVersionTableMap::SERIALIZED_COLUMNS, $serializedColumns, $comparison);
     }
 
     /**
@@ -486,7 +489,7 @@ abstract class IndexEngineIndexQuery extends ModelCriteria
      *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return ChildIndexEngineIndexQuery The current query, for fluid interface
+     * @return ChildIndexEngineIndexTemplateVersionQuery The current query, for fluid interface
      */
     public function filterBySerializedCondition($serializedCondition = null, $comparison = null)
     {
@@ -499,7 +502,7 @@ abstract class IndexEngineIndexQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(IndexEngineIndexTableMap::SERIALIZED_CONDITION, $serializedCondition, $comparison);
+        return $this->addUsingAlias(IndexEngineIndexTemplateVersionTableMap::SERIALIZED_CONDITION, $serializedCondition, $comparison);
     }
 
     /**
@@ -512,26 +515,24 @@ abstract class IndexEngineIndexQuery extends ModelCriteria
      * $query->filterByIndexEngineDriverConfigurationId(array('min' => 12)); // WHERE index_engine_driver_configuration_id > 12
      * </code>
      *
-     * @see       filterByIndexEngineDriverConfiguration()
-     *
      * @param     mixed $indexEngineDriverConfigurationId The value to use as filter.
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return ChildIndexEngineIndexQuery The current query, for fluid interface
+     * @return ChildIndexEngineIndexTemplateVersionQuery The current query, for fluid interface
      */
     public function filterByIndexEngineDriverConfigurationId($indexEngineDriverConfigurationId = null, $comparison = null)
     {
         if (is_array($indexEngineDriverConfigurationId)) {
             $useMinMax = false;
             if (isset($indexEngineDriverConfigurationId['min'])) {
-                $this->addUsingAlias(IndexEngineIndexTableMap::INDEX_ENGINE_DRIVER_CONFIGURATION_ID, $indexEngineDriverConfigurationId['min'], Criteria::GREATER_EQUAL);
+                $this->addUsingAlias(IndexEngineIndexTemplateVersionTableMap::INDEX_ENGINE_DRIVER_CONFIGURATION_ID, $indexEngineDriverConfigurationId['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
             if (isset($indexEngineDriverConfigurationId['max'])) {
-                $this->addUsingAlias(IndexEngineIndexTableMap::INDEX_ENGINE_DRIVER_CONFIGURATION_ID, $indexEngineDriverConfigurationId['max'], Criteria::LESS_EQUAL);
+                $this->addUsingAlias(IndexEngineIndexTemplateVersionTableMap::INDEX_ENGINE_DRIVER_CONFIGURATION_ID, $indexEngineDriverConfigurationId['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -542,7 +543,7 @@ abstract class IndexEngineIndexQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(IndexEngineIndexTableMap::INDEX_ENGINE_DRIVER_CONFIGURATION_ID, $indexEngineDriverConfigurationId, $comparison);
+        return $this->addUsingAlias(IndexEngineIndexTemplateVersionTableMap::INDEX_ENGINE_DRIVER_CONFIGURATION_ID, $indexEngineDriverConfigurationId, $comparison);
     }
 
     /**
@@ -563,18 +564,18 @@ abstract class IndexEngineIndexQuery extends ModelCriteria
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return ChildIndexEngineIndexQuery The current query, for fluid interface
+     * @return ChildIndexEngineIndexTemplateVersionQuery The current query, for fluid interface
      */
     public function filterByCreatedAt($createdAt = null, $comparison = null)
     {
         if (is_array($createdAt)) {
             $useMinMax = false;
             if (isset($createdAt['min'])) {
-                $this->addUsingAlias(IndexEngineIndexTableMap::CREATED_AT, $createdAt['min'], Criteria::GREATER_EQUAL);
+                $this->addUsingAlias(IndexEngineIndexTemplateVersionTableMap::CREATED_AT, $createdAt['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
             if (isset($createdAt['max'])) {
-                $this->addUsingAlias(IndexEngineIndexTableMap::CREATED_AT, $createdAt['max'], Criteria::LESS_EQUAL);
+                $this->addUsingAlias(IndexEngineIndexTemplateVersionTableMap::CREATED_AT, $createdAt['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -585,7 +586,7 @@ abstract class IndexEngineIndexQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(IndexEngineIndexTableMap::CREATED_AT, $createdAt, $comparison);
+        return $this->addUsingAlias(IndexEngineIndexTemplateVersionTableMap::CREATED_AT, $createdAt, $comparison);
     }
 
     /**
@@ -606,18 +607,18 @@ abstract class IndexEngineIndexQuery extends ModelCriteria
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return ChildIndexEngineIndexQuery The current query, for fluid interface
+     * @return ChildIndexEngineIndexTemplateVersionQuery The current query, for fluid interface
      */
     public function filterByUpdatedAt($updatedAt = null, $comparison = null)
     {
         if (is_array($updatedAt)) {
             $useMinMax = false;
             if (isset($updatedAt['min'])) {
-                $this->addUsingAlias(IndexEngineIndexTableMap::UPDATED_AT, $updatedAt['min'], Criteria::GREATER_EQUAL);
+                $this->addUsingAlias(IndexEngineIndexTemplateVersionTableMap::UPDATED_AT, $updatedAt['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
             if (isset($updatedAt['max'])) {
-                $this->addUsingAlias(IndexEngineIndexTableMap::UPDATED_AT, $updatedAt['max'], Criteria::LESS_EQUAL);
+                $this->addUsingAlias(IndexEngineIndexTemplateVersionTableMap::UPDATED_AT, $updatedAt['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -628,7 +629,7 @@ abstract class IndexEngineIndexQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(IndexEngineIndexTableMap::UPDATED_AT, $updatedAt, $comparison);
+        return $this->addUsingAlias(IndexEngineIndexTemplateVersionTableMap::UPDATED_AT, $updatedAt, $comparison);
     }
 
     /**
@@ -647,18 +648,18 @@ abstract class IndexEngineIndexQuery extends ModelCriteria
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return ChildIndexEngineIndexQuery The current query, for fluid interface
+     * @return ChildIndexEngineIndexTemplateVersionQuery The current query, for fluid interface
      */
     public function filterByVersion($version = null, $comparison = null)
     {
         if (is_array($version)) {
             $useMinMax = false;
             if (isset($version['min'])) {
-                $this->addUsingAlias(IndexEngineIndexTableMap::VERSION, $version['min'], Criteria::GREATER_EQUAL);
+                $this->addUsingAlias(IndexEngineIndexTemplateVersionTableMap::VERSION, $version['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
             if (isset($version['max'])) {
-                $this->addUsingAlias(IndexEngineIndexTableMap::VERSION, $version['max'], Criteria::LESS_EQUAL);
+                $this->addUsingAlias(IndexEngineIndexTemplateVersionTableMap::VERSION, $version['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -669,7 +670,7 @@ abstract class IndexEngineIndexQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(IndexEngineIndexTableMap::VERSION, $version, $comparison);
+        return $this->addUsingAlias(IndexEngineIndexTemplateVersionTableMap::VERSION, $version, $comparison);
     }
 
     /**
@@ -690,18 +691,18 @@ abstract class IndexEngineIndexQuery extends ModelCriteria
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return ChildIndexEngineIndexQuery The current query, for fluid interface
+     * @return ChildIndexEngineIndexTemplateVersionQuery The current query, for fluid interface
      */
     public function filterByVersionCreatedAt($versionCreatedAt = null, $comparison = null)
     {
         if (is_array($versionCreatedAt)) {
             $useMinMax = false;
             if (isset($versionCreatedAt['min'])) {
-                $this->addUsingAlias(IndexEngineIndexTableMap::VERSION_CREATED_AT, $versionCreatedAt['min'], Criteria::GREATER_EQUAL);
+                $this->addUsingAlias(IndexEngineIndexTemplateVersionTableMap::VERSION_CREATED_AT, $versionCreatedAt['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
             if (isset($versionCreatedAt['max'])) {
-                $this->addUsingAlias(IndexEngineIndexTableMap::VERSION_CREATED_AT, $versionCreatedAt['max'], Criteria::LESS_EQUAL);
+                $this->addUsingAlias(IndexEngineIndexTemplateVersionTableMap::VERSION_CREATED_AT, $versionCreatedAt['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -712,7 +713,7 @@ abstract class IndexEngineIndexQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(IndexEngineIndexTableMap::VERSION_CREATED_AT, $versionCreatedAt, $comparison);
+        return $this->addUsingAlias(IndexEngineIndexTemplateVersionTableMap::VERSION_CREATED_AT, $versionCreatedAt, $comparison);
     }
 
     /**
@@ -728,7 +729,7 @@ abstract class IndexEngineIndexQuery extends ModelCriteria
      *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return ChildIndexEngineIndexQuery The current query, for fluid interface
+     * @return ChildIndexEngineIndexTemplateVersionQuery The current query, for fluid interface
      */
     public function filterByVersionCreatedBy($versionCreatedBy = null, $comparison = null)
     {
@@ -741,46 +742,46 @@ abstract class IndexEngineIndexQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(IndexEngineIndexTableMap::VERSION_CREATED_BY, $versionCreatedBy, $comparison);
+        return $this->addUsingAlias(IndexEngineIndexTemplateVersionTableMap::VERSION_CREATED_BY, $versionCreatedBy, $comparison);
     }
 
     /**
-     * Filter the query by a related \IndexEngine\Model\IndexEngineDriverConfiguration object
+     * Filter the query by a related \IndexEngine\Model\IndexEngineIndexTemplate object
      *
-     * @param \IndexEngine\Model\IndexEngineDriverConfiguration|ObjectCollection $indexEngineDriverConfiguration The related object(s) to use as filter
+     * @param \IndexEngine\Model\IndexEngineIndexTemplate|ObjectCollection $indexEngineIndexTemplate The related object(s) to use as filter
      * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return ChildIndexEngineIndexQuery The current query, for fluid interface
+     * @return ChildIndexEngineIndexTemplateVersionQuery The current query, for fluid interface
      */
-    public function filterByIndexEngineDriverConfiguration($indexEngineDriverConfiguration, $comparison = null)
+    public function filterByIndexEngineIndexTemplate($indexEngineIndexTemplate, $comparison = null)
     {
-        if ($indexEngineDriverConfiguration instanceof \IndexEngine\Model\IndexEngineDriverConfiguration) {
+        if ($indexEngineIndexTemplate instanceof \IndexEngine\Model\IndexEngineIndexTemplate) {
             return $this
-                ->addUsingAlias(IndexEngineIndexTableMap::INDEX_ENGINE_DRIVER_CONFIGURATION_ID, $indexEngineDriverConfiguration->getId(), $comparison);
-        } elseif ($indexEngineDriverConfiguration instanceof ObjectCollection) {
+                ->addUsingAlias(IndexEngineIndexTemplateVersionTableMap::ID, $indexEngineIndexTemplate->getId(), $comparison);
+        } elseif ($indexEngineIndexTemplate instanceof ObjectCollection) {
             if (null === $comparison) {
                 $comparison = Criteria::IN;
             }
 
             return $this
-                ->addUsingAlias(IndexEngineIndexTableMap::INDEX_ENGINE_DRIVER_CONFIGURATION_ID, $indexEngineDriverConfiguration->toKeyValue('PrimaryKey', 'Id'), $comparison);
+                ->addUsingAlias(IndexEngineIndexTemplateVersionTableMap::ID, $indexEngineIndexTemplate->toKeyValue('PrimaryKey', 'Id'), $comparison);
         } else {
-            throw new PropelException('filterByIndexEngineDriverConfiguration() only accepts arguments of type \IndexEngine\Model\IndexEngineDriverConfiguration or Collection');
+            throw new PropelException('filterByIndexEngineIndexTemplate() only accepts arguments of type \IndexEngine\Model\IndexEngineIndexTemplate or Collection');
         }
     }
 
     /**
-     * Adds a JOIN clause to the query using the IndexEngineDriverConfiguration relation
+     * Adds a JOIN clause to the query using the IndexEngineIndexTemplate relation
      *
      * @param     string $relationAlias optional alias for the relation
      * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
-     * @return ChildIndexEngineIndexQuery The current query, for fluid interface
+     * @return ChildIndexEngineIndexTemplateVersionQuery The current query, for fluid interface
      */
-    public function joinIndexEngineDriverConfiguration($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function joinIndexEngineIndexTemplate($relationAlias = null, $joinType = Criteria::INNER_JOIN)
     {
         $tableMap = $this->getTableMap();
-        $relationMap = $tableMap->getRelation('IndexEngineDriverConfiguration');
+        $relationMap = $tableMap->getRelation('IndexEngineIndexTemplate');
 
         // create a ModelJoin object for this join
         $join = new ModelJoin();
@@ -795,14 +796,14 @@ abstract class IndexEngineIndexQuery extends ModelCriteria
             $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
             $this->addJoinObject($join, $relationAlias);
         } else {
-            $this->addJoinObject($join, 'IndexEngineDriverConfiguration');
+            $this->addJoinObject($join, 'IndexEngineIndexTemplate');
         }
 
         return $this;
     }
 
     /**
-     * Use the IndexEngineDriverConfiguration relation IndexEngineDriverConfiguration object
+     * Use the IndexEngineIndexTemplate relation IndexEngineIndexTemplate object
      *
      * @see useQuery()
      *
@@ -810,106 +811,35 @@ abstract class IndexEngineIndexQuery extends ModelCriteria
      *                                   to be used as main alias in the secondary query
      * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
-     * @return   \IndexEngine\Model\IndexEngineDriverConfigurationQuery A secondary query class using the current class as primary query
+     * @return   \IndexEngine\Model\IndexEngineIndexTemplateQuery A secondary query class using the current class as primary query
      */
-    public function useIndexEngineDriverConfigurationQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function useIndexEngineIndexTemplateQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
     {
         return $this
-            ->joinIndexEngineDriverConfiguration($relationAlias, $joinType)
-            ->useQuery($relationAlias ? $relationAlias : 'IndexEngineDriverConfiguration', '\IndexEngine\Model\IndexEngineDriverConfigurationQuery');
-    }
-
-    /**
-     * Filter the query by a related \IndexEngine\Model\IndexEngineIndexVersion object
-     *
-     * @param \IndexEngine\Model\IndexEngineIndexVersion|ObjectCollection $indexEngineIndexVersion  the related object to use as filter
-     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return ChildIndexEngineIndexQuery The current query, for fluid interface
-     */
-    public function filterByIndexEngineIndexVersion($indexEngineIndexVersion, $comparison = null)
-    {
-        if ($indexEngineIndexVersion instanceof \IndexEngine\Model\IndexEngineIndexVersion) {
-            return $this
-                ->addUsingAlias(IndexEngineIndexTableMap::ID, $indexEngineIndexVersion->getId(), $comparison);
-        } elseif ($indexEngineIndexVersion instanceof ObjectCollection) {
-            return $this
-                ->useIndexEngineIndexVersionQuery()
-                ->filterByPrimaryKeys($indexEngineIndexVersion->getPrimaryKeys())
-                ->endUse();
-        } else {
-            throw new PropelException('filterByIndexEngineIndexVersion() only accepts arguments of type \IndexEngine\Model\IndexEngineIndexVersion or Collection');
-        }
-    }
-
-    /**
-     * Adds a JOIN clause to the query using the IndexEngineIndexVersion relation
-     *
-     * @param     string $relationAlias optional alias for the relation
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
-     *
-     * @return ChildIndexEngineIndexQuery The current query, for fluid interface
-     */
-    public function joinIndexEngineIndexVersion($relationAlias = null, $joinType = Criteria::INNER_JOIN)
-    {
-        $tableMap = $this->getTableMap();
-        $relationMap = $tableMap->getRelation('IndexEngineIndexVersion');
-
-        // create a ModelJoin object for this join
-        $join = new ModelJoin();
-        $join->setJoinType($joinType);
-        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
-        if ($previousJoin = $this->getPreviousJoin()) {
-            $join->setPreviousJoin($previousJoin);
-        }
-
-        // add the ModelJoin to the current object
-        if ($relationAlias) {
-            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
-            $this->addJoinObject($join, $relationAlias);
-        } else {
-            $this->addJoinObject($join, 'IndexEngineIndexVersion');
-        }
-
-        return $this;
-    }
-
-    /**
-     * Use the IndexEngineIndexVersion relation IndexEngineIndexVersion object
-     *
-     * @see useQuery()
-     *
-     * @param     string $relationAlias optional alias for the relation,
-     *                                   to be used as main alias in the secondary query
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
-     *
-     * @return   \IndexEngine\Model\IndexEngineIndexVersionQuery A secondary query class using the current class as primary query
-     */
-    public function useIndexEngineIndexVersionQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
-    {
-        return $this
-            ->joinIndexEngineIndexVersion($relationAlias, $joinType)
-            ->useQuery($relationAlias ? $relationAlias : 'IndexEngineIndexVersion', '\IndexEngine\Model\IndexEngineIndexVersionQuery');
+            ->joinIndexEngineIndexTemplate($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'IndexEngineIndexTemplate', '\IndexEngine\Model\IndexEngineIndexTemplateQuery');
     }
 
     /**
      * Exclude object from result
      *
-     * @param   ChildIndexEngineIndex $indexEngineIndex Object to remove from the list of results
+     * @param   ChildIndexEngineIndexTemplateVersion $indexEngineIndexTemplateVersion Object to remove from the list of results
      *
-     * @return ChildIndexEngineIndexQuery The current query, for fluid interface
+     * @return ChildIndexEngineIndexTemplateVersionQuery The current query, for fluid interface
      */
-    public function prune($indexEngineIndex = null)
+    public function prune($indexEngineIndexTemplateVersion = null)
     {
-        if ($indexEngineIndex) {
-            $this->addUsingAlias(IndexEngineIndexTableMap::ID, $indexEngineIndex->getId(), Criteria::NOT_EQUAL);
+        if ($indexEngineIndexTemplateVersion) {
+            $this->addCond('pruneCond0', $this->getAliasedColName(IndexEngineIndexTemplateVersionTableMap::ID), $indexEngineIndexTemplateVersion->getId(), Criteria::NOT_EQUAL);
+            $this->addCond('pruneCond1', $this->getAliasedColName(IndexEngineIndexTemplateVersionTableMap::VERSION), $indexEngineIndexTemplateVersion->getVersion(), Criteria::NOT_EQUAL);
+            $this->combine(array('pruneCond0', 'pruneCond1'), Criteria::LOGICAL_OR);
         }
 
         return $this;
     }
 
     /**
-     * Deletes all rows from the index_engine_index table.
+     * Deletes all rows from the index_engine_index_template_version table.
      *
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).
@@ -917,7 +847,7 @@ abstract class IndexEngineIndexQuery extends ModelCriteria
     public function doDeleteAll(ConnectionInterface $con = null)
     {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(IndexEngineIndexTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(IndexEngineIndexTemplateVersionTableMap::DATABASE_NAME);
         }
         $affectedRows = 0; // initialize var to track total num of affected rows
         try {
@@ -928,8 +858,8 @@ abstract class IndexEngineIndexQuery extends ModelCriteria
             // Because this db requires some delete cascade/set null emulation, we have to
             // clear the cached instance *after* the emulation has happened (since
             // instances get re-added by the select statement contained therein).
-            IndexEngineIndexTableMap::clearInstancePool();
-            IndexEngineIndexTableMap::clearRelatedInstancePool();
+            IndexEngineIndexTemplateVersionTableMap::clearInstancePool();
+            IndexEngineIndexTemplateVersionTableMap::clearRelatedInstancePool();
 
             $con->commit();
         } catch (PropelException $e) {
@@ -941,9 +871,9 @@ abstract class IndexEngineIndexQuery extends ModelCriteria
     }
 
     /**
-     * Performs a DELETE on the database, given a ChildIndexEngineIndex or Criteria object OR a primary key value.
+     * Performs a DELETE on the database, given a ChildIndexEngineIndexTemplateVersion or Criteria object OR a primary key value.
      *
-     * @param mixed               $values Criteria or ChildIndexEngineIndex object or primary key or array of primary keys
+     * @param mixed               $values Criteria or ChildIndexEngineIndexTemplateVersion object or primary key or array of primary keys
      *              which is used to create the DELETE statement
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
@@ -954,13 +884,13 @@ abstract class IndexEngineIndexQuery extends ModelCriteria
      public function delete(ConnectionInterface $con = null)
      {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(IndexEngineIndexTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(IndexEngineIndexTemplateVersionTableMap::DATABASE_NAME);
         }
 
         $criteria = $this;
 
         // Set the correct dbName
-        $criteria->setDbName(IndexEngineIndexTableMap::DATABASE_NAME);
+        $criteria->setDbName(IndexEngineIndexTemplateVersionTableMap::DATABASE_NAME);
 
         $affectedRows = 0; // initialize var to track total num of affected rows
 
@@ -970,10 +900,10 @@ abstract class IndexEngineIndexQuery extends ModelCriteria
             $con->beginTransaction();
 
 
-        IndexEngineIndexTableMap::removeInstanceFromPool($criteria);
+        IndexEngineIndexTemplateVersionTableMap::removeInstanceFromPool($criteria);
 
             $affectedRows += ModelCriteria::delete($con);
-            IndexEngineIndexTableMap::clearRelatedInstancePool();
+            IndexEngineIndexTemplateVersionTableMap::clearRelatedInstancePool();
             $con->commit();
 
             return $affectedRows;
@@ -983,98 +913,4 @@ abstract class IndexEngineIndexQuery extends ModelCriteria
         }
     }
 
-    // timestampable behavior
-
-    /**
-     * Filter by the latest updated
-     *
-     * @param      int $nbDays Maximum age of the latest update in days
-     *
-     * @return     ChildIndexEngineIndexQuery The current query, for fluid interface
-     */
-    public function recentlyUpdated($nbDays = 7)
-    {
-        return $this->addUsingAlias(IndexEngineIndexTableMap::UPDATED_AT, time() - $nbDays * 24 * 60 * 60, Criteria::GREATER_EQUAL);
-    }
-
-    /**
-     * Filter by the latest created
-     *
-     * @param      int $nbDays Maximum age of in days
-     *
-     * @return     ChildIndexEngineIndexQuery The current query, for fluid interface
-     */
-    public function recentlyCreated($nbDays = 7)
-    {
-        return $this->addUsingAlias(IndexEngineIndexTableMap::CREATED_AT, time() - $nbDays * 24 * 60 * 60, Criteria::GREATER_EQUAL);
-    }
-
-    /**
-     * Order by update date desc
-     *
-     * @return     ChildIndexEngineIndexQuery The current query, for fluid interface
-     */
-    public function lastUpdatedFirst()
-    {
-        return $this->addDescendingOrderByColumn(IndexEngineIndexTableMap::UPDATED_AT);
-    }
-
-    /**
-     * Order by update date asc
-     *
-     * @return     ChildIndexEngineIndexQuery The current query, for fluid interface
-     */
-    public function firstUpdatedFirst()
-    {
-        return $this->addAscendingOrderByColumn(IndexEngineIndexTableMap::UPDATED_AT);
-    }
-
-    /**
-     * Order by create date desc
-     *
-     * @return     ChildIndexEngineIndexQuery The current query, for fluid interface
-     */
-    public function lastCreatedFirst()
-    {
-        return $this->addDescendingOrderByColumn(IndexEngineIndexTableMap::CREATED_AT);
-    }
-
-    /**
-     * Order by create date asc
-     *
-     * @return     ChildIndexEngineIndexQuery The current query, for fluid interface
-     */
-    public function firstCreatedFirst()
-    {
-        return $this->addAscendingOrderByColumn(IndexEngineIndexTableMap::CREATED_AT);
-    }
-
-    // versionable behavior
-
-    /**
-     * Checks whether versioning is enabled
-     *
-     * @return boolean
-     */
-    static public function isVersioningEnabled()
-    {
-        return self::$isVersioningEnabled;
-    }
-
-    /**
-     * Enables versioning
-     */
-    static public function enableVersioning()
-    {
-        self::$isVersioningEnabled = true;
-    }
-
-    /**
-     * Disables versioning
-     */
-    static public function disableVersioning()
-    {
-        self::$isVersioningEnabled = false;
-    }
-
-} // IndexEngineIndexQuery
+} // IndexEngineIndexTemplateVersionQuery
