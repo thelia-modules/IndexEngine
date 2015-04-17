@@ -55,6 +55,17 @@ interface ArgumentCollectionInterface extends CollectionInterface
     public function deleteArgument($argumentNameOrInterface, $mode = self::MODE_THROW_EXCEPTION_ON_ERROR);
 
     /**
+     * @param $name
+     * @param int $mode
+     * @return false|null|ArgumentInterface
+     *
+     * @throws \IndexEngine\Driver\Exception\InvalidNameException
+     *
+     * This method return an argument with its name
+     */
+    public function getArgument($name, $mode = self::MODE_THROW_EXCEPTION_ON_ERROR);
+
+    /**
      * @param ArgumentInterface $driver
      * @param int $mode
      * @return bool

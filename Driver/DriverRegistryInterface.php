@@ -53,6 +53,17 @@ interface DriverRegistryInterface extends CollectionInterface
     public function deleteDriver($codeOrDriver, $mode = self::MODE_THROW_EXCEPTION_ON_ERROR);
 
     /**
+     * @param $name
+     * @param int $mode
+     * @return false|null|DriverInterface
+     *
+     * @throws \IndexEngine\Driver\Exception\InvalidNameException
+     *
+     * This method return a driver with its name
+     */
+    public function getDriver($code, $mode = self::MODE_THROW_EXCEPTION_ON_ERROR);
+
+    /**
      * @param DriverInterface $driver
      * @param int $mode
      * @return bool

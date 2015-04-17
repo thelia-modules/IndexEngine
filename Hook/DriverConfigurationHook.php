@@ -10,19 +10,18 @@
 /* file that was distributed with this source code.                                  */
 /*************************************************************************************/
 
-namespace IndexEngine\Form\Type;
+namespace IndexEngine\Hook;
 
-use Symfony\Component\Form\AbstractType;
 use IndexEngine\Driver\DriverRegistryInterface;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Thelia\Core\Hook\BaseHook;
+use Thelia\Core\Event\Hook\HookRenderEvent;
 
 /**
- * Class IndexEngineDriverType
- * @package IndexEngine\Form\Type
+ * Class DriverConfigurationHook
+ * @package IndexEngine\Hook
  * @author Benjamin Perche <benjamin@thelia.net>
  */
-class IndexEngineDriverType extends AbstractType
+class DriverConfigurationHook extends BaseHook
 {
     private $registry;
 
@@ -31,31 +30,18 @@ class IndexEngineDriverType extends AbstractType
         $this->registry = $registry;
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function onIndexEngineDriverForm(HookRenderEvent $event)
     {
-        $codes = [];
+        $driverCode = $event->getArgument("driver");
+        $driver = $this->registry->getDriver($driverCode, DriverRegistryInterface::MODE_RETURN_NULL);
 
-        foreach ($this->registry->getDriverCodes() as $code) {
-            $codes[$code] = $code;
+        if (null !== $driver) {
+            $configuration = $driver->getConfiguration();
+
+            foreach ($configuration->getArguments() as $argument) {
+                // @todo implement argument snippets generation and rendering
+                // maybe use thoses of BetterProducts
+            }
         }
-
-        $resolver->replaceDefaults([
-            "choices" => $codes,
-        ]);
-    }
-
-    public function getParent()
-    {
-        return "choice";
-    }
-
-    /**
-     * Returns the name of this type.
-     *
-     * @return string The name of this type
-     */
-    public function getName()
-    {
-        return "index_engine_driver";
     }
 }

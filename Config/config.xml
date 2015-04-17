@@ -85,6 +85,7 @@
       <argument id="thelia.translator" type="service"/>
       <tag name="thelia.form.type"/>
     </service>
+
     <!-- Well ... -->
     <service id="index_engine.propel_connection_wrapper" factory-class="Propel\Runtime\Propel" factory-method="getConnection" class="Propel\Runtime\Connection\ConnectionWrapper"/>
     <service id="index_engine.propel_connection" factory-service="index_engine.propel_connection_wrapper" factory-method="getWrappedConnection" class="PDO"/>

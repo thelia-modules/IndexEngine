@@ -58,31 +58,18 @@
                                     {/form_field}
                                 </div>
                                 <div class="col-md-6">
-                                    {form_field form=$form field="driver_code"}
-                                        <div class="form-group">
-                                            <label class="control-label" for="{$label_attr.for}">
-                                                {$label}
-                                                {if $required}<span class="required">*</span>{/if}
-                                            </label>
-
-                                            {form_error form=$form field="title"}{$message}{/form_error}
-
-                                            <select name="{$name}" class="form-control" id="{$label_attr.for}">
-                                                {foreach from=$choices item=choice}
-                                                    <option value="{$choice->value}">{$choice->label}</option>
-                                                {/foreach}
-                                            </select>
-                                        </div>
-                                    {/form_field}
-                                </div>
-
-                                    {include "includes/inner-form-toolbar.html"
-                                        hide_flags = true
-                                        close_url = {url path="/admin/module/IndexEngine/index_engine_driver_configuration"}
-                                    }
-
+                                    <label for="index_engine_driver">{intl l="Driver"}</label>
+                                    <input type="text" readonly class="form-control" value="{$DRIVER_CODE}" id="index_engine_driver"/>
                                 </div>
                             </div>
+
+                            {hook name="index_engine.driver.form" driver=$DRIVER_CODE}
+
+                            {include "includes/inner-form-toolbar.html"
+                                hide_flags = true
+                                close_url = {url path="/admin/module/IndexEngine/index_engine_driver_configuration"}
+                            }
+
                         {/loop}
 
                     </form>

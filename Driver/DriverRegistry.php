@@ -14,6 +14,7 @@ namespace IndexEngine\Driver;
 
 use IndexEngine\Driver\Exception\DriverAlreadyRegisteredException;
 use IndexEngine\Driver\Exception\InvalidDriverCodeException;
+use IndexEngine\Driver\Exception\InvalidNameException;
 use IndexEngine\Driver\Exception\UnknownModeException;
 use IndexEngine\Exception\InvalidArgumentException;
 
@@ -94,6 +95,32 @@ class DriverRegistry extends AbstractCollection implements DriverRegistryInterfa
         unset ($this->drivers[$resolvedCode]);
 
         return true;
+    }
+
+    /**
+     * @param $name
+     * @param int $mode
+     * @return false|null|DriverInterface
+     *
+     * @throws \IndexEngine\Driver\Exception\InvalidNameException
+     *
+     * This method return a driver with its name
+     */
+    public function getDriver($code, $mode = self::MODE_THROW_EXCEPTION_ON_ERROR)
+    {
+        $this->checkGetMode($mode, __METHOD__);
+
+        if (false === $this->hasDriver($code)) {
+            if ($mode === static::MODE_THROW_EXCEPTION_ON_ERROR) {
+                throw new InvalidNameException(sprintf("The driver code '%s' doesn't exist", $code));
+            } elseif ($mode === static::MODE_RETURN_BOOLEAN) {
+                return false;
+            } elseif ($mode === static::MODE_RETURN_NULL) {
+                return null;
+            }
+        }
+
+        return $this->drivers[$code];
     }
 
     /**

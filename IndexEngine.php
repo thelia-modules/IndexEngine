@@ -8,6 +8,7 @@ namespace IndexEngine;
 
 use IndexEngine\DependencyInjection\Compiler\RegisterIndexEngineListenerPass;
 use IndexEngine\DependencyInjection\Compiler\RegisterIndexProviderPass;
+use Thelia\Core\Template\TemplateDefinition;
 use Thelia\Module\BaseModule;
 use Propel\Runtime\Connection\ConnectionInterface;
 use Thelia\Install\Database;
@@ -33,6 +34,21 @@ class IndexEngine extends BaseModule
         return [
             new RegisterIndexProviderPass(),
             new RegisterIndexEngineListenerPass(),
+        ];
+    }
+
+    public function getHooks()
+    {
+        return [
+            [
+                "code" => "index_engine.driver.form",
+                "type" => TemplateDefinition::BACK_OFFICE,
+                "title" => [
+                    "fr_FR" => "Formulaire de configuration des drivers d'index",
+                    "en_US" => "Config form for the index drivers",
+                ],
+                "active" => true
+            ]
         ];
     }
 }
