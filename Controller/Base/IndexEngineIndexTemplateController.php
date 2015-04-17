@@ -12,7 +12,7 @@ use Thelia\Core\Security\Resource\AdminResources;
 use Thelia\Tools\URL;
 use IndexEngine\Event\IndexEngineIndexTemplateEvent;
 use IndexEngine\Event\IndexEngineIndexTemplateEvents;
-use \IndexEngineIndexTemplateQuery;
+use IndexEngine\Model\IndexEngineIndexTemplateQuery;
 use Thelia\Core\Event\ToggleVisibilityEvent;
 
 /**
@@ -223,7 +223,7 @@ class IndexEngineIndexTemplateController extends AbstractCrudController
 
         return new RedirectResponse(
             URL::getInstance()->absoluteUrl(
-                "/admin/module//index_engine_index_template/edit",
+                "/admin/module/IndexEngine/index_engine_index_template/edit",
                 [
                     "index_engine_index_template_id" => $id,
                 ]
@@ -238,7 +238,7 @@ class IndexEngineIndexTemplateController extends AbstractCrudController
     protected function redirectToListTemplate()
     {
         return new RedirectResponse(
-            URL::getInstance()->absoluteUrl("/admin/module//index_engine_index_template")
+            URL::getInstance()->absoluteUrl("/admin/module/IndexEngine/index_engine_index_template")
         );
     }
 

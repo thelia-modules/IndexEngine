@@ -5,9 +5,9 @@
     <parameter key="index_engine.driver.registry.class">IndexEngine\Driver\DriverRegistry</parameter>
     <parameter key="index_engine.event_dispatcher.class">Symfony\Component\EventDispatcher\EventDispatcher</parameter>
     <parameter key="index_engine.driver.elastic_search.class">IndexEngine\Driver\Bridge\ElasticSearchDriver</parameter>
-
     <parameter key="index_engine.database_collector.class">IndexEngine\Collector\DatabaseSubscriber</parameter>
     <parameter key="index_engine.loop_collector.class">IndexEngine\Collector\LoopSubscriber</parameter>
+    <parameter key="index_engine.form.type.index_engine_driver.class">IndexEngine\Form\Type\IndexEngineDriverType</parameter>
   </parameters>
   <loops>
     <!-- sample definition
@@ -33,26 +33,24 @@
         <command class="IndexEngine\Command\MySuperCommand" />
         -->
   </commands>
-
   <services>
     <service id="index_engine.indexable_entity_repository" class="%index_engine.indexable_entity_repository.class%">
-        <argument type="service" id="index_engine.event_dispatcher"/>
+      <argument type="service" id="index_engine.event_dispatcher"/>
     </service>
 
     <service id="index_engine.database_collector" class="%index_engine.database_collector.class%">
-      <argument type="service" id="index_engine.propel_connection" />
-      <tag name="index_engine.event_subscriber" />
+      <argument type="service" id="index_engine.propel_connection"/>
+      <tag name="index_engine.event_subscriber"/>
     </service>
 
     <service id="index_engine.loop_collector" class="%index_engine.loop_collector.class%">
       <argument>%Thelia.parser.loops%</argument>
-      <argument type="service" id="service_container" />
-      <argument type="service" id="thelia.logger" />
-
-      <tag name="index_engine.event_subscriber" />
+      <argument type="service" id="service_container"/>
+      <argument type="service" id="thelia.logger"/>
+      <tag name="index_engine.event_subscriber"/>
     </service>
 
-    <service id="index_engine.driver.registry" class="%index_engine.driver.registry.class%" />
+    <service id="index_engine.driver.registry" class="%index_engine.driver.registry.class%"/>
     <service id="index_engine.event_dispatcher" class="%index_engine.event_dispatcher.class%"/>
 
     <!-- Bridge drivers -->
@@ -60,7 +58,12 @@
       <tag name="index_engine.driver"/>
     </service>
 
-      <!-- Thelia Studio -->
+      <!-- Form types -->
+      <service id="index_engine.form.type.index_engine_driver" class="%index_engine.form.type.index_engine_driver.class%">
+          <argument type="service" id="index_engine.driver.registry" />
+          <tag name="thelia.form.type" />
+      </service>
+    <!-- Thelia Studio -->
     <service id="action.indexengine.index_engine_index_table" class="IndexEngine\Action\IndexEngineIndexAction">
       <tag name="kernel.event_subscriber"/>
     </service>
@@ -82,13 +85,10 @@
       <argument id="thelia.translator" type="service"/>
       <tag name="thelia.form.type"/>
     </service>
-
-      <!-- Well ... -->
-      <service id="index_engine.propel_connection_wrapper" factory-class="Propel\Runtime\Propel" factory-method="getConnection" class="Propel\Runtime\Connection\ConnectionWrapper"/>
-      <service id="index_engine.propel_connection" factory-service="index_engine.propel_connection_wrapper" factory-method="getWrappedConnection" class="PDO"/>
-
-      <!-- FIX FOR THELIA 2.1 -->
-      <service id="thelia.logger" class="Thelia\Tlog\Tlog" factory-class="Thelia\Tlog\Tlog" factory-method="getInstance" />
+    <!-- Well ... -->
+    <service id="index_engine.propel_connection_wrapper" factory-class="Propel\Runtime\Propel" factory-method="getConnection" class="Propel\Runtime\Connection\ConnectionWrapper"/>
+    <service id="index_engine.propel_connection" factory-service="index_engine.propel_connection_wrapper" factory-method="getWrappedConnection" class="PDO"/>
+    <!-- FIX FOR THELIA 2.1 -->
+    <service id="thelia.logger" class="Thelia\Tlog\Tlog" factory-class="Thelia\Tlog\Tlog" factory-method="getInstance"/>
   </services>
-
 </config>

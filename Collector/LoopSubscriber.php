@@ -23,7 +23,7 @@ use Symfony\Component\HttpKernel\Log\NullLogger;
 
 /**
  * Class LoopSubscriber
- * @package IndexEngine\Listener
+ * @package IndexEngine\Collector
  * @author Benjamin Perche <benjamin@thelia.net>
  */
 class LoopSubscriber implements EventSubscriberInterface

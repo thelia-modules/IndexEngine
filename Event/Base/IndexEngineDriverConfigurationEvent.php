@@ -7,7 +7,7 @@
 namespace IndexEngine\Event\Base;
 
 use Thelia\Core\Event\ActionEvent;
-use \IndexEngineDriverConfiguration;
+use IndexEngine\Model\IndexEngineDriverConfiguration;
 
 /**
 * Class IndexEngineDriverConfigurationEvent

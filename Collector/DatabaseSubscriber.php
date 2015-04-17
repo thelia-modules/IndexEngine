@@ -20,7 +20,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * Class DatabaseSubscriber
- * @package IndexEngine\Listener
+ * @package IndexEngine\Collector
  * @author Benjamin Perche <benjamin@thelia.net>
  */
 class DatabaseSubscriber implements EventSubscriberInterface

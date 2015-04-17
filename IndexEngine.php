@@ -6,6 +6,8 @@
 
 namespace IndexEngine;
 
+use IndexEngine\DependencyInjection\Compiler\RegisterIndexEngineListenerPass;
+use IndexEngine\DependencyInjection\Compiler\RegisterIndexProviderPass;
 use Thelia\Module\BaseModule;
 use Propel\Runtime\Connection\ConnectionInterface;
 use Thelia\Install\Database;
@@ -24,5 +26,13 @@ class IndexEngine extends BaseModule
         $database = new Database($con);
 
         $database->insertSql(null, [__DIR__ . "/Config/create.sql", __DIR__ . "/Config/insert.sql"]);
+    }
+
+    public static function getCompilers()
+    {
+        return [
+            new RegisterIndexProviderPass(),
+            new RegisterIndexEngineListenerPass(),
+        ];
     }
 }

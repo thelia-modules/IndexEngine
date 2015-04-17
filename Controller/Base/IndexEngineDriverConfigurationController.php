@@ -12,7 +12,7 @@ use Thelia\Core\Security\Resource\AdminResources;
 use Thelia\Tools\URL;
 use IndexEngine\Event\IndexEngineDriverConfigurationEvent;
 use IndexEngine\Event\IndexEngineDriverConfigurationEvents;
-use \IndexEngineDriverConfigurationQuery;
+use IndexEngine\Model\IndexEngineDriverConfigurationQuery;
 
 /**
  * Class IndexEngineDriverConfigurationController
@@ -210,7 +210,7 @@ class IndexEngineDriverConfigurationController extends AbstractCrudController
 
         return new RedirectResponse(
             URL::getInstance()->absoluteUrl(
-                "/admin/module//index_engine_driver_configuration/edit",
+                "/admin/module/IndexEngine/index_engine_driver_configuration/edit",
                 [
                     "index_engine_driver_configuration_id" => $id,
                 ]
@@ -225,7 +225,7 @@ class IndexEngineDriverConfigurationController extends AbstractCrudController
     protected function redirectToListTemplate()
     {
         return new RedirectResponse(
-            URL::getInstance()->absoluteUrl("/admin/module//index_engine_driver_configuration")
+            URL::getInstance()->absoluteUrl("/admin/module/IndexEngine/index_engine_driver_configuration")
         );
     }
 }

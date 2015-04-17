@@ -43,19 +43,7 @@
 
                         {loop name="index_engine_driver_configuration_update" type="index-engine-driver-configuration" backend_context="yes" id=$index_engine_driver_configuration_id lang=$edit_language_id}
                             <div class="row">
-                                <div class="col-md-12">
-                                    {form_field form=$form field="driver_code"}
-                                        <div class="form-group">
-                                            <label class="control-label" for="{$label_attr.for}">
-                                                {$label}
-                                                {if $required}<span class="required">*</span>{/if}
-                                            </label>
-
-                                            {form_error form=$form field="driver_code"}{$message}{/form_error}
-
-                                                <input type="text" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$DRIVER_CODE}" placeholder="{intl l='The IndexEngineDriverConfiguration driver_code'}" />
-                                        </div>
-                                    {/form_field}
+                                <div class="col-md-6">
                                     {form_field form=$form field="title"}
                                         <div class="form-group">
                                             <label class="control-label" for="{$label_attr.for}">
@@ -65,21 +53,28 @@
 
                                             {form_error form=$form field="title"}{$message}{/form_error}
 
-                                                <input type="text" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$TITLE}" placeholder="{intl l='The IndexEngineDriverConfiguration title'}" />
+                                            <input type="text" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$TITLE}" placeholder="{intl l='The configuration title'}" />
                                         </div>
                                     {/form_field}
-                                    {form_field form=$form field="serialized_configuration"}
+                                </div>
+                                <div class="col-md-6">
+                                    {form_field form=$form field="driver_code"}
                                         <div class="form-group">
                                             <label class="control-label" for="{$label_attr.for}">
                                                 {$label}
                                                 {if $required}<span class="required">*</span>{/if}
                                             </label>
 
-                                            {form_error form=$form field="serialized_configuration"}{$message}{/form_error}
+                                            {form_error form=$form field="title"}{$message}{/form_error}
 
-                                                <textarea class="form-control" name="{$name}" id="{$label_attr.for}" placeholder="{intl l='The IndexEngineDriverConfiguration serialized_configuration'}">{$SERIALIZED_CONFIGURATION}</textarea>
+                                            <select name="{$name}" class="form-control" id="{$label_attr.for}">
+                                                {foreach from=$choices item=choice}
+                                                    <option value="{$choice->value}">{$choice->label}</option>
+                                                {/foreach}
+                                            </select>
                                         </div>
                                     {/form_field}
+                                </div>
 
                                     {include "includes/inner-form-toolbar.html"
                                         hide_flags = true

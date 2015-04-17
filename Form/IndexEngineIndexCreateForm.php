@@ -21,9 +21,7 @@ class IndexEngineIndexCreateForm extends BaseIndexEngineIndexCreateForm
             "code" => "Code",
             "title" => "Title",
             "entity" => "Entity",
-            "serialized_columns" => "Serialized columns",
-            "serialized_condition" => "Serialized condition",
-            "index_engine_driver_configuration_id" => "Index engine driver configuration id",
+            "index_engine_driver_configuration_id" => "Index engine driver configuration",
         );
     }
 }

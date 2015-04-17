@@ -7,6 +7,7 @@
 namespace IndexEngine\Controller;
 
 use IndexEngine\Controller\Base\IndexEngineDriverConfigurationController as BaseIndexEngineDriverConfigurationController;
+use IndexEngine\Event\IndexEngineDriverConfigurationEvent;
 
 /**
  * Class IndexEngineDriverConfigurationController
@@ -14,4 +15,30 @@ use IndexEngine\Controller\Base\IndexEngineDriverConfigurationController as Base
  */
 class IndexEngineDriverConfigurationController extends BaseIndexEngineDriverConfigurationController
 {
+    protected function getCreationEvent($formData)
+    {
+        $event = new IndexEngineDriverConfigurationEvent();
+
+        $event->setDriverCode($formData["driver_code"]);
+        $event->setTitle($formData["title"]);
+
+        return $event;
+    }
+
+    /**
+     * Creates the update event with the provided form data
+     *
+     * @param mixed $formData
+     * @return \Thelia\Core\Event\ActionEvent
+     */
+    protected function getUpdateEvent($formData)
+    {
+        $event = new IndexEngineDriverConfigurationEvent();
+
+        $event->setId($formData["id"]);
+        $event->setDriverCode($formData["driver_code"]);
+        $event->setTitle($formData["title"]);
+
+        return $event;
+    }
 }

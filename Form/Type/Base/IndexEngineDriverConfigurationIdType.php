@@ -7,7 +7,7 @@
 namespace IndexEngine\Form\Type\Base;
 
 use Thelia\Core\Form\Type\Field\AbstractIdType;
-use \IndexEngineDriverConfigurationQuery;
+use IndexEngine\Model\IndexEngineDriverConfigurationQuery;
 
 /**
  * Class IndexEngineDriverConfiguration

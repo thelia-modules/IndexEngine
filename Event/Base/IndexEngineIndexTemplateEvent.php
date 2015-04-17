@@ -7,7 +7,7 @@
 namespace IndexEngine\Event\Base;
 
 use Thelia\Core\Event\ActionEvent;
-use \IndexEngineIndexTemplate;
+use IndexEngine\Model\IndexEngineIndexTemplate;
 
 /**
 * Class IndexEngineIndexTemplateEvent

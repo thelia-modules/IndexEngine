@@ -7,6 +7,8 @@
 namespace IndexEngine\Form;
 
 use IndexEngine\Form\Base\IndexEngineDriverConfigurationCreateForm as BaseIndexEngineDriverConfigurationCreateForm;
+use IndexEngine\IndexEngine;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * Class IndexEngineDriverConfigurationCreateForm
@@ -14,12 +16,36 @@ use IndexEngine\Form\Base\IndexEngineDriverConfigurationCreateForm as BaseIndexE
  */
 class IndexEngineDriverConfigurationCreateForm extends BaseIndexEngineDriverConfigurationCreateForm
 {
+    public function buildForm()
+    {
+        parent::buildForm();
+
+        $this->formBuilder
+            ->add("driver_code", "index_engine_driver", [
+                "label" => $this->translator->trans("Driver", [], IndexEngine::MESSAGE_DOMAIN),
+                "label_attr" => ["for" => "index_engine_driver"],
+                "required" => true,
+                "constraints" => [
+                    new NotBlank(),
+                ]
+            ]);
+    }
+
     public function getTranslationKeys()
     {
         return array(
             "driver_code" => "Driver code",
             "title" => "Title",
-            "serialized_configuration" => "Serialized configuration",
         );
+    }
+
+    protected function addSerializedConfigurationField(array $translationKeys, array $fieldsIdKeys)
+    {
+        // Remove this field
+    }
+
+    protected function addDriverCodeField(array $translationKeys, array $fieldsIdKeys)
+    {
+        // Remove this field
     }
 }

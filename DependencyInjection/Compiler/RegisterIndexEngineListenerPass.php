@@ -71,6 +71,10 @@ class RegisterIndexEngineListenerPass implements CompilerPassInterface
             // We must assume that the class value has been correctly filled, even if the service is created by a factory
             $class = $container->getDefinition($id)->getClass();
 
+            if (0 !== preg_match('/^%([a-z_\-\.]+)%$/i', $class, $match)) {
+                $class = $container->getParameter($match[1]);
+            }
+
             $refClass = new \ReflectionClass($class);
             $interface = 'Symfony\Component\EventDispatcher\EventSubscriberInterface';
             if (!$refClass->implementsInterface($interface)) {

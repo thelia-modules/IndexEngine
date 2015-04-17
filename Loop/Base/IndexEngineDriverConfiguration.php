@@ -14,7 +14,7 @@ use Thelia\Core\Template\Element\PropelSearchLoopInterface;
 use Thelia\Core\Template\Loop\Argument\Argument;
 use Thelia\Core\Template\Loop\Argument\ArgumentCollection;
 use Thelia\Type\BooleanOrBothType;
-use \IndexEngineDriverConfigurationQuery;
+use IndexEngine\Model\IndexEngineDriverConfigurationQuery;
 
 /**
  * Class IndexEngineDriverConfiguration
@@ -31,7 +31,7 @@ class IndexEngineDriverConfiguration extends BaseLoop implements PropelSearchLoo
      */
     public function parseResults(LoopResult $loopResult)
     {
-        /** @var \\IndexEngineDriverConfiguration $entry */
+        /** @var \IndexEngine\Model\IndexEngineDriverConfiguration $entry */
         foreach ($loopResult->getResultDataCollection() as $entry) {
             $row = new LoopResultRow($entry);
 

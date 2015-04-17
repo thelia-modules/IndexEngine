@@ -49,29 +49,20 @@
                         </th>
                         <th>
                             {admin_sortable_header
+                            current_order=$order
+                            order='title'
+                            reverse_order='title-reverse'
+                            path={url path='/admin/module/IndexEngine/index_engine_driver_configuration' target='index_engine_driver_configuration-table'}
+                            label="{intl l='Title' d='indexengine.bo.default'}"
+                            }
+                        </th>
+                        <th>
+                            {admin_sortable_header
                                 current_order=$order
                                 order='driver_code'
                                 reverse_order='driver_code-reverse'
                                 path={url path='/admin/module/IndexEngine/index_engine_driver_configuration' target='index_engine_driver_configuration-table'}
                                 label="{intl l='DriverCode' d='indexengine.bo.default'}"
-                            }
-                        </th>
-                        <th>
-                            {admin_sortable_header
-                                current_order=$order
-                                order='title'
-                                reverse_order='title-reverse'
-                                path={url path='/admin/module/IndexEngine/index_engine_driver_configuration' target='index_engine_driver_configuration-table'}
-                                label="{intl l='Title' d='indexengine.bo.default'}"
-                            }
-                        </th>
-                        <th>
-                            {admin_sortable_header
-                                current_order=$order
-                                order='serialized_configuration'
-                                reverse_order='serialized_configuration-reverse'
-                                path={url path='/admin/module/IndexEngine/index_engine_driver_configuration' target='index_engine_driver_configuration-table'}
-                                label="{intl l='SerializedConfiguration' d='indexengine.bo.default'}"
                             }
                         </th>
                         <th>
@@ -87,13 +78,10 @@
                                 <a href="{url path='/admin/module/IndexEngine/index_engine_driver_configuration/edit' index_engine_driver_configuration_id=$ID}">{$ID}</a>
                             </td>
                             <td>
-                                {$DRIVER_CODE}
-                            </td>
-                            <td>
                                 <a href="{url path='/admin/module/IndexEngine/index_engine_driver_configuration/edit' index_engine_driver_configuration_id=$ID}">{$TITLE}</a>
                             </td>
                             <td>
-                                {$SERIALIZED_CONFIGURATION}
+                                {$DRIVER_CODE}
                             </td>
                             {* Actions *}
                             <td>
@@ -161,9 +149,13 @@
                     {if $required}<span class="required">*</span>{/if}
                 </label>
 
-                {form_error form=$form field="driver_code"}{$message}{/form_error}
+                {form_error form=$form field="title"}{$message}{/form_error}
 
-                <input type="text" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$DRIVER_CODE}" placeholder="{intl l='The IndexEngineDriverConfiguration driver_code'}" />
+                <select name="{$name}" id="{$label_attr.for}" class="form-control">
+                    {foreach from=$choices item=choice}
+                        <option value="{$choice->value}">{$choice->label}</option>
+                    {/foreach}
+                </select>
             </div>
         {/form_field}
         {form_field form=$form field="title"}
@@ -176,18 +168,6 @@
                 {form_error form=$form field="title"}{$message}{/form_error}
 
                 <input type="text" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$TITLE}" placeholder="{intl l='The IndexEngineDriverConfiguration title'}" />
-            </div>
-        {/form_field}
-        {form_field form=$form field="serialized_configuration"}
-            <div class="form-group">
-                <label class="control-label" for="{$label_attr.for}">
-                    {$label}
-                    {if $required}<span class="required">*</span>{/if}
-                </label>
-
-                {form_error form=$form field="serialized_configuration"}{$message}{/form_error}
-
-                <textarea class="form-control" name="{$name}" id="{$label_attr.for}"placeholder="{intl l='The IndexEngineDriverConfiguration serialized_configuration'}">{$SERIALIZED_CONFIGURATION}</textarea>
             </div>
         {/form_field}
     {/capture}

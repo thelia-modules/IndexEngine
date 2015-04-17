@@ -14,7 +14,7 @@ use Thelia\Core\Template\Element\PropelSearchLoopInterface;
 use Thelia\Core\Template\Loop\Argument\Argument;
 use Thelia\Core\Template\Loop\Argument\ArgumentCollection;
 use Thelia\Type\BooleanOrBothType;
-use \IndexEngineIndexTemplateQuery;
+use IndexEngine\Model\IndexEngineIndexTemplateQuery;
 
 /**
  * Class IndexEngineIndexTemplate
@@ -33,7 +33,7 @@ class IndexEngineIndexTemplate extends BaseLoop implements PropelSearchLoopInter
      */
     public function parseResults(LoopResult $loopResult)
     {
-        /** @var \\IndexEngineIndexTemplate $entry */
+        /** @var \IndexEngine\Model\IndexEngineIndexTemplate $entry */
         foreach ($loopResult->getResultDataCollection() as $entry) {
             $row = new LoopResultRow($entry);
 
