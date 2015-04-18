@@ -12,6 +12,8 @@
 
 namespace IndexEngine\Hook;
 
+use IndexEngine\Driver\Configuration\VectorArgumentInterface;
+use IndexEngine\Driver\Configuration\ViewBuilderInterface;
 use IndexEngine\Driver\DriverRegistryInterface;
 use Thelia\Core\Hook\BaseHook;
 use Thelia\Core\Event\Hook\HookRenderEvent;
@@ -37,10 +39,18 @@ class DriverConfigurationHook extends BaseHook
 
         if (null !== $driver) {
             $configuration = $driver->getConfiguration();
+            $i = 0;
 
+            /** @var \IndexEngine\Driver\Configuration\ArgumentInterface $argument */
             foreach ($configuration->getArguments() as $argument) {
-                // @todo implement argument snippets generation and rendering
-                // maybe use thoses of BetterProducts
+                $this->render("form-field/render-form-field.html", [
+                    "form_name" => "index_engine_driver_configuration.update",
+                    "form_field" => $argument->getName(),
+                    "argument" => $argument,
+                    "is_vector" => $argument instanceof VectorArgumentInterface,
+                    "is_view_builder" => $argument instanceof ViewBuilderInterface,
+                    "field_count" => $i++,
+                ]);
             }
         }
     }

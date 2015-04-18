@@ -1,0 +1,15 @@
+{if $field_count % 2 == 0}
+<div class="row">
+{/if}
+    <div class="col-md-6">
+        {form name=$form_name}
+            {if $is_view_builder}
+                {$argument->buildView($form->getForm())}
+            {else}
+                {render_form_field form=$form field=$field_name}
+            {/if}
+        {/form}
+    </div>
+{if $field_count % 2 == 0}
+</div>
+{/if}

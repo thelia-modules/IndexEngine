@@ -11,6 +11,7 @@
 /*************************************************************************************/
 
 namespace IndexEngine\Driver;
+
 use IndexEngine\Driver\Configuration\ArgumentCollection;
 
 /**
@@ -49,4 +50,14 @@ interface DriverInterface
      * Example: Elasticsearch, OpenSearchServer, ...
      */
     public static function getCode();
+
+    /**
+     * @return void
+     *
+     * @throws \IndexEngine\Driver\Exception\MissingLibraryException
+     *
+     * It method has to check missing dependencies for the driver,
+     * if one is missing, throw an exception.
+     */
+    public function checkDependencies();
 }

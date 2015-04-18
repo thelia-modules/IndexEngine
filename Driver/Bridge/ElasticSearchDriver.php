@@ -17,6 +17,7 @@ use IndexEngine\Driver\Configuration\ArgumentCollection;
 use IndexEngine\Driver\Configuration\StringVectorArgument;
 use IndexEngine\Driver\DriverInterface;
 use IndexEngine\Driver\Exception\MissingLibraryException;
+use Thelia\Core\Template\ParserInterface;
 
 /**
  * Class ElasticSearchDriver
@@ -30,11 +31,12 @@ class ElasticSearchDriver implements DriverInterface
      */
     protected $client;
 
-    public function __construct()
+    /** @var ParserInterface */
+    private $parser;
+
+    public function __construct(ParserInterface $parser)
     {
-        if (! class_exists("Elasticsearch\\Client")) {
-            throw MissingLibraryException::createComposer("elasticsearch/elasticsearch:~1.0", "ElasticSearch");
-        }
+        $this->parser = $parser;
     }
 
     /**
@@ -48,7 +50,7 @@ class ElasticSearchDriver implements DriverInterface
     public function getConfiguration()
     {
         $collection = new ArgumentCollection([
-            new StringVectorArgument("servers"),
+            new StringVectorArgument($this->parser, "servers"),
         ]);
 
         $collection->setDefaults(["servers" => ["localhost:9200"]]);
@@ -99,5 +101,20 @@ class ElasticSearchDriver implements DriverInterface
     public static function getCode()
     {
         return "Elasticsearch";
+    }
+
+    /**
+     * @return void
+     *
+     * @throws \IndexEngine\Driver\Exception\MissingLibraryException
+     *
+     * It method has to check missing dependencies for the driver,
+     * if one is missing, throw an exception.
+     */
+    public function checkDependencies()
+    {
+        if (! class_exists("Elasticsearch\\Client")) {
+            throw MissingLibraryException::createComposer("elasticsearch/elasticsearch:~1.0", "ElasticSearch");
+        }
     }
 }

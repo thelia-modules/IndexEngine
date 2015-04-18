@@ -14,23 +14,36 @@ namespace IndexEngine\Driver\Configuration;
 
 use IndexEngine\Driver\AbstractCollection;
 use IndexEngine\Driver\Exception\InvalidNameException;
+use Symfony\Component\Form\FormBuilderInterface as SfFormBuilderInterface;
+use Thelia\Core\Template\ParserInterface;
+use Thelia\Form\BaseForm;
 
 /**
  * Class StringVectorArgument
  * @package IndexEngine\Driver\Configuration
  * @author Benjamin Perche <benjamin@thelia.net>
  */
-class StringVectorArgument extends AbstractCollection implements VectorArgumentInterface
+class StringVectorArgument extends AbstractCollection implements
+    VectorArgumentInterface,
+    ViewBuilderInterface,
+    FormBuilderInterface
 {
+    /** @var string */
     private $name;
+
+    /** @var array */
     private $collection = array();
 
-    public function __construct($name, array $values = array())
+    /** @var ParserInterface */
+    private $parser;
+
+    public function __construct(ParserInterface $parser, $name, array $values = array())
     {
         $this->isValid($this->name, static::MODE_THROW_EXCEPTION_ON_ERROR, __METHOD__);
         $this->name = $name;
 
         $this->setValue($values);
+        $this->parser = $parser;
     }
 
     /**
@@ -167,5 +180,37 @@ class StringVectorArgument extends AbstractCollection implements VectorArgumentI
     public function clear()
     {
         $this->collection = array();
+    }
+
+    /**
+     * @param BaseForm
+     * @return string
+     *
+     * Generates the view for the configuration form.
+     * It must return a valid html view.
+     */
+    public function buildView(BaseForm $form)
+    {
+        return $this->parser->render("form-field/render-string-vector.html", [
+            "form" => $form
+        ]);
+    }
+
+    /**
+     * @param \Symfony\Component\Form\FormBuilderInterface $builder
+     * @param array $options
+     * @return void
+     *
+     * This method is an equivalent of \Symfony\Component\Form\AbstractType::buildForm,
+     * but for configuration argument fields that wants to build themselves.
+     */
+    public function buildForm(SfFormBuilderInterface $builder, array $options)
+    {
+        $builder->add($this->name, "collection", [
+            "type" => "text",
+            "allow_add" => true,
+            "allow_delete" => true,
+            "cascade_validation" => true,
+        ]);
     }
 }

@@ -55,6 +55,7 @@
 
     <!-- Bridge drivers -->
     <service id="index_engine.driver.elastic_search" class="%index_engine.driver.elastic_search.class%">
+      <argument type="service" id="thelia.parser" />
       <tag name="index_engine.driver"/>
     </service>
 
