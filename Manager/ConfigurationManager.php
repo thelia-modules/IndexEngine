@@ -14,6 +14,7 @@ namespace IndexEngine\Manager;
 
 use IndexEngine\Driver\DriverRegistryInterface;
 use IndexEngine\Driver\Exception\OutOfBoundsException;
+use IndexEngine\Entity\DriverConfiguration;
 use IndexEngine\Model\IndexEngineDriverConfigurationQuery;
 use Thelia\Core\HttpFoundation\Request;
 
@@ -38,11 +39,26 @@ class ConfigurationManager implements ConfigurationManagerInterface
         $this->driverRegistry = $driverRegistry;
     }
 
+    /**
+     * @return mixed
+     *
+     * Get the current page's configuration ID.
+     * It can be retrieved from the request.
+     */
     public function getCurrentConfigurationId()
     {
         return $this->request->query->get(static::CONFIGURATION_ID_QUERY_PARAMETER);
     }
 
+    /**
+     * @param bool $loadIntoDriver If true, the found configuration will be loaded into the driver
+     * @return \IndexEngine\Entity\DriverConfiguration
+     *
+     * @throws \IndexEngine\Driver\Exception\InvalidDriverCodeException
+     * @throws \IndexEngine\Driver\Exception\OutOfBoundsException
+     *
+     * Retrieve the current configuration object
+     */
     public function getCurrentConfiguration($loadIntoDriver = false)
     {
         $configurationId = $this->getCurrentConfigurationId();
@@ -64,5 +80,7 @@ class ConfigurationManager implements ConfigurationManagerInterface
                 $driver->loadConfiguration($configuration);
             }
         }
+
+        return new DriverConfiguration($driver, $configuration);
     }
 }

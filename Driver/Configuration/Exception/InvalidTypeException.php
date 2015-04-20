@@ -10,24 +10,15 @@
 /* file that was distributed with this source code.                                  */
 /*************************************************************************************/
 
-namespace IndexEngine\Driver\Configuration;
+namespace IndexEngine\Driver\Configuration\Exception;
 
-use Symfony\Component\Form\FormBuilderInterface as SfFormBuilderInterface;
+use IndexEngine\Driver\Exception\InvalidNameException;
 
 /**
- * Interface FormBuilderInterface
- * @package IndexEngine\Driver\Configuration
+ * Class InvalidTypeException
+ * @package IndexEngine\Driver\Configuration\Exception
  * @author Benjamin Perche <benjamin@thelia.net>
  */
-interface FormBuilderInterface
+class InvalidTypeException extends InvalidNameException
 {
-    /**
-     * @param \Symfony\Component\Form\FormBuilderInterface $builder
-     * @param array $options
-     * @return void
-     *
-     * This method is an equivalent of \Symfony\Component\Form\AbstractType::buildForm,
-     * but for configuration argument fields that wants to build themselves.
-     */
-    public function buildForm(SfFormBuilderInterface $builder, array $options = array());
 }

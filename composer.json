@@ -1,0 +1,15 @@
+{
+  "name": "thelia/index-engine-module",
+  "license": "LGPL-3.0+",
+  "type": "thelia-module",
+  "require": {
+    "thelia/installer": "~1.1",
+    "symfony/http-kernel": "~2.3"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~4.1"
+  },
+  "extra": {
+    "installer-name": "IndexEngine"
+  }
+}

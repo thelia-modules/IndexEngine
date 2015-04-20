@@ -30,7 +30,8 @@ class DriverConfiguration
 
     public function __construct(DriverInterface $driver, ArgumentCollectionInterface $configuration = null)
     {
-        $this->setDriver($driver, $configuration);
+        $this->setConfiguration($configuration);
+        $this->setDriver($driver);
     }
 
     /**
@@ -45,17 +46,9 @@ class DriverConfiguration
      * @param DriverInterface $driver
      * @return $this
      */
-    public function setDriver(DriverInterface $driver, ArgumentCollectionInterface $configuration = null)
+    public function setDriver(DriverInterface $driver)
     {
         $this->driver = $driver;
-
-        if (null !== $configuration) {
-            $this->setConfiguration($configuration);
-        }
-
-        if (null !== $this->configuration) {
-            $this->driver->loadConfiguration($this->configuration);
-        }
 
         return $this;
     }

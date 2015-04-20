@@ -15,7 +15,6 @@ namespace IndexEngine\Driver\Configuration;
 use IndexEngine\Driver\AbstractCollection;
 use IndexEngine\Driver\Configuration\Exception\LogicException;
 use IndexEngine\Driver\Exception\InvalidNameException;
-use Symfony\Component\Form\FormBuilderInterface as SfFormBuilderInterface;
 use Thelia\Core\Template\ParserInterface;
 use Thelia\Form\BaseForm;
 
@@ -26,8 +25,7 @@ use Thelia\Form\BaseForm;
  */
 class StringVectorArgument extends AbstractCollection implements
     VectorArgumentInterface,
-    ViewBuilderParserAwareInterface,
-    FormBuilderInterface
+    ViewBuilderParserAwareInterface
 {
     /** @var string */
     private $name;
@@ -199,24 +197,6 @@ class StringVectorArgument extends AbstractCollection implements
             "form" => $form,
             "field_name" => $this->name,
             "filtered_name" => str_replace(".", "-", $this->name),
-        ]);
-    }
-
-    /**
-     * @param \Symfony\Component\Form\FormBuilderInterface $builder
-     * @param array $options
-     * @return void
-     *
-     * This method is an equivalent of \Symfony\Component\Form\AbstractType::buildForm,
-     * but for configuration argument fields that wants to build themselves.
-     */
-    public function buildForm(SfFormBuilderInterface $builder, array $options)
-    {
-        $builder->add($this->name, "collection", [
-            "type" => "text",
-            "allow_add" => true,
-            "allow_delete" => true,
-            "cascade_validation" => true,
         ]);
     }
 

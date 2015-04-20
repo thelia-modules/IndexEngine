@@ -12,8 +12,14 @@
 
 namespace IndexEngine\Listener;
 
+use IndexEngine\Driver\Configuration\ArgumentInterface;
+use IndexEngine\Driver\Configuration\EnumArgument;
+use IndexEngine\Driver\Configuration\Exception\InvalidTypeException;
+use IndexEngine\Driver\Configuration\FormBuilderInterface;
+use IndexEngine\Driver\Configuration\VectorArgumentInterface;
 use IndexEngine\Manager\ConfigurationManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\Form\DataTransformerInterface;
 use Thelia\Core\Event\TheliaEvents;
 use IndexEngine\Form\IndexEngineDriverConfigurationUpdateForm;
 use Thelia\Core\Event\TheliaFormEvent;
@@ -26,18 +32,62 @@ use Thelia\Core\Event\TheliaFormEvent;
  */
 class TheliaFormSubscriber implements EventSubscriberInterface
 {
+    /** @var ConfigurationManagerInterface  */
     private $configurationManager;
 
-    public function __construct(ConfigurationManagerInterface $configurationManager)
+    /** @var DataTransformerInterface */
+    private $typeResolver;
+
+    public function __construct(ConfigurationManagerInterface $configurationManager, DataTransformerInterface $typeResolver)
     {
         $this->configurationManager = $configurationManager;
+        $this->typeResolver = $typeResolver;
     }
 
     public function addDatabaseFields(TheliaFormEvent $event)
     {
         $formBuilder = $event->getForm()->getFormBuilder();
-
         $configuration = $this->configurationManager->getCurrentConfiguration();
+
+        foreach ($configuration->getConfiguration()->getArguments() as $argument) {
+            if ($argument instanceof FormBuilderInterface) {
+                $argument->buildForm($formBuilder);
+            } else {
+                if ($argument instanceof VectorArgumentInterface) {
+                    if (0 === preg_match("/^Vector\<([a-z_\-\.]+)\>$/", $argument->getType(), $match)) {
+                        throw new InvalidTypeException(sprintf("Invalid vector type '%s'", $argument->getType()));
+                    }
+
+                    $subType = $this->typeResolver->transform($match[1]);
+
+                    if (null === $subType) {
+                        throw new InvalidTypeException(sprintf("Invalid vector subtype '%s'", $match[1]));
+                    }
+
+                    $type = "collection";
+                    $options = [
+                        "type" => $subType,
+                        "allow_add" => true,
+                        "allow_delete" => true,
+                        "cascade_validation" => true,
+                    ];
+                } else {
+                    $type = $this->typeResolver->transform($argument->getType());
+
+                    if (null === $type) {
+                        throw new InvalidTypeException(sprintf("Invalid argument type '%s'", $type));
+                    }
+
+                    $options = [];
+
+                    if ($argument instanceof EnumArgument) {
+                        $options["choices"] = $argument->getChoices();
+                    }
+                }
+
+                $formBuilder->add($argument->getName(), $type, $options);
+            }
+        }
     }
 
     /**

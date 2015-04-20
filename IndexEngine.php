@@ -8,6 +8,7 @@ namespace IndexEngine;
 
 use IndexEngine\DependencyInjection\Compiler\RegisterIndexEngineListenerPass;
 use IndexEngine\DependencyInjection\Compiler\RegisterIndexProviderPass;
+use Symfony\Component\HttpKernel\DependencyInjection\RegisterListenersPass;
 use Thelia\Core\Template\TemplateDefinition;
 use Thelia\Module\BaseModule;
 use Propel\Runtime\Connection\ConnectionInterface;
@@ -33,7 +34,7 @@ class IndexEngine extends BaseModule
     {
         return [
             new RegisterIndexProviderPass(),
-            new RegisterIndexEngineListenerPass(),
+            new RegisterListenersPass("index_engine.event_dispatcher", "index_engine.event_listener", "index_engine.event_subscriber"),
         ];
     }
 

@@ -45,6 +45,14 @@ class EnumArgument extends AbstractArgument
     }
 
     /**
+     * @return array
+     */
+    public function getChoices()
+    {
+        return $this->choices;
+    }
+
+    /**
      * @return string
      *
      * This method return the argument type.

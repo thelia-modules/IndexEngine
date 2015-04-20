@@ -8,6 +8,9 @@
     <parameter key="index_engine.database_collector.class">IndexEngine\Collector\DatabaseSubscriber</parameter>
     <parameter key="index_engine.loop_collector.class">IndexEngine\Collector\LoopSubscriber</parameter>
     <parameter key="index_engine.form.type.index_engine_driver.class">IndexEngine\Form\Type\IndexEngineDriverType</parameter>
+    <parameter key="index_engine.form.type_resolver.class">IndexEngine\Driver\Configuration\Resolver\TypeResolver</parameter>
+    <parameter key="index_engine.form.thelia_form_listener.class">IndexEngine\Listener\TheliaFormSubscriber</parameter>
+    <parameter key="index_engine.configuration.manager.class">IndexEngine\Manager\ConfigurationManager</parameter>
   </parameters>
   <loops>
     <!-- sample definition
@@ -63,6 +66,22 @@
           <argument type="service" id="index_engine.driver.registry" />
           <tag name="thelia.form.type" />
       </service>
+
+      <!-- Configuration related manager -->
+      <service id="index_engine.configuration.manager" class="%index_engine.configuration.manager.class%" scope="request">
+          <argument type="service" id="request" />
+          <argument type="service" id="index_engine.driver.registry" />
+      </service>
+
+      <!-- Form type resolver -->
+      <service id="index_engine.form.type_resolver" class="%index_engine.form.type_resolver.class%" />
+
+      <!-- Thelia form listener -->
+      <service id="index_engine.form.thelia_form_listener" class="%index_engine.form.thelia_form_listener.class%" scope="request">
+          <argument type="service" id="index_engine.configuration.manager" />
+          <argument type="service" id="index_engine.form.type_resolver" />
+      </service>
+
     <!-- Thelia Studio -->
     <service id="action.indexengine.index_engine_index_table" class="IndexEngine\Action\IndexEngineIndexAction">
       <tag name="kernel.event_subscriber"/>
