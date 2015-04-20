@@ -1,0 +1,11 @@
+{form_field form=$form field=$field_name}
+    <div id="form-field-{$filtered_name}" class="form-group form-field-{$filtered_name}" data-prototype="">
+        {foreach from=$value item=entry key=key}
+            <input type="text" value="{$entry}" name="{$name}[{$key}]" class="form-control form-field-{$filtered_name} form-field-{$filtered_name}-{$key}" />
+        {/foreach}
+
+        <div class="hidden prototype">
+            <input type="text" name="{$name}[]" class="form-control form-field-{$filtered_name}" />
+        </div>
+    </div>
+{/form_field}

@@ -13,6 +13,7 @@
 namespace IndexEngine\Driver\Configuration;
 
 use IndexEngine\Driver\AbstractCollection;
+use IndexEngine\Driver\Configuration\Exception\LogicException;
 use IndexEngine\Driver\Exception\InvalidNameException;
 use Symfony\Component\Form\FormBuilderInterface as SfFormBuilderInterface;
 use Thelia\Core\Template\ParserInterface;
@@ -25,7 +26,7 @@ use Thelia\Form\BaseForm;
  */
 class StringVectorArgument extends AbstractCollection implements
     VectorArgumentInterface,
-    ViewBuilderInterface,
+    ViewBuilderParserAwareInterface,
     FormBuilderInterface
 {
     /** @var string */
@@ -37,13 +38,12 @@ class StringVectorArgument extends AbstractCollection implements
     /** @var ParserInterface */
     private $parser;
 
-    public function __construct(ParserInterface $parser, $name, array $values = array())
+    public function __construct($name, array $values = array())
     {
         $this->isValid($this->name, static::MODE_THROW_EXCEPTION_ON_ERROR, __METHOD__);
         $this->name = $name;
 
         $this->setValue($values);
-        $this->parser = $parser;
     }
 
     /**
@@ -191,8 +191,14 @@ class StringVectorArgument extends AbstractCollection implements
      */
     public function buildView(BaseForm $form)
     {
+        if (null === $this->parser) {
+            throw new LogicException(sprintf("You must inject a parser before call %s", __METHOD__));
+        }
+
         return $this->parser->render("form-field/render-string-vector.html", [
-            "form" => $form
+            "form" => $form,
+            "field_name" => $this->name,
+            "filtered_name" => str_replace(".", "-", $this->name),
         ]);
     }
 
@@ -212,5 +218,28 @@ class StringVectorArgument extends AbstractCollection implements
             "allow_delete" => true,
             "cascade_validation" => true,
         ]);
+    }
+
+    /**
+     * @param ParserInterface $parser
+     * @return $this
+     *
+     * Inject the parser into the argument
+     */
+    public function setParser(ParserInterface $parser)
+    {
+        $this->parser = $parser;
+
+        return $this;
+    }
+
+    /**
+     * @return null|ParserInterface
+     *
+     * Retrieves the current parser, or null if there is currently no parser
+     */
+    public function getParser()
+    {
+        return $this->parser;
     }
 }

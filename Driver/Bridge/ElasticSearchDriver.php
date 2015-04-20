@@ -17,7 +17,6 @@ use IndexEngine\Driver\Configuration\ArgumentCollection;
 use IndexEngine\Driver\Configuration\StringVectorArgument;
 use IndexEngine\Driver\DriverInterface;
 use IndexEngine\Driver\Exception\MissingLibraryException;
-use Thelia\Core\Template\ParserInterface;
 
 /**
  * Class ElasticSearchDriver
@@ -31,14 +30,6 @@ class ElasticSearchDriver implements DriverInterface
      */
     protected $client;
 
-    /** @var ParserInterface */
-    private $parser;
-
-    public function __construct(ParserInterface $parser)
-    {
-        $this->parser = $parser;
-    }
-
     /**
      * @return \IndexEngine\Driver\Configuration\ArgumentCollectionInterface|null
      *
@@ -50,7 +41,7 @@ class ElasticSearchDriver implements DriverInterface
     public function getConfiguration()
     {
         $collection = new ArgumentCollection([
-            new StringVectorArgument($this->parser, "servers"),
+            new StringVectorArgument("servers"),
         ]);
 
         $collection->setDefaults(["servers" => ["localhost:9200"]]);
