@@ -1,7 +1,8 @@
 {form_field form=$form field=$field_name}
     <div id="form-field-{$filtered_name}" class="form-group form-field-{$filtered_name}" data-prototype="{'<input type="text" name="{$name}[]" class="form-control form-field-{$filtered_name}" />'}">
         <label>
-            {intl l="" d=""}
+            {intl l=$formatted_title}
+            <a href="#" class="btn btn-primary btn-xs btn-add-new-{$filtered_name}"><i class="glyphicon glyphicon-plus-sign"></i></a>
         </label>
 
         {foreach from=$value item=entry key=key}

@@ -33,6 +33,28 @@ class DriverConfigurationHook extends BaseHook
         $this->registry = $registry;
     }
 
+    /**
+     * @param HookRenderEvent $event
+     *
+     * Add string vector JS
+     */
+    public function onIndexEngineDriverFormJavascript(HookRenderEvent $event)
+    {
+        $driverCode = $event->getArgument("driver");
+        $driver = $this->registry->getDriver($driverCode, DriverRegistryInterface::MODE_RETURN_NULL);
+
+        if (null !== $driver) {
+            $event->add($this->render("form-field/render-string-vector-js.html", [
+                "driver_code" => $driverCode,
+            ]));
+        }
+    }
+
+    /**
+     * @param HookRenderEvent $event
+     *
+     * Render all the driver fields
+     */
     public function onIndexEngineDriverForm(HookRenderEvent $event)
     {
         $driverCode = $event->getArgument("driver");
@@ -48,17 +70,26 @@ class DriverConfigurationHook extends BaseHook
                     $argument->setParser($this->parser);
                 }
 
+                $formattedTitle = $this->formatTitle($argument->getName());
+
                 $content = $this->render("form-field/render-form-field.html", [
+                    "driver_code" => $driverCode,
                     "form_name" => "index_engine_driver_configuration.update",
                     "form_field" => $argument->getName(),
                     "argument" => $argument,
                     "is_vector" => $argument instanceof VectorArgumentInterface,
                     "is_view_builder" => $argument instanceof ViewBuilderInterface,
                     "field_count" => $i++,
+                    "formatted_title" => $formattedTitle,
                 ]);
 
                 $event->add($content);
             }
         }
+    }
+
+    protected function formatTitle($name)
+    {
+        return preg_replace("/[_\.\-]/", "", ucfirst($name));
     }
 }

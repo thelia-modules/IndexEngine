@@ -70,6 +70,7 @@
                                 close_url = {url path="/admin/module/IndexEngine/index_engine_driver_configuration"}
                             }
 
+                            {$driver_code=$DRIVER_CODE}
                         {/loop}
 
                     </form>
@@ -80,4 +81,5 @@
 {/block}
 
 {block name="javascript-initialization"}
+    {hook name="index_engine.driver.form-javascript" driver=$driver_code}
 {/block}
