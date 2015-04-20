@@ -9,7 +9,7 @@
             $parent.append($prototype);
         });
 
-        $(".btn-string-vector-pop").click(function() {
+        $(document).on('click', ".btn-string-vector-pop", function() {
             $(this).parents(".form-field-string-vector-entry").eq(0).remove();
         });
     })(jQuery);
