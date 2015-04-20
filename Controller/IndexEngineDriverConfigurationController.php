@@ -36,7 +36,6 @@ class IndexEngineDriverConfigurationController extends BaseIndexEngineDriverConf
         $event = new IndexEngineDriverConfigurationEvent();
 
         $event->setId($formData["id"]);
-        $event->setDriverCode($formData["driver_code"]);
         $event->setTitle($formData["title"]);
 
         return $event;

@@ -14,4 +14,8 @@ use IndexEngine\Event\Base\IndexEngineDriverConfigurationEvent as BaseIndexEngin
  */
 class IndexEngineDriverConfigurationEvent extends BaseIndexEngineDriverConfigurationEvent
 {
+    public function dumpParameters()
+    {
+        return $this->parameters;
+    }
 }

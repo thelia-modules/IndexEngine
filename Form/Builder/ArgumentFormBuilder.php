@@ -37,11 +37,12 @@ class ArgumentFormBuilder implements ArgumentFormBuilderInterface
     /**
      * @param ArgumentInterface $argument
      * @param SfFormBuilderInterface $builder
+     * @param mixed $defaultValue
      * @return void
      *
      * Add the needed field(s) into the symfony form builder for the given argument
      */
-    public function addField(ArgumentInterface $argument, SfFormBuilderInterface $builder)
+    public function addField(ArgumentInterface $argument, SfFormBuilderInterface $builder, $defaultValue = null)
     {
         if ($argument instanceof FormBuilderInterface) {
             $argument->buildForm($builder);
@@ -76,6 +77,14 @@ class ArgumentFormBuilder implements ArgumentFormBuilderInterface
                 if ($argument instanceof EnumArgument) {
                     $options["choices"] = $argument->getChoices();
                 }
+            }
+
+            $currentValue = $argument->getValue();
+
+            if (null !== $currentValue && "" !== $currentValue && [] !== $currentValue) {
+                $options["data"] = $currentValue;
+            } elseif (null !== $defaultValue) {
+                $options["data"] = $defaultValue;
             }
 
             $builder->add($argument->getName(), $type, $options);

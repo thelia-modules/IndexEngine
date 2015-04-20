@@ -36,6 +36,9 @@ class StringVectorArgument extends AbstractCollection implements
     /** @var ParserInterface */
     private $parser;
 
+    /** @var bool */
+    private $allowNullValue = false;
+
     public function __construct($name, array $values = array())
     {
         $this->isValid($this->name, static::MODE_THROW_EXCEPTION_ON_ERROR, __METHOD__);
@@ -149,7 +152,13 @@ class StringVectorArgument extends AbstractCollection implements
      */
     public function offsetSet($offset, $value)
     {
-        $this->collection[$offset] = $this->resolveString($value, __METHOD__);
+        if ($this->allowNullValue === true || null !== $value) {
+            if (null === $offset) {
+                $this->collection[] = $this->resolveString($value, __METHOD__);
+            } else {
+                $this->collection[$offset] = $this->resolveString($value, __METHOD__);
+            }
+        }
     }
 
     /**
@@ -221,5 +230,23 @@ class StringVectorArgument extends AbstractCollection implements
     public function getParser()
     {
         return $this->parser;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isAllowNullValue()
+    {
+        return $this->allowNullValue;
+    }
+
+    /**
+     * @param boolean $allowNullValue
+     * @return $this
+     */
+    public function setAllowNullValue($allowNullValue = true)
+    {
+        $this->allowNullValue = $allowNullValue;
+        return $this;
     }
 }

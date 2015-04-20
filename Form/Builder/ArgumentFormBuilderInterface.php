@@ -24,9 +24,10 @@ interface ArgumentFormBuilderInterface
     /**
      * @param ArgumentInterface $argument
      * @param SfFormBuilderInterface $builder
+     * @param mixed $defaultValue
      * @return void
      *
      * Add the needed field(s) into the symfony form builder for the given argument
      */
-    public function addField(ArgumentInterface $argument, SfFormBuilderInterface $builder);
+    public function addField(ArgumentInterface $argument, SfFormBuilderInterface $builder, $defaultValue = null);
 }

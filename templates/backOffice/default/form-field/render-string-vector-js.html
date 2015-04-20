@@ -1,0 +1,16 @@
+<script>
+    (function ($) {
+        $(".btn-string-vector-push").click(function(e) {
+            e.preventDefault();
+
+            var $parent = $(this).parents(".form-field-string-vector").eq(0);
+            var $prototype = $parent.data("prototype");
+
+            $parent.append($prototype);
+        });
+
+        $(".btn-string-vector-pop").click(function() {
+            $(this).parents(".form-field-string-vector-entry").eq(0).remove();
+        });
+    })(jQuery);
+</script>

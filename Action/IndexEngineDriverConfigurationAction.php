@@ -7,6 +7,8 @@
 namespace IndexEngine\Action;
 
 use IndexEngine\Action\Base\IndexEngineDriverConfigurationAction as  BaseIndexEngineDriverConfigurationAction;
+use IndexEngine\Event\IndexEngineDriverConfigurationEvent;
+use IndexEngine\Model\IndexEngineDriverConfiguration;
 
 /**
  * Class IndexEngineDriverConfigurationAction
@@ -14,4 +16,27 @@ use IndexEngine\Action\Base\IndexEngineDriverConfigurationAction as  BaseIndexEn
  */
 class IndexEngineDriverConfigurationAction extends BaseIndexEngineDriverConfigurationAction
 {
+    protected function createOrUpdate(IndexEngineDriverConfigurationEvent $event, IndexEngineDriverConfiguration $model)
+    {
+        $parameters = $event->dumpParameters();
+
+        // Clear thelia extra fields
+        $this
+            ->removeKey($parameters, "success_url")
+            ->removeKey($parameters, "error_message")
+        ;
+
+        $model->setConfiguration($parameters);
+
+        return parent::createOrUpdate($event, $model);
+    }
+
+    protected function removeKey(array &$array, $key)
+    {
+        if (array_key_exists($key, $array)) {
+            unset ($array[$key]);
+        }
+
+        return $this;
+    }
 }

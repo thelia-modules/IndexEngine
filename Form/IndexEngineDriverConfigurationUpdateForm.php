@@ -23,4 +23,11 @@ class IndexEngineDriverConfigurationUpdateForm extends BaseIndexEngineDriverConf
             "serialized_configuration" => "serialized_configuration",
         );
     }
+
+    public function buildForm()
+    {
+        parent::buildForm();
+
+        $this->formBuilder->remove("driver_code");
+    }
 }

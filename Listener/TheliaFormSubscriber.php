@@ -44,10 +44,14 @@ class TheliaFormSubscriber implements EventSubscriberInterface
     public function addDatabaseFields(TheliaFormEvent $event)
     {
         $formBuilder = $event->getForm()->getFormBuilder();
-        $configuration = $this->configurationManager->getCurrentConfiguration();
+        $configuration = $this->configurationManager->getCurrentConfiguration()->getConfiguration();
 
-        foreach ($configuration->getConfiguration()->getArguments() as $argument) {
-            $this->argumentFormBuilder->addField($argument, $formBuilder);
+        $defaults = $configuration->getDefaults();
+
+        foreach ($configuration->getArguments() as $argument) {
+            $default = isset($defaults[$argument->getName()]) ? $defaults[$argument->getName()] : null;
+
+            $this->argumentFormBuilder->addField($argument, $formBuilder, $default);
         }
     }
 
