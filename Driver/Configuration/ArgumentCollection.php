@@ -164,7 +164,7 @@ class ArgumentCollection extends AbstractCollection implements ArgumentCollectio
     }
 
     /**
-     * @return array
+     * @return ArgumentInterface[]
      *
      * Dump all the arguments into an array
      */
@@ -222,5 +222,41 @@ class ArgumentCollection extends AbstractCollection implements ArgumentCollectio
         }
 
         return $this->resolveString($argumentNameOrInterface, $method);
+    }
+
+    /**
+     * @param array $values
+     * @return $this
+     *
+     * Load the values into the arguments.
+     * In the given array, keys are the argument names
+     */
+    public function loadValues(array $values)
+    {
+        foreach ($values as $name => $value) {
+            $argument = $this->getArgument($name, static::MODE_RETURN_NULL);
+
+            if (null !== $argument) {
+                $argument->setValue($value);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     *
+     * This method exports the argument values as an array
+     */
+    public function exportConfiguration()
+    {
+        $configuration = [];
+
+        foreach ($this->getArguments() as $name => $argument) {
+            $configuration[$name] = $argument->getValue();
+        }
+
+        return $configuration;
     }
 }

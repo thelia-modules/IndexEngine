@@ -12,7 +12,7 @@
 
 namespace IndexEngine\Driver;
 
-use IndexEngine\Driver\Configuration\ArgumentCollection;
+use IndexEngine\Driver\Configuration\ArgumentCollectionInterface;
 
 /**
  * Interface DriverInterface
@@ -32,13 +32,15 @@ interface DriverInterface
     public function getConfiguration();
 
     /**
-     * @param ArgumentCollection $configuration
+     * @param null|ArgumentCollectionInterface $configuration
      * @return void
      *
      * If a configuration is provided in getConfiguration(), this method is called to
      * initialize the driver ( establish connection, load resources, ... )
+     *
+     * The parameter is null when getConfiguration returns null
      */
-    public function loadConfiguration(ArgumentCollection $configuration);
+    public function loadConfiguration(ArgumentCollectionInterface $configuration = null);
 
     /**
      * @return string

@@ -10,32 +10,14 @@
 /* file that was distributed with this source code.                                  */
 /*************************************************************************************/
 
-namespace IndexEngine\Manager;
+namespace IndexEngine\Driver\Exception;
 
 
 /**
- * Interface ConfigurationManagerInterface
- * @package IndexEngine\Manager
+ * Class OutOfBoundsException
+ * @package IndexEngine\Driver\Exception
  * @author Benjamin Perche <benjamin@thelia.net>
  */
-interface ConfigurationManagerInterface
+class OutOfBoundsException extends \OutOfBoundsException
 {
-    /**
-     * @return mixed
-     *
-     * Get the current page's configuration ID.
-     * It can be retrieved from the request.
-     */
-    public function getCurrentConfigurationId();
-
-    /**
-     * @param bool $loadIntoDriver If true, the found configuration will be loaded into the driver
-     * @return \IndexEngine\Entity\DriverConfiguration
-     *
-     * @throws \IndexEngine\Driver\Exception\InvalidDriverCodeException
-     * @throws \IndexEngine\Driver\Exception\OutOfBoundsException
-     *
-     * Retrieve the current configuration object
-     */
-    public function getCurrentConfiguration($loadIntoDriver = false);
 }

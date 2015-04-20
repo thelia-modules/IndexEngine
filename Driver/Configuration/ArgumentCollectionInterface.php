@@ -78,7 +78,7 @@ interface ArgumentCollectionInterface extends CollectionInterface
     public function isArgumentNameValid(ArgumentInterface $driver, $mode = self::MODE_RETURN_BOOLEAN);
 
     /**
-     * @return array
+     * @return ArgumentInterface[]
      *
      * Dump all the arguments into an array
      */
@@ -106,4 +106,20 @@ interface ArgumentCollectionInterface extends CollectionInterface
      * If setDefaults has neverBeenCalled, return an empty array
      */
     public function getDefaults();
+
+    /**
+     * @param array $values
+     * @return $this
+     *
+     * Load the values into the arguments.
+     * In the given array, keys are the argument names
+     */
+    public function loadValues(array $values);
+
+    /**
+     * @return array
+     *
+     * This method exports the argument values as an array
+     */
+    public function exportConfiguration();
 }

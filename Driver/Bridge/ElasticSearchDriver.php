@@ -14,6 +14,7 @@ namespace IndexEngine\Driver\Bridge;
 
 use Elasticsearch\Client;
 use IndexEngine\Driver\Configuration\ArgumentCollection;
+use IndexEngine\Driver\Configuration\ArgumentCollectionInterface;
 use IndexEngine\Driver\Configuration\StringVectorArgument;
 use IndexEngine\Driver\DriverInterface;
 use IndexEngine\Driver\Exception\MissingLibraryException;
@@ -25,6 +26,8 @@ use IndexEngine\Driver\Exception\MissingLibraryException;
  */
 class ElasticSearchDriver implements DriverInterface
 {
+    const DEFAULT_SERVER = "localhost:9200";
+
     /**
      * @var \ElasticSearch\Client
      */
@@ -44,19 +47,21 @@ class ElasticSearchDriver implements DriverInterface
             new StringVectorArgument("servers"),
         ]);
 
-        $collection->setDefaults(["servers" => ["localhost:9200"]]);
+        $collection->setDefaults(["servers" => [static::DEFAULT_SERVER]]);
 
         return $collection;
     }
 
     /**
-     * @param ArgumentCollection $configuration
+     * @param null|ArgumentCollectionInterface $configuration
      * @return void
      *
      * If a configuration is provided in getConfiguration(), this method is called to
      * initialize the driver ( establish connection, load resources, ... )
+     *
+     * The parameter is null when getConfiguration returns null
      */
-    public function loadConfiguration(ArgumentCollection $configuration)
+    public function loadConfiguration(ArgumentCollectionInterface $configuration = null)
     {
         $hosts = $configuration->getArgument("servers");
         $resolvedHosts = [];
