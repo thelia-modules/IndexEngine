@@ -16,7 +16,13 @@ class IndexEngineDriverConfiguration extends BaseIndexEngineDriverConfiguration
 {
     public function getConfiguration()
     {
-        return json_decode(base64_decode($this->getSerializedConfiguration()), true);
+        $data = json_decode(base64_decode($this->getSerializedConfiguration()), true);
+
+        if (null === $data) {
+            $data = [];
+        }
+
+        return $data;
     }
 
     public function setConfiguration(array $conditions)

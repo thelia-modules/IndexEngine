@@ -4,7 +4,7 @@
     <div class="col-md-6">
         {form name=$form_name}
             {if $is_view_builder}
-                {$argument->buildView($form->getForm())}
+                {$argument->buildView($form) nofilter}
             {else}
                 {render_form_field form=$form field=$field_name}
             {/if}

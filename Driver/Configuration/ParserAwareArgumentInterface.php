@@ -15,11 +15,11 @@ namespace IndexEngine\Driver\Configuration;
 use Thelia\Core\Template\ParserInterface;
 
 /**
- * Interface ParserAwareArgument
+ * Interface ParserAwareArgumentInterface
  * @package IndexEngine\Driver\Configuration
  * @author Benjamin Perche <benjamin@thelia.net>
  */
-interface ParserAwareArgument
+interface ParserAwareArgumentInterface
 {
     /**
      * @param ParserInterface $parser

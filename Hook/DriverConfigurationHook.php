@@ -12,6 +12,7 @@
 
 namespace IndexEngine\Hook;
 
+use IndexEngine\Driver\Configuration\ParserAwareArgumentInterface;
 use IndexEngine\Driver\Configuration\VectorArgumentInterface;
 use IndexEngine\Driver\Configuration\ViewBuilderInterface;
 use IndexEngine\Driver\DriverRegistryInterface;
@@ -43,7 +44,11 @@ class DriverConfigurationHook extends BaseHook
 
             /** @var \IndexEngine\Driver\Configuration\ArgumentInterface $argument */
             foreach ($configuration->getArguments() as $argument) {
-                $this->render("form-field/render-form-field.html", [
+                if($argument instanceof ParserAwareArgumentInterface) {
+                    $argument->setParser($this->parser);
+                }
+
+                $content = $this->render("form-field/render-form-field.html", [
                     "form_name" => "index_engine_driver_configuration.update",
                     "form_field" => $argument->getName(),
                     "argument" => $argument,
@@ -51,6 +56,8 @@ class DriverConfigurationHook extends BaseHook
                     "is_view_builder" => $argument instanceof ViewBuilderInterface,
                     "field_count" => $i++,
                 ]);
+
+                $event->add($content);
             }
         }
     }

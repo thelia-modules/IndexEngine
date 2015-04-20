@@ -84,7 +84,8 @@
       <!-- Thelia form listener -->
       <service id="index_engine.form.thelia_form_listener" class="%index_engine.form.thelia_form_listener.class%" scope="request">
           <argument type="service" id="index_engine.configuration.manager" />
-          <argument type="service" id="index_engine.form.type_resolver" />
+          <argument type="service" id="index_engine.form.argument_form_builder" />
+          <tag name="kernel.event_subscriber" />
       </service>
 
     <!-- Thelia Studio -->
@@ -120,7 +121,7 @@
     <hooks>
         <hook id="index_engine.driver_configuration_form.hook" class="%index_engine.driver_configuration_form.hook.class%" scope="request">
             <argument type="service" id="index_engine.driver.registry" />
-            <tag name="hook.event_subscriber" type="back" active="1" event="index_engine.driver.form" />
+            <tag name="hook.event_listener" type="back" active="1" event="index_engine.driver.form" />
         </hook>
     </hooks>
 </config>

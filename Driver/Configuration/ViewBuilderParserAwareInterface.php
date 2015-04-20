@@ -17,6 +17,6 @@ namespace IndexEngine\Driver\Configuration;
  * @package IndexEngine\Driver\Configuration
  * @author Benjamin Perche <benjamin@thelia.net>
  */
-interface ViewBuilderParserAwareInterface extends ParserAwareArgument, ViewBuilderInterface
+interface ViewBuilderParserAwareInterface extends ParserAwareArgumentInterface, ViewBuilderInterface
 {
 }

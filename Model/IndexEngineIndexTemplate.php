@@ -19,7 +19,13 @@ class IndexEngineIndexTemplate extends BaseIndexEngineIndexTemplate
 
     public function getConditions()
     {
-        return json_decode(base64_decode($this->getSerializedCondition()), true);
+        $data = json_decode(base64_decode($this->getSerializedCondition()), true);
+
+        if (null === $data) {
+            $data = [];
+        }
+
+        return $data;
     }
 
     public function setConditions(array $conditions)
@@ -29,7 +35,13 @@ class IndexEngineIndexTemplate extends BaseIndexEngineIndexTemplate
 
     public function getColumns()
     {
-        return json_decode(base64_decode($this->getSerializedColumns()), true);
+        $data = json_decode(base64_decode($this->getSerializedColumns()), true);
+
+        if (null === $data) {
+            $data = [];
+        }
+
+        return $data;
     }
 
     public function setColumns(array $columns)
