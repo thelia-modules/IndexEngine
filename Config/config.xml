@@ -11,6 +11,8 @@
     <parameter key="index_engine.form.type_resolver.class">IndexEngine\Driver\Configuration\Resolver\TypeResolver</parameter>
     <parameter key="index_engine.form.thelia_form_listener.class">IndexEngine\Listener\TheliaFormSubscriber</parameter>
     <parameter key="index_engine.configuration.manager.class">IndexEngine\Manager\ConfigurationManager</parameter>
+    <parameter key="index_engine.driver_configuration_form.hook.class">IndexEngine\Hook\DriverConfigurationHook</parameter>
+    <parameter key="index_engine.form.argument_form_builder.class">IndexEngine\Form\Builder\ArgumentFormBuilder</parameter>
   </parameters>
   <loops>
     <!-- sample definition
@@ -73,8 +75,11 @@
           <argument type="service" id="index_engine.driver.registry" />
       </service>
 
-      <!-- Form type resolver -->
+      <!-- Form type resolver and builder -->
       <service id="index_engine.form.type_resolver" class="%index_engine.form.type_resolver.class%" />
+      <service id="index_engine.form.argument_form_builder" class="%index_engine.form.argument_form_builder.class%">
+        <argument type="service" id="index_engine.form.type_resolver" />
+      </service>
 
       <!-- Thelia form listener -->
       <service id="index_engine.form.thelia_form_listener" class="%index_engine.form.thelia_form_listener.class%" scope="request">
@@ -111,4 +116,11 @@
     <!-- FIX FOR THELIA 2.1 -->
     <service id="thelia.logger" class="Thelia\Tlog\Tlog" factory-class="Thelia\Tlog\Tlog" factory-method="getInstance"/>
   </services>
+
+    <hooks>
+        <hook id="index_engine.driver_configuration_form.hook" class="%index_engine.driver_configuration_form.hook.class%" scope="request">
+            <argument type="service" id="index_engine.driver.registry" />
+            <tag name="hook.event_subscriber" type="back" active="1" event="index_engine.driver.form" />
+        </hook>
+    </hooks>
 </config>
