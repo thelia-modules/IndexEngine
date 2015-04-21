@@ -9,6 +9,7 @@
 
         <column name="code" size="255" type="VARCHAR" required="true" />
         <column name="title" size="255" type="VARCHAR" required="true" />
+        <column name="type" size="255" type="VARCHAR" required="true" />
         <column name="entity" size="64" type="VARCHAR" required="true" />
         <column name="serialized_columns" type="CLOB" required="true" />
         <column name="serialized_condition" type="CLOB" required="true" />
