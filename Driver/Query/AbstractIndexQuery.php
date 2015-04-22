@@ -12,6 +12,10 @@
 
 namespace IndexEngine\Driver\Query;
 
+use IndexEngine\Driver\Query\Criterion\Criterion;
+use IndexEngine\Driver\Query\Criterion\CriterionGroup;
+use IndexEngine\Driver\Query\Criterion\CriterionGroupInterface;
+use IndexEngine\Driver\Query\Criterion\CriterionInterface;
 
 /**
  * Class AbstractIndexQuery
@@ -20,9 +24,15 @@ namespace IndexEngine\Driver\Query;
  */
 abstract class AbstractIndexQuery implements IndexQueryInterface
 {
-    protected $currentMode = self::MODE_AND;
+    private static $linkModes = [
+        Link::LINK_OR,
+        Link::LINK_AND,
+        Link::LINK_DEFAULT,
+    ];
 
-    protected $criteria = array();
+    protected $currentMode = Link::LINK_AND;
+
+    protected $criterionGroups = array();
 
 
     /**
@@ -35,10 +45,9 @@ abstract class AbstractIndexQuery implements IndexQueryInterface
      * This method adds a criterion to the criteria stack.
      * $outerMode defines the link to have with the previous criterion.
      */
-    public function filterBy($column, $value, $comparison = self::COMPARISON_EQUAL, $outerMode = self::MODE_DEFAULT)
+    public function filterBy($column, $value, $comparison = Comparison::EQUAL, $outerMode = Link::LINK_DEFAULT)
     {
-
-        return $this;
+        return $this->addCriterion(new Criterion($column, $value, $comparison), $outerMode);
     }
 
     /**
@@ -57,13 +66,29 @@ abstract class AbstractIndexQuery implements IndexQueryInterface
     public function filterByArray(
         $column,
         array $values,
-        $comparison = self::COMPARISON_EQUAL,
-        $innerMode = self::MODE_AND,
-        $outerMode = self::MODE_DEFAULT
+        $comparison = Comparison::EQUAL,
+        $innerMode = Link::LINK_AND,
+        $outerMode = Link::LINK_DEFAULT
     ) {
+
 
         return $this;
     }
 
+    public function addCriterion(CriterionInterface $criterion, $name = null, $outerMode = Link::LINK_DEFAULT)
+    {
+        $criterionGroup = new CriterionGroup();
+        $criterionGroup->addCriterion($criterion, $name);
 
+        $this->criterionGroups[] = [$criterionGroup, $outerMode];
+
+        return $this;
+    }
+
+    public function addCriterionGroup(CriterionGroupInterface $criterionGroup, $outerMode = Link::LINK_DEFAULT)
+    {
+        $this->criterionGroups[] = [$criterionGroup, $outerMode];
+
+        return $this;
+    }
 }

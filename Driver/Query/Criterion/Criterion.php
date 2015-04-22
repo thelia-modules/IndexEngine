@@ -12,13 +12,83 @@
 
 namespace IndexEngine\Driver\Query\Criterion;
 
+use IndexEngine\Driver\Query\IndexQueryInterface;
+
 
 /**
  * Class Criterion
  * @package IndexEngine\Driver\Query\Criterion
  * @author Benjamin Perche <benjamin@thelia.net>
  */
-class Criterion
+class Criterion implements CriterionInterface
 {
+    /** @var  string */
+    protected $column;
 
+    /** @var  mixed */
+    protected $value;
+
+    /** @var  string */
+    protected $comparison;
+
+    public function __construct($column, $value, $comparison = IndexQueryInterface::COMPARISON_EQUAL)
+    {
+        $this->column = $column;
+        $this->value = $value;
+        $this->comparison = $comparison;
+    }
+
+    /**
+     * @return string
+     */
+    public function getColumn()
+    {
+        return $this->column;
+    }
+
+    /**
+     * @param string $column
+     * @return $this
+     */
+    public function setColumn($column)
+    {
+        $this->column = $column;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getValue()
+    {
+        return $this->value;
+    }
+
+    /**
+     * @param mixed $value
+     * @return $this
+     */
+    public function setValue($value)
+    {
+        $this->value = $value;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getComparison()
+    {
+        return $this->comparison;
+    }
+
+    /**
+     * @param string $comparison
+     * @return $this
+     */
+    public function setComparison($comparison)
+    {
+        $this->comparison = $comparison;
+        return $this;
+    }
 }

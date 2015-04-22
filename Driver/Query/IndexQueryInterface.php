@@ -19,14 +19,6 @@ namespace IndexEngine\Driver\Query;
  */
 interface IndexQueryInterface
 {
-    const MODE_OR = "or";
-    const MODE_AND = "and";
-    const MODE_DEFAULT = null;
-
-    const COMPARISON_EQUAL = "=";
-    const COMPARISON_LIKE  = "--\_(=.=)_/--";
-    const COMPARISON_NOT_EQUAL = "<>";
-
     /**
      * @param string $column
      * @param mixed $value
@@ -37,7 +29,7 @@ interface IndexQueryInterface
      * This method adds a criterion to the criteria stack.
      * $outerMode defines the link to have with the previous criterion.
      */
-    public function filterBy($column, $value, $comparison = self::COMPARISON_EQUAL, $outerMode = self::MODE_DEFAULT);
+    public function filterBy($column, $value, $comparison = Comparison::EQUAL, $outerMode = Link::LINK_DEFAULT);
 
     /**
      * @param string $column
@@ -55,8 +47,8 @@ interface IndexQueryInterface
     public function filterByArray(
         $column,
         array $values,
-        $comparison = self::COMPARISON_EQUAL,
-        $innerMode = self::MODE_AND,
-        $outerMode = self::MODE_DEFAULT
+        $comparison = Comparison::EQUAL,
+        $innerMode = Link::LINK_AND,
+        $outerMode = Link::LINK_DEFAULT
     );
 }

@@ -10,45 +10,20 @@
 /* file that was distributed with this source code.                                  */
 /*************************************************************************************/
 
-namespace IndexEngine\Driver\Query\Criterion;
-
+namespace IndexEngine\Driver\Query;
 
 /**
- * Interface CriterionInterface
- * @package IndexEngine\Driver\Query\Criterion
+ * Class Comparison
+ * @package IndexEngine\Driver\Query
  * @author Benjamin Perche <benjamin@thelia.net>
  */
-interface CriterionInterface
+abstract class Comparison
 {
-    /**
-     * @return string
-     */
-    public function getColumn();
-
-    /**
-     * @param string $column
-     * @return $this
-     */
-    public function setColumn($column);
-
-    /**
-     * @return mixed
-     */
-    public function getValue();
-
-    /**
-     * @param mixed $value
-     * @return $this
-     */
-    public function setValue($value);
-
-    /**
-     * @return string
-     */
-    public function getComparison();
-    /**
-     * @param string $comparison
-     * @return $this
-     */
-    public function setComparison($comparison);
+    const EQUAL = "=";
+    const LIKE  = "--\_(=.=)_/--";
+    const NOT_EQUAL = "<>";
+    const LESSER = "<";
+    const LESSER_EQUAL = "<=";
+    const GREATER = ">";
+    const GREATER_EQUAL = ">=";
 }

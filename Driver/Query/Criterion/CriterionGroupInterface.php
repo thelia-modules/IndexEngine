@@ -14,41 +14,11 @@ namespace IndexEngine\Driver\Query\Criterion;
 
 
 /**
- * Interface CriterionInterface
+ * Interface CriterionGroupInterface
  * @package IndexEngine\Driver\Query\Criterion
  * @author Benjamin Perche <benjamin@thelia.net>
  */
-interface CriterionInterface
+interface CriterionGroupInterface
 {
-    /**
-     * @return string
-     */
-    public function getColumn();
 
-    /**
-     * @param string $column
-     * @return $this
-     */
-    public function setColumn($column);
-
-    /**
-     * @return mixed
-     */
-    public function getValue();
-
-    /**
-     * @param mixed $value
-     * @return $this
-     */
-    public function setValue($value);
-
-    /**
-     * @return string
-     */
-    public function getComparison();
-    /**
-     * @param string $comparison
-     * @return $this
-     */
-    public function setComparison($comparison);
 }
