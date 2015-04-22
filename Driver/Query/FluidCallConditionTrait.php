@@ -23,6 +23,10 @@ trait FluidCallConditionTrait
     protected $currentElement = -1;
     protected $executionState = 0;
 
+    /**
+     * @param bool $condition
+     * @return $this
+     */
     public function _if($condition)
     {
         array_push($this->conditionStack, (bool) $condition);
@@ -31,38 +35,66 @@ trait FluidCallConditionTrait
         return $this;
     }
 
+    /**
+     * @param bool $condition
+     * @return $this
+     */
     public function _elseif($condition)
     {
-        if (false === $this->conditionStack[$this->currentElement]) {
-            $this->conditionStack[$this->currentElement] = (bool) $condition;
-        } elseif (2 > (int) $this->conditionStack[$this->currentElement]) {
-            $this->conditionStack[$this->currentElement] = 1 + (int) $this->conditionStack[$this->currentElement];
+        if (-1 !== $this->currentElement) {
+            if (false === $this->conditionStack[$this->currentElement]) {
+                $this->conditionStack[$this->currentElement] = (bool)$condition;
+            } elseif (2 > (int)$this->conditionStack[$this->currentElement]) {
+                $this->conditionStack[$this->currentElement] = 1 + (int)$this->conditionStack[$this->currentElement];
+            }
         }
 
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function _else()
     {
-        if (2 > (int) $this->conditionStack[$this->currentElement]) {
-            $this->conditionStack[$this->currentElement] = 1 + (int) $this->conditionStack[$this->currentElement];
+        if (-1 !== $this->currentElement) {
+            if (2 > (int)$this->conditionStack[$this->currentElement]) {
+                $this->conditionStack[$this->currentElement] = 1 + (int)$this->conditionStack[$this->currentElement];
+            }
         }
 
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function _endif()
     {
-        array_pop($this->conditionStack);
-        $this->currentElement--;
-        $this->preventExecution = false;
+        if (-1 !== $this->currentElement) {
+            array_pop($this->conditionStack);
+            $this->currentElement--;
+            $this->preventExecution = false;
+        }
 
         return $this;
     }
 
+    /**
+     * @return $this|null
+     *
+     * This method must be called in conditionally chainable methods.
+     *
+     * If you want your method not to be executed if the current condition is false,
+     * add this snippet a the begining:
+     *
+     * if (null !== $return = $this->validateMethodCall()) {
+     *      return $return;
+     * }
+     */
     public function validateMethodCall()
     {
-        if (! empty($this->conditionStack) && (in_array(false, $this->conditionStack, true) || in_array(2, $this->conditionStack, true))) {
+        if (-1 !== $this->currentElement && (in_array(false, $this->conditionStack, true) || in_array(2, $this->conditionStack, true))) {
             return $this;
         }
 

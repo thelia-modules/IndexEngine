@@ -144,6 +144,10 @@ abstract class AbstractIndexQuery extends AbstractCollection implements IndexQue
     /**
      * @param $name
      * @return $this
+     *
+     * @throws \IndexEngine\Driver\Exception\InvalidNameException If the name doesn't exist
+     *
+     * Delete the criterion named $name
      */
     public function deleteCriterionGroup($name)
     {
@@ -158,5 +162,82 @@ abstract class AbstractIndexQuery extends AbstractCollection implements IndexQue
         }
 
         return $this;
+    }
+
+    /**
+     * @param $name
+     * @return mixed
+     *
+     * @throws \IndexEngine\Driver\Exception\InvalidNameException If the name doesn't exist
+     *
+     * Return the reference of the criterion named $name
+     */
+    public function &getCriterionGroup($name)
+    {
+        $name = $this->resolveString($name, __METHOD__);
+
+        if (false === $this->hasCriterionGroup($name)) {
+            throw new InvalidNameException(sprintf("The criterion group '%s' doesn't exist", $name));
+        }
+
+        return $this->criterionGroups[$name];
+    }
+
+    /**
+     * @return $this
+     *
+     * Set the default mode to Link::LINK_OR
+     */
+    public function _or()
+    {
+        if (null !== $return = $this->validateMethodCall()) {
+            return $return;
+        }
+
+        $this->currentMode = Link::LINK_OR;
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     *
+     * Set the default mode to Link::LINK_AND
+     */
+    public function _and()
+    {
+        if (null !== $return = $this->validateMethodCall()) {
+            return $return;
+        }
+
+        $this->currentMode = Link::LINK_AND;
+
+        return $this;
+    }
+
+    /**
+     * @param $method
+     * @param $arguments
+     * @return mixed
+     */
+    public function __call($method, $arguments)
+    {
+        if (preg_match("/^filterBy(([A-Z\d][a-z\d]*)+)$/", $method, $match)) {
+            $camelizedName = $match[1];
+
+            $name = preg_replace_callback(
+                "/[A-Z]/",
+                function ($match) {
+                    return "_".strtolower($match[0]);
+                },
+                lcfirst($camelizedName)
+            );
+
+            array_unshift($arguments, $name);
+
+            return call_user_func_array([$this, "filterBy"], $arguments);
+        }
+
+        throw new \BadMethodCallException(sprintf("The method %s::%s doesn't exist", __CLASS__, $method));
     }
 }
