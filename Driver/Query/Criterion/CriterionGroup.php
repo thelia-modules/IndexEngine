@@ -14,6 +14,7 @@ namespace IndexEngine\Driver\Query\Criterion;
 
 use IndexEngine\Driver\AbstractCollection;
 use IndexEngine\Driver\Exception\InvalidNameException;
+use IndexEngine\Driver\Query\Link;
 
 /**
  * Class CriterionGroup
@@ -22,44 +23,82 @@ use IndexEngine\Driver\Exception\InvalidNameException;
  */
 class CriterionGroup extends AbstractCollection implements CriterionGroupInterface
 {
+    /** @var array  */
     private $collection = array();
 
-    // Add Mode Relations
-
-    public function addCriterion(CriterionInterface $criterion, $name = null)
+    /**
+     * @param CriterionInterface $criterion
+     * @param null|string $name
+     * @param string $link
+     * @return $this
+     *
+     * Add a criterion to the group
+     */
+    public function addCriterion(CriterionInterface $criterion, $name = null, $link = Link::LINK_AND)
     {
         if (null === $name) {
-            $this->collection[] = $criterion;
+            $this->collection[] = [$criterion, $link];
         } else {
-            $this->collection[$this->resolveString($name, __METHOD__)] = $criterion;
+            $this->collection[$this->resolveString($name, __METHOD__)] = [$criterion, $link];
         }
 
         return $this;
     }
 
+    /**
+     * @param $name
+     * @return bool
+     *
+     * Check if the criterion named $name exists
+     */
     public function hasCriterion($name)
     {
         return isset($this->collection[$this->resolveString($name, __METHOD__)]);
     }
 
+    /**
+     * @param $name
+     * @return $this
+     *
+     * @throws \IndexEngine\Driver\Exception\InvalidNameException if the name doesn't exist
+     *
+     * Delete the criterion named $name.
+     */
     public function deleteCriterion($name)
     {
-        if (!$this->hasCriterion($name)) {
+        $name = $this->resolveString($name, __METHOD__);
+
+        if (false === $this->hasCriterion($name)) {
             throw new InvalidNameException(sprintf("The criterion '%s' doesn't exist in this group", $name));
         }
 
         unset($this->collection[$this->resolveString($name, __METHOD__)]);
+
+        return $this;
     }
 
+    /**
+     * @param $name
+     * @return array Composed of a CriterionInterface and the link (string)
+     *
+     * @throws \IndexEngine\Driver\Exception\InvalidNameException if the name doesn't exist
+     */
     public function getCriterion($name)
     {
-        if (!$this->hasCriterion($name)) {
+        $name = $this->resolveString($name, __METHOD__);
+
+        if (false === $this->hasCriterion($name)) {
             throw new InvalidNameException(sprintf("The criterion '%s' doesn't exist in this group", $name));
         }
 
         return $this->collection[$this->resolveString($name, __METHOD__)];
     }
 
+    /**
+     * @return array[]
+     *
+     * Dump all the criteria
+     */
     public function getCriteria()
     {
         return $this->collection;

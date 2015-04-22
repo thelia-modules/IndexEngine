@@ -12,6 +12,8 @@
 
 namespace IndexEngine\Driver\Query;
 
+use IndexEngine\Driver\AbstractCollection;
+use IndexEngine\Driver\Exception\InvalidNameException;
 use IndexEngine\Driver\Query\Criterion\Criterion;
 use IndexEngine\Driver\Query\Criterion\CriterionGroup;
 use IndexEngine\Driver\Query\Criterion\CriterionGroupInterface;
@@ -22,8 +24,10 @@ use IndexEngine\Driver\Query\Criterion\CriterionInterface;
  * @package IndexEngine\Driver\Query
  * @author Benjamin Perche <benjamin@thelia.net>
  */
-abstract class AbstractIndexQuery implements IndexQueryInterface
+abstract class AbstractIndexQuery extends AbstractCollection implements IndexQueryInterface
 {
+    use FluidCallConditionTrait;
+
     private static $linkModes = [
         Link::LINK_OR,
         Link::LINK_AND,
@@ -42,7 +46,7 @@ abstract class AbstractIndexQuery implements IndexQueryInterface
      * @param null $outerMode
      * @return $this
      *
-     * This method adds a criterion to the criteria stack.
+     * This method creates and adds a criterion.
      * $outerMode defines the link to have with the previous criterion.
      */
     public function filterBy($column, $value, $comparison = Comparison::EQUAL, $outerMode = Link::LINK_DEFAULT)
@@ -70,24 +74,88 @@ abstract class AbstractIndexQuery implements IndexQueryInterface
         $innerMode = Link::LINK_AND,
         $outerMode = Link::LINK_DEFAULT
     ) {
+        if (null !== $return = $this->validateMethodCall()) {
+            return $return;
+        }
 
+        $criterionGroup = new CriterionGroup();
 
-        return $this;
+        foreach ($values as $value) {
+            $criterionGroup->addCriterion(new Criterion($column, $value, $comparison, $innerMode));
+        }
+
+        return $this->addCriterionGroup($criterionGroup, null, $outerMode);
     }
 
+    /**
+     * @param CriterionInterface $criterion
+     * @param null|string $name
+     * @param null|string $outerMode
+     * @return AbstractIndexQuery
+     *
+     * Transforms the criterion into a criterion group and adds it to the stack
+     */
     public function addCriterion(CriterionInterface $criterion, $name = null, $outerMode = Link::LINK_DEFAULT)
     {
+        if (null !== $return = $this->validateMethodCall()) {
+            return $return;
+        }
+
         $criterionGroup = new CriterionGroup();
         $criterionGroup->addCriterion($criterion, $name);
 
-        $this->criterionGroups[] = [$criterionGroup, $outerMode];
+        return $this->addCriterionGroup($criterionGroup, $name, $outerMode);
+    }
+
+    /**
+     * @param CriterionGroupInterface $criterionGroup
+     * @param null|string $name
+     * @param null|string $outerMode
+     * @return $this
+     *
+     * Add a criterion group
+     */
+    public function addCriterionGroup(CriterionGroupInterface $criterionGroup, $name = null, $outerMode = Link::LINK_DEFAULT)
+    {
+        if (null !== $return = $this->validateMethodCall()) {
+            return $return;
+        }
+
+        if (null === $name) {
+            $this->criterionGroups[] = [$criterionGroup, $outerMode];
+        } else {
+            $this->criterionGroups[$this->resolveString($name, __METHOD__)] = [$criterionGroup, $outerMode];
+        }
 
         return $this;
     }
 
-    public function addCriterionGroup(CriterionGroupInterface $criterionGroup, $outerMode = Link::LINK_DEFAULT)
+    /**
+     * @param $name
+     * @return bool
+     *
+     * Check if the criterion group exists
+     */
+    public function hasCriterionGroup($name)
     {
-        $this->criterionGroups[] = [$criterionGroup, $outerMode];
+        return isset($this->criterionGroups[$this->resolveString($name, __METHOD__)]);
+    }
+
+    /**
+     * @param $name
+     * @return $this
+     */
+    public function deleteCriterionGroup($name)
+    {
+        if (null !== $return = $this->validateMethodCall()) {
+            return $return;
+        }
+
+        $name = $this->resolveString($name, __METHOD__);
+
+        if (false === $this->hasCriterionGroup($name)) {
+            throw new InvalidNameException(sprintf("The criterion group '%s' doesn't exist", $name));
+        }
 
         return $this;
     }

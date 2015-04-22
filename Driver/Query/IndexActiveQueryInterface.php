@@ -12,44 +12,25 @@
 
 namespace IndexEngine\Driver\Query;
 
-use IndexEngine\Driver\DriverInterface;
 
 /**
- * Class IndexActiveQuery
+ * Interface IndexActiveQueryInterface
  * @package IndexEngine\Driver\Query
  * @author Benjamin Perche <benjamin@thelia.net>
  */
-class IndexActiveQuery extends AbstractIndexQuery implements IndexActiveQueryInterface
+interface IndexActiveQueryInterface extends IndexQueryInterface
 {
-    private $driver;
-
-    public function __construct(DriverInterface $driver)
-    {
-        $this->driver = $driver;
-    }
-
-    public static function create(DriverInterface $driverInterface)
-    {
-        return new static($driverInterface);
-    }
-
     /**
      * @return \IndexEngine\Entity\IndexResult[]
      *
      * Return the list of results matching the query
      */
-    public function find()
-    {
-
-    }
+    public function find();
 
     /**
      * @return null|\IndexEngine\Entity\IndexResult
      *
      * Return the first result found matching the query, null if no result is found
      */
-    public function findOne()
-    {
-
-    }
+    public function findOne();
 }

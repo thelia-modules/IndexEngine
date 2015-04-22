@@ -11,6 +11,7 @@
 /*************************************************************************************/
 
 namespace IndexEngine\Driver\Query\Criterion;
+use IndexEngine\Driver\Query\Link;
 
 
 /**
@@ -20,5 +21,46 @@ namespace IndexEngine\Driver\Query\Criterion;
  */
 interface CriterionGroupInterface
 {
+    /**
+     * @param CriterionInterface $criterion
+     * @param null|string $name
+     * @param string $link
+     * @return $this
+     *
+     * Add a criterion to the group
+     */
+    public function addCriterion(CriterionInterface $criterion, $name = null, $link = Link::LINK_AND);
 
+    /**
+     * @param $name
+     * @return bool
+     *
+     * Check if the criterion named $name exists
+     */
+    public function hasCriterion($name);
+
+    /**
+     * @param $name
+     * @return $this
+     *
+     * @throws \IndexEngine\Driver\Exception\InvalidNameException if the name doesn't exist
+     *
+     * Delete the criterion named $name.
+     */
+    public function deleteCriterion($name);
+
+    /**
+     * @param $name
+     * @return array Composed of a CriterionInterface and the link (string)
+     *
+     * @throws \IndexEngine\Driver\Exception\InvalidNameException if the name doesn't exist
+     */
+    public function getCriterion($name);
+
+    /**
+     * @return array[]
+     *
+     * Dump all the criteria
+     */
+    public function getCriteria();
 }

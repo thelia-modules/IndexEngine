@@ -10,46 +10,15 @@
 /* file that was distributed with this source code.                                  */
 /*************************************************************************************/
 
-namespace IndexEngine\Driver\Query;
+namespace IndexEngine\Entity;
 
-use IndexEngine\Driver\DriverInterface;
 
 /**
- * Class IndexActiveQuery
- * @package IndexEngine\Driver\Query
+ * Class IndexResult
+ * @package IndexEngine\Entity
  * @author Benjamin Perche <benjamin@thelia.net>
  */
-class IndexActiveQuery extends AbstractIndexQuery implements IndexActiveQueryInterface
+class IndexResult
 {
-    private $driver;
 
-    public function __construct(DriverInterface $driver)
-    {
-        $this->driver = $driver;
-    }
-
-    public static function create(DriverInterface $driverInterface)
-    {
-        return new static($driverInterface);
-    }
-
-    /**
-     * @return \IndexEngine\Entity\IndexResult[]
-     *
-     * Return the list of results matching the query
-     */
-    public function find()
-    {
-
-    }
-
-    /**
-     * @return null|\IndexEngine\Entity\IndexResult
-     *
-     * Return the first result found matching the query, null if no result is found
-     */
-    public function findOne()
-    {
-
-    }
 }

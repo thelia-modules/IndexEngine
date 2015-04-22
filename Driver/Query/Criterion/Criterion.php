@@ -12,8 +12,7 @@
 
 namespace IndexEngine\Driver\Query\Criterion;
 
-use IndexEngine\Driver\Query\IndexQueryInterface;
-
+use IndexEngine\Driver\Query\Comparison;
 
 /**
  * Class Criterion
@@ -31,7 +30,7 @@ class Criterion implements CriterionInterface
     /** @var  string */
     protected $comparison;
 
-    public function __construct($column, $value, $comparison = IndexQueryInterface::COMPARISON_EQUAL)
+    public function __construct($column, $value, $comparison = Comparison::EQUAL)
     {
         $this->column = $column;
         $this->value = $value;

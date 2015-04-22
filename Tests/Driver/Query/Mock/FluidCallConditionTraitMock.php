@@ -10,81 +10,59 @@
 /* file that was distributed with this source code.                                  */
 /*************************************************************************************/
 
-namespace IndexEngine\Index;
+namespace IndexEngine\Tests\Driver\Query\Mock;
+
+use IndexEngine\Driver\Query\FluidCallConditionTrait;
 
 /**
- * Class IndexEntry
- * @package IndexEngine\Index
+ * Class FluidCallConditionTraitMock
+ * @package IndexEngine\Tests\Driver\Query\Mock
  * @author Benjamin Perche <benjamin@thelia.net>
  */
-class IndexEntry
+class FluidCallConditionTraitMock
 {
-    /**
-     * @var string
-     */
-    private $key;
+    use FluidCallConditionTrait;
 
-    /**
-     * @var mixed
-     */
-    private $value;
+    public $baz;
+    public $anArgument;
 
-    /**
-     * @var string
-     */
-    private $type;
-
-    /**
-     * @return string
-     */
-    public function getKey()
+    public function foo()
     {
-        return $this->key;
+        if (null !== $return = $this->validateMethodCall()) {
+            return $return;
+        }
+
+        throw new \Exception("foo");
     }
 
-    /**
-     * @param string $key
-     * @return $this
-     */
-    public function setKey($key)
+    public function bar()
     {
-        $this->key = $key;
+        if (null !== $return = $this->validateMethodCall()) {
+            return $return;
+        }
+
+        throw new \Exception("bar");
+    }
+
+    public function baz()
+    {
+        if (null !== $return = $this->validateMethodCall()) {
+            return $return;
+        }
+
+        $this->baz = "yes";
+
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getValue()
+    public function theFourthMethod()
     {
-        return $this->value;
-    }
+        if (null !== $return = $this->validateMethodCall()) {
+            return $return;
+        }
 
-    /**
-     * @param mixed $value
-     * @return $this
-     */
-    public function setValue($value)
-    {
-        $this->value = $value;
-        return $this;
-    }
+        $this->anArgument = "yes";
 
-    /**
-     * @return string
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    /**
-     * @param string $type
-     * @return $this
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
         return $this;
     }
 }
