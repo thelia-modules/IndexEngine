@@ -15,9 +15,12 @@ namespace IndexEngine\Driver\Bridge;
 use Elasticsearch\Client;
 use IndexEngine\Driver\Configuration\ArgumentCollection;
 use IndexEngine\Driver\Configuration\ArgumentCollectionInterface;
+use IndexEngine\Driver\Configuration\IntegerArgument;
 use IndexEngine\Driver\Configuration\StringVectorArgument;
 use IndexEngine\Driver\DriverInterface;
 use IndexEngine\Driver\Exception\MissingLibraryException;
+use IndexEngine\Driver\Query\IndexQueryInterface;
+use IndexEngine\Entity\IndexDataVector;
 
 /**
  * Class ElasticSearchDriver
@@ -33,6 +36,9 @@ class ElasticSearchDriver implements DriverInterface
      */
     protected $client;
 
+    private $shards;
+    private $replicas;
+
     /**
      * @return \IndexEngine\Driver\Configuration\ArgumentCollectionInterface|null
      *
@@ -45,9 +51,13 @@ class ElasticSearchDriver implements DriverInterface
     {
         $collection = new ArgumentCollection([
             new StringVectorArgument("servers"),
+            new IntegerArgument("number_of_shards"),
+            new IntegerArgument("number_of_replicas"),
         ]);
 
-        $collection->setDefaults(["servers" => [static::DEFAULT_SERVER]]);
+        $collection->setDefaults([
+            "servers" => [static::DEFAULT_SERVER]
+        ]);
 
         return $collection;
     }
@@ -83,6 +93,9 @@ class ElasticSearchDriver implements DriverInterface
         $this->client = new Client([
             "hosts" => $resolvedHosts
         ]);
+
+        $this->shards = $configuration->getArgument("number_of_shards");
+        $this->replicas = $configuration->getArgument("number_of_replicas");
     }
 
     /**
@@ -112,5 +125,39 @@ class ElasticSearchDriver implements DriverInterface
         if (! class_exists("Elasticsearch\\Client")) {
             throw MissingLibraryException::createComposer("elasticsearch/elasticsearch:~1.0", "ElasticSearch");
         }
+    }
+
+    /**
+     * @param $type
+     * @param IndexDataVector $indexDataVector
+     * @return $this
+     *
+     * @throws \IndexEngine\Driver\Exception\IndexDataPersistException If something goes wrong during recording
+     *
+     * This method is called on command and manual index launch.
+     * You have to persist each IndexData entity in your search server.
+     */
+    public function persistIndexes($type, IndexDataVector $indexDataVector)
+    {
+        $parameters = array("index" => $type);
+
+        if (null !== $this->shards) {
+            $parameters["body"]["settings"]["number_of_shards"] = $this->shards;
+        }
+
+        if (null !== $this->replicas) {
+            $parameters["body"]["settings"]["number_of_replicas"] = $this->replicas;
+        }
+    }
+
+    /**
+     * @param IndexQueryInterface $query
+     * @return \IndexEngine\Entity\IndexDataVector
+     *
+     * Translate the query for the search engine, execute it and return the values with a IndexData vector
+     */
+    public function executeQuery(IndexQueryInterface $query)
+    {
+
     }
 }

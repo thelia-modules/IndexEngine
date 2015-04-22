@@ -18,11 +18,11 @@ use Symfony\Component\DependencyInjection\Reference;
 
 
 /**
- * Class RegisterIndexProviderPass
+ * Class RegisterDriverPass
  * @package IndexEngine\DependencyInjection\Compiler
  * @author Benjamin Perche <benjamin@thelia.net>
  */
-class RegisterIndexProviderPass implements CompilerPassInterface
+class RegisterDriverPass implements CompilerPassInterface
 {
     const TAG_NAME = "index_engine.driver";
     const REGISTRY_NAME = "index_engine.driver.registry";

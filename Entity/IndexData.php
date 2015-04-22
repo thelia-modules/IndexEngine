@@ -10,17 +10,15 @@
 /* file that was distributed with this source code.                                  */
 /*************************************************************************************/
 
-namespace IndexEngine\Driver\Query;
+namespace IndexEngine\Entity;
+
 
 /**
- * Class IndexQuery
- * @package IndexEngine\Driver\Query
+ * Class IndexData
+ * @package IndexEngine\Entity
  * @author Benjamin Perche <benjamin@thelia.net>
  */
-class IndexQuery extends AbstractIndexQuery
+class IndexData
 {
-    public static function create($type)
-    {
-        return new static($type);
-    }
+
 }

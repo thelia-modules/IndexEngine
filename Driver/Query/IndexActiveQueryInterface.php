@@ -21,14 +21,14 @@ namespace IndexEngine\Driver\Query;
 interface IndexActiveQueryInterface extends IndexQueryInterface
 {
     /**
-     * @return \IndexEngine\Entity\IndexResult[]
+     * @return \IndexEngine\Entity\IndexDataVector
      *
      * Return the list of results matching the query
      */
     public function find();
 
     /**
-     * @return null|\IndexEngine\Entity\IndexResult
+     * @return null|\IndexEngine\Entity\IndexData
      *
      * Return the first result found matching the query, null if no result is found
      */

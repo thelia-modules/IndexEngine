@@ -10,7 +10,7 @@
 /* file that was distributed with this source code.                                  */
 /*************************************************************************************/
 
-namespace IndexEngine\Collector;
+namespace IndexEngine\Discovering\Collector;
 
 use IndexEngine\Event\Module\CollectEvent;
 use IndexEngine\Event\Module\EntityCollectEvent;
@@ -20,7 +20,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * Class DatabaseSubscriber
- * @package IndexEngine\Collector
+ * @package IndexEngine\Discovering\Collector
  * @author Benjamin Perche <benjamin@thelia.net>
  */
 class DatabaseSubscriber implements EventSubscriberInterface

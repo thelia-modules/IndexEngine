@@ -9,16 +9,19 @@
 /* For the full copyright and license information, please view the LICENSE.txt       */
 /* file that was distributed with this source code.                                  */
 /*************************************************************************************/
-
-namespace IndexEngine\Entity;
+namespace IndexEngine\Discovering\Repository;
 
 
 /**
- * Class IndexResult
- * @package IndexEngine\Entity
+ * Class IndexableEntityRepository
+ * @package IndexEngine\Repository
  * @author Benjamin Perche <benjamin@thelia.net>
  */
-class IndexResult
+interface IndexableEntityRepositoryInterface
 {
+    public function listIndexableEntityTypes($useCache = true);
 
+    public function listIndexableEntities($type, $useCache = true);
+
+    public function listIndexableEntityColumns($type, $entity, $useCache = true);
 }

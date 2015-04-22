@@ -28,16 +28,27 @@ abstract class AbstractIndexQuery extends AbstractCollection implements IndexQue
 {
     use FluidCallConditionTrait;
 
-    private static $linkModes = [
-        Link::LINK_OR,
-        Link::LINK_AND,
-        Link::LINK_DEFAULT,
-    ];
+    private $type;
+    private $limit;
 
+    public function __construct($type)
+    {
+        $this->type = $this->resolveString($type, __METHOD__);
+    }
+
+    /**
+     * @var string
+     *
+     * The current default link mode
+     */
     protected $currentMode = Link::LINK_AND;
 
+    /**
+     * @var \IndexEngine\Driver\Query\Criterion\CriterionGroupInterface
+     *
+     * The collection of criterion groups
+     */
     protected $criterionGroups = array();
-
 
     /**
      * @param string $column
@@ -219,6 +230,8 @@ abstract class AbstractIndexQuery extends AbstractCollection implements IndexQue
      * @param $method
      * @param $arguments
      * @return mixed
+     *
+     * @throws \BadMethodCallException If the method can't be resolved
      */
     public function __call($method, $arguments)
     {
@@ -239,5 +252,38 @@ abstract class AbstractIndexQuery extends AbstractCollection implements IndexQue
         }
 
         throw new \BadMethodCallException(sprintf("The method %s::%s doesn't exist", __CLASS__, $method));
+    }
+
+    /**
+     * @return string
+     *
+     * The index type to apply the query on
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param int $limit
+     * @return $this
+     *
+     * Set the max number of results to return
+     */
+    public function setLimit($limit)
+    {
+        $this->limit = $limit;
+
+        return $this;
+    }
+
+    /**
+     * @return int|null
+     *
+     * Get the max number of results to return
+     */
+    public function getLimit()
+    {
+        return $this->limit;
     }
 }

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config xmlns="http://thelia.net/schema/dic/config" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://thelia.net/schema/dic/config http://thelia.net/schema/dic/config/thelia-1.0.xsd">
   <parameters>
-    <parameter key="index_engine.indexable_entity_repository.class">IndexEngine\Repository\IndexableEntityRepository</parameter>
+    <parameter key="index_engine.indexable_entity_repository.class">IndexEngine\Discovering\Repository\IndexableEntityRepository</parameter>
     <parameter key="index_engine.driver.registry.class">IndexEngine\Driver\DriverRegistry</parameter>
     <parameter key="index_engine.event_dispatcher.class">Symfony\Component\EventDispatcher\EventDispatcher</parameter>
     <parameter key="index_engine.driver.elastic_search.class">IndexEngine\Driver\Bridge\ElasticSearchDriver</parameter>
-    <parameter key="index_engine.database_collector.class">IndexEngine\Collector\DatabaseSubscriber</parameter>
-    <parameter key="index_engine.loop_collector.class">IndexEngine\Collector\LoopSubscriber</parameter>
+    <parameter key="index_engine.database_collector.class">IndexEngine\Discovering\Collector\DatabaseSubscriber</parameter>
+    <parameter key="index_engine.loop_collector.class">IndexEngine\Discovering\Collector\LoopSubscriber</parameter>
     <parameter key="index_engine.form.type.index_engine_driver.class">IndexEngine\Form\Type\IndexEngineDriverType</parameter>
     <parameter key="index_engine.form.type_resolver.class">IndexEngine\Driver\Configuration\Resolver\TypeResolver</parameter>
     <parameter key="index_engine.form.thelia_form_listener.class">IndexEngine\Listener\TheliaFormSubscriber</parameter>

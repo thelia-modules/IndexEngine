@@ -10,18 +10,19 @@
 /* file that was distributed with this source code.                                  */
 /*************************************************************************************/
 
-namespace IndexEngine\Repository;
+namespace IndexEngine\Discovering\Repository;
 
 use IndexEngine\Event\Module\CollectEvent;
 use IndexEngine\Event\Module\EntityCollectEvent;
 use IndexEngine\Event\Module\EntityColumnsCollectEvent;
 use IndexEngine\Event\Module\IndexEngineEvents;
 use IndexEngine\Exception\InvalidArgumentException;
+use IndexEngine\Discovering\Repository\IndexableEntityRepositoryInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Class IndexableEntityRepository
- * @package IndexEngine\Repository
+ * @package IndexEngine\Discovering\Repository
  * @author Benjamin Perche <benjamin@thelia.net>
  */
 class IndexableEntityRepository implements IndexableEntityRepositoryInterface

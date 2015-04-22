@@ -7,7 +7,7 @@
 namespace IndexEngine;
 
 use IndexEngine\DependencyInjection\Compiler\RegisterIndexEngineListenerPass;
-use IndexEngine\DependencyInjection\Compiler\RegisterIndexProviderPass;
+use IndexEngine\DependencyInjection\Compiler\RegisterDriverPass;
 use Symfony\Component\HttpKernel\DependencyInjection\RegisterListenersPass;
 use Thelia\Core\Template\TemplateDefinition;
 use Thelia\Module\BaseModule;
@@ -33,7 +33,7 @@ class IndexEngine extends BaseModule
     public static function getCompilers()
     {
         return [
-            new RegisterIndexProviderPass(),
+            new RegisterDriverPass(),
             new RegisterListenersPass("index_engine.event_dispatcher", "index_engine.event_listener", "index_engine.event_subscriber"),
         ];
     }

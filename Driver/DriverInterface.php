@@ -13,6 +13,8 @@
 namespace IndexEngine\Driver;
 
 use IndexEngine\Driver\Configuration\ArgumentCollectionInterface;
+use IndexEngine\Driver\Query\IndexQueryInterface;
+use IndexEngine\Entity\IndexDataVector;
 
 /**
  * Interface DriverInterface
@@ -41,6 +43,26 @@ interface DriverInterface
      * The parameter is null when getConfiguration returns null
      */
     public function loadConfiguration(ArgumentCollectionInterface $configuration = null);
+
+    /**
+     * @param $type
+     * @param IndexDataVector $indexDataVector
+     * @return $this
+     *
+     * @throws \IndexEngine\Driver\Exception\IndexDataPersistException If something goes wrong during recording
+     *
+     * This method is called on command and manual index launch.
+     * You have to persist each IndexData entity in your search server.
+     */
+    public function persistIndexes($type, IndexDataVector $indexDataVector);
+
+    /**
+     * @param IndexQueryInterface $query
+     * @return \IndexEngine\Entity\IndexDataVector
+     *
+     * Translate the query for the search engine, execute it and return the values with a IndexData vector
+     */
+    public function executeQuery(IndexQueryInterface $query);
 
     /**
      * @return string

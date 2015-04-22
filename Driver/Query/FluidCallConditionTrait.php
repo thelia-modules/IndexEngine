@@ -16,6 +16,14 @@ namespace IndexEngine\Driver\Query;
  * Class FluidCallConditionTrait
  * @package IndexEngine\Driver\Query
  * @author Benjamin Perche <benjamin@thelia.net>
+ *
+ *
+ * If you want your methods not to be executed if the current condition is false,
+ * add this snippet a the begining:
+ *
+ * if (null !== $return = $this->validateMethodCall()) {
+ *      return $return;
+ * }
  */
 trait FluidCallConditionTrait
 {
@@ -84,13 +92,6 @@ trait FluidCallConditionTrait
      * @return $this|null
      *
      * This method must be called in conditionally chainable methods.
-     *
-     * If you want your method not to be executed if the current condition is false,
-     * add this snippet a the begining:
-     *
-     * if (null !== $return = $this->validateMethodCall()) {
-     *      return $return;
-     * }
      */
     public function validateMethodCall()
     {

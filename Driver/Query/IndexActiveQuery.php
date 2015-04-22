@@ -23,33 +23,35 @@ class IndexActiveQuery extends AbstractIndexQuery implements IndexActiveQueryInt
 {
     private $driver;
 
-    public function __construct(DriverInterface $driver)
+    public function __construct($type, DriverInterface $driver)
     {
         $this->driver = $driver;
+
+        parent::__construct($type);
     }
 
-    public static function create(DriverInterface $driverInterface)
+    public static function create($type, DriverInterface $driverInterface)
     {
-        return new static($driverInterface);
+        return new static($type, $driverInterface);
     }
 
     /**
-     * @return \IndexEngine\Entity\IndexResult[]
+     * @return \IndexEngine\Entity\IndexDataVector
      *
      * Return the list of results matching the query
      */
     public function find()
     {
-
+        return $this->driver->executeQuery($this);
     }
 
     /**
-     * @return null|\IndexEngine\Entity\IndexResult
+     * @return null|\IndexEngine\Entity\IndexData
      *
      * Return the first result found matching the query, null if no result is found
      */
     public function findOne()
     {
-
+        return $this->driver->executeQuery($this->setLimit(1));
     }
 }

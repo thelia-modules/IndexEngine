@@ -9,19 +9,14 @@
 /* For the full copyright and license information, please view the LICENSE.txt       */
 /* file that was distributed with this source code.                                  */
 /*************************************************************************************/
-namespace IndexEngine\Repository;
 
+namespace IndexEngine\Driver\Exception;
 
 /**
- * Class IndexableEntityRepository
- * @package IndexEngine\Repository
+ * Class IndexDataPersistException
+ * @package IndexEngine\Driver\Exception
  * @author Benjamin Perche <benjamin@thelia.net>
  */
-interface IndexableEntityRepositoryInterface
+class IndexDataPersistException extends \RuntimeException
 {
-    public function listIndexableEntityTypes($useCache = true);
-
-    public function listIndexableEntities($type, $useCache = true);
-
-    public function listIndexableEntityColumns($type, $entity, $useCache = true);
 }
