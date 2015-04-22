@@ -21,6 +21,7 @@ use IndexEngine\Driver\DriverInterface;
 use IndexEngine\Driver\Exception\MissingLibraryException;
 use IndexEngine\Driver\Query\IndexQueryInterface;
 use IndexEngine\Entity\IndexDataVector;
+use IndexEngine\Entity\IndexMapping;
 
 /**
  * Class ElasticSearchDriver
@@ -128,18 +129,15 @@ class ElasticSearchDriver implements DriverInterface
     }
 
     /**
-     * @param $type
-     * @param IndexDataVector $indexDataVector
-     * @return $this
+     * @param string $type
+     * @param IndexMapping $mapping
+     * @return void
      *
-     * @throws \IndexEngine\Driver\Exception\IndexDataPersistException If something goes wrong during recording
-     *
-     * This method is called on command and manual index launch.
-     * You have to persist each IndexData entity in your search server.
+     * This method has to create the index with the given mapping
      */
-    public function persistIndexes($type, IndexDataVector $indexDataVector)
+    public function createIndex($type, IndexMapping $mapping)
     {
-        $parameters = array("index" => $type);
+        $parameters = array("index" => $type."_index");
 
         if (null !== $this->shards) {
             $parameters["body"]["settings"]["number_of_shards"] = $this->shards;
@@ -148,6 +146,33 @@ class ElasticSearchDriver implements DriverInterface
         if (null !== $this->replicas) {
             $parameters["body"]["settings"]["number_of_replicas"] = $this->replicas;
         }
+
+        $esMapping = &$parameters["body"]["mappings"][$type];
+
+        foreach ($mapping->getMapping() as $column => $type) {
+            switch ($type) {
+                case $mapping::TYPE_STRING:
+                    break;
+            }
+        }
+
+        $this->client->indices()->create($parameters);
+    }
+
+    /**
+     * @param $type
+     * @param IndexDataVector $indexDataVector
+     * @param IndexMapping $mapping
+     * @return void
+     *
+     * @throws \IndexEngine\Driver\Exception\IndexDataPersistException If something goes wrong during recording
+     *
+     * This method is called on command and manual index launch.
+     * You have to persist each IndexData entity in your search server.
+     */
+    public function persistIndexes($type, IndexDataVector $indexDataVector, IndexMapping $mapping)
+    {
+
     }
 
     /**
@@ -157,6 +182,17 @@ class ElasticSearchDriver implements DriverInterface
      * Translate the query for the search engine, execute it and return the values with a IndexData vector
      */
     public function executeQuery(IndexQueryInterface $query)
+    {
+
+    }
+
+    /**
+     * @param $type
+     * @return void
+     *
+     * Delete the index the belong to the given type
+     */
+    public function deleteIndex($type)
     {
 
     }

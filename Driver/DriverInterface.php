@@ -15,6 +15,7 @@ namespace IndexEngine\Driver;
 use IndexEngine\Driver\Configuration\ArgumentCollectionInterface;
 use IndexEngine\Driver\Query\IndexQueryInterface;
 use IndexEngine\Entity\IndexDataVector;
+use IndexEngine\Entity\IndexMapping;
 
 /**
  * Interface DriverInterface
@@ -45,16 +46,34 @@ interface DriverInterface
     public function loadConfiguration(ArgumentCollectionInterface $configuration = null);
 
     /**
+     * @param string $type
+     * @param IndexMapping $mapping
+     * @return void
+     *
+     * This method has to create the index with the given mapping
+     */
+    public function createIndex($type, IndexMapping $mapping);
+
+    /**
+     * @param $type
+     * @return void
+     *
+     * Delete the index the belong to the given type
+     */
+    public function deleteIndex($type);
+
+    /**
      * @param $type
      * @param IndexDataVector $indexDataVector
-     * @return $this
+     * @param IndexMapping $mapping
+     * @return void
      *
      * @throws \IndexEngine\Driver\Exception\IndexDataPersistException If something goes wrong during recording
      *
      * This method is called on command and manual index launch.
      * You have to persist each IndexData entity in your search server.
      */
-    public function persistIndexes($type, IndexDataVector $indexDataVector);
+    public function persistIndexes($type, IndexDataVector $indexDataVector, IndexMapping $mapping);
 
     /**
      * @param IndexQueryInterface $query
