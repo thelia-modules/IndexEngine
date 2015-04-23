@@ -27,6 +27,8 @@ class RegisterDriverPass implements CompilerPassInterface
     const TAG_NAME = "index_engine.driver";
     const REGISTRY_NAME = "index_engine.driver.registry";
 
+    const EVENT_DISPATCHER_NAME = "index_engine.event_dispatcher";
+
     /**
      * You can modify the container here before it is dumped to PHP code.
      *
@@ -36,14 +38,19 @@ class RegisterDriverPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition(static::REGISTRY_NAME)) {
+        if (!$container->hasDefinition(static::REGISTRY_NAME) || !$container->hasDefinition(static::EVENT_DISPATCHER_NAME)) {
             return;
         }
 
         $registry = $container->getDefinition(static::REGISTRY_NAME);
+        $dispatcherReference = new Reference(static::EVENT_DISPATCHER_NAME);
 
         foreach ($container->findTaggedServiceIds(static::TAG_NAME) as $id => $tag) {
             $registry->addMethodCall("addDriver", [new Reference($id)]);
+
+            // Inject the dispatcher in the driver
+            $driver = $container->getDefinition($id);
+            $driver->addMethodCall("setDispatcher", [$dispatcherReference]);
         }
     }
 }

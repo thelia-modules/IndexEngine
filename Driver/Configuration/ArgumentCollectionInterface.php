@@ -19,7 +19,7 @@ use IndexEngine\Driver\CollectionInterface;
  * @package IndexEngine\Driver\Configuration
  * @author Benjamin Perche <benjamin@thelia.net>
  */
-interface ArgumentCollectionInterface extends CollectionInterface
+interface ArgumentCollectionInterface extends CollectionInterface, \Countable
 {
     /**
      * @param ArgumentInterface $driver

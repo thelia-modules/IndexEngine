@@ -22,7 +22,7 @@ use IndexEngine\Entity\IndexMapping;
  * @package IndexEngine\Driver
  * @author Benjamin Perche <benjamin@thelia.net>
  */
-interface DriverInterface
+interface DriverInterface extends EventDispatcherAwareInterface
 {
     /**
      * @return \IndexEngine\Driver\Configuration\ArgumentCollectionInterface|null

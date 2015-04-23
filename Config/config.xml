@@ -4,7 +4,8 @@
     <parameter key="index_engine.indexable_entity_repository.class">IndexEngine\Discovering\Repository\IndexableEntityRepository</parameter>
     <parameter key="index_engine.driver.registry.class">IndexEngine\Driver\DriverRegistry</parameter>
     <parameter key="index_engine.event_dispatcher.class">Symfony\Component\EventDispatcher\EventDispatcher</parameter>
-    <parameter key="index_engine.driver.elastic_search.class">IndexEngine\Driver\Bridge\ElasticSearchDriver</parameter>
+    <parameter key="index_engine.driver.elastic_search.class">IndexEngine\Driver\Bridge\ElasticSearch\ElasticSearchDriver</parameter>
+    <parameter key="index_engine.driver.elastic_search_listener.class">IndexEngine\Driver\Bridge\ElasticSearch\ElasticSearchListener</parameter>
     <parameter key="index_engine.database_collector.class">IndexEngine\Discovering\Collector\DatabaseSubscriber</parameter>
     <parameter key="index_engine.loop_collector.class">IndexEngine\Discovering\Collector\LoopSubscriber</parameter>
     <parameter key="index_engine.form.type.index_engine_driver.class">IndexEngine\Form\Type\IndexEngineDriverType</parameter>
@@ -59,9 +60,14 @@
     <service id="index_engine.event_dispatcher" class="%index_engine.event_dispatcher.class%"/>
 
     <!-- Bridge drivers -->
-    <service id="index_engine.driver.elastic_search" class="%index_engine.driver.elastic_search.class%">
-      <tag name="index_engine.driver"/>
-    </service>
+        <!-- elastic search -->
+        <service id="index_engine.driver.elastic_search" class="%index_engine.driver.elastic_search.class%">
+            <tag name="index_engine.driver"/>
+        </service>
+
+      <service id="index_engine.driver.elastic_search_listener" class="%index_engine.driver.elastic_search_listener.class%">
+          <tag name="index_engine.event_subscriber" />
+      </service>
 
       <!-- Form types -->
       <service id="index_engine.form.type.index_engine_driver" class="%index_engine.form.type.index_engine_driver.class%">
@@ -88,6 +94,12 @@
           <tag name="kernel.event_subscriber" />
       </service>
 
+      <!-- Well ... -->
+      <service id="index_engine.propel_connection_wrapper" factory-class="Propel\Runtime\Propel" factory-method="getConnection" class="Propel\Runtime\Connection\ConnectionWrapper"/>
+      <service id="index_engine.propel_connection" factory-service="index_engine.propel_connection_wrapper" factory-method="getWrappedConnection" class="PDO"/>
+      <!-- FIX FOR THELIA 2.1 -->
+      <service id="thelia.logger" class="Thelia\Tlog\Tlog" factory-class="Thelia\Tlog\Tlog" factory-method="getInstance"/>
+
     <!-- Thelia Studio -->
     <service id="action.indexengine.index_engine_index_table" class="IndexEngine\Action\IndexEngineIndexAction">
       <tag name="kernel.event_subscriber"/>
@@ -110,12 +122,6 @@
       <argument id="thelia.translator" type="service"/>
       <tag name="thelia.form.type"/>
     </service>
-
-    <!-- Well ... -->
-    <service id="index_engine.propel_connection_wrapper" factory-class="Propel\Runtime\Propel" factory-method="getConnection" class="Propel\Runtime\Connection\ConnectionWrapper"/>
-    <service id="index_engine.propel_connection" factory-service="index_engine.propel_connection_wrapper" factory-method="getWrappedConnection" class="PDO"/>
-    <!-- FIX FOR THELIA 2.1 -->
-    <service id="thelia.logger" class="Thelia\Tlog\Tlog" factory-class="Thelia\Tlog\Tlog" factory-method="getInstance"/>
   </services>
 
     <hooks>
