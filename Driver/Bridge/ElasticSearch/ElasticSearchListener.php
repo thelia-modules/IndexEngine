@@ -68,7 +68,7 @@ class ElasticSearchListener extends DriverEventSubscriber
         $type = $event->getType();
         $mapping = $event->getMapping();
 
-        $parameters = array("index" => $this->generateIndexNameFromType($type));
+        $parameters = array("index" => $type);
         $driver = $this->getDriver();
 
         $shards = $driver->getExtraConfiguration("number_of_shards");
@@ -99,7 +99,7 @@ class ElasticSearchListener extends DriverEventSubscriber
     public function indexExists(IndexEvent $event)
     {
         $exists = $this->getClient()->indices()->exists(array(
-            "index" => $this->generateIndexNameFromType($event->getType()),
+            "index" => $event->getType(),
         ));
 
         if (false === $exists) {
@@ -110,17 +110,8 @@ class ElasticSearchListener extends DriverEventSubscriber
     public function deleteIndex(IndexEvent $event)
     {
         $type = $event->getType();
-
-        if ($this->getDriver()->indexExists($type)) {
-            $data = $this->getClient()->indices()->delete(array("index" => $this->generateIndexNameFromType($type)));
-
-            $event->setExtraData($data);
-        }
-    }
-
-    protected function generateIndexNameFromType($type)
-    {
-        return $type."_index";
+        $data = $this->getClient()->indices()->delete(array("index" => $type));
+        $event->setExtraData($data);
     }
 
     protected function resolveType($type)
