@@ -12,36 +12,30 @@
 
 namespace IndexEngine\IO\Command;
 
-use IndexEngine\DependencyInjection\Compiler\RegisterDriverPass;
-use Symfony\Component\Console\Helper\TableHelper;
+use Symfony\Component\Console\Input\InputArgument;
+use Thelia\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Thelia\Command\ContainerAwareCommand;
 
 /**
- * Class ListDriverCommand
+ * Class IndexCreateCommand
  * @package IndexEngine\IO\Command
  * @author Benjamin Perche <benjamin@thelia.net>
  */
-class ListDriverCommand extends ContainerAwareCommand
+class IndexCreateCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
-        $this->setName("index:driver:list");
+        $this
+            ->setName("index:create")
+            ->addArgument("driver-configuration", InputArgument::REQUIRED, "The driver configuration title to use")
+            ->addArgument("index-configuration", InputArgument::REQUIRED, "The index configuration code to use")
+        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        /** @var \IndexEngine\Driver\DriverRegistryInterface $registry */
-        $registry = $this->getContainer()->get(RegisterDriverPass::REGISTRY_NAME);
-
-        $table = new TableHelper();
-        $table->setHeaders(["Code", "Class"]);
-
-        foreach ($registry->getDrivers() as $code => $driver) {
-            $table->addRow([$code, get_class($driver)]);
-        }
-
-        $table->render($output);
+        // @TODO wesh
     }
+
 }

@@ -32,10 +32,29 @@ interface ConfigurationManagerInterface
      * @param bool $loadIntoDriver If true, the found configuration will be loaded into the driver
      * @return \IndexEngine\Entity\DriverConfiguration
      *
-     * @throws \IndexEngine\Driver\Exception\InvalidDriverCodeException
      * @throws \IndexEngine\Driver\Exception\OutOfBoundsException
      *
      * Retrieve the current configuration object
      */
     public function getCurrentConfiguration($loadIntoDriver = false);
+
+    /**
+     * @param int $configurationId
+     * @param bool $loadIntoDriver
+     * @return \IndexEngine\Entity\DriverConfiguration
+     *
+     * Get the configuration from the ID
+     */
+    public function getConfiguration($configurationId, $loadIntoDriver = false);
+
+    /**
+     * @param string $configurationCode
+     * @param bool $loadIntoDriver
+     * @return \IndexEngine\Entity\DriverConfiguration
+     *
+     * @throws \IndexEngine\Driver\Exception\InvalidDriverCodeException
+     *
+     * Get the configuration from a code
+     */
+    public function getConfigurationFromCode($configurationCode, $loadIntoDriver = false);
 }

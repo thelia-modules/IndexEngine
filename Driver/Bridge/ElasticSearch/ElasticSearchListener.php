@@ -102,6 +102,8 @@ class ElasticSearchListener extends DriverEventSubscriber
 
         foreach ($mapping->getMapping() as $column => $type) {
             $resolvedType = $this->resolveType($type);
+
+            $esMapping["proprieties"][$column] = $resolvedType;
         }
 
         $data = $this->getClient()->indices()->create($parameters);

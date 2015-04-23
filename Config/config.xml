@@ -15,7 +15,9 @@
     <parameter key="index_engine.driver_configuration_form.hook.class">IndexEngine\Hook\DriverConfigurationHook</parameter>
     <parameter key="index_engine.form.argument_form_builder.class">IndexEngine\Form\Builder\ArgumentFormBuilder</parameter>
     <!-- Commands -->
-    <parameter key="index_engine.command.list_drivers.class">IndexEngine\IO\Command\ListDriverCommand</parameter>
+    <parameter key="index_engine.command.list_drivers.class">IndexEngine\IO\Command\IndexDriverListCommand</parameter>
+      <parameter key="index_engine.command.index_exists.class">IndexEngine\IO\Command\IndexExistsCommand</parameter>
+      <parameter key="index_engine.command.configuration_list.class">IndexEngine\IO\Command\IndexConfigurationListCommand</parameter>
   </parameters>
   <loops>
     <!-- sample definition
@@ -38,6 +40,8 @@
   </forms>
   <commands>
     <command class="%index_engine.command.list_drivers.class%"/>
+    <command class="%index_engine.command.index_exists.class%"/>
+    <command class="%index_engine.command.configuration_list.class%"/>
   </commands>
   <services>
     <service id="index_engine.indexable_entity_repository" class="%index_engine.indexable_entity_repository.class%">

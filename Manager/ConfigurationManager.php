@@ -13,6 +13,7 @@
 namespace IndexEngine\Manager;
 
 use IndexEngine\Driver\DriverRegistryInterface;
+use IndexEngine\Driver\Exception\InvalidDriverCodeException;
 use IndexEngine\Driver\Exception\OutOfBoundsException;
 use IndexEngine\Entity\DriverConfiguration;
 use IndexEngine\Model\IndexEngineDriverConfigurationQuery;
@@ -54,7 +55,6 @@ class ConfigurationManager implements ConfigurationManagerInterface
      * @param bool $loadIntoDriver If true, the found configuration will be loaded into the driver
      * @return \IndexEngine\Entity\DriverConfiguration
      *
-     * @throws \IndexEngine\Driver\Exception\InvalidDriverCodeException
      * @throws \IndexEngine\Driver\Exception\OutOfBoundsException
      *
      * Retrieve the current configuration object
@@ -62,6 +62,19 @@ class ConfigurationManager implements ConfigurationManagerInterface
     public function getCurrentConfiguration($loadIntoDriver = false)
     {
         $configurationId = $this->getCurrentConfigurationId();
+
+        return $this->getConfiguration($configurationId, $loadIntoDriver);
+    }
+
+    /**
+     * @param int $configurationId
+     * @param bool $loadIntoDriver
+     * @return DriverConfiguration
+     *
+     * Get the configuration from the ID
+     */
+    public function getConfiguration($configurationId, $loadIntoDriver = false)
+    {
         $dbConfiguration = IndexEngineDriverConfigurationQuery::create()->findPk($configurationId);
 
         if (null === $dbConfiguration) {
@@ -82,5 +95,26 @@ class ConfigurationManager implements ConfigurationManagerInterface
         }
 
         return new DriverConfiguration($driver, $configuration);
+    }
+
+    /**
+     * @param string $configurationCode
+     * @param bool $loadIntoDriver
+     * @return DriverConfiguration
+     *
+     * @throws \IndexEngine\Driver\Exception\InvalidDriverCodeException
+     *
+     * Get the configuration from a code
+     */
+    public function getConfigurationFromCode($configurationCode, $loadIntoDriver = false)
+    {
+        $dbConfiguration = IndexEngineDriverConfigurationQuery::create()->findOneByCode($configurationCode);
+
+        if (null === $dbConfiguration) {
+            throw new InvalidDriverCodeException(sprintf("The driver configuration code '%s' doesn't exist", $configurationCode));
+        }
+
+
+        return $this->getConfiguration($dbConfiguration->getId(), $loadIntoDriver);
     }
 }

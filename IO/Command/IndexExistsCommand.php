@@ -16,6 +16,8 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Thelia\Command\ContainerAwareCommand;
+use Thelia\Command\Output\TheliaConsoleOutput;
+use Thelia\Core\HttpFoundation\Request;
 
 
 /**
@@ -28,16 +30,56 @@ class IndexExistsCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName("index:create")
-            ->addArgument("driver-configuration", InputArgument::REQUIRED, "The driver configuration title to use")
+            ->setName("index:exists")
+            ->addArgument("driver-configuration", InputArgument::REQUIRED, "The driver configuration code to use")
             ->addArgument("index-type", InputArgument::REQUIRED, "The index type to check")
         ;
     }
 
+    /**
+     * @param InputInterface $input
+     * @param TheliaConsoleOutput $output
+     * @return int|null|void
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $configurationTitle = $input->getArgument("driver-configuration");
+        $configurationCode = $input->getArgument("driver-configuration");
+        $indexType = $input->getArgument("index-type");
 
+        $configuration = $this->getManager()->getConfigurationFromCode($configurationCode, true);
+        $driver = $configuration->getDriver();
 
+        if ($driver->indexExists($indexType)) {
+            $output->renderBlock([
+                "",
+                sprintf("The index type '%s' exists with the configuration '%s'", $indexType, $configurationCode),
+                ""
+            ], "bg=green;fg=black");
+
+            return 0;
+        }
+
+        $output->renderBlock([
+            "",
+            sprintf("The index type '%s' doesn't exist with the configuration '%s'", $indexType, $configurationCode),
+            ""
+        ], "bg=red;fg=white");
+
+        return 1;
+    }
+
+    /**
+     * @return \IndexEngine\Manager\ConfigurationManagerInterface
+     */
+    protected function getManager()
+    {
+        $container = $this->getContainer();
+
+        if (!$container->isScopeActive("request")) {
+            $container->enterScope("request");
+            $container->set("request", new Request());
+        }
+
+        return $container->get("index_engine.configuration.manager");
     }
 }
