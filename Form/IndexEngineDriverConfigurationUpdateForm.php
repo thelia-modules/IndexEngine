@@ -17,10 +17,8 @@ class IndexEngineDriverConfigurationUpdateForm extends BaseIndexEngineDriverConf
     public function getTranslationKeys()
     {
         return array(
-            "id" => "id",
-            "driver_code" => "driver_code",
-            "title" => "title",
-            "serialized_configuration" => "serialized_configuration",
+            "title" => "Title",
+            "code" => "Code",
         );
     }
 

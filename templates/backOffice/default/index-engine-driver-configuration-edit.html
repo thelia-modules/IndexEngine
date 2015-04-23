@@ -5,7 +5,7 @@
     {$admin_current_location = 'tools'}
 {/block}
 
-{block name="page-title"}{intl l='IndexEngineDriverConfiguration'}{/block}
+{block name="page-title"}{intl l='IndexEngine driver configuration'}{/block}
 
 {block name="check-resource"}admin.module{/block}
 {block name="check-access"}update{/block}
@@ -43,7 +43,7 @@
 
                         {loop name="index_engine_driver_configuration_update" type="index-engine-driver-configuration" backend_context="yes" id=$index_engine_driver_configuration_id lang=$edit_language_id}
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     {form_field form=$form field="title"}
                                         <div class="form-group">
                                             <label class="control-label" for="{$label_attr.for}">
@@ -57,7 +57,21 @@
                                         </div>
                                     {/form_field}
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
+                                    {form_field form=$form field="code"}
+                                        <div class="form-group">
+                                            <label class="control-label" for="{$label_attr.for}">
+                                                {$label}
+                                                {if $required}<span class="required">*</span>{/if}
+                                            </label>
+
+                                            {form_error form=$form field="code"}{$message}{/form_error}
+
+                                            <input type="text" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$CODE}" placeholder="{intl l='The configuration unique code'}" />
+                                        </div>
+                                    {/form_field}
+                                </div>
+                                <div class="col-md-4">
                                     <label for="index_engine_driver">{intl l="Driver"}</label>
                                     <input type="text" readonly class="form-control" value="{$DRIVER_CODE}" id="index_engine_driver"/>
                                 </div>

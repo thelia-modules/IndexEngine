@@ -36,6 +36,7 @@ class IndexEngineDriverConfigurationCreateForm extends BaseIndexEngineDriverConf
         return array(
             "driver_code" => "Driver code",
             "title" => "Title",
+            "code" => "Code",
         );
     }
 

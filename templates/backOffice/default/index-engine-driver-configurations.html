@@ -5,7 +5,7 @@
     {$admin_current_location = 'tools'}
 {/block}
 
-{block name="page-title"}{intl l='IndexEngineDriverConfiguration'}{/block}
+{block name="page-title"}{intl l='IndexEngine driver configuration'}{/block}
 
 {block name="check-resource"}admin.module{/block}
 {block name="check-access"}view{/block}
@@ -50,6 +50,15 @@
                         <th>
                             {admin_sortable_header
                             current_order=$order
+                            order='code'
+                            reverse_order='code-reverse'
+                            path={url path='/admin/module/IndexEngine/index_engine_driver_configuration' target='index_engine_driver_configuration-table'}
+                            label="{intl l='Code' d='indexengine.bo.default'}"
+                            }
+                        </th>
+                        <th>
+                            {admin_sortable_header
+                            current_order=$order
                             order='title'
                             reverse_order='title-reverse'
                             path={url path='/admin/module/IndexEngine/index_engine_driver_configuration' target='index_engine_driver_configuration-table'}
@@ -76,6 +85,9 @@
                         <tr>
                             <td>
                                 <a href="{url path='/admin/module/IndexEngine/index_engine_driver_configuration/edit' index_engine_driver_configuration_id=$ID}">{$ID}</a>
+                            </td>
+                            <td>
+                                {$CODE}
                             </td>
                             <td>
                                 <a href="{url path='/admin/module/IndexEngine/index_engine_driver_configuration/edit' index_engine_driver_configuration_id=$ID}">{$TITLE}</a>
@@ -142,6 +154,30 @@
 
         {render_form_field form=$form field="success_url" value={url path='/admin/module/IndexEngine/index_engine_driver_configuration/edit?index_engine_driver_configuration_id=_ID_'}}
 
+        {form_field form=$form field="code"}
+            <div class="form-group">
+                <label class="control-label" for="{$label_attr.for}">
+                    {$label}
+                    {if $required}<span class="required">*</span>{/if}
+                </label>
+
+                {form_error form=$form field="code"}{$message}{/form_error}
+
+                <input type="text" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$TITLE}" placeholder="{intl l='The configuration unique code'}" />
+            </div>
+        {/form_field}
+        {form_field form=$form field="title"}
+            <div class="form-group">
+                <label class="control-label" for="{$label_attr.for}">
+                    {$label}
+                    {if $required}<span class="required">*</span>{/if}
+                </label>
+
+                {form_error form=$form field="title"}{$message}{/form_error}
+
+                <input type="text" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$TITLE}" placeholder="{intl l='The configuration title'}" />
+            </div>
+        {/form_field}
         {form_field form=$form field="driver_code"}
             <div class="form-group">
                 <label class="control-label" for="{$label_attr.for}">
@@ -156,18 +192,6 @@
                         <option value="{$choice->value}">{$choice->label}</option>
                     {/foreach}
                 </select>
-            </div>
-        {/form_field}
-        {form_field form=$form field="title"}
-            <div class="form-group">
-                <label class="control-label" for="{$label_attr.for}">
-                    {$label}
-                    {if $required}<span class="required">*</span>{/if}
-                </label>
-
-                {form_error form=$form field="title"}{$message}{/form_error}
-
-                <input type="text" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$TITLE}" placeholder="{intl l='The IndexEngineDriverConfiguration title'}" />
             </div>
         {/form_field}
     {/capture}
