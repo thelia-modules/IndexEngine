@@ -12,10 +12,12 @@
 
 namespace IndexEngine\Form\Type;
 
+use IndexEngine\Driver\Exception\MissingLibraryException;
+use IndexEngine\IndexEngine;
 use Symfony\Component\Form\AbstractType;
 use IndexEngine\Driver\DriverRegistryInterface;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class IndexEngineDriverType
@@ -24,19 +26,33 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  */
 class IndexEngineDriverType extends AbstractType
 {
+    /** @var DriverRegistryInterface  */
     private $registry;
 
-    public function __construct(DriverRegistryInterface $registry)
+    /** @var TranslatorInterface  */
+    private $translator;
+
+    public function __construct(DriverRegistryInterface $registry, TranslatorInterface $translator)
     {
         $this->registry = $registry;
+        $this->translator = $translator;
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $codes = [];
 
-        foreach ($this->registry->getDriverCodes() as $code) {
-            $codes[$code] = $code;
+        $missingDependencyText = $this->translator->trans("Missing dependency", [], IndexEngine::MESSAGE_DOMAIN);
+
+        foreach ($this->registry->getDrivers() as $code => $driver) {
+            try {
+                $driver->checkDependencies();
+                $label = $code;
+            } catch (MissingLibraryException $e) {
+                $label = sprintf("%s (%s)", $code, $missingDependencyText);
+            }
+
+            $codes[$code] = $label;
         }
 
         $resolver->replaceDefaults([

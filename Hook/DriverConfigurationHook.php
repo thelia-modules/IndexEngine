@@ -64,6 +64,8 @@ class DriverConfigurationHook extends BaseHook
             $configuration = $driver->getConfiguration();
             $i = 0;
 
+            $content = "";
+
             /** @var \IndexEngine\Driver\Configuration\ArgumentInterface $argument */
             foreach ($configuration->getArguments() as $argument) {
                 if($argument instanceof ParserAwareArgumentInterface) {
@@ -72,24 +74,25 @@ class DriverConfigurationHook extends BaseHook
 
                 $formattedTitle = $this->formatTitle($argument->getName());
 
-                $content = $this->render("form-field/render-form-field.html", [
+                $content .= $this->render("form-field/render-form-field.html", [
                     "driver_code" => $driverCode,
                     "form_name" => "index_engine_driver_configuration.update",
                     "form_field" => $argument->getName(),
                     "argument" => $argument,
                     "is_vector" => $argument instanceof VectorArgumentInterface,
                     "is_view_builder" => $argument instanceof ViewBuilderInterface,
+                    "is_field_count_even" => $i % 2 === 0,
                     "field_count" => $i++,
                     "formatted_title" => $formattedTitle,
                 ]);
-
-                $event->add($content);
             }
+
+            $event->add($content);
         }
     }
 
     protected function formatTitle($name)
     {
-        return preg_replace("/[_\.\-]/", "", ucfirst($name));
+        return preg_replace("/[_\.\-]/", " ", ucfirst($name));
     }
 }

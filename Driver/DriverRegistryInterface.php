@@ -76,7 +76,7 @@ interface DriverRegistryInterface extends CollectionInterface
     public function isDriverCodeValid(DriverInterface $driver, $mode = self::MODE_RETURN_BOOLEAN);
 
     /**
-     * @return array
+     * @return DriverInterface[]
      *
      * Dump all the drivers into an array
      */

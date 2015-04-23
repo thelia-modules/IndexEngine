@@ -27,9 +27,11 @@ abstract class AbstractArgument implements ArgumentInterface
 
     public function __construct($name, $value = null)
     {
-        if (! $this->validateName($name)) {
+        if (false === $this->validateName($name)) {
             throw new InvalidArgumentException(sprintf("The given argument name for %s is not valid", __CLASS__));
         }
+
+        $this->name = $name;
 
         if (null !== $value) {
             $this->setValue($value);

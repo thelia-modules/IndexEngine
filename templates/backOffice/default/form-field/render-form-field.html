@@ -1,4 +1,4 @@
-{if $field_count % 2 == 0}
+{if $is_field_count_even}
 <div class="row">
 {/if}
     <div class="col-md-6">
@@ -6,10 +6,10 @@
             {if $is_view_builder}
                 {$argument->buildView($form) nofilter}
             {else}
-                {render_form_field form=$form field=$field_name}
+                {render_form_field form=$form field=$form_field}
             {/if}
         {/form}
     </div>
-{if $field_count % 2 == 0}
+{if !$is_field_count_even}
 </div>
 {/if}

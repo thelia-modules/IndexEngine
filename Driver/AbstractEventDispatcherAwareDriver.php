@@ -55,7 +55,7 @@ abstract class AbstractEventDispatcherAwareDriver extends AbstractCollection imp
         /** @var DriverConfigurationEvent $event */
         $event = $this->dispatch(DriverEvents::DRIVER_GET_CONFIGURATION, new DriverConfigurationEvent());
 
-        $collection = &$event->getArgumentCollection();
+        $collection = $event->getArgumentCollection();
 
         return $collection->count() > 0 ? $collection : null;
     }
@@ -295,11 +295,11 @@ abstract class AbstractEventDispatcherAwareDriver extends AbstractCollection imp
      */
     protected function dispatch($eventName, Event $event)
     {
-        return $this->dispatch($this->getEventName($eventName), $event);
+        return $this->dispatcher->dispatch($this->getEventName($eventName), $event);
     }
 
     protected function getEventName($driverEvent)
     {
-        return $driverEvent . "." . $this->getCode();
+        return $driverEvent . "." . static::getCode();
     }
 }

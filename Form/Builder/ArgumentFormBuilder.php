@@ -47,6 +47,8 @@ class ArgumentFormBuilder implements ArgumentFormBuilderInterface
         if ($argument instanceof FormBuilderInterface) {
             $argument->buildForm($builder);
         } else {
+            $argumentLabel = $this->formatTitle($argument->getName());
+
             if ($argument instanceof VectorArgumentInterface) {
                 if (0 === preg_match("/^Vector\<([a-z_\-\.]+)\>$/", $argument->getType(), $match)) {
                     throw new InvalidTypeException(sprintf("Invalid vector type '%s'", $argument->getType()));
@@ -64,6 +66,10 @@ class ArgumentFormBuilder implements ArgumentFormBuilderInterface
                     "allow_add" => true,
                     "allow_delete" => true,
                     "cascade_validation" => true,
+                    "options" => [
+                        "label" => $argumentLabel,
+                        "required" => false
+                    ]
                 ];
             } else {
                 $type = $this->typeResolver->transform($argument->getType());
@@ -72,7 +78,10 @@ class ArgumentFormBuilder implements ArgumentFormBuilderInterface
                     throw new InvalidTypeException(sprintf("Invalid argument type '%s'", $type));
                 }
 
-                $options = [];
+                $options = [
+                    "label" => $argumentLabel,
+                    "required" => false
+                ];
 
                 if ($argument instanceof EnumArgument) {
                     $options["choices"] = $argument->getChoices();
@@ -89,5 +98,10 @@ class ArgumentFormBuilder implements ArgumentFormBuilderInterface
 
             $builder->add($argument->getName(), $type, $options);
         }
+    }
+
+    protected function formatTitle($name)
+    {
+        return preg_replace("/[_\.\-]/", " ", ucfirst($name));
     }
 }

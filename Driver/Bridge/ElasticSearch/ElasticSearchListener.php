@@ -29,7 +29,7 @@ use IndexEngine\Entity\IndexMapping;
  */
 class ElasticSearchListener extends DriverEventSubscriber
 {
-    public function getDefaultConfiguration(DriverConfigurationEvent $event)
+    public function getConfiguration(DriverConfigurationEvent $event)
     {
         $collection = $event->getArgumentCollection();
 
@@ -39,10 +39,10 @@ class ElasticSearchListener extends DriverEventSubscriber
         $collection->addArgument(new BooleanArgument("save_source"));
 
         $collection->setDefaults([
-            "servers" => [ElasticSearchEventDispatcherAwareDriver::DEFAULT_SERVER],
-            "number_of_shards" => ElasticSearchEventDispatcherAwareDriver::DEFAULT_SHARDS,
-            "number_of_replicas" => ElasticSearchEventDispatcherAwareDriver::DEFAULT_REPLICAS,
-            "save_source" => ElasticSearchEventDispatcherAwareDriver::DEFAULT_SAVE_SOURCE,
+            "servers" => [ElasticSearchDriver::DEFAULT_SERVER],
+            "number_of_shards" => ElasticSearchDriver::DEFAULT_SHARDS,
+            "number_of_replicas" => ElasticSearchDriver::DEFAULT_REPLICAS,
+            "save_source" => ElasticSearchDriver::DEFAULT_SAVE_SOURCE,
         ]);
     }
 
@@ -121,7 +121,9 @@ class ElasticSearchListener extends DriverEventSubscriber
         $type = $event->getType();
 
         if ($this->indexExists($type)) {
-            return $this->getClient()->indices()->delete(array("index" => $this->generateIndexNameFromType($type)));
+            $data = $this->getClient()->indices()->delete(array("index" => $this->generateIndexNameFromType($type)));
+
+            $event->setExtraData($data);
         }
     }
 
@@ -172,7 +174,7 @@ class ElasticSearchListener extends DriverEventSubscriber
      */
     public static function getDriverCode()
     {
-        return ElasticSearchEventDispatcherAwareDriver::getCode();
+        return ElasticSearchDriver::getCode();
     }
 
     /**

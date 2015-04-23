@@ -139,7 +139,7 @@ class DriverRegistry extends AbstractCollection implements DriverRegistryInterfa
     }
 
     /**
-     * @return array
+     * @return DriverInterface[]
      *
      * Dump all the drivers into an array
      */
