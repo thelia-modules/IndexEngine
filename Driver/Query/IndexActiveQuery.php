@@ -42,7 +42,7 @@ class IndexActiveQuery extends AbstractIndexQuery implements IndexActiveQueryInt
      */
     public function find()
     {
-        return $this->driver->executeQuery($this);
+        return $this->driver->executeSearchQuery($this);
     }
 
     /**
@@ -52,6 +52,6 @@ class IndexActiveQuery extends AbstractIndexQuery implements IndexActiveQueryInt
      */
     public function findOne()
     {
-        return $this->driver->executeQuery($this->setLimit(1));
+        return $this->driver->executeSearchQuery($this->setLimit(1));
     }
 }

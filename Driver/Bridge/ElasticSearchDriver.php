@@ -15,6 +15,7 @@ namespace IndexEngine\Driver\Bridge;
 use Elasticsearch\Client;
 use IndexEngine\Driver\Configuration\ArgumentCollection;
 use IndexEngine\Driver\Configuration\ArgumentCollectionInterface;
+use IndexEngine\Driver\Configuration\BooleanArgument;
 use IndexEngine\Driver\Configuration\IntegerArgument;
 use IndexEngine\Driver\Configuration\StringVectorArgument;
 use IndexEngine\Driver\DriverInterface;
@@ -37,8 +38,14 @@ class ElasticSearchDriver implements DriverInterface
      */
     protected $client;
 
+    /** @var int */
     private $shards;
+
+    /** @var int */
     private $replicas;
+
+    /** @var bool */
+    private $source;
 
     /**
      * @return \IndexEngine\Driver\Configuration\ArgumentCollectionInterface|null
@@ -54,10 +61,14 @@ class ElasticSearchDriver implements DriverInterface
             new StringVectorArgument("servers"),
             new IntegerArgument("number_of_shards"),
             new IntegerArgument("number_of_replicas"),
+            new BooleanArgument("save_source"),
         ]);
 
         $collection->setDefaults([
-            "servers" => [static::DEFAULT_SERVER]
+            "servers" => [static::DEFAULT_SERVER],
+            "number_of_shards" => 1,
+            "number_of_replicas" => 0,
+            "save_source" => true,
         ]);
 
         return $collection;
@@ -97,6 +108,7 @@ class ElasticSearchDriver implements DriverInterface
 
         $this->shards = $configuration->getArgument("number_of_shards");
         $this->replicas = $configuration->getArgument("number_of_replicas");
+        $this->source = $configuration->getArgument("save_source");
     }
 
     /**
@@ -131,13 +143,16 @@ class ElasticSearchDriver implements DriverInterface
     /**
      * @param string $type
      * @param IndexMapping $mapping
-     * @return void
+     * @return mixed
      *
-     * This method has to create the index with the given mapping
+     * This method has to create the index with the given mapping.
+     *
+     * If the server return data, you should return it so it can be logged.
+     * You can return anything that is serializable.
      */
     public function createIndex($type, IndexMapping $mapping)
     {
-        $parameters = array("index" => $type."_index");
+        $parameters = array("index" => $this->generateIndexNameFromType($type));
 
         if (null !== $this->shards) {
             $parameters["body"]["settings"]["number_of_shards"] = $this->shards;
@@ -149,11 +164,10 @@ class ElasticSearchDriver implements DriverInterface
 
         $esMapping = &$parameters["body"]["mappings"][$type];
 
+        $esMapping["_source"] = ["enabled" => $this->source];
+
         foreach ($mapping->getMapping() as $column => $type) {
-            switch ($type) {
-                case $mapping::TYPE_STRING:
-                    break;
-            }
+            $resolvedType = $this->resolveType($type);
         }
 
         $this->client->indices()->create($parameters);
@@ -163,12 +177,15 @@ class ElasticSearchDriver implements DriverInterface
      * @param $type
      * @param IndexDataVector $indexDataVector
      * @param IndexMapping $mapping
-     * @return void
+     * @return mixed
      *
      * @throws \IndexEngine\Driver\Exception\IndexDataPersistException If something goes wrong during recording
      *
      * This method is called on command and manual index launch.
      * You have to persist each IndexData entity in your search server.
+     *
+     * If the server return data, you should return it so it can be logged.
+     * You can return anything that is serializable.
      */
     public function persistIndexes($type, IndexDataVector $indexDataVector, IndexMapping $mapping)
     {
@@ -179,21 +196,79 @@ class ElasticSearchDriver implements DriverInterface
      * @param IndexQueryInterface $query
      * @return \IndexEngine\Entity\IndexDataVector
      *
-     * Translate the query for the search engine, execute it and return the values with a IndexData vector
+     * Translate the query for the search engine, execute it and return the values with a IndexData vector.
+     *
+     * Even if the response is empty, return an empty vector.
      */
-    public function executeQuery(IndexQueryInterface $query)
+    public function executeSearchQuery(IndexQueryInterface $query)
     {
 
     }
 
     /**
      * @param $type
-     * @return void
+     * @return bool
+     *
+     * This method checks that the index corresponding to the type exists in the server
+     */
+    public function indexExists($type)
+    {
+        return $this->client->indices()->exists(array("index" => $this->generateIndexNameFromType($type)));
+    }
+
+    /**
+     * @param $type
+     * @return mixed
      *
      * Delete the index the belong to the given type
+     *
+     * If the server return data, you should return it so it can be logged.
+     * You can return anything that is serializable.
      */
     public function deleteIndex($type)
     {
+        if ($this->indexExists($type)) {
+            return $this->client->indices()->delete(array("index" => $this->generateIndexNameFromType($type)));
+        }
 
+        return [
+            "The index can't be deleted as it doesn't exist",
+            [
+                "index_type" => $type,
+                "index_name" => $this->generateIndexNameFromType($type)
+            ]
+        ];
+    }
+
+    protected function generateIndexNameFromType($type)
+    {
+        return $type."_index";
+    }
+
+    protected function resolveType($type)
+    {
+        switch ($type) {
+            case IndexMapping::TYPE_BOOLEAN:
+                return ["type" => "boolean"];
+
+            case IndexMapping::TYPE_FLOAT:
+                return ["type" => "float"];
+
+            case IndexMapping::TYPE_INTEGER:
+                return ["type" => "integer"];
+
+            case IndexMapping::TYPE_DATE:
+                return ["type" => "date"];
+
+            case IndexMapping::TYPE_DATETIME:
+                return ["type" => "date_time"];
+
+            case IndexMapping::TYPE_TIME:
+                return ["type" => "time"];
+
+            default:
+            case IndexMapping::TYPE_STRING:
+                return ["type" => "string", "analyzer" => "standard"];
+        }
     }
 }

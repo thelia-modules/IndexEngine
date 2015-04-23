@@ -48,17 +48,31 @@ interface DriverInterface
     /**
      * @param string $type
      * @param IndexMapping $mapping
-     * @return void
+     * @return mixed
      *
-     * This method has to create the index with the given mapping
+     * This method has to create the index with the given mapping.
+     *
+     * If the server return data, you should return it so it can be logged.
+     * You can return anything that is serializable.
      */
     public function createIndex($type, IndexMapping $mapping);
 
     /**
      * @param $type
-     * @return void
+     * @return bool
+     *
+     * This method checks that the index corresponding to the type exists in the server
+     */
+    public function indexExists($type);
+
+    /**
+     * @param $type
+     * @return mixed
      *
      * Delete the index the belong to the given type
+     *
+     * If the server return data, you should return it so it can be logged.
+     * You can return anything that is serializable.
      */
     public function deleteIndex($type);
 
@@ -66,12 +80,15 @@ interface DriverInterface
      * @param $type
      * @param IndexDataVector $indexDataVector
      * @param IndexMapping $mapping
-     * @return void
+     * @return mixed
      *
      * @throws \IndexEngine\Driver\Exception\IndexDataPersistException If something goes wrong during recording
      *
      * This method is called on command and manual index launch.
      * You have to persist each IndexData entity in your search server.
+     *
+     * If the server return data, you should return it so it can be logged.
+     * You can return anything that is serializable.
      */
     public function persistIndexes($type, IndexDataVector $indexDataVector, IndexMapping $mapping);
 
@@ -79,9 +96,11 @@ interface DriverInterface
      * @param IndexQueryInterface $query
      * @return \IndexEngine\Entity\IndexDataVector
      *
-     * Translate the query for the search engine, execute it and return the values with a IndexData vector
+     * Translate the query for the search engine, execute it and return the values with a IndexData vector.
+     *
+     * Even if the response is empty, return an empty vector.
      */
-    public function executeQuery(IndexQueryInterface $query);
+    public function executeSearchQuery(IndexQueryInterface $query);
 
     /**
      * @return string

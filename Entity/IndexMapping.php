@@ -11,8 +11,8 @@
 /*************************************************************************************/
 
 namespace IndexEngine\Entity;
-use IndexEngine\Driver\Exception\InvalidNameException;
 
+use IndexEngine\Driver\Exception\InvalidNameException;
 
 /**
  * Class IndexMapping
@@ -29,6 +29,9 @@ class IndexMapping
     const TYPE_STRING = "string";
     const TYPE_INTEGER = "integer";
     const TYPE_FLOAT = "float";
+    const TYPE_DATE = "date";
+    const TYPE_TIME = "time";
+    const TYPE_DATETIME = "datetime";
 
     private $types = [
         self::TYPE_BOOLEAN,
@@ -36,6 +39,9 @@ class IndexMapping
         self::TYPE_INTEGER,
         self::TYPE_FLOAT,
         self::TYPE_BIG_TEXT,
+        self::TYPE_DATE,
+        self::TYPE_TIME,
+        self::TYPE_DATETIME,
     ];
 
     /** @var array */
