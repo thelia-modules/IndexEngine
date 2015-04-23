@@ -49,6 +49,7 @@ class RegisterDriverPass implements CompilerPassInterface
 
         $registry = $container->getDefinition(static::REGISTRY_NAME);
         $dispatcherReference = new Reference(static::EVENT_DISPATCHER_NAME);
+        $parameterBag = $container->getParameterBag();
 
         foreach ($container->findTaggedServiceIds(static::TAG_NAME) as $id => $tags) {
             $registry->addMethodCall("addDriver", [new Reference($id)]);
@@ -59,14 +60,14 @@ class RegisterDriverPass implements CompilerPassInterface
 
             foreach ($tags as $tag) {
                 if (isset($tag[static::LISTENER_TAG_PARAMETER])) {
-                    $listenerCode = $tag[static::LISTENER_TAG_PARAMETER];
+                    $listenerCode = $parameterBag->resolveValue($tag[static::LISTENER_TAG_PARAMETER]);
 
                     if (!$container->hasDefinition($listenerCode)) {
                         throw new ServiceNotFoundException(sprintf("The service '%s' doesn't exist", $listenerCode));
                     }
 
                     $listener = $container->getDefinition($listenerCode);
-                    $listenerClass = $container->getParameterBag()->resolveValue($listener->getClass());
+                    $listenerClass = $parameterBag->resolveValue($listener->getClass());
 
                     $reflection = new \ReflectionClass($listenerClass);
 
