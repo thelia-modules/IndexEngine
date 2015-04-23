@@ -26,11 +26,11 @@ use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
- * Class AbstractDriver
+ * Class AbstractEventDispatcherAwareDriver
  * @package IndexEngine\Driver
  * @author Benjamin Perche <benjamin@thelia.net>
  */
-abstract class AbstractDriver extends AbstractCollection implements DriverInterface
+abstract class AbstractEventDispatcherAwareDriver extends AbstractCollection implements DriverInterface
 {
     /**
      * @var EventDispatcherInterface

@@ -4,7 +4,7 @@
     <parameter key="index_engine.indexable_entity_repository.class">IndexEngine\Discovering\Repository\IndexableEntityRepository</parameter>
     <parameter key="index_engine.driver.registry.class">IndexEngine\Driver\DriverRegistry</parameter>
     <parameter key="index_engine.event_dispatcher.class">Symfony\Component\EventDispatcher\ContainerAwareEventDispatcher</parameter>
-    <parameter key="index_engine.driver.elastic_search.class">IndexEngine\Driver\Bridge\ElasticSearch\ElasticSearchDriver</parameter>
+    <parameter key="index_engine.driver.elastic_search.class">IndexEngine\Driver\Bridge\ElasticSearch\ElasticSearchEventDispatcherAwareDriver</parameter>
     <parameter key="index_engine.driver.elastic_search_listener.class">IndexEngine\Driver\Bridge\ElasticSearch\ElasticSearchListener</parameter>
     <parameter key="index_engine.database_collector.class">IndexEngine\Discovering\Collector\DatabaseSubscriber</parameter>
     <parameter key="index_engine.loop_collector.class">IndexEngine\Discovering\Collector\LoopSubscriber</parameter>
