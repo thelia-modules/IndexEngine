@@ -18,7 +18,7 @@ namespace IndexEngine\Driver\Configuration;
  * @package IndexEngine\Driver\Configuration
  * @author Benjamin Perche <benjamin@thelia.net>
  */
-interface VectorArgumentInterface extends ArgumentInterface, \ArrayAccess
+interface VectorArgumentInterface extends ArgumentInterface, \ArrayAccess, \Iterator
 {
     /**
      * @return void

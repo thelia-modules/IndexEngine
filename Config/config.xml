@@ -14,23 +14,20 @@
     <parameter key="index_engine.configuration.manager.class">IndexEngine\Manager\ConfigurationManager</parameter>
     <parameter key="index_engine.driver_configuration_form.hook.class">IndexEngine\Hook\DriverConfigurationHook</parameter>
     <parameter key="index_engine.form.argument_form_builder.class">IndexEngine\Form\Builder\ArgumentFormBuilder</parameter>
+
     <!-- Commands -->
     <parameter key="index_engine.command.list_drivers.class">IndexEngine\IO\Command\IndexDriverListCommand</parameter>
-      <parameter key="index_engine.command.index_exists.class">IndexEngine\IO\Command\IndexExistsCommand</parameter>
-      <parameter key="index_engine.command.configuration_list.class">IndexEngine\IO\Command\IndexConfigurationListCommand</parameter>
+    <parameter key="index_engine.command.index_exists.class">IndexEngine\IO\Command\IndexExistsCommand</parameter>
+    <parameter key="index_engine.command.configuration_list.class">IndexEngine\IO\Command\IndexConfigurationListCommand</parameter>
   </parameters>
+
   <loops>
-    <!-- sample definition
-        <loop name="MySuperLoop" class="IndexEngine\Loop\MySuperLoop" />
-        -->
     <loop name="index-engine-index" class="IndexEngine\Loop\IndexEngineIndex"/>
     <loop name="index-engine-driver-configuration" class="IndexEngine\Loop\IndexEngineDriverConfiguration"/>
     <loop name="index-engine-index-template" class="IndexEngine\Loop\IndexEngineIndexTemplate"/>
   </loops>
+
   <forms>
-    <!--
-        <form name="MyFormName" class="IndexEngine\Form\MySuperForm" />
-        -->
     <form name="index_engine_index.create" class="IndexEngine\Form\IndexEngineIndexCreateForm"/>
     <form name="index_engine_index.update" class="IndexEngine\Form\IndexEngineIndexUpdateForm"/>
     <form name="index_engine_driver_configuration.create" class="IndexEngine\Form\IndexEngineDriverConfigurationCreateForm"/>
@@ -38,11 +35,13 @@
     <form name="index_engine_index_template.create" class="IndexEngine\Form\IndexEngineIndexTemplateCreateForm"/>
     <form name="index_engine_index_template.update" class="IndexEngine\Form\IndexEngineIndexTemplateUpdateForm"/>
   </forms>
+
   <commands>
     <command class="%index_engine.command.list_drivers.class%"/>
     <command class="%index_engine.command.index_exists.class%"/>
     <command class="%index_engine.command.configuration_list.class%"/>
   </commands>
+
   <services>
     <service id="index_engine.indexable_entity_repository" class="%index_engine.indexable_entity_repository.class%">
       <argument type="service" id="index_engine.event_dispatcher"/>
@@ -119,6 +118,7 @@
       <tag name="thelia.form.type"/>
     </service>
   </services>
+
   <hooks>
     <hook id="index_engine.driver_configuration_form.hook" class="%index_engine.driver_configuration_form.hook.class%" scope="request">
       <argument type="service" id="index_engine.driver.registry"/>

@@ -20,6 +20,7 @@ use IndexEngine\Driver\DriverEventSubscriber;
 use IndexEngine\Driver\Event\DriverConfigurationEvent;
 use IndexEngine\Driver\Event\DriverEvents;
 use IndexEngine\Driver\Event\IndexEvent;
+use IndexEngine\Driver\Exception\IndexNotFoundException;
 use IndexEngine\Entity\IndexMapping;
 
 /**
@@ -49,28 +50,12 @@ class ElasticSearchListener extends DriverEventSubscriber
     public function loadConfiguration(DriverConfigurationEvent $event)
     {
         $configuration = $event->getArgumentCollection();
-
-        $hosts = $configuration->getArgument("servers");
-        $resolvedHosts = [];
-
-        foreach ($hosts as $host) {
-            if (false !== strpos(":", $host)) {
-                $currentHost = explode(":", $host, 2);
-                $resolvedHosts[] = [
-                    "host" => $currentHost[0],
-                    "port" => $currentHost[1],
-                ];
-            } else {
-                $resolvedHosts[] = [
-                    "host" => $host,
-                ];
-            }
-        }
+        $hosts = iterator_to_array($configuration->getArgument("servers"));
 
         $this->getDriver()
             ->addExtraConfiguration(
                 "client",
-                new Client(["hosts" => $resolvedHosts])
+                new Client(["hosts" => $hosts])
             )
             ->addExtraConfiguration("number_of_shards", $configuration->getArgument("number_of_shards"))
             ->addExtraConfiguration("number_of_replicas", $configuration->getArgument("number_of_replicas"))
@@ -113,16 +98,20 @@ class ElasticSearchListener extends DriverEventSubscriber
 
     public function indexExists(IndexEvent $event)
     {
-        return $this->getClient()->indices()->exists(array(
-            "index" => $this->generateIndexNameFromType($event->getType())
+        $exists = $this->getClient()->indices()->exists(array(
+            "index" => $this->generateIndexNameFromType($event->getType()),
         ));
+
+        if (false === $exists) {
+            throw new IndexNotFoundException(sprintf("The index type '%s' doesn't exist", $event->getType()));
+        }
     }
 
     public function deleteIndex(IndexEvent $event)
     {
         $type = $event->getType();
 
-        if ($this->indexExists($type)) {
+        if ($this->getDriver()->indexExists($type)) {
             $data = $this->getClient()->indices()->delete(array("index" => $this->generateIndexNameFromType($type)));
 
             $event->setExtraData($data);
@@ -193,6 +182,9 @@ class ElasticSearchListener extends DriverEventSubscriber
             ],
             DriverEvents::DRIVER_LOAD_CONFIGURATION => [
                 ["loadConfiguration", 0],
+            ],
+            DriverEvents::INDEX_EXISTS => [
+                ["indexExists", 0],
             ],
         ];
     }
