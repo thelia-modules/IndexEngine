@@ -19,6 +19,7 @@ namespace IndexEngine\Driver;
  */
 abstract class DriverEventSubscriber implements DriverEventSubscriberInterface
 {
+    private $driver;
 
     /**
      * Returns an array of event names this subscriber wants to listen to.
@@ -50,5 +51,26 @@ abstract class DriverEventSubscriber implements DriverEventSubscriberInterface
         }
 
         return $events;
+    }
+
+    /**
+     * @return DriverInterface
+     *
+     * Get the current driver instance
+     */
+    public function getDriver()
+    {
+        return $this->driver;
+    }
+
+    /**
+     * @param DriverInterface $driver
+     * @return void
+     *
+     * Set the current driver instance
+     */
+    public function setDriver(DriverInterface $driver)
+    {
+        $this->driver = $driver;
     }
 }

@@ -26,7 +26,7 @@ interface DriverEventSubscriberInterface extends EventSubscriberInterface
      *
      * The driver code to catch the good events
      */
-    public function getDriverCode();
+    public static function getDriverCode();
 
     /**
      * @return array
@@ -34,5 +34,20 @@ interface DriverEventSubscriberInterface extends EventSubscriberInterface
      * Similar to \Symfony\Component\EventDispatcher\EventSubscriberInterface::getSubscribedEvents
      * but the output will be filtered to add the driver code to the event names
      */
-    public function getDriverEvents();
+    public static function getDriverEvents();
+
+    /**
+     * @return DriverInterface
+     *
+     * Get the current driver instance
+     */
+    public function getDriver();
+
+    /**
+     * @param DriverInterface $driver
+     * @return void
+     *
+     * Set the current driver instance
+     */
+    public function setDriver(DriverInterface $driver);
 }

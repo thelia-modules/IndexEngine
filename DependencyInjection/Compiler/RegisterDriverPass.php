@@ -12,8 +12,10 @@
 
 namespace IndexEngine\DependencyInjection\Compiler;
 
+use IndexEngine\Exception\InvalidArgumentException;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 use Symfony\Component\DependencyInjection\Reference;
 
 
@@ -28,6 +30,9 @@ class RegisterDriverPass implements CompilerPassInterface
     const REGISTRY_NAME = "index_engine.driver.registry";
 
     const EVENT_DISPATCHER_NAME = "index_engine.event_dispatcher";
+    const LISTENER_TAG_PARAMETER = "listener";
+
+    const DRIVER_LISTENER_INTERFACE = "IndexEngine\\Driver\\DriverEventSubscriberInterface";
 
     /**
      * You can modify the container here before it is dumped to PHP code.
@@ -45,12 +50,37 @@ class RegisterDriverPass implements CompilerPassInterface
         $registry = $container->getDefinition(static::REGISTRY_NAME);
         $dispatcherReference = new Reference(static::EVENT_DISPATCHER_NAME);
 
-        foreach ($container->findTaggedServiceIds(static::TAG_NAME) as $id => $tag) {
+        foreach ($container->findTaggedServiceIds(static::TAG_NAME) as $id => $tags) {
             $registry->addMethodCall("addDriver", [new Reference($id)]);
 
             // Inject the dispatcher in the driver
             $driver = $container->getDefinition($id);
             $driver->addMethodCall("setDispatcher", [$dispatcherReference]);
+
+            foreach ($tags as $tag) {
+                if (isset($tag[static::LISTENER_TAG_PARAMETER])) {
+                    $listenerCode = $tag[static::LISTENER_TAG_PARAMETER];
+
+                    if (!$container->hasDefinition($listenerCode)) {
+                        throw new ServiceNotFoundException(sprintf("The service '%s' doesn't exist", $listenerCode));
+                    }
+
+                    $listener = $container->getDefinition($listenerCode);
+                    $listenerClass = $container->getParameterBag()->resolveValue($listener->getClass());
+
+                    $reflection = new \ReflectionClass($listenerClass);
+
+                    if (false === $reflection->implementsInterface(static::DRIVER_LISTENER_INTERFACE)) {
+                        throw new InvalidArgumentException(sprintf(
+                            "The service '%s' must implement interface '%s' but doesn't",
+                            $listenerCode,
+                            static::DRIVER_LISTENER_INTERFACE
+                        ));
+                    }
+
+                    $listener->addMethodCall("setDriver", [new Reference($id)]);
+                }
+            }
         }
     }
 }

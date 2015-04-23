@@ -171,7 +171,7 @@ class ElasticSearchListener extends DriverEventSubscriber
      *
      * The driver code to catch the good events
      */
-    public function getDriverCode()
+    public static function getDriverCode()
     {
         return ElasticSearchDriver::getCode();
     }
@@ -182,7 +182,7 @@ class ElasticSearchListener extends DriverEventSubscriber
      * Similar to \Symfony\Component\EventDispatcher\EventSubscriberInterface::getSubscribedEvents
      * but the output will be filtered to add the driver code to the event names
      */
-    public function getDriverEvents()
+    public static function getDriverEvents()
     {
         return [
             DriverEvents::DRIVER_GET_CONFIGURATION => [

@@ -122,4 +122,48 @@ interface DriverInterface extends EventDispatcherAwareInterface
      * if one is missing, throw an exception.
      */
     public function checkDependencies();
+
+    /**
+     * @param string $name
+     * @param mixed $value
+     * @return $this
+     *
+     * Add an extra configuration in the collection
+     */
+    public function addExtraConfiguration($name, $value);
+
+    /**
+     * @param string $name
+     * @return bool
+     *
+     * Check if the extra configuration named $name exists
+     */
+    public function hasExtraConfiguration($name);
+
+    /**
+     * @param string $name
+     * @return $this
+     *
+     * @throws \IndexEngine\Driver\Exception\InvalidNameException is the extra configuration doesn't exist
+     *
+     * Delete the extra configuration named $name
+     */
+    public function deleteExtraConfiguration($name);
+
+    /**
+     * @param string $name
+     * @return mixed
+     *
+     * @throws \IndexEngine\Driver\Exception\InvalidNameException is the extra configuration doesn't exist
+     *
+     * Return the extra configuration named $name
+     */
+    public function getExtraConfiguration($name);
+
+    /**
+     * @return array
+     *
+     * Dump all the extra configuration
+     */
+    public function getExtraConfigurations();
 }

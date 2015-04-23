@@ -17,6 +17,7 @@ use IndexEngine\Driver\Event\DriverEvents;
 use IndexEngine\Driver\Event\IndexEvent;
 use IndexEngine\Driver\Event\IndexSearchQueryEvent;
 use IndexEngine\Driver\Exception\IndexNotFoundException;
+use IndexEngine\Driver\Exception\InvalidNameException;
 use IndexEngine\Entity\IndexDataVector;
 use IndexEngine\Driver\Configuration\ArgumentCollectionInterface;
 use IndexEngine\Driver\Query\IndexQueryInterface;
@@ -29,12 +30,17 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  * @package IndexEngine\Driver
  * @author Benjamin Perche <benjamin@thelia.net>
  */
-abstract class AbstractDriver implements DriverInterface
+abstract class AbstractDriver extends AbstractCollection implements DriverInterface
 {
     /**
      * @var EventDispatcherInterface
      */
     private $dispatcher;
+
+    /**
+     * @var array
+     */
+    private $extraConfiguration = array();
 
     /**
      * @return \IndexEngine\Driver\Configuration\ArgumentCollectionInterface|null
@@ -202,6 +208,84 @@ abstract class AbstractDriver implements DriverInterface
     public function setDispatcher(EventDispatcherInterface $dispatcher)
     {
         $this->dispatcher = $dispatcher;
+    }
+
+    /**
+     * @param string $name
+     * @param mixed $value
+     * @return $this
+     *
+     * Add an extra configuration in the collection
+     */
+    public function addExtraConfiguration($name, $value)
+    {
+        $name = $this->resolveString($name, __METHOD__);
+        $this->extraConfiguration[$name] = $value;
+
+        return $this;
+    }
+
+    /**
+     * @param string $name
+     * @return bool
+     *
+     * Check if the extra configuration named $name exists
+     */
+    public function hasExtraConfiguration($name)
+    {
+        $name = $this->resolveString($name, __METHOD__);
+
+        return isset($this->extraConfiguration[$name]);
+    }
+
+    /**
+     * @param string $name
+     * @return $this
+     *
+     * @throws \IndexEngine\Driver\Exception\InvalidNameException is the extra configuration doesn't exist
+     *
+     * Delete the extra configuration named $name
+     */
+    public function deleteExtraConfiguration($name)
+    {
+        $name = $this->resolveString($name, __METHOD__);
+
+        if (!$this->hasExtraConfiguration($name)) {
+            throw new InvalidNameException(sprintf("The extra configuration '%s' doesn't exist", $name));
+        }
+
+        unset($this->extraConfiguration[$name]);
+
+        return $this;
+    }
+
+    /**
+     * @param string $name
+     * @return mixed
+     *
+     * @throws \IndexEngine\Driver\Exception\InvalidNameException is the extra configuration doesn't exist
+     *
+     * Return the extra configuration named $name
+     */
+    public function getExtraConfiguration($name)
+    {
+        $name = $this->resolveString($name, __METHOD__);
+
+        if (!$this->hasExtraConfiguration($name)) {
+            throw new InvalidNameException(sprintf("The extra configuration '%s' doesn't exist", $name));
+        }
+
+        return $this->extraConfiguration[$name];
+    }
+
+    /**
+     * @return array
+     *
+     * Dump all the extra configuration
+     */
+    public function getExtraConfigurations()
+    {
+        return $this->extraConfiguration;
     }
 
     /**

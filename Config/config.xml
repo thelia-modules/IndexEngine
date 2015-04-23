@@ -3,7 +3,7 @@
   <parameters>
     <parameter key="index_engine.indexable_entity_repository.class">IndexEngine\Discovering\Repository\IndexableEntityRepository</parameter>
     <parameter key="index_engine.driver.registry.class">IndexEngine\Driver\DriverRegistry</parameter>
-    <parameter key="index_engine.event_dispatcher.class">Symfony\Component\EventDispatcher\EventDispatcher</parameter>
+    <parameter key="index_engine.event_dispatcher.class">Symfony\Component\EventDispatcher\ContainerAwareEventDispatcher</parameter>
     <parameter key="index_engine.driver.elastic_search.class">IndexEngine\Driver\Bridge\ElasticSearch\ElasticSearchDriver</parameter>
     <parameter key="index_engine.driver.elastic_search_listener.class">IndexEngine\Driver\Bridge\ElasticSearch\ElasticSearchListener</parameter>
     <parameter key="index_engine.database_collector.class">IndexEngine\Discovering\Collector\DatabaseSubscriber</parameter>
@@ -14,7 +14,11 @@
     <parameter key="index_engine.configuration.manager.class">IndexEngine\Manager\ConfigurationManager</parameter>
     <parameter key="index_engine.driver_configuration_form.hook.class">IndexEngine\Hook\DriverConfigurationHook</parameter>
     <parameter key="index_engine.form.argument_form_builder.class">IndexEngine\Form\Builder\ArgumentFormBuilder</parameter>
+
+      <!-- Commands -->
+      <parameter key="index_engine.command.list_drivers.class">IndexEngine\IO\Command\ListDriverCommand</parameter>
   </parameters>
+
   <loops>
     <!-- sample definition
         <loop name="MySuperLoop" class="IndexEngine\Loop\MySuperLoop" />
@@ -23,6 +27,7 @@
     <loop name="index-engine-driver-configuration" class="IndexEngine\Loop\IndexEngineDriverConfiguration"/>
     <loop name="index-engine-index-template" class="IndexEngine\Loop\IndexEngineIndexTemplate"/>
   </loops>
+
   <forms>
     <!--
         <form name="MyFormName" class="IndexEngine\Form\MySuperForm" />
@@ -34,11 +39,11 @@
     <form name="index_engine_index_template.create" class="IndexEngine\Form\IndexEngineIndexTemplateCreateForm"/>
     <form name="index_engine_index_template.update" class="IndexEngine\Form\IndexEngineIndexTemplateUpdateForm"/>
   </forms>
+
   <commands>
-    <!--
-        <command class="IndexEngine\Command\MySuperCommand" />
-        -->
+    <command class="%index_engine.command.list_drivers.class%" />
   </commands>
+
   <services>
     <service id="index_engine.indexable_entity_repository" class="%index_engine.indexable_entity_repository.class%">
       <argument type="service" id="index_engine.event_dispatcher"/>
@@ -57,12 +62,14 @@
     </service>
 
     <service id="index_engine.driver.registry" class="%index_engine.driver.registry.class%"/>
-    <service id="index_engine.event_dispatcher" class="%index_engine.event_dispatcher.class%"/>
+    <service id="index_engine.event_dispatcher" class="%index_engine.event_dispatcher.class%">
+        <argument type="service" id="service_container" />
+    </service>
 
     <!-- Bridge drivers -->
         <!-- elastic search -->
         <service id="index_engine.driver.elastic_search" class="%index_engine.driver.elastic_search.class%">
-            <tag name="index_engine.driver"/>
+            <tag name="index_engine.driver" listener="index_engine.driver.elastic_search_listener" />
         </service>
 
       <service id="index_engine.driver.elastic_search_listener" class="%index_engine.driver.elastic_search_listener.class%">
