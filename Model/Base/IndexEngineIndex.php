@@ -86,6 +86,12 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
     protected $title;
 
     /**
+     * The value for the type field.
+     * @var        string
+     */
+    protected $type;
+
+    /**
      * The value for the entity field.
      * @var        string
      */
@@ -490,6 +496,17 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
     }
 
     /**
+     * Get the [type] column value.
+     *
+     * @return   string
+     */
+    public function getType()
+    {
+
+        return $this->type;
+    }
+
+    /**
      * Get the [entity] column value.
      *
      * @return   string
@@ -698,6 +715,27 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
 
         return $this;
     } // setTitle()
+
+    /**
+     * Set the value of [type] column.
+     *
+     * @param      string $v new value
+     * @return   \IndexEngine\Model\IndexEngineIndex The current object (for fluent API support)
+     */
+    public function setType($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->type !== $v) {
+            $this->type = $v;
+            $this->modifiedColumns[IndexEngineIndexTableMap::TYPE] = true;
+        }
+
+
+        return $this;
+    } // setType()
 
     /**
      * Set the value of [entity] column.
@@ -949,40 +987,43 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
             $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : IndexEngineIndexTableMap::translateFieldName('Title', TableMap::TYPE_PHPNAME, $indexType)];
             $this->title = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : IndexEngineIndexTableMap::translateFieldName('Entity', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : IndexEngineIndexTableMap::translateFieldName('Type', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->type = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : IndexEngineIndexTableMap::translateFieldName('Entity', TableMap::TYPE_PHPNAME, $indexType)];
             $this->entity = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : IndexEngineIndexTableMap::translateFieldName('SerializedColumns', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : IndexEngineIndexTableMap::translateFieldName('SerializedColumns', TableMap::TYPE_PHPNAME, $indexType)];
             $this->serialized_columns = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : IndexEngineIndexTableMap::translateFieldName('SerializedCondition', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : IndexEngineIndexTableMap::translateFieldName('SerializedCondition', TableMap::TYPE_PHPNAME, $indexType)];
             $this->serialized_condition = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : IndexEngineIndexTableMap::translateFieldName('IndexEngineDriverConfigurationId', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 8 + $startcol : IndexEngineIndexTableMap::translateFieldName('IndexEngineDriverConfigurationId', TableMap::TYPE_PHPNAME, $indexType)];
             $this->index_engine_driver_configuration_id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 8 + $startcol : IndexEngineIndexTableMap::translateFieldName('CreatedAt', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 9 + $startcol : IndexEngineIndexTableMap::translateFieldName('CreatedAt', TableMap::TYPE_PHPNAME, $indexType)];
             if ($col === '0000-00-00 00:00:00') {
                 $col = null;
             }
             $this->created_at = (null !== $col) ? PropelDateTime::newInstance($col, null, '\DateTime') : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 9 + $startcol : IndexEngineIndexTableMap::translateFieldName('UpdatedAt', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 10 + $startcol : IndexEngineIndexTableMap::translateFieldName('UpdatedAt', TableMap::TYPE_PHPNAME, $indexType)];
             if ($col === '0000-00-00 00:00:00') {
                 $col = null;
             }
             $this->updated_at = (null !== $col) ? PropelDateTime::newInstance($col, null, '\DateTime') : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 10 + $startcol : IndexEngineIndexTableMap::translateFieldName('Version', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 11 + $startcol : IndexEngineIndexTableMap::translateFieldName('Version', TableMap::TYPE_PHPNAME, $indexType)];
             $this->version = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 11 + $startcol : IndexEngineIndexTableMap::translateFieldName('VersionCreatedAt', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 12 + $startcol : IndexEngineIndexTableMap::translateFieldName('VersionCreatedAt', TableMap::TYPE_PHPNAME, $indexType)];
             if ($col === '0000-00-00 00:00:00') {
                 $col = null;
             }
             $this->version_created_at = (null !== $col) ? PropelDateTime::newInstance($col, null, '\DateTime') : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 12 + $startcol : IndexEngineIndexTableMap::translateFieldName('VersionCreatedBy', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 13 + $startcol : IndexEngineIndexTableMap::translateFieldName('VersionCreatedBy', TableMap::TYPE_PHPNAME, $indexType)];
             $this->version_created_by = (null !== $col) ? (string) $col : null;
             $this->resetModified();
 
@@ -992,7 +1033,7 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 13; // 13 = IndexEngineIndexTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 14; // 14 = IndexEngineIndexTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating \IndexEngine\Model\IndexEngineIndex object", 0, $e);
@@ -1271,6 +1312,9 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
         if ($this->isColumnModified(IndexEngineIndexTableMap::TITLE)) {
             $modifiedColumns[':p' . $index++]  = 'TITLE';
         }
+        if ($this->isColumnModified(IndexEngineIndexTableMap::TYPE)) {
+            $modifiedColumns[':p' . $index++]  = 'TYPE';
+        }
         if ($this->isColumnModified(IndexEngineIndexTableMap::ENTITY)) {
             $modifiedColumns[':p' . $index++]  = 'ENTITY';
         }
@@ -1320,6 +1364,9 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
                         break;
                     case 'TITLE':
                         $stmt->bindValue($identifier, $this->title, PDO::PARAM_STR);
+                        break;
+                    case 'TYPE':
+                        $stmt->bindValue($identifier, $this->type, PDO::PARAM_STR);
                         break;
                     case 'ENTITY':
                         $stmt->bindValue($identifier, $this->entity, PDO::PARAM_STR);
@@ -1423,30 +1470,33 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
                 return $this->getTitle();
                 break;
             case 4:
-                return $this->getEntity();
+                return $this->getType();
                 break;
             case 5:
-                return $this->getSerializedColumns();
+                return $this->getEntity();
                 break;
             case 6:
-                return $this->getSerializedCondition();
+                return $this->getSerializedColumns();
                 break;
             case 7:
-                return $this->getIndexEngineDriverConfigurationId();
+                return $this->getSerializedCondition();
                 break;
             case 8:
-                return $this->getCreatedAt();
+                return $this->getIndexEngineDriverConfigurationId();
                 break;
             case 9:
-                return $this->getUpdatedAt();
+                return $this->getCreatedAt();
                 break;
             case 10:
-                return $this->getVersion();
+                return $this->getUpdatedAt();
                 break;
             case 11:
-                return $this->getVersionCreatedAt();
+                return $this->getVersion();
                 break;
             case 12:
+                return $this->getVersionCreatedAt();
+                break;
+            case 13:
                 return $this->getVersionCreatedBy();
                 break;
             default:
@@ -1482,15 +1532,16 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
             $keys[1] => $this->getVisible(),
             $keys[2] => $this->getCode(),
             $keys[3] => $this->getTitle(),
-            $keys[4] => $this->getEntity(),
-            $keys[5] => $this->getSerializedColumns(),
-            $keys[6] => $this->getSerializedCondition(),
-            $keys[7] => $this->getIndexEngineDriverConfigurationId(),
-            $keys[8] => $this->getCreatedAt(),
-            $keys[9] => $this->getUpdatedAt(),
-            $keys[10] => $this->getVersion(),
-            $keys[11] => $this->getVersionCreatedAt(),
-            $keys[12] => $this->getVersionCreatedBy(),
+            $keys[4] => $this->getType(),
+            $keys[5] => $this->getEntity(),
+            $keys[6] => $this->getSerializedColumns(),
+            $keys[7] => $this->getSerializedCondition(),
+            $keys[8] => $this->getIndexEngineDriverConfigurationId(),
+            $keys[9] => $this->getCreatedAt(),
+            $keys[10] => $this->getUpdatedAt(),
+            $keys[11] => $this->getVersion(),
+            $keys[12] => $this->getVersionCreatedAt(),
+            $keys[13] => $this->getVersionCreatedBy(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -1551,30 +1602,33 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
                 $this->setTitle($value);
                 break;
             case 4:
-                $this->setEntity($value);
+                $this->setType($value);
                 break;
             case 5:
-                $this->setSerializedColumns($value);
+                $this->setEntity($value);
                 break;
             case 6:
-                $this->setSerializedCondition($value);
+                $this->setSerializedColumns($value);
                 break;
             case 7:
-                $this->setIndexEngineDriverConfigurationId($value);
+                $this->setSerializedCondition($value);
                 break;
             case 8:
-                $this->setCreatedAt($value);
+                $this->setIndexEngineDriverConfigurationId($value);
                 break;
             case 9:
-                $this->setUpdatedAt($value);
+                $this->setCreatedAt($value);
                 break;
             case 10:
-                $this->setVersion($value);
+                $this->setUpdatedAt($value);
                 break;
             case 11:
-                $this->setVersionCreatedAt($value);
+                $this->setVersion($value);
                 break;
             case 12:
+                $this->setVersionCreatedAt($value);
+                break;
+            case 13:
                 $this->setVersionCreatedBy($value);
                 break;
         } // switch()
@@ -1605,15 +1659,16 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
         if (array_key_exists($keys[1], $arr)) $this->setVisible($arr[$keys[1]]);
         if (array_key_exists($keys[2], $arr)) $this->setCode($arr[$keys[2]]);
         if (array_key_exists($keys[3], $arr)) $this->setTitle($arr[$keys[3]]);
-        if (array_key_exists($keys[4], $arr)) $this->setEntity($arr[$keys[4]]);
-        if (array_key_exists($keys[5], $arr)) $this->setSerializedColumns($arr[$keys[5]]);
-        if (array_key_exists($keys[6], $arr)) $this->setSerializedCondition($arr[$keys[6]]);
-        if (array_key_exists($keys[7], $arr)) $this->setIndexEngineDriverConfigurationId($arr[$keys[7]]);
-        if (array_key_exists($keys[8], $arr)) $this->setCreatedAt($arr[$keys[8]]);
-        if (array_key_exists($keys[9], $arr)) $this->setUpdatedAt($arr[$keys[9]]);
-        if (array_key_exists($keys[10], $arr)) $this->setVersion($arr[$keys[10]]);
-        if (array_key_exists($keys[11], $arr)) $this->setVersionCreatedAt($arr[$keys[11]]);
-        if (array_key_exists($keys[12], $arr)) $this->setVersionCreatedBy($arr[$keys[12]]);
+        if (array_key_exists($keys[4], $arr)) $this->setType($arr[$keys[4]]);
+        if (array_key_exists($keys[5], $arr)) $this->setEntity($arr[$keys[5]]);
+        if (array_key_exists($keys[6], $arr)) $this->setSerializedColumns($arr[$keys[6]]);
+        if (array_key_exists($keys[7], $arr)) $this->setSerializedCondition($arr[$keys[7]]);
+        if (array_key_exists($keys[8], $arr)) $this->setIndexEngineDriverConfigurationId($arr[$keys[8]]);
+        if (array_key_exists($keys[9], $arr)) $this->setCreatedAt($arr[$keys[9]]);
+        if (array_key_exists($keys[10], $arr)) $this->setUpdatedAt($arr[$keys[10]]);
+        if (array_key_exists($keys[11], $arr)) $this->setVersion($arr[$keys[11]]);
+        if (array_key_exists($keys[12], $arr)) $this->setVersionCreatedAt($arr[$keys[12]]);
+        if (array_key_exists($keys[13], $arr)) $this->setVersionCreatedBy($arr[$keys[13]]);
     }
 
     /**
@@ -1629,6 +1684,7 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
         if ($this->isColumnModified(IndexEngineIndexTableMap::VISIBLE)) $criteria->add(IndexEngineIndexTableMap::VISIBLE, $this->visible);
         if ($this->isColumnModified(IndexEngineIndexTableMap::CODE)) $criteria->add(IndexEngineIndexTableMap::CODE, $this->code);
         if ($this->isColumnModified(IndexEngineIndexTableMap::TITLE)) $criteria->add(IndexEngineIndexTableMap::TITLE, $this->title);
+        if ($this->isColumnModified(IndexEngineIndexTableMap::TYPE)) $criteria->add(IndexEngineIndexTableMap::TYPE, $this->type);
         if ($this->isColumnModified(IndexEngineIndexTableMap::ENTITY)) $criteria->add(IndexEngineIndexTableMap::ENTITY, $this->entity);
         if ($this->isColumnModified(IndexEngineIndexTableMap::SERIALIZED_COLUMNS)) $criteria->add(IndexEngineIndexTableMap::SERIALIZED_COLUMNS, $this->serialized_columns);
         if ($this->isColumnModified(IndexEngineIndexTableMap::SERIALIZED_CONDITION)) $criteria->add(IndexEngineIndexTableMap::SERIALIZED_CONDITION, $this->serialized_condition);
@@ -1704,6 +1760,7 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
         $copyObj->setVisible($this->getVisible());
         $copyObj->setCode($this->getCode());
         $copyObj->setTitle($this->getTitle());
+        $copyObj->setType($this->getType());
         $copyObj->setEntity($this->getEntity());
         $copyObj->setSerializedColumns($this->getSerializedColumns());
         $copyObj->setSerializedCondition($this->getSerializedCondition());
@@ -2052,6 +2109,7 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
         $this->visible = null;
         $this->code = null;
         $this->title = null;
+        $this->type = null;
         $this->entity = null;
         $this->serialized_columns = null;
         $this->serialized_condition = null;
@@ -2168,6 +2226,7 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
         $version->setVisible($this->getVisible());
         $version->setCode($this->getCode());
         $version->setTitle($this->getTitle());
+        $version->setType($this->getType());
         $version->setEntity($this->getEntity());
         $version->setSerializedColumns($this->getSerializedColumns());
         $version->setSerializedCondition($this->getSerializedCondition());
@@ -2218,6 +2277,7 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
         $this->setVisible($version->getVisible());
         $this->setCode($version->getCode());
         $this->setTitle($version->getTitle());
+        $this->setType($version->getType());
         $this->setEntity($version->getEntity());
         $this->setSerializedColumns($version->getSerializedColumns());
         $this->setSerializedCondition($version->getSerializedCondition());

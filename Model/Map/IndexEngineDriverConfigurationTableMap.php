@@ -58,7 +58,7 @@ class IndexEngineDriverConfigurationTableMap extends TableMap
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 4;
+    const NUM_COLUMNS = 5;
 
     /**
      * The number of lazy-loaded columns
@@ -68,12 +68,17 @@ class IndexEngineDriverConfigurationTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 4;
+    const NUM_HYDRATE_COLUMNS = 5;
 
     /**
      * the column name for the ID field
      */
     const ID = 'index_engine_driver_configuration.ID';
+
+    /**
+     * the column name for the CODE field
+     */
+    const CODE = 'index_engine_driver_configuration.CODE';
 
     /**
      * the column name for the DRIVER_CODE field
@@ -102,12 +107,12 @@ class IndexEngineDriverConfigurationTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'DriverCode', 'Title', 'SerializedConfiguration', ),
-        self::TYPE_STUDLYPHPNAME => array('id', 'driverCode', 'title', 'serializedConfiguration', ),
-        self::TYPE_COLNAME       => array(IndexEngineDriverConfigurationTableMap::ID, IndexEngineDriverConfigurationTableMap::DRIVER_CODE, IndexEngineDriverConfigurationTableMap::TITLE, IndexEngineDriverConfigurationTableMap::SERIALIZED_CONFIGURATION, ),
-        self::TYPE_RAW_COLNAME   => array('ID', 'DRIVER_CODE', 'TITLE', 'SERIALIZED_CONFIGURATION', ),
-        self::TYPE_FIELDNAME     => array('id', 'driver_code', 'title', 'serialized_configuration', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, )
+        self::TYPE_PHPNAME       => array('Id', 'Code', 'DriverCode', 'Title', 'SerializedConfiguration', ),
+        self::TYPE_STUDLYPHPNAME => array('id', 'code', 'driverCode', 'title', 'serializedConfiguration', ),
+        self::TYPE_COLNAME       => array(IndexEngineDriverConfigurationTableMap::ID, IndexEngineDriverConfigurationTableMap::CODE, IndexEngineDriverConfigurationTableMap::DRIVER_CODE, IndexEngineDriverConfigurationTableMap::TITLE, IndexEngineDriverConfigurationTableMap::SERIALIZED_CONFIGURATION, ),
+        self::TYPE_RAW_COLNAME   => array('ID', 'CODE', 'DRIVER_CODE', 'TITLE', 'SERIALIZED_CONFIGURATION', ),
+        self::TYPE_FIELDNAME     => array('id', 'code', 'driver_code', 'title', 'serialized_configuration', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, )
     );
 
     /**
@@ -117,12 +122,12 @@ class IndexEngineDriverConfigurationTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'DriverCode' => 1, 'Title' => 2, 'SerializedConfiguration' => 3, ),
-        self::TYPE_STUDLYPHPNAME => array('id' => 0, 'driverCode' => 1, 'title' => 2, 'serializedConfiguration' => 3, ),
-        self::TYPE_COLNAME       => array(IndexEngineDriverConfigurationTableMap::ID => 0, IndexEngineDriverConfigurationTableMap::DRIVER_CODE => 1, IndexEngineDriverConfigurationTableMap::TITLE => 2, IndexEngineDriverConfigurationTableMap::SERIALIZED_CONFIGURATION => 3, ),
-        self::TYPE_RAW_COLNAME   => array('ID' => 0, 'DRIVER_CODE' => 1, 'TITLE' => 2, 'SERIALIZED_CONFIGURATION' => 3, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'driver_code' => 1, 'title' => 2, 'serialized_configuration' => 3, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, )
+        self::TYPE_PHPNAME       => array('Id' => 0, 'Code' => 1, 'DriverCode' => 2, 'Title' => 3, 'SerializedConfiguration' => 4, ),
+        self::TYPE_STUDLYPHPNAME => array('id' => 0, 'code' => 1, 'driverCode' => 2, 'title' => 3, 'serializedConfiguration' => 4, ),
+        self::TYPE_COLNAME       => array(IndexEngineDriverConfigurationTableMap::ID => 0, IndexEngineDriverConfigurationTableMap::CODE => 1, IndexEngineDriverConfigurationTableMap::DRIVER_CODE => 2, IndexEngineDriverConfigurationTableMap::TITLE => 3, IndexEngineDriverConfigurationTableMap::SERIALIZED_CONFIGURATION => 4, ),
+        self::TYPE_RAW_COLNAME   => array('ID' => 0, 'CODE' => 1, 'DRIVER_CODE' => 2, 'TITLE' => 3, 'SERIALIZED_CONFIGURATION' => 4, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'code' => 1, 'driver_code' => 2, 'title' => 3, 'serialized_configuration' => 4, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, )
     );
 
     /**
@@ -142,6 +147,7 @@ class IndexEngineDriverConfigurationTableMap extends TableMap
         $this->setUseIdGenerator(true);
         // columns
         $this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
+        $this->addColumn('CODE', 'Code', 'VARCHAR', true, 255, null);
         $this->addColumn('DRIVER_CODE', 'DriverCode', 'VARCHAR', true, 64, null);
         $this->addColumn('TITLE', 'Title', 'VARCHAR', true, 255, null);
         $this->addColumn('SERIALIZED_CONFIGURATION', 'SerializedConfiguration', 'CLOB', true, null, null);
@@ -305,11 +311,13 @@ class IndexEngineDriverConfigurationTableMap extends TableMap
     {
         if (null === $alias) {
             $criteria->addSelectColumn(IndexEngineDriverConfigurationTableMap::ID);
+            $criteria->addSelectColumn(IndexEngineDriverConfigurationTableMap::CODE);
             $criteria->addSelectColumn(IndexEngineDriverConfigurationTableMap::DRIVER_CODE);
             $criteria->addSelectColumn(IndexEngineDriverConfigurationTableMap::TITLE);
             $criteria->addSelectColumn(IndexEngineDriverConfigurationTableMap::SERIALIZED_CONFIGURATION);
         } else {
             $criteria->addSelectColumn($alias . '.ID');
+            $criteria->addSelectColumn($alias . '.CODE');
             $criteria->addSelectColumn($alias . '.DRIVER_CODE');
             $criteria->addSelectColumn($alias . '.TITLE');
             $criteria->addSelectColumn($alias . '.SERIALIZED_CONFIGURATION');

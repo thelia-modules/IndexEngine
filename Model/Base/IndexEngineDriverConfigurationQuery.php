@@ -22,11 +22,13 @@ use Propel\Runtime\Exception\PropelException;
  *
  *
  * @method     ChildIndexEngineDriverConfigurationQuery orderById($order = Criteria::ASC) Order by the id column
+ * @method     ChildIndexEngineDriverConfigurationQuery orderByCode($order = Criteria::ASC) Order by the code column
  * @method     ChildIndexEngineDriverConfigurationQuery orderByDriverCode($order = Criteria::ASC) Order by the driver_code column
  * @method     ChildIndexEngineDriverConfigurationQuery orderByTitle($order = Criteria::ASC) Order by the title column
  * @method     ChildIndexEngineDriverConfigurationQuery orderBySerializedConfiguration($order = Criteria::ASC) Order by the serialized_configuration column
  *
  * @method     ChildIndexEngineDriverConfigurationQuery groupById() Group by the id column
+ * @method     ChildIndexEngineDriverConfigurationQuery groupByCode() Group by the code column
  * @method     ChildIndexEngineDriverConfigurationQuery groupByDriverCode() Group by the driver_code column
  * @method     ChildIndexEngineDriverConfigurationQuery groupByTitle() Group by the title column
  * @method     ChildIndexEngineDriverConfigurationQuery groupBySerializedConfiguration() Group by the serialized_configuration column
@@ -47,11 +49,13 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildIndexEngineDriverConfiguration findOneOrCreate(ConnectionInterface $con = null) Return the first ChildIndexEngineDriverConfiguration matching the query, or a new ChildIndexEngineDriverConfiguration object populated from the query conditions when no match is found
  *
  * @method     ChildIndexEngineDriverConfiguration findOneById(int $id) Return the first ChildIndexEngineDriverConfiguration filtered by the id column
+ * @method     ChildIndexEngineDriverConfiguration findOneByCode(string $code) Return the first ChildIndexEngineDriverConfiguration filtered by the code column
  * @method     ChildIndexEngineDriverConfiguration findOneByDriverCode(string $driver_code) Return the first ChildIndexEngineDriverConfiguration filtered by the driver_code column
  * @method     ChildIndexEngineDriverConfiguration findOneByTitle(string $title) Return the first ChildIndexEngineDriverConfiguration filtered by the title column
  * @method     ChildIndexEngineDriverConfiguration findOneBySerializedConfiguration(string $serialized_configuration) Return the first ChildIndexEngineDriverConfiguration filtered by the serialized_configuration column
  *
  * @method     array findById(int $id) Return ChildIndexEngineDriverConfiguration objects filtered by the id column
+ * @method     array findByCode(string $code) Return ChildIndexEngineDriverConfiguration objects filtered by the code column
  * @method     array findByDriverCode(string $driver_code) Return ChildIndexEngineDriverConfiguration objects filtered by the driver_code column
  * @method     array findByTitle(string $title) Return ChildIndexEngineDriverConfiguration objects filtered by the title column
  * @method     array findBySerializedConfiguration(string $serialized_configuration) Return ChildIndexEngineDriverConfiguration objects filtered by the serialized_configuration column
@@ -143,7 +147,7 @@ abstract class IndexEngineDriverConfigurationQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT ID, DRIVER_CODE, TITLE, SERIALIZED_CONFIGURATION FROM index_engine_driver_configuration WHERE ID = :p0';
+        $sql = 'SELECT ID, CODE, DRIVER_CODE, TITLE, SERIALIZED_CONFIGURATION FROM index_engine_driver_configuration WHERE ID = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -271,6 +275,35 @@ abstract class IndexEngineDriverConfigurationQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(IndexEngineDriverConfigurationTableMap::ID, $id, $comparison);
+    }
+
+    /**
+     * Filter the query on the code column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByCode('fooValue');   // WHERE code = 'fooValue'
+     * $query->filterByCode('%fooValue%'); // WHERE code LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $code The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildIndexEngineDriverConfigurationQuery The current query, for fluid interface
+     */
+    public function filterByCode($code = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($code)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $code)) {
+                $code = str_replace('*', '%', $code);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(IndexEngineDriverConfigurationTableMap::CODE, $code, $comparison);
     }
 
     /**

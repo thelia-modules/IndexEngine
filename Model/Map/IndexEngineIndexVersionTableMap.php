@@ -58,7 +58,7 @@ class IndexEngineIndexVersionTableMap extends TableMap
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 13;
+    const NUM_COLUMNS = 14;
 
     /**
      * The number of lazy-loaded columns
@@ -68,7 +68,7 @@ class IndexEngineIndexVersionTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 13;
+    const NUM_HYDRATE_COLUMNS = 14;
 
     /**
      * the column name for the ID field
@@ -89,6 +89,11 @@ class IndexEngineIndexVersionTableMap extends TableMap
      * the column name for the TITLE field
      */
     const TITLE = 'index_engine_index_version.TITLE';
+
+    /**
+     * the column name for the TYPE field
+     */
+    const TYPE = 'index_engine_index_version.TYPE';
 
     /**
      * the column name for the ENTITY field
@@ -147,12 +152,12 @@ class IndexEngineIndexVersionTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'Visible', 'Code', 'Title', 'Entity', 'SerializedColumns', 'SerializedCondition', 'IndexEngineDriverConfigurationId', 'CreatedAt', 'UpdatedAt', 'Version', 'VersionCreatedAt', 'VersionCreatedBy', ),
-        self::TYPE_STUDLYPHPNAME => array('id', 'visible', 'code', 'title', 'entity', 'serializedColumns', 'serializedCondition', 'indexEngineDriverConfigurationId', 'createdAt', 'updatedAt', 'version', 'versionCreatedAt', 'versionCreatedBy', ),
-        self::TYPE_COLNAME       => array(IndexEngineIndexVersionTableMap::ID, IndexEngineIndexVersionTableMap::VISIBLE, IndexEngineIndexVersionTableMap::CODE, IndexEngineIndexVersionTableMap::TITLE, IndexEngineIndexVersionTableMap::ENTITY, IndexEngineIndexVersionTableMap::SERIALIZED_COLUMNS, IndexEngineIndexVersionTableMap::SERIALIZED_CONDITION, IndexEngineIndexVersionTableMap::INDEX_ENGINE_DRIVER_CONFIGURATION_ID, IndexEngineIndexVersionTableMap::CREATED_AT, IndexEngineIndexVersionTableMap::UPDATED_AT, IndexEngineIndexVersionTableMap::VERSION, IndexEngineIndexVersionTableMap::VERSION_CREATED_AT, IndexEngineIndexVersionTableMap::VERSION_CREATED_BY, ),
-        self::TYPE_RAW_COLNAME   => array('ID', 'VISIBLE', 'CODE', 'TITLE', 'ENTITY', 'SERIALIZED_COLUMNS', 'SERIALIZED_CONDITION', 'INDEX_ENGINE_DRIVER_CONFIGURATION_ID', 'CREATED_AT', 'UPDATED_AT', 'VERSION', 'VERSION_CREATED_AT', 'VERSION_CREATED_BY', ),
-        self::TYPE_FIELDNAME     => array('id', 'visible', 'code', 'title', 'entity', 'serialized_columns', 'serialized_condition', 'index_engine_driver_configuration_id', 'created_at', 'updated_at', 'version', 'version_created_at', 'version_created_by', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, )
+        self::TYPE_PHPNAME       => array('Id', 'Visible', 'Code', 'Title', 'Type', 'Entity', 'SerializedColumns', 'SerializedCondition', 'IndexEngineDriverConfigurationId', 'CreatedAt', 'UpdatedAt', 'Version', 'VersionCreatedAt', 'VersionCreatedBy', ),
+        self::TYPE_STUDLYPHPNAME => array('id', 'visible', 'code', 'title', 'type', 'entity', 'serializedColumns', 'serializedCondition', 'indexEngineDriverConfigurationId', 'createdAt', 'updatedAt', 'version', 'versionCreatedAt', 'versionCreatedBy', ),
+        self::TYPE_COLNAME       => array(IndexEngineIndexVersionTableMap::ID, IndexEngineIndexVersionTableMap::VISIBLE, IndexEngineIndexVersionTableMap::CODE, IndexEngineIndexVersionTableMap::TITLE, IndexEngineIndexVersionTableMap::TYPE, IndexEngineIndexVersionTableMap::ENTITY, IndexEngineIndexVersionTableMap::SERIALIZED_COLUMNS, IndexEngineIndexVersionTableMap::SERIALIZED_CONDITION, IndexEngineIndexVersionTableMap::INDEX_ENGINE_DRIVER_CONFIGURATION_ID, IndexEngineIndexVersionTableMap::CREATED_AT, IndexEngineIndexVersionTableMap::UPDATED_AT, IndexEngineIndexVersionTableMap::VERSION, IndexEngineIndexVersionTableMap::VERSION_CREATED_AT, IndexEngineIndexVersionTableMap::VERSION_CREATED_BY, ),
+        self::TYPE_RAW_COLNAME   => array('ID', 'VISIBLE', 'CODE', 'TITLE', 'TYPE', 'ENTITY', 'SERIALIZED_COLUMNS', 'SERIALIZED_CONDITION', 'INDEX_ENGINE_DRIVER_CONFIGURATION_ID', 'CREATED_AT', 'UPDATED_AT', 'VERSION', 'VERSION_CREATED_AT', 'VERSION_CREATED_BY', ),
+        self::TYPE_FIELDNAME     => array('id', 'visible', 'code', 'title', 'type', 'entity', 'serialized_columns', 'serialized_condition', 'index_engine_driver_configuration_id', 'created_at', 'updated_at', 'version', 'version_created_at', 'version_created_by', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, )
     );
 
     /**
@@ -162,12 +167,12 @@ class IndexEngineIndexVersionTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'Visible' => 1, 'Code' => 2, 'Title' => 3, 'Entity' => 4, 'SerializedColumns' => 5, 'SerializedCondition' => 6, 'IndexEngineDriverConfigurationId' => 7, 'CreatedAt' => 8, 'UpdatedAt' => 9, 'Version' => 10, 'VersionCreatedAt' => 11, 'VersionCreatedBy' => 12, ),
-        self::TYPE_STUDLYPHPNAME => array('id' => 0, 'visible' => 1, 'code' => 2, 'title' => 3, 'entity' => 4, 'serializedColumns' => 5, 'serializedCondition' => 6, 'indexEngineDriverConfigurationId' => 7, 'createdAt' => 8, 'updatedAt' => 9, 'version' => 10, 'versionCreatedAt' => 11, 'versionCreatedBy' => 12, ),
-        self::TYPE_COLNAME       => array(IndexEngineIndexVersionTableMap::ID => 0, IndexEngineIndexVersionTableMap::VISIBLE => 1, IndexEngineIndexVersionTableMap::CODE => 2, IndexEngineIndexVersionTableMap::TITLE => 3, IndexEngineIndexVersionTableMap::ENTITY => 4, IndexEngineIndexVersionTableMap::SERIALIZED_COLUMNS => 5, IndexEngineIndexVersionTableMap::SERIALIZED_CONDITION => 6, IndexEngineIndexVersionTableMap::INDEX_ENGINE_DRIVER_CONFIGURATION_ID => 7, IndexEngineIndexVersionTableMap::CREATED_AT => 8, IndexEngineIndexVersionTableMap::UPDATED_AT => 9, IndexEngineIndexVersionTableMap::VERSION => 10, IndexEngineIndexVersionTableMap::VERSION_CREATED_AT => 11, IndexEngineIndexVersionTableMap::VERSION_CREATED_BY => 12, ),
-        self::TYPE_RAW_COLNAME   => array('ID' => 0, 'VISIBLE' => 1, 'CODE' => 2, 'TITLE' => 3, 'ENTITY' => 4, 'SERIALIZED_COLUMNS' => 5, 'SERIALIZED_CONDITION' => 6, 'INDEX_ENGINE_DRIVER_CONFIGURATION_ID' => 7, 'CREATED_AT' => 8, 'UPDATED_AT' => 9, 'VERSION' => 10, 'VERSION_CREATED_AT' => 11, 'VERSION_CREATED_BY' => 12, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'visible' => 1, 'code' => 2, 'title' => 3, 'entity' => 4, 'serialized_columns' => 5, 'serialized_condition' => 6, 'index_engine_driver_configuration_id' => 7, 'created_at' => 8, 'updated_at' => 9, 'version' => 10, 'version_created_at' => 11, 'version_created_by' => 12, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, )
+        self::TYPE_PHPNAME       => array('Id' => 0, 'Visible' => 1, 'Code' => 2, 'Title' => 3, 'Type' => 4, 'Entity' => 5, 'SerializedColumns' => 6, 'SerializedCondition' => 7, 'IndexEngineDriverConfigurationId' => 8, 'CreatedAt' => 9, 'UpdatedAt' => 10, 'Version' => 11, 'VersionCreatedAt' => 12, 'VersionCreatedBy' => 13, ),
+        self::TYPE_STUDLYPHPNAME => array('id' => 0, 'visible' => 1, 'code' => 2, 'title' => 3, 'type' => 4, 'entity' => 5, 'serializedColumns' => 6, 'serializedCondition' => 7, 'indexEngineDriverConfigurationId' => 8, 'createdAt' => 9, 'updatedAt' => 10, 'version' => 11, 'versionCreatedAt' => 12, 'versionCreatedBy' => 13, ),
+        self::TYPE_COLNAME       => array(IndexEngineIndexVersionTableMap::ID => 0, IndexEngineIndexVersionTableMap::VISIBLE => 1, IndexEngineIndexVersionTableMap::CODE => 2, IndexEngineIndexVersionTableMap::TITLE => 3, IndexEngineIndexVersionTableMap::TYPE => 4, IndexEngineIndexVersionTableMap::ENTITY => 5, IndexEngineIndexVersionTableMap::SERIALIZED_COLUMNS => 6, IndexEngineIndexVersionTableMap::SERIALIZED_CONDITION => 7, IndexEngineIndexVersionTableMap::INDEX_ENGINE_DRIVER_CONFIGURATION_ID => 8, IndexEngineIndexVersionTableMap::CREATED_AT => 9, IndexEngineIndexVersionTableMap::UPDATED_AT => 10, IndexEngineIndexVersionTableMap::VERSION => 11, IndexEngineIndexVersionTableMap::VERSION_CREATED_AT => 12, IndexEngineIndexVersionTableMap::VERSION_CREATED_BY => 13, ),
+        self::TYPE_RAW_COLNAME   => array('ID' => 0, 'VISIBLE' => 1, 'CODE' => 2, 'TITLE' => 3, 'TYPE' => 4, 'ENTITY' => 5, 'SERIALIZED_COLUMNS' => 6, 'SERIALIZED_CONDITION' => 7, 'INDEX_ENGINE_DRIVER_CONFIGURATION_ID' => 8, 'CREATED_AT' => 9, 'UPDATED_AT' => 10, 'VERSION' => 11, 'VERSION_CREATED_AT' => 12, 'VERSION_CREATED_BY' => 13, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'visible' => 1, 'code' => 2, 'title' => 3, 'type' => 4, 'entity' => 5, 'serialized_columns' => 6, 'serialized_condition' => 7, 'index_engine_driver_configuration_id' => 8, 'created_at' => 9, 'updated_at' => 10, 'version' => 11, 'version_created_at' => 12, 'version_created_by' => 13, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, )
     );
 
     /**
@@ -190,6 +195,7 @@ class IndexEngineIndexVersionTableMap extends TableMap
         $this->addColumn('VISIBLE', 'Visible', 'TINYINT', true, null, 0);
         $this->addColumn('CODE', 'Code', 'VARCHAR', true, 255, null);
         $this->addColumn('TITLE', 'Title', 'VARCHAR', true, 255, null);
+        $this->addColumn('TYPE', 'Type', 'VARCHAR', true, 255, null);
         $this->addColumn('ENTITY', 'Entity', 'VARCHAR', true, 64, null);
         $this->addColumn('SERIALIZED_COLUMNS', 'SerializedColumns', 'CLOB', true, null, null);
         $this->addColumn('SERIALIZED_CONDITION', 'SerializedCondition', 'CLOB', true, null, null);
@@ -276,11 +282,11 @@ class IndexEngineIndexVersionTableMap extends TableMap
     public static function getPrimaryKeyHashFromRow($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
         // If the PK cannot be derived from the row, return NULL.
-        if ($row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)] === null && $row[TableMap::TYPE_NUM == $indexType ? 10 + $offset : static::translateFieldName('Version', TableMap::TYPE_PHPNAME, $indexType)] === null) {
+        if ($row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)] === null && $row[TableMap::TYPE_NUM == $indexType ? 11 + $offset : static::translateFieldName('Version', TableMap::TYPE_PHPNAME, $indexType)] === null) {
             return null;
         }
 
-        return serialize(array((string) $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)], (string) $row[TableMap::TYPE_NUM == $indexType ? 10 + $offset : static::translateFieldName('Version', TableMap::TYPE_PHPNAME, $indexType)]));
+        return serialize(array((string) $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)], (string) $row[TableMap::TYPE_NUM == $indexType ? 11 + $offset : static::translateFieldName('Version', TableMap::TYPE_PHPNAME, $indexType)]));
     }
 
     /**
@@ -400,6 +406,7 @@ class IndexEngineIndexVersionTableMap extends TableMap
             $criteria->addSelectColumn(IndexEngineIndexVersionTableMap::VISIBLE);
             $criteria->addSelectColumn(IndexEngineIndexVersionTableMap::CODE);
             $criteria->addSelectColumn(IndexEngineIndexVersionTableMap::TITLE);
+            $criteria->addSelectColumn(IndexEngineIndexVersionTableMap::TYPE);
             $criteria->addSelectColumn(IndexEngineIndexVersionTableMap::ENTITY);
             $criteria->addSelectColumn(IndexEngineIndexVersionTableMap::SERIALIZED_COLUMNS);
             $criteria->addSelectColumn(IndexEngineIndexVersionTableMap::SERIALIZED_CONDITION);
@@ -414,6 +421,7 @@ class IndexEngineIndexVersionTableMap extends TableMap
             $criteria->addSelectColumn($alias . '.VISIBLE');
             $criteria->addSelectColumn($alias . '.CODE');
             $criteria->addSelectColumn($alias . '.TITLE');
+            $criteria->addSelectColumn($alias . '.TYPE');
             $criteria->addSelectColumn($alias . '.ENTITY');
             $criteria->addSelectColumn($alias . '.SERIALIZED_COLUMNS');
             $criteria->addSelectColumn($alias . '.SERIALIZED_CONDITION');

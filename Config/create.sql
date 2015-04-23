@@ -39,10 +39,12 @@ CREATE TABLE IF NOT EXISTS `index_engine_index`
 CREATE TABLE IF NOT EXISTS `index_engine_driver_configuration`
 (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `code` VARCHAR(255) NOT NULL,
     `driver_code` VARCHAR(64) NOT NULL,
     `title` VARCHAR(255) NOT NULL,
     `serialized_configuration` LONGTEXT NOT NULL,
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`id`),
+    UNIQUE INDEX `UNIQUE_1` (`code`)
 ) ENGINE=InnoDB;
 
 -- ---------------------------------------------------------------------

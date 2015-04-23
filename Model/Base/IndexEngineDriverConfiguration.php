@@ -64,6 +64,12 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
     protected $id;
 
     /**
+     * The value for the code field.
+     * @var        string
+     */
+    protected $code;
+
+    /**
      * The value for the driver_code field.
      * @var        string
      */
@@ -383,6 +389,17 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
     }
 
     /**
+     * Get the [code] column value.
+     *
+     * @return   string
+     */
+    public function getCode()
+    {
+
+        return $this->code;
+    }
+
+    /**
      * Get the [driver_code] column value.
      *
      * @return   string
@@ -435,6 +452,27 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
 
         return $this;
     } // setId()
+
+    /**
+     * Set the value of [code] column.
+     *
+     * @param      string $v new value
+     * @return   \IndexEngine\Model\IndexEngineDriverConfiguration The current object (for fluent API support)
+     */
+    public function setCode($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->code !== $v) {
+            $this->code = $v;
+            $this->modifiedColumns[IndexEngineDriverConfigurationTableMap::CODE] = true;
+        }
+
+
+        return $this;
+    } // setCode()
 
     /**
      * Set the value of [driver_code] column.
@@ -539,13 +577,16 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
             $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : IndexEngineDriverConfigurationTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
             $this->id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : IndexEngineDriverConfigurationTableMap::translateFieldName('DriverCode', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : IndexEngineDriverConfigurationTableMap::translateFieldName('Code', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->code = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : IndexEngineDriverConfigurationTableMap::translateFieldName('DriverCode', TableMap::TYPE_PHPNAME, $indexType)];
             $this->driver_code = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : IndexEngineDriverConfigurationTableMap::translateFieldName('Title', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : IndexEngineDriverConfigurationTableMap::translateFieldName('Title', TableMap::TYPE_PHPNAME, $indexType)];
             $this->title = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : IndexEngineDriverConfigurationTableMap::translateFieldName('SerializedConfiguration', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : IndexEngineDriverConfigurationTableMap::translateFieldName('SerializedConfiguration', TableMap::TYPE_PHPNAME, $indexType)];
             $this->serialized_configuration = (null !== $col) ? (string) $col : null;
             $this->resetModified();
 
@@ -555,7 +596,7 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 4; // 4 = IndexEngineDriverConfigurationTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 5; // 5 = IndexEngineDriverConfigurationTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating \IndexEngine\Model\IndexEngineDriverConfiguration object", 0, $e);
@@ -805,6 +846,9 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
         if ($this->isColumnModified(IndexEngineDriverConfigurationTableMap::ID)) {
             $modifiedColumns[':p' . $index++]  = 'ID';
         }
+        if ($this->isColumnModified(IndexEngineDriverConfigurationTableMap::CODE)) {
+            $modifiedColumns[':p' . $index++]  = 'CODE';
+        }
         if ($this->isColumnModified(IndexEngineDriverConfigurationTableMap::DRIVER_CODE)) {
             $modifiedColumns[':p' . $index++]  = 'DRIVER_CODE';
         }
@@ -827,6 +871,9 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
                 switch ($columnName) {
                     case 'ID':
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
+                        break;
+                    case 'CODE':
+                        $stmt->bindValue($identifier, $this->code, PDO::PARAM_STR);
                         break;
                     case 'DRIVER_CODE':
                         $stmt->bindValue($identifier, $this->driver_code, PDO::PARAM_STR);
@@ -903,12 +950,15 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
                 return $this->getId();
                 break;
             case 1:
-                return $this->getDriverCode();
+                return $this->getCode();
                 break;
             case 2:
-                return $this->getTitle();
+                return $this->getDriverCode();
                 break;
             case 3:
+                return $this->getTitle();
+                break;
+            case 4:
                 return $this->getSerializedConfiguration();
                 break;
             default:
@@ -941,9 +991,10 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
         $keys = IndexEngineDriverConfigurationTableMap::getFieldNames($keyType);
         $result = array(
             $keys[0] => $this->getId(),
-            $keys[1] => $this->getDriverCode(),
-            $keys[2] => $this->getTitle(),
-            $keys[3] => $this->getSerializedConfiguration(),
+            $keys[1] => $this->getCode(),
+            $keys[2] => $this->getDriverCode(),
+            $keys[3] => $this->getTitle(),
+            $keys[4] => $this->getSerializedConfiguration(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -995,12 +1046,15 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
                 $this->setId($value);
                 break;
             case 1:
-                $this->setDriverCode($value);
+                $this->setCode($value);
                 break;
             case 2:
-                $this->setTitle($value);
+                $this->setDriverCode($value);
                 break;
             case 3:
+                $this->setTitle($value);
+                break;
+            case 4:
                 $this->setSerializedConfiguration($value);
                 break;
         } // switch()
@@ -1028,9 +1082,10 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
         $keys = IndexEngineDriverConfigurationTableMap::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
-        if (array_key_exists($keys[1], $arr)) $this->setDriverCode($arr[$keys[1]]);
-        if (array_key_exists($keys[2], $arr)) $this->setTitle($arr[$keys[2]]);
-        if (array_key_exists($keys[3], $arr)) $this->setSerializedConfiguration($arr[$keys[3]]);
+        if (array_key_exists($keys[1], $arr)) $this->setCode($arr[$keys[1]]);
+        if (array_key_exists($keys[2], $arr)) $this->setDriverCode($arr[$keys[2]]);
+        if (array_key_exists($keys[3], $arr)) $this->setTitle($arr[$keys[3]]);
+        if (array_key_exists($keys[4], $arr)) $this->setSerializedConfiguration($arr[$keys[4]]);
     }
 
     /**
@@ -1043,6 +1098,7 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
         $criteria = new Criteria(IndexEngineDriverConfigurationTableMap::DATABASE_NAME);
 
         if ($this->isColumnModified(IndexEngineDriverConfigurationTableMap::ID)) $criteria->add(IndexEngineDriverConfigurationTableMap::ID, $this->id);
+        if ($this->isColumnModified(IndexEngineDriverConfigurationTableMap::CODE)) $criteria->add(IndexEngineDriverConfigurationTableMap::CODE, $this->code);
         if ($this->isColumnModified(IndexEngineDriverConfigurationTableMap::DRIVER_CODE)) $criteria->add(IndexEngineDriverConfigurationTableMap::DRIVER_CODE, $this->driver_code);
         if ($this->isColumnModified(IndexEngineDriverConfigurationTableMap::TITLE)) $criteria->add(IndexEngineDriverConfigurationTableMap::TITLE, $this->title);
         if ($this->isColumnModified(IndexEngineDriverConfigurationTableMap::SERIALIZED_CONFIGURATION)) $criteria->add(IndexEngineDriverConfigurationTableMap::SERIALIZED_CONFIGURATION, $this->serialized_configuration);
@@ -1109,6 +1165,7 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
+        $copyObj->setCode($this->getCode());
         $copyObj->setDriverCode($this->getDriverCode());
         $copyObj->setTitle($this->getTitle());
         $copyObj->setSerializedConfiguration($this->getSerializedConfiguration());
@@ -1621,6 +1678,7 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
     public function clear()
     {
         $this->id = null;
+        $this->code = null;
         $this->driver_code = null;
         $this->title = null;
         $this->serialized_configuration = null;

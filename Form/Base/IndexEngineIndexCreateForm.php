@@ -27,6 +27,7 @@ class IndexEngineIndexCreateForm extends BaseForm
         $this->addVisibleField($translationKeys, $fieldsIdKeys);
         $this->addCodeField($translationKeys, $fieldsIdKeys);
         $this->addTitleField($translationKeys, $fieldsIdKeys);
+        $this->addTypeField($translationKeys, $fieldsIdKeys);
         $this->addEntityField($translationKeys, $fieldsIdKeys);
         $this->addSerializedColumnsField($translationKeys, $fieldsIdKeys);
         $this->addSerializedConditionField($translationKeys, $fieldsIdKeys);
@@ -65,6 +66,20 @@ class IndexEngineIndexCreateForm extends BaseForm
         $this->formBuilder->add("title", "text", array(
             "label" => $this->translator->trans($this->readKey("title", $translationKeys), [], IndexEngine::MESSAGE_DOMAIN),
             "label_attr" => ["for" => $this->readKey("title", $fieldsIdKeys)],
+            "required" => true,
+            "constraints" => array(
+                new NotBlank(),
+            ),
+            "attr" => array(
+            )
+        ));
+    }
+
+    protected function addTypeField(array $translationKeys, array $fieldsIdKeys)
+    {
+        $this->formBuilder->add("type", "text", array(
+            "label" => $this->translator->trans($this->readKey("type", $translationKeys), [], IndexEngine::MESSAGE_DOMAIN),
+            "label_attr" => ["for" => $this->readKey("type", $fieldsIdKeys)],
             "required" => true,
             "constraints" => array(
                 new NotBlank(),
@@ -155,6 +170,7 @@ class IndexEngineIndexCreateForm extends BaseForm
             "visible" => "index_engine_index_visible",
             "code" => "index_engine_index_code",
             "title" => "index_engine_index_title",
+            "type" => "index_engine_index_type",
             "entity" => "index_engine_index_entity",
             "serialized_columns" => "index_engine_index_serialized_columns",
             "serialized_condition" => "index_engine_index_serialized_condition",

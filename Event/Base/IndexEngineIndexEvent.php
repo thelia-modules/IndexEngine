@@ -20,6 +20,7 @@ class IndexEngineIndexEvent extends ActionEvent
     protected $visible;
     protected $code;
     protected $title;
+    protected $type;
     protected $entity;
     protected $serializedColumns;
     protected $serializedCondition;
@@ -70,6 +71,18 @@ class IndexEngineIndexEvent extends ActionEvent
     public function setTitle($title)
     {
         $this->title = $title;
+
+        return $this;
+    }
+
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    public function setType($type)
+    {
+        $this->type = $type;
 
         return $this;
     }

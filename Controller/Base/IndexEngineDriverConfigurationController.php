@@ -66,6 +66,7 @@ class IndexEngineDriverConfigurationController extends AbstractCrudController
     {
         $data = array(
             "id" => $object->getId(),
+            "code" => $object->getCode(),
             "driver_code" => $object->getDriverCode(),
             "title" => $object->getTitle(),
             "serialized_configuration" => $object->getSerializedConfiguration(),
@@ -84,6 +85,7 @@ class IndexEngineDriverConfigurationController extends AbstractCrudController
     {
         $event = new IndexEngineDriverConfigurationEvent();
 
+        $event->setCode($formData["code"]);
         $event->setDriverCode($formData["driver_code"]);
         $event->setTitle($formData["title"]);
         $event->setSerializedConfiguration($formData["serialized_configuration"]);
@@ -102,6 +104,7 @@ class IndexEngineDriverConfigurationController extends AbstractCrudController
         $event = new IndexEngineDriverConfigurationEvent();
 
         $event->setId($formData["id"]);
+        $event->setCode($formData["code"]);
         $event->setDriverCode($formData["driver_code"]);
         $event->setTitle($formData["title"]);
         $event->setSerializedConfiguration($formData["serialized_configuration"]);

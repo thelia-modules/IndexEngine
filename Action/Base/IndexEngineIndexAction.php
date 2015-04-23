@@ -65,6 +65,10 @@ class IndexEngineIndexAction extends BaseAction implements EventSubscriberInterf
                 $model->setTitle($title);
             }
 
+            if (null !== $type = $event->getType()) {
+                $model->setType($type);
+            }
+
             if (null !== $entity = $event->getEntity()) {
                 $model->setEntity($entity);
             }

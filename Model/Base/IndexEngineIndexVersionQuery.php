@@ -25,6 +25,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildIndexEngineIndexVersionQuery orderByVisible($order = Criteria::ASC) Order by the visible column
  * @method     ChildIndexEngineIndexVersionQuery orderByCode($order = Criteria::ASC) Order by the code column
  * @method     ChildIndexEngineIndexVersionQuery orderByTitle($order = Criteria::ASC) Order by the title column
+ * @method     ChildIndexEngineIndexVersionQuery orderByType($order = Criteria::ASC) Order by the type column
  * @method     ChildIndexEngineIndexVersionQuery orderByEntity($order = Criteria::ASC) Order by the entity column
  * @method     ChildIndexEngineIndexVersionQuery orderBySerializedColumns($order = Criteria::ASC) Order by the serialized_columns column
  * @method     ChildIndexEngineIndexVersionQuery orderBySerializedCondition($order = Criteria::ASC) Order by the serialized_condition column
@@ -39,6 +40,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildIndexEngineIndexVersionQuery groupByVisible() Group by the visible column
  * @method     ChildIndexEngineIndexVersionQuery groupByCode() Group by the code column
  * @method     ChildIndexEngineIndexVersionQuery groupByTitle() Group by the title column
+ * @method     ChildIndexEngineIndexVersionQuery groupByType() Group by the type column
  * @method     ChildIndexEngineIndexVersionQuery groupByEntity() Group by the entity column
  * @method     ChildIndexEngineIndexVersionQuery groupBySerializedColumns() Group by the serialized_columns column
  * @method     ChildIndexEngineIndexVersionQuery groupBySerializedCondition() Group by the serialized_condition column
@@ -64,6 +66,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildIndexEngineIndexVersion findOneByVisible(int $visible) Return the first ChildIndexEngineIndexVersion filtered by the visible column
  * @method     ChildIndexEngineIndexVersion findOneByCode(string $code) Return the first ChildIndexEngineIndexVersion filtered by the code column
  * @method     ChildIndexEngineIndexVersion findOneByTitle(string $title) Return the first ChildIndexEngineIndexVersion filtered by the title column
+ * @method     ChildIndexEngineIndexVersion findOneByType(string $type) Return the first ChildIndexEngineIndexVersion filtered by the type column
  * @method     ChildIndexEngineIndexVersion findOneByEntity(string $entity) Return the first ChildIndexEngineIndexVersion filtered by the entity column
  * @method     ChildIndexEngineIndexVersion findOneBySerializedColumns(string $serialized_columns) Return the first ChildIndexEngineIndexVersion filtered by the serialized_columns column
  * @method     ChildIndexEngineIndexVersion findOneBySerializedCondition(string $serialized_condition) Return the first ChildIndexEngineIndexVersion filtered by the serialized_condition column
@@ -78,6 +81,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     array findByVisible(int $visible) Return ChildIndexEngineIndexVersion objects filtered by the visible column
  * @method     array findByCode(string $code) Return ChildIndexEngineIndexVersion objects filtered by the code column
  * @method     array findByTitle(string $title) Return ChildIndexEngineIndexVersion objects filtered by the title column
+ * @method     array findByType(string $type) Return ChildIndexEngineIndexVersion objects filtered by the type column
  * @method     array findByEntity(string $entity) Return ChildIndexEngineIndexVersion objects filtered by the entity column
  * @method     array findBySerializedColumns(string $serialized_columns) Return ChildIndexEngineIndexVersion objects filtered by the serialized_columns column
  * @method     array findBySerializedCondition(string $serialized_condition) Return ChildIndexEngineIndexVersion objects filtered by the serialized_condition column
@@ -175,7 +179,7 @@ abstract class IndexEngineIndexVersionQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT ID, VISIBLE, CODE, TITLE, ENTITY, SERIALIZED_COLUMNS, SERIALIZED_CONDITION, INDEX_ENGINE_DRIVER_CONFIGURATION_ID, CREATED_AT, UPDATED_AT, VERSION, VERSION_CREATED_AT, VERSION_CREATED_BY FROM index_engine_index_version WHERE ID = :p0 AND VERSION = :p1';
+        $sql = 'SELECT ID, VISIBLE, CODE, TITLE, TYPE, ENTITY, SERIALIZED_COLUMNS, SERIALIZED_CONDITION, INDEX_ENGINE_DRIVER_CONFIGURATION_ID, CREATED_AT, UPDATED_AT, VERSION, VERSION_CREATED_AT, VERSION_CREATED_BY FROM index_engine_index_version WHERE ID = :p0 AND VERSION = :p1';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key[0], PDO::PARAM_INT);
@@ -416,6 +420,35 @@ abstract class IndexEngineIndexVersionQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(IndexEngineIndexVersionTableMap::TITLE, $title, $comparison);
+    }
+
+    /**
+     * Filter the query on the type column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByType('fooValue');   // WHERE type = 'fooValue'
+     * $query->filterByType('%fooValue%'); // WHERE type LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $type The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildIndexEngineIndexVersionQuery The current query, for fluid interface
+     */
+    public function filterByType($type = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($type)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $type)) {
+                $type = str_replace('*', '%', $type);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(IndexEngineIndexVersionTableMap::TYPE, $type, $comparison);
     }
 
     /**

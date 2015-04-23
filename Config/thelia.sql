@@ -15,6 +15,7 @@ CREATE TABLE `index_engine_index`
     `visible` TINYINT DEFAULT 0 NOT NULL,
     `code` VARCHAR(255) NOT NULL,
     `title` VARCHAR(255) NOT NULL,
+    `type` VARCHAR(255) NOT NULL,
     `entity` VARCHAR(64) NOT NULL,
     `serialized_columns` LONGTEXT NOT NULL,
     `serialized_condition` LONGTEXT NOT NULL,
@@ -43,10 +44,12 @@ DROP TABLE IF EXISTS `index_engine_driver_configuration`;
 CREATE TABLE `index_engine_driver_configuration`
 (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `code` VARCHAR(255) NOT NULL,
     `driver_code` VARCHAR(64) NOT NULL,
     `title` VARCHAR(255) NOT NULL,
     `serialized_configuration` LONGTEXT NOT NULL,
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`id`),
+    UNIQUE INDEX `UNIQUE_1` (`code`)
 ) ENGINE=InnoDB;
 
 -- ---------------------------------------------------------------------
@@ -92,6 +95,7 @@ CREATE TABLE `index_engine_index_version`
     `visible` TINYINT DEFAULT 0 NOT NULL,
     `code` VARCHAR(255) NOT NULL,
     `title` VARCHAR(255) NOT NULL,
+    `type` VARCHAR(255) NOT NULL,
     `entity` VARCHAR(64) NOT NULL,
     `serialized_columns` LONGTEXT NOT NULL,
     `serialized_condition` LONGTEXT NOT NULL,

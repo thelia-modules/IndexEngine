@@ -37,6 +37,7 @@ class IndexEngineDriverConfiguration extends BaseLoop implements PropelSearchLoo
 
             $row
                 ->set("ID", $entry->getId())
+                ->set("CODE", $entry->getCode())
                 ->set("DRIVER_CODE", $entry->getDriverCode())
                 ->set("TITLE", $entry->getTitle())
                 ->set("SERIALIZED_CONFIGURATION", $entry->getSerializedConfiguration())
@@ -78,6 +79,7 @@ class IndexEngineDriverConfiguration extends BaseLoop implements PropelSearchLoo
     {
         return new ArgumentCollection(
             Argument::createIntListTypeArgument("id"),
+            Argument::createAnyTypeArgument("code"),
             Argument::createAnyTypeArgument("driver_code"),
             Argument::createAnyTypeArgument("title"),
             Argument::createEnumListTypeArgument(
@@ -85,6 +87,8 @@ class IndexEngineDriverConfiguration extends BaseLoop implements PropelSearchLoo
                 [
                     "id",
                     "id-reverse",
+                    "code",
+                    "code-reverse",
                     "driver_code",
                     "driver_code-reverse",
                     "title",
@@ -110,6 +114,11 @@ class IndexEngineDriverConfiguration extends BaseLoop implements PropelSearchLoo
             $query->filterById($id);
         }
 
+        if (null !== $code = $this->getCode()) {
+            $code = array_map("trim", explode(",", $code));
+            $query->filterByCode($code);
+        }
+
         if (null !== $driver_code = $this->getDriverCode()) {
             $driver_code = array_map("trim", explode(",", $driver_code));
             $query->filterByDriverCode($driver_code);
@@ -127,6 +136,12 @@ class IndexEngineDriverConfiguration extends BaseLoop implements PropelSearchLoo
                     break;
                 case "id-reverse":
                     $query->orderById(Criteria::DESC);
+                    break;
+                case "code":
+                    $query->orderByCode();
+                    break;
+                case "code-reverse":
+                    $query->orderByCode(Criteria::DESC);
                     break;
                 case "driver_code":
                     $query->orderByDriverCode();

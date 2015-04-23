@@ -70,6 +70,7 @@ class IndexEngineIndexController extends AbstractCrudController
             "visible" => (bool) $object->getVisible(),
             "code" => $object->getCode(),
             "title" => $object->getTitle(),
+            "type" => $object->getType(),
             "entity" => $object->getEntity(),
             "serialized_columns" => $object->getSerializedColumns(),
             "serialized_condition" => $object->getSerializedCondition(),
@@ -92,6 +93,7 @@ class IndexEngineIndexController extends AbstractCrudController
         $event->setVisible($formData["visible"]);
         $event->setCode($formData["code"]);
         $event->setTitle($formData["title"]);
+        $event->setType($formData["type"]);
         $event->setEntity($formData["entity"]);
         $event->setSerializedColumns($formData["serialized_columns"]);
         $event->setSerializedCondition($formData["serialized_condition"]);
@@ -114,6 +116,7 @@ class IndexEngineIndexController extends AbstractCrudController
         $event->setVisible($formData["visible"]);
         $event->setCode($formData["code"]);
         $event->setTitle($formData["title"]);
+        $event->setType($formData["type"]);
         $event->setEntity($formData["entity"]);
         $event->setSerializedColumns($formData["serialized_columns"]);
         $event->setSerializedCondition($formData["serialized_condition"]);

@@ -24,9 +24,24 @@ class IndexEngineDriverConfigurationCreateForm extends BaseForm
         $translationKeys = $this->getTranslationKeys();
         $fieldsIdKeys = $this->getFieldsIdKeys();
 
+        $this->addCodeField($translationKeys, $fieldsIdKeys);
         $this->addDriverCodeField($translationKeys, $fieldsIdKeys);
         $this->addTitleField($translationKeys, $fieldsIdKeys);
         $this->addSerializedConfigurationField($translationKeys, $fieldsIdKeys);
+    }
+
+    protected function addCodeField(array $translationKeys, array $fieldsIdKeys)
+    {
+        $this->formBuilder->add("code", "text", array(
+            "label" => $this->translator->trans($this->readKey("code", $translationKeys), [], IndexEngine::MESSAGE_DOMAIN),
+            "label_attr" => ["for" => $this->readKey("code", $fieldsIdKeys)],
+            "required" => true,
+            "constraints" => array(
+                new NotBlank(),
+            ),
+            "attr" => array(
+            )
+        ));
     }
 
     protected function addDriverCodeField(array $translationKeys, array $fieldsIdKeys)
@@ -93,6 +108,7 @@ class IndexEngineDriverConfigurationCreateForm extends BaseForm
     public function getFieldsIdKeys()
     {
         return array(
+            "code" => "index_engine_driver_configuration_code",
             "driver_code" => "index_engine_driver_configuration_driver_code",
             "title" => "index_engine_driver_configuration_title",
             "serialized_configuration" => "index_engine_driver_configuration_serialized_configuration",

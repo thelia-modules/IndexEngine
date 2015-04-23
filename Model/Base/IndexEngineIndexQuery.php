@@ -25,6 +25,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildIndexEngineIndexQuery orderByVisible($order = Criteria::ASC) Order by the visible column
  * @method     ChildIndexEngineIndexQuery orderByCode($order = Criteria::ASC) Order by the code column
  * @method     ChildIndexEngineIndexQuery orderByTitle($order = Criteria::ASC) Order by the title column
+ * @method     ChildIndexEngineIndexQuery orderByType($order = Criteria::ASC) Order by the type column
  * @method     ChildIndexEngineIndexQuery orderByEntity($order = Criteria::ASC) Order by the entity column
  * @method     ChildIndexEngineIndexQuery orderBySerializedColumns($order = Criteria::ASC) Order by the serialized_columns column
  * @method     ChildIndexEngineIndexQuery orderBySerializedCondition($order = Criteria::ASC) Order by the serialized_condition column
@@ -39,6 +40,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildIndexEngineIndexQuery groupByVisible() Group by the visible column
  * @method     ChildIndexEngineIndexQuery groupByCode() Group by the code column
  * @method     ChildIndexEngineIndexQuery groupByTitle() Group by the title column
+ * @method     ChildIndexEngineIndexQuery groupByType() Group by the type column
  * @method     ChildIndexEngineIndexQuery groupByEntity() Group by the entity column
  * @method     ChildIndexEngineIndexQuery groupBySerializedColumns() Group by the serialized_columns column
  * @method     ChildIndexEngineIndexQuery groupBySerializedCondition() Group by the serialized_condition column
@@ -68,6 +70,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildIndexEngineIndex findOneByVisible(int $visible) Return the first ChildIndexEngineIndex filtered by the visible column
  * @method     ChildIndexEngineIndex findOneByCode(string $code) Return the first ChildIndexEngineIndex filtered by the code column
  * @method     ChildIndexEngineIndex findOneByTitle(string $title) Return the first ChildIndexEngineIndex filtered by the title column
+ * @method     ChildIndexEngineIndex findOneByType(string $type) Return the first ChildIndexEngineIndex filtered by the type column
  * @method     ChildIndexEngineIndex findOneByEntity(string $entity) Return the first ChildIndexEngineIndex filtered by the entity column
  * @method     ChildIndexEngineIndex findOneBySerializedColumns(string $serialized_columns) Return the first ChildIndexEngineIndex filtered by the serialized_columns column
  * @method     ChildIndexEngineIndex findOneBySerializedCondition(string $serialized_condition) Return the first ChildIndexEngineIndex filtered by the serialized_condition column
@@ -82,6 +85,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     array findByVisible(int $visible) Return ChildIndexEngineIndex objects filtered by the visible column
  * @method     array findByCode(string $code) Return ChildIndexEngineIndex objects filtered by the code column
  * @method     array findByTitle(string $title) Return ChildIndexEngineIndex objects filtered by the title column
+ * @method     array findByType(string $type) Return ChildIndexEngineIndex objects filtered by the type column
  * @method     array findByEntity(string $entity) Return ChildIndexEngineIndex objects filtered by the entity column
  * @method     array findBySerializedColumns(string $serialized_columns) Return ChildIndexEngineIndex objects filtered by the serialized_columns column
  * @method     array findBySerializedCondition(string $serialized_condition) Return ChildIndexEngineIndex objects filtered by the serialized_condition column
@@ -186,7 +190,7 @@ abstract class IndexEngineIndexQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT ID, VISIBLE, CODE, TITLE, ENTITY, SERIALIZED_COLUMNS, SERIALIZED_CONDITION, INDEX_ENGINE_DRIVER_CONFIGURATION_ID, CREATED_AT, UPDATED_AT, VERSION, VERSION_CREATED_AT, VERSION_CREATED_BY FROM index_engine_index WHERE ID = :p0';
+        $sql = 'SELECT ID, VISIBLE, CODE, TITLE, TYPE, ENTITY, SERIALIZED_COLUMNS, SERIALIZED_CONDITION, INDEX_ENGINE_DRIVER_CONFIGURATION_ID, CREATED_AT, UPDATED_AT, VERSION, VERSION_CREATED_AT, VERSION_CREATED_BY FROM index_engine_index WHERE ID = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -413,6 +417,35 @@ abstract class IndexEngineIndexQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(IndexEngineIndexTableMap::TITLE, $title, $comparison);
+    }
+
+    /**
+     * Filter the query on the type column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByType('fooValue');   // WHERE type = 'fooValue'
+     * $query->filterByType('%fooValue%'); // WHERE type LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $type The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildIndexEngineIndexQuery The current query, for fluid interface
+     */
+    public function filterByType($type = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($type)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $type)) {
+                $type = str_replace('*', '%', $type);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(IndexEngineIndexTableMap::TYPE, $type, $comparison);
     }
 
     /**

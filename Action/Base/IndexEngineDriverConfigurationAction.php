@@ -53,6 +53,10 @@ class IndexEngineDriverConfigurationAction extends BaseAction implements EventSu
                 $model->setId($id);
             }
 
+            if (null !== $code = $event->getCode()) {
+                $model->setCode($code);
+            }
+
             if (null !== $driverCode = $event->getDriverCode()) {
                 $model->setDriverCode($driverCode);
             }

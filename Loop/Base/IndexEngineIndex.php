@@ -42,6 +42,7 @@ class IndexEngineIndex extends BaseLoop implements PropelSearchLoopInterface
                 ->set("VISIBLE", $entry->getVisible())
                 ->set("CODE", $entry->getCode())
                 ->set("TITLE", $entry->getTitle())
+                ->set("TYPE", $entry->getType())
                 ->set("ENTITY", $entry->getEntity())
                 ->set("SERIALIZED_COLUMNS", $entry->getSerializedColumns())
                 ->set("SERIALIZED_CONDITION", $entry->getSerializedCondition())
@@ -87,6 +88,7 @@ class IndexEngineIndex extends BaseLoop implements PropelSearchLoopInterface
             Argument::createBooleanOrBothTypeArgument("visible", BooleanOrBothType::ANY),
             Argument::createAnyTypeArgument("code"),
             Argument::createAnyTypeArgument("title"),
+            Argument::createAnyTypeArgument("type"),
             Argument::createAnyTypeArgument("entity"),
             Argument::createIntListTypeArgument("index_engine_driver_configuration_id"),
             Argument::createEnumListTypeArgument(
@@ -100,6 +102,8 @@ class IndexEngineIndex extends BaseLoop implements PropelSearchLoopInterface
                     "code-reverse",
                     "title",
                     "title-reverse",
+                    "type",
+                    "type-reverse",
                     "entity",
                     "entity-reverse",
                     "serialized_columns",
@@ -141,6 +145,11 @@ class IndexEngineIndex extends BaseLoop implements PropelSearchLoopInterface
             $query->filterByTitle($title);
         }
 
+        if (null !== $type = $this->getType()) {
+            $type = array_map("trim", explode(",", $type));
+            $query->filterByType($type);
+        }
+
         if (null !== $entity = $this->getEntity()) {
             $entity = array_map("trim", explode(",", $entity));
             $query->filterByEntity($entity);
@@ -175,6 +184,12 @@ class IndexEngineIndex extends BaseLoop implements PropelSearchLoopInterface
                     break;
                 case "title-reverse":
                     $query->orderByTitle(Criteria::DESC);
+                    break;
+                case "type":
+                    $query->orderByType();
+                    break;
+                case "type-reverse":
+                    $query->orderByType(Criteria::DESC);
                     break;
                 case "entity":
                     $query->orderByEntity();

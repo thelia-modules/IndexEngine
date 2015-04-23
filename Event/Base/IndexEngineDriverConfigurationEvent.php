@@ -17,6 +17,7 @@ use IndexEngine\Model\IndexEngineDriverConfiguration;
 class IndexEngineDriverConfigurationEvent extends ActionEvent
 {
     protected $id;
+    protected $code;
     protected $driverCode;
     protected $title;
     protected $serializedConfiguration;
@@ -30,6 +31,18 @@ class IndexEngineDriverConfigurationEvent extends ActionEvent
     public function setId($id)
     {
         $this->id = $id;
+
+        return $this;
+    }
+
+    public function getCode()
+    {
+        return $this->code;
+    }
+
+    public function setCode($code)
+    {
+        $this->code = $code;
 
         return $this;
     }
