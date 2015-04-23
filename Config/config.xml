@@ -66,16 +66,6 @@
         <argument type="service" id="service_container" />
     </service>
 
-    <!-- Bridge drivers -->
-        <!-- elastic search -->
-        <service id="index_engine.driver.elastic_search" class="%index_engine.driver.elastic_search.class%">
-            <tag name="index_engine.driver" listener="index_engine.driver.elastic_search_listener" />
-        </service>
-
-      <service id="index_engine.driver.elastic_search_listener" class="%index_engine.driver.elastic_search_listener.class%">
-          <tag name="index_engine.event_subscriber" />
-      </service>
-
       <!-- Form types -->
       <service id="index_engine.form.type.index_engine_driver" class="%index_engine.form.type.index_engine_driver.class%">
           <argument type="service" id="index_engine.driver.registry" />
@@ -100,6 +90,16 @@
           <argument type="service" id="index_engine.configuration.manager" />
           <argument type="service" id="index_engine.form.argument_form_builder" />
           <tag name="kernel.event_subscriber" />
+      </service>
+
+      <!-- Bridge drivers -->
+      <!-- elastic search -->
+      <service id="index_engine.driver.elastic_search" class="%index_engine.driver.elastic_search.class%">
+          <tag name="index_engine.driver" listener="index_engine.driver.elastic_search_listener" />
+      </service>
+
+      <service id="index_engine.driver.elastic_search_listener" class="%index_engine.driver.elastic_search_listener.class%">
+          <tag name="index_engine.event_subscriber" />
       </service>
 
       <!-- Well ... -->

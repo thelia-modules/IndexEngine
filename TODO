@@ -1,3 +1,7 @@
+- Extract interface for driver listener
+- Put default events in abstract listener
+
+
 Drivers:
 - ElasticSearch
 - OpenSearchServer

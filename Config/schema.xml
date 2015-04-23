@@ -37,10 +37,15 @@
     <table name="index_engine_driver_configuration" namespace="IndexEngine\Model">
         <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER" />
 
+        <column name="code" type="VARCHAR" size="255" required="true" />
         <column name="driver_code" type="VARCHAR" size="64" required="true" />
         <column name="title" type="VARCHAR" size="255" required="true" />
 
         <column name="serialized_configuration" type="CLOB" required="true" />
+
+        <unique name="UNIQUE_1">
+            <unique-column name="code" />
+        </unique>
     </table>
 
     <table name="index_engine_index_template" namespace="IndexEngine\Model">
