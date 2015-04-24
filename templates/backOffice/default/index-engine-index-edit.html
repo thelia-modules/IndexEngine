@@ -29,7 +29,7 @@
                     <form method="POST" action="{$current_url}" {form_enctype form=$form} class="clearfix" >
 
                         {include "includes/inner-form-toolbar.html"
-                        close_url = {url path="/admin/module/IndexEngine/index_engine_index"}
+                        close_url = {url path="/admin/module/IndexEngine"}
                         }
 
                         {form_field form=$form field="id"}
@@ -80,30 +80,6 @@
                                                 <input type="text" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$ENTITY}" placeholder="{intl l='The IndexEngineIndex entity'}" />
                                         </div>
                                     {/form_field}
-                                    {form_field form=$form field="serialized_columns"}
-                                        <div class="form-group">
-                                            <label class="control-label" for="{$label_attr.for}">
-                                                {$label}
-                                                {if $required}<span class="required">*</span>{/if}
-                                            </label>
-
-                                            {form_error form=$form field="serialized_columns"}{$message}{/form_error}
-
-                                                <textarea class="form-control" name="{$name}" id="{$label_attr.for}" placeholder="{intl l='The IndexEngineIndex serialized_columns'}">{$SERIALIZED_COLUMNS}</textarea>
-                                        </div>
-                                    {/form_field}
-                                    {form_field form=$form field="serialized_condition"}
-                                        <div class="form-group">
-                                            <label class="control-label" for="{$label_attr.for}">
-                                                {$label}
-                                                {if $required}<span class="required">*</span>{/if}
-                                            </label>
-
-                                            {form_error form=$form field="serialized_condition"}{$message}{/form_error}
-
-                                                <textarea class="form-control" name="{$name}" id="{$label_attr.for}" placeholder="{intl l='The IndexEngineIndex serialized_condition'}">{$SERIALIZED_CONDITION}</textarea>
-                                        </div>
-                                    {/form_field}
                                     {form_field form=$form field="index_engine_driver_configuration_id"}
                                         <div class="form-group">
                                             <label class="control-label" for="{$label_attr.for}">
@@ -119,7 +95,7 @@
 
                                     {include "includes/inner-form-toolbar.html"
                                         hide_flags = true
-                                        close_url = {url path="/admin/module/IndexEngine/index_engine_index"}
+                                        close_url = {url path="/admin/module/IndexEngine"}
                                     }
 
                                     <small>

@@ -6,6 +6,7 @@
 
 namespace IndexEngine\Form;
 
+use IndexEngine\Form\Base\IndexEngineIndexCreateForm;
 use IndexEngine\Form\Base\IndexEngineIndexUpdateForm as BaseIndexEngineIndexUpdateForm;
 
 /**
@@ -26,5 +27,15 @@ class IndexEngineIndexUpdateForm extends BaseIndexEngineIndexUpdateForm
             "serialized_condition" => "serialized_condition",
             "index_engine_driver_configuration_id" => "index_engine_driver_configuration_id",
         );
+    }
+
+    protected function addEntityField(array $translationKeys, array $fieldsIdKeys)
+    {
+        IndexEngineIndexCreateForm::addEntityField($translationKeys, $fieldsIdKeys);
+    }
+
+    protected function addTypeField(array $translationKeys, array $fieldsIdKeys)
+    {
+        IndexEngineIndexCreateForm::addTypeField($translationKeys, $fieldsIdKeys);
     }
 }

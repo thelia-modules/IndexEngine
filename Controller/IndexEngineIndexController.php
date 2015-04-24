@@ -7,6 +7,7 @@
 namespace IndexEngine\Controller;
 
 use IndexEngine\Controller\Base\IndexEngineIndexController as BaseIndexEngineIndexController;
+use IndexEngine\Event\IndexEngineIndexEvent;
 
 /**
  * Class IndexEngineIndexController
@@ -14,4 +15,42 @@ use IndexEngine\Controller\Base\IndexEngineIndexController as BaseIndexEngineInd
  */
 class IndexEngineIndexController extends BaseIndexEngineIndexController
 {
+    /**
+     * Creates the creation event with the provided form data
+     *
+     * @param mixed $formData
+     * @return \Thelia\Core\Event\ActionEvent
+     */
+    protected function getCreationEvent($formData)
+    {
+        $event = new IndexEngineIndexEvent();
+
+        $event->setVisible($formData["visible"]);
+        $event->setCode($formData["code"]);
+        $event->setTitle($formData["title"]);
+        $event->setIndexEngineDriverConfigurationId($formData["index_engine_driver_configuration_id"]);
+
+        return $event;
+    }
+
+    /**
+     * Creates the update event with the provided form data
+     *
+     * @param mixed $formData
+     * @return \Thelia\Core\Event\ActionEvent
+     */
+    protected function getUpdateEvent($formData)
+    {
+        $event = new IndexEngineIndexEvent();
+
+        $event->setId($formData["id"]);
+        $event->setVisible($formData["visible"]);
+        $event->setCode($formData["code"]);
+        $event->setTitle($formData["title"]);
+        $event->setType($formData["type"]);
+        $event->setEntity($formData["entity"]);
+        $event->setIndexEngineDriverConfigurationId($formData["index_engine_driver_configuration_id"]);
+
+        return $event;
+    }
 }

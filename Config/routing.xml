@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <routes xmlns="http://symfony.com/schema/routing" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
-  <route id="indexengine.index_engine_index.list" path="/admin/module/IndexEngine/index_engine_index" methods="get">
+  <route id="indexengine.index_engine_index.list" path="/admin/module/IndexEngine" methods="get">
     <default key="_controller">IndexEngine:IndexEngineIndex:default</default>
   </route>
-  <route id="indexengine.index_engine_index.create" path="/admin/module/IndexEngine/index_engine_index" methods="post">
+  <route id="indexengine.index_engine_index.create" path="/admin/module/IndexEngine" methods="post">
     <default key="_controller">IndexEngine:IndexEngineIndex:create</default>
   </route>
   <route id="indexengine.index_engine_index.view" path="/admin/module/IndexEngine/index_engine_index/edit" methods="get">

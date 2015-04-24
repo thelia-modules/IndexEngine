@@ -50,15 +50,6 @@
                         <th>
                             {admin_sortable_header
                                 current_order=$order
-                                order='visible'
-                                reverse_order='visible-reverse'
-                                path={url path='/admin/module/IndexEngine/index_engine_index' target='index_engine_index-table'}
-                                label="{intl l='Visible' d='indexengine.bo.default'}"
-                            }
-                        </th>
-                        <th>
-                            {admin_sortable_header
-                                current_order=$order
                                 order='code'
                                 reverse_order='code-reverse'
                                 path={url path='/admin/module/IndexEngine/index_engine_index' target='index_engine_index-table'}
@@ -76,29 +67,11 @@
                         </th>
                         <th>
                             {admin_sortable_header
-                                current_order=$order
-                                order='entity'
-                                reverse_order='entity-reverse'
-                                path={url path='/admin/module/IndexEngine/index_engine_index' target='index_engine_index-table'}
-                                label="{intl l='Entity' d='indexengine.bo.default'}"
-                            }
-                        </th>
-                        <th>
-                            {admin_sortable_header
-                                current_order=$order
-                                order='serialized_columns'
-                                reverse_order='serialized_columns-reverse'
-                                path={url path='/admin/module/IndexEngine/index_engine_index' target='index_engine_index-table'}
-                                label="{intl l='SerializedColumns' d='indexengine.bo.default'}"
-                            }
-                        </th>
-                        <th>
-                            {admin_sortable_header
-                                current_order=$order
-                                order='serialized_condition'
-                                reverse_order='serialized_condition-reverse'
-                                path={url path='/admin/module/IndexEngine/index_engine_index' target='index_engine_index-table'}
-                                label="{intl l='SerializedCondition' d='indexengine.bo.default'}"
+                            current_order=$order
+                            order='type'
+                            reverse_order='type-reverse'
+                            path={url path='/admin/module/IndexEngine/index_engine_index' target='index_engine_index-table'}
+                            label="{intl l='Type' d='indexengine.bo.default'}"
                             }
                         </th>
                         <th>
@@ -107,7 +80,16 @@
                                 order='index_engine_driver_configuration_id'
                                 reverse_order='index_engine_driver_configuration_id-reverse'
                                 path={url path='/admin/module/IndexEngine/index_engine_index' target='index_engine_index-table'}
-                                label="{intl l='IndexEngineDriverConfigurationId' d='indexengine.bo.default'}"
+                                label="{intl l='Driver configuration' d='indexengine.bo.default'}"
+                            }
+                        </th>
+                        <th>
+                            {admin_sortable_header
+                            current_order=$order
+                            order='visible'
+                            reverse_order='visible-reverse'
+                            path={url path='/admin/module/IndexEngine/index_engine_index' target='index_engine_index-table'}
+                            label="{intl l='Active' d='indexengine.bo.default'}"
                             }
                         </th>
                         <th>
@@ -123,6 +105,18 @@
                                 <a href="{url path='/admin/module/IndexEngine/index_engine_index/edit' index_engine_index_id=$ID}">{$ID}</a>
                             </td>
                             <td>
+                                <a href="{url path='/admin/module/IndexEngine/index_engine_index/edit' index_engine_index_id=$ID}">{$CODE}</a>
+                            </td>
+                            <td>
+                                <a href="{url path='/admin/module/IndexEngine/index_engine_index/edit' index_engine_index_id=$ID}">{$TITLE}</a>
+                            </td>
+                            <td>
+                                {loop type="index-engine-driver-configuration" name="index-engine-driver-configuration" id=$INDEX_ENGINE_DRIVER_CONFIGURATION_ID}
+                                    {$CODE}
+                                {/loop}
+                            </td>
+
+                            <td>
                                 {loop type="auth" name="can_change" role="ADMIN" resource="admin.module" module="IndexEngine" access="UPDATE"}
                                     <div class="make-switch visibleToggle" data-id="{$ID}"  data-on="success" data-off="danger" data-on-label="<i class='glyphicon glyphicon-ok'></i>" data-off-label="<i class='glyphicon glyphicon-remove'></i>">
                                         <input type="checkbox" class="visibleToggle" {if $VISIBLE}checked="checked"{/if}>
@@ -134,24 +128,6 @@
                                         <input type="checkbox" class="disabled" disabled="disabled" {if $VISIBLE}checked="checked"{/if}>
                                     </div>
                                 {/elseloop}
-                            </td>
-                            <td>
-                                <a href="{url path='/admin/module/IndexEngine/index_engine_index/edit' index_engine_index_id=$ID}">{$CODE}</a>
-                            </td>
-                            <td>
-                                <a href="{url path='/admin/module/IndexEngine/index_engine_index/edit' index_engine_index_id=$ID}">{$TITLE}</a>
-                            </td>
-                            <td>
-                                {$ENTITY}
-                            </td>
-                            <td>
-                                {$SERIALIZED_COLUMNS}
-                            </td>
-                            <td>
-                                {$SERIALIZED_CONDITION}
-                            </td>
-                            <td>
-                                {$INDEX_ENGINE_DRIVER_CONFIGURATION_ID}
                             </td>
                             {* Actions *}
                             <td>
@@ -212,18 +188,6 @@
 
         {render_form_field form=$form field="success_url" value={url path='/admin/module/IndexEngine/index_engine_index/edit?index_engine_index_id=_ID_'}}
 
-        {form_field form=$form field="visible"}
-            <div class="form-group">
-                <label class="control-label" for="{$label_attr.for}">
-                    {$label}
-                    {if $required}<span class="required">*</span>{/if}
-                </label>
-
-                {form_error form=$form field="visible"}{$message}{/form_error}
-
-                <input type="checkbox" name="{$name}" id="{$label_attr.for}" {if $VISIBLE}checked{/if} placeholder="{intl l='The IndexEngineIndex visible'}" />
-            </div>
-        {/form_field}
         {form_field form=$form field="code"}
             <div class="form-group">
                 <label class="control-label" for="{$label_attr.for}">
@@ -233,7 +197,7 @@
 
                 {form_error form=$form field="code"}{$message}{/form_error}
 
-                <input type="text" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$CODE}" placeholder="{intl l='The IndexEngineIndex code'}" />
+                <input type="text" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$CODE}" placeholder="{intl l='The index unique code'}" />
             </div>
         {/form_field}
         {form_field form=$form field="title"}
@@ -245,43 +209,7 @@
 
                 {form_error form=$form field="title"}{$message}{/form_error}
 
-                <input type="text" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$TITLE}" placeholder="{intl l='The IndexEngineIndex title'}" />
-            </div>
-        {/form_field}
-        {form_field form=$form field="entity"}
-            <div class="form-group">
-                <label class="control-label" for="{$label_attr.for}">
-                    {$label}
-                    {if $required}<span class="required">*</span>{/if}
-                </label>
-
-                {form_error form=$form field="entity"}{$message}{/form_error}
-
-                <input type="text" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$ENTITY}" placeholder="{intl l='The IndexEngineIndex entity'}" />
-            </div>
-        {/form_field}
-        {form_field form=$form field="serialized_columns"}
-            <div class="form-group">
-                <label class="control-label" for="{$label_attr.for}">
-                    {$label}
-                    {if $required}<span class="required">*</span>{/if}
-                </label>
-
-                {form_error form=$form field="serialized_columns"}{$message}{/form_error}
-
-                <textarea class="form-control" name="{$name}" id="{$label_attr.for}"placeholder="{intl l='The IndexEngineIndex serialized_columns'}">{$SERIALIZED_COLUMNS}</textarea>
-            </div>
-        {/form_field}
-        {form_field form=$form field="serialized_condition"}
-            <div class="form-group">
-                <label class="control-label" for="{$label_attr.for}">
-                    {$label}
-                    {if $required}<span class="required">*</span>{/if}
-                </label>
-
-                {form_error form=$form field="serialized_condition"}{$message}{/form_error}
-
-                <textarea class="form-control" name="{$name}" id="{$label_attr.for}"placeholder="{intl l='The IndexEngineIndex serialized_condition'}">{$SERIALIZED_CONDITION}</textarea>
+                <input type="text" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$TITLE}" placeholder="{intl l='The index title'}" />
             </div>
         {/form_field}
         {form_field form=$form field="index_engine_driver_configuration_id"}
@@ -293,7 +221,23 @@
 
                 {form_error form=$form field="index_engine_driver_configuration_id"}{$message}{/form_error}
 
-                <input type="integer" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$INDEX_ENGINE_DRIVER_CONFIGURATION_ID}" placeholder="{intl l='The IndexEngineIndex index_engine_driver_configuration_id'}" />
+                <select name="{$name}" id="{$label_attr.for}" class="form-control">
+                    {loop type="index-engine-driver-configuration" name="index-engine-driver-configuration-select"}
+                        <option value="{$ID}">{$CODE}</option>
+                    {/loop}
+                </select>
+            </div>
+        {/form_field}
+        {form_field form=$form field="visible"}
+            <div class="form-group">
+                <label class="control-label" for="{$label_attr.for}">
+                    {$label}
+                    {if $required}<span class="required">*</span>{/if}
+                </label>
+
+                {form_error form=$form field="visible"}{$message}{/form_error}
+
+                <input type="checkbox" name="{$name}" id="{$label_attr.for}" {if $VISIBLE}checked{/if}" />
             </div>
         {/form_field}
     {/capture}

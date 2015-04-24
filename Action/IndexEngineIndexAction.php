@@ -7,6 +7,7 @@
 namespace IndexEngine\Action;
 
 use IndexEngine\Action\Base\IndexEngineIndexAction as  BaseIndexEngineIndexAction;
+use IndexEngine\Event\IndexEngineIndexEvent;
 
 /**
  * Class IndexEngineIndexAction
@@ -14,4 +15,13 @@ use IndexEngine\Action\Base\IndexEngineIndexAction as  BaseIndexEngineIndexActio
  */
 class IndexEngineIndexAction extends BaseIndexEngineIndexAction
 {
+    public function create(IndexEngineIndexEvent $event)
+    {
+        $event->setSerializedColumns("");
+        $event->setSerializedCondition("");
+        $event->setType("");
+        $event->setEntity("");
+
+        parent::create($event);
+    }
 }

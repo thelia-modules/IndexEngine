@@ -7,6 +7,8 @@
 namespace IndexEngine\Form;
 
 use IndexEngine\Form\Base\IndexEngineIndexCreateForm as BaseIndexEngineIndexCreateForm;
+use IndexEngine\IndexEngine;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * Class IndexEngineIndexCreateForm
@@ -17,11 +19,35 @@ class IndexEngineIndexCreateForm extends BaseIndexEngineIndexCreateForm
     public function getTranslationKeys()
     {
         return array(
-            "visible" => "Visible",
+            "visible" => "Is the index active ?",
             "code" => "Code",
             "title" => "Title",
-            "entity" => "Entity",
-            "index_engine_driver_configuration_id" => "Index engine driver configuration",
+            "index_engine_driver_configuration_id" => "Driver configuration",
         );
+    }
+
+    protected function addIndexEngineDriverConfigurationIdField(array $translationKeys, array $fieldsIdKeys)
+    {
+        $this->formBuilder->add("index_engine_driver_configuration_id", "index_engine_driver_configuration_id", array(
+            "label" => $this->translator->trans($this->readKey("index_engine_driver_configuration_id", $translationKeys), [], IndexEngine::MESSAGE_DOMAIN),
+            "label_attr" => ["for" => $this->readKey("index_engine_driver_configuration_id", $fieldsIdKeys)],
+        ));
+    }
+
+    // Fields that we don't need
+    protected function addSerializedColumnsField(array $translationKeys, array $fieldsIdKeys)
+    {
+    }
+
+    protected function addSerializedConditionField(array $translationKeys, array $fieldsIdKeys)
+    {
+    }
+
+    protected function addEntityField(array $translationKeys, array $fieldsIdKeys)
+    {
+    }
+
+    protected function addTypeField(array $translationKeys, array $fieldsIdKeys)
+    {
     }
 }
