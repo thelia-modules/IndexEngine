@@ -29,6 +29,11 @@ class IndexEvent extends Event
     private $type;
 
     /**
+     * @var string
+     */
+    private $indexName;
+
+    /**
      * @var IndexMapping
      */
     private $mapping;
@@ -43,9 +48,10 @@ class IndexEvent extends Event
      */
     private $extraData;
 
-    public function __construct($type, IndexMapping $mapping = null, IndexDataVector $indexDataVector = null)
+    public function __construct($type, $indexName, IndexMapping $mapping = null, IndexDataVector $indexDataVector = null)
     {
         $this->type = $type;
+        $this->indexName = $indexName;
         $this->mapping = $mapping ?: new IndexMapping();
         $this->indexDataVector = $indexDataVector ?: new IndexDataVector();
     }
@@ -65,6 +71,24 @@ class IndexEvent extends Event
     public function setType($type)
     {
         $this->type = $type;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getIndexName()
+    {
+        return $this->indexName;
+    }
+
+    /**
+     * @param string $name
+     * @return $this
+     */
+    public function setIndexName($name)
+    {
+        $this->indexName = $name;
         return $this;
     }
 

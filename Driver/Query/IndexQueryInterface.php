@@ -118,6 +118,13 @@ interface IndexQueryInterface
     public function getType();
 
     /**
+     * @return string
+     *
+     * The index name to apply the query on
+     */
+    public function getName();
+
+    /**
      * @param int $limit
      * @return $this
      *

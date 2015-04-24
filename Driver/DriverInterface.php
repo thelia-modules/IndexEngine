@@ -9,20 +9,19 @@
 /* For the full copyright and license information, please view the LICENSE.txt       */
 /* file that was distributed with this source code.                                  */
 /*************************************************************************************/
-
 namespace IndexEngine\Driver;
 
+use IndexEngine\Entity\IndexDataVector;
 use IndexEngine\Driver\Configuration\ArgumentCollectionInterface;
 use IndexEngine\Driver\Query\IndexQueryInterface;
-use IndexEngine\Entity\IndexDataVector;
 use IndexEngine\Entity\IndexMapping;
 
 /**
- * Interface DriverInterface
- * @package IndexEngine\Driver
+ * Class ElasticSearchDriver
+ * @package IndexEngine\Driver\Bridge
  * @author Benjamin Perche <benjamin@thelia.net>
  */
-interface DriverInterface extends EventDispatcherAwareInterface
+interface DriverInterface
 {
     /**
      * @return \IndexEngine\Driver\Configuration\ArgumentCollectionInterface|null
@@ -47,6 +46,7 @@ interface DriverInterface extends EventDispatcherAwareInterface
 
     /**
      * @param string $type
+     * @param string $name
      * @param IndexMapping $mapping
      * @return mixed
      *
@@ -55,18 +55,20 @@ interface DriverInterface extends EventDispatcherAwareInterface
      * If the server return data, you should return it so it can be logged.
      * You can return anything that is serializable.
      */
-    public function createIndex($type, IndexMapping $mapping);
+    public function createIndex($type, $name, IndexMapping $mapping);
 
     /**
-     * @param $type
+     * @param string $type
+     * @param string $name
      * @return bool
      *
      * This method checks that the index corresponding to the type exists in the server
      */
-    public function indexExists($type);
+    public function indexExists($type, $name);
 
     /**
-     * @param $type
+     * @param string $type
+     * @param string $name
      * @return mixed
      *
      * Delete the index the belong to the given type
@@ -74,10 +76,11 @@ interface DriverInterface extends EventDispatcherAwareInterface
      * If the server return data, you should return it so it can be logged.
      * You can return anything that is serializable.
      */
-    public function deleteIndex($type);
+    public function deleteIndex($type, $name);
 
     /**
-     * @param $type
+     * @param string $type
+     * @param string $name
      * @param IndexDataVector $indexDataVector
      * @param IndexMapping $mapping
      * @return mixed
@@ -90,7 +93,7 @@ interface DriverInterface extends EventDispatcherAwareInterface
      * If the server return data, you should return it so it can be logged.
      * You can return anything that is serializable.
      */
-    public function persistIndexes($type, IndexDataVector $indexDataVector, IndexMapping $mapping);
+    public function persistIndexes($type, $name, IndexDataVector $indexDataVector, IndexMapping $mapping);
 
     /**
      * @param IndexQueryInterface $query
@@ -101,27 +104,6 @@ interface DriverInterface extends EventDispatcherAwareInterface
      * Even if the response is empty, return an empty vector.
      */
     public function executeSearchQuery(IndexQueryInterface $query);
-
-    /**
-     * @return string
-     *
-     * This method returns the driver name.
-     * It must be a unique string, less than 64 characters and only composed of
-     * lower and upper case letters, numbers, underscores, dashes and points.
-     *
-     * Example: Elasticsearch, OpenSearchServer, ...
-     */
-    public static function getCode();
-
-    /**
-     * @return void
-     *
-     * @throws \IndexEngine\Driver\Exception\MissingLibraryException
-     *
-     * It method has to check missing dependencies for the driver,
-     * if one is missing, throw an exception.
-     */
-    public function checkDependencies();
 
     /**
      * @param string $name
@@ -166,4 +148,25 @@ interface DriverInterface extends EventDispatcherAwareInterface
      * Dump all the extra configuration
      */
     public function getExtraConfigurations();
+
+    /**
+     * @return string
+     *
+     * This method returns the driver name.
+     * It must be a unique string, less than 64 characters and only composed of
+     * lower and upper case letters, numbers, underscores, dashes and points.
+     *
+     * Example: Elasticsearch, OpenSearchServer, ...
+     */
+    public static function getCode();
+
+    /**
+     * @return void
+     *
+     * @throws \IndexEngine\Driver\Exception\MissingLibraryException
+     *
+     * It method has to check missing dependencies for the driver,
+     * if one is missing, throw an exception.
+     */
+    public function checkDependencies();
 }

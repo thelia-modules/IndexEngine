@@ -32,7 +32,7 @@ class IndexExistsCommand extends ContainerAwareCommand
         $this
             ->setName("index:exists")
             ->addArgument("driver-configuration", InputArgument::REQUIRED, "The driver configuration code to use")
-            ->addArgument("index-type", InputArgument::REQUIRED, "The index type to check")
+            ->addArgument("index-name", InputArgument::REQUIRED, "The index name to check")
         ;
     }
 
@@ -44,15 +44,15 @@ class IndexExistsCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $configurationCode = $input->getArgument("driver-configuration");
-        $indexType = $input->getArgument("index-type");
+        $indexName = $input->getArgument("index-name");
 
         $configuration = $this->getManager()->getConfigurationFromCode($configurationCode, true);
         $driver = $configuration->getDriver();
 
-        if ($driver->indexExists($indexType)) {
+        if ($driver->indexExists(null, $indexName)) {
             $output->renderBlock([
                 "",
-                sprintf("The index type '%s' exists with the configuration '%s'", $indexType, $configurationCode),
+                sprintf("The index type '%s' exists with the configuration '%s'", $indexName, $configurationCode),
                 ""
             ], "bg=green;fg=black");
 
@@ -61,7 +61,7 @@ class IndexExistsCommand extends ContainerAwareCommand
 
         $output->renderBlock([
             "",
-            sprintf("The index type '%s' doesn't exist with the configuration '%s'", $indexType, $configurationCode),
+            sprintf("The index type '%s' doesn't exist with the configuration '%s'", $indexName, $configurationCode),
             ""
         ], "bg=red;fg=white");
 
