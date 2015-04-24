@@ -110,12 +110,14 @@
                             <td>
                                 <a href="{url path='/admin/module/IndexEngine/index_engine_index/edit' index_engine_index_id=$ID}">{$TITLE}</a>
                             </td>
+                            <td>{debug}
+                                {$TYPE}
+                            </td>
                             <td>
                                 {loop type="index-engine-driver-configuration" name="index-engine-driver-configuration" id=$INDEX_ENGINE_DRIVER_CONFIGURATION_ID}
                                     {$CODE}
                                 {/loop}
                             </td>
-
                             <td>
                                 {loop type="auth" name="can_change" role="ADMIN" resource="admin.module" module="IndexEngine" access="UPDATE"}
                                     <div class="make-switch visibleToggle" data-id="{$ID}"  data-on="success" data-off="danger" data-on-label="<i class='glyphicon glyphicon-ok'></i>" data-off-label="<i class='glyphicon glyphicon-remove'></i>">
@@ -197,7 +199,7 @@
 
                 {form_error form=$form field="code"}{$message}{/form_error}
 
-                <input type="text" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$CODE}" placeholder="{intl l='The index unique code'}" />
+                <input type="text" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$value}" placeholder="{intl l='The index unique code'}" />
             </div>
         {/form_field}
         {form_field form=$form field="title"}
@@ -209,7 +211,7 @@
 
                 {form_error form=$form field="title"}{$message}{/form_error}
 
-                <input type="text" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$TITLE}" placeholder="{intl l='The index title'}" />
+                <input type="text" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$value}" placeholder="{intl l='The index title'}" />
             </div>
         {/form_field}
         {form_field form=$form field="index_engine_driver_configuration_id"}
@@ -223,7 +225,7 @@
 
                 <select name="{$name}" id="{$label_attr.for}" class="form-control">
                     {loop type="index-engine-driver-configuration" name="index-engine-driver-configuration-select"}
-                        <option value="{$ID}">{$CODE}</option>
+                        <option value="{$ID}" {if $value==$ID}selected{/if}>{$CODE}</option>
                     {/loop}
                 </select>
             </div>
@@ -237,7 +239,7 @@
 
                 {form_error form=$form field="visible"}{$message}{/form_error}
 
-                <input type="checkbox" name="{$name}" id="{$label_attr.for}" {if $VISIBLE}checked{/if}" />
+                <input type="checkbox" name="{$name}" id="{$label_attr.for}" {if $data}checked{/if} />
             </div>
         {/form_field}
     {/capture}

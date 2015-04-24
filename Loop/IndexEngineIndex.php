@@ -7,6 +7,7 @@
 namespace IndexEngine\Loop;
 
 use IndexEngine\Loop\Base\IndexEngineIndex as BaseIndexEngineIndexLoop;
+use Thelia\Core\Template\Loop\Argument\Argument;
 
 /**
  * Class IndexEngineIndex
@@ -14,7 +15,30 @@ use IndexEngine\Loop\Base\IndexEngineIndex as BaseIndexEngineIndexLoop;
  */
 class IndexEngineIndex extends BaseIndexEngineIndexLoop
 {
-    /**
-     * You may now add your own logic
-     */
+    protected function getArgDefinitions()
+    {
+        $definition = parent::getArgDefinitions();
+        $definition->addArgument(Argument::createAnyTypeArgument("index_type"));
+
+        return $definition;
+    }
+
+    public function buildModelCriteria()
+    {
+        /** @var \IndexEngine\Model\IndexEngineIndexQuery $query */
+        $query = parent::buildModelCriteria();
+
+        if (null !== $type = $this->getIndexType()) {
+            $type = array_map("trim", explode(",", $type));
+            $query->filterByType($type);
+        }
+
+        return $query;
+    }
+
+    // HotFix
+    protected function getType()
+    {
+        return null;
+    }
 }

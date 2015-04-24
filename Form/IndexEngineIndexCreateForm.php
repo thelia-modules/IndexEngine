@@ -8,7 +8,10 @@ namespace IndexEngine\Form;
 
 use IndexEngine\Form\Base\IndexEngineIndexCreateForm as BaseIndexEngineIndexCreateForm;
 use IndexEngine\IndexEngine;
+use IndexEngine\Model\IndexEngineIndexQuery;
+use Symfony\Component\Validator\Constraints\Callback;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\ExecutionContextInterface;
 
 /**
  * Class IndexEngineIndexCreateForm
@@ -24,6 +27,34 @@ class IndexEngineIndexCreateForm extends BaseIndexEngineIndexCreateForm
             "title" => "Title",
             "index_engine_driver_configuration_id" => "Driver configuration",
         );
+    }
+
+    protected function addCodeField(array $translationKeys, array $fieldsIdKeys)
+    {
+        $this->formBuilder->add("code", "text", array(
+            "label" => $this->translator->trans($this->readKey("code", $translationKeys), [], IndexEngine::MESSAGE_DOMAIN),
+            "label_attr" => ["for" => $this->readKey("code", $fieldsIdKeys)],
+            "required" => true,
+            "constraints" => array(
+                new NotBlank(),
+                new Callback([
+                    "methods" => [
+                        [$this, "checkDuplicateCode"],
+                    ]
+                ])
+            ),
+            "attr" => array(
+            )
+        ));
+    }
+
+    public function checkDuplicateCode($value, ExecutionContextInterface $context)
+    {
+        if (null !== IndexEngineIndexQuery::create()->findOneByCode($value)) {
+            $context->addViolation(
+                $this->translator->trans("The code %code already exists", ["%code" => $value], IndexEngine::MESSAGE_DOMAIN)
+            );
+        }
     }
 
     protected function addIndexEngineDriverConfigurationIdField(array $translationKeys, array $fieldsIdKeys)

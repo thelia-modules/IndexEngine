@@ -163,7 +163,7 @@
 
                 {form_error form=$form field="code"}{$message}{/form_error}
 
-                <input type="text" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$TITLE}" placeholder="{intl l='The configuration unique code'}" />
+                <input type="text" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$value}" placeholder="{intl l='The configuration unique code'}" />
             </div>
         {/form_field}
         {form_field form=$form field="title"}
@@ -175,7 +175,7 @@
 
                 {form_error form=$form field="title"}{$message}{/form_error}
 
-                <input type="text" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$TITLE}" placeholder="{intl l='The configuration title'}" />
+                <input type="text" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$value}" placeholder="{intl l='The configuration title'}" />
             </div>
         {/form_field}
         {form_field form=$form field="driver_code"}
