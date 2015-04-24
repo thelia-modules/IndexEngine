@@ -1,4 +1,23 @@
 {form name="index_engine_index.update"}
-    {render_form_field form=$form field="type"}
+    <div class="row">
+        <div class="col-md-12">
+            {form_field form=$form field="type"}
+                <div class="form-group">
+                    <label for="{$label_attr.for}">
+                        {intl l="Index type" d="indexengine.bo.default"}{if $required}<span class="required">*</span>{/if}
+                    </label>
 
+                    {form_error form=$form field="type"}{$message}{/form_error}
+
+                    <select name="{$name}" id="{$label_attr.for}" class="form-control index_engine_configuration_type">
+                        {foreach from=$choices item=choice}
+                            <option value="{$choice->value}">{$choice->label}</option>
+                        {/foreach}
+                    </select>
+                </div>
+            {/form_field}
+        </div>
+    </div>
+
+    <div id="index_engine_inner_form"></div>
 {/form}

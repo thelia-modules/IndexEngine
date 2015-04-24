@@ -1,0 +1,35 @@
+<script>
+    (function($) {
+        var $typeSelector = $(".index_engine_configuration_type");
+        var $formContainer = $("#index_engine_inner_form");
+
+        $typeSelector.change(function() {
+            update_config_form();
+        });
+
+        function update_config_form() {
+            var currentVal = $typeSelector.val();
+            var messages = {
+                nope: "{intl l="The index type '%type' seems to have no configuration form" d="indexengine.bo.default"}",
+                error: "{intl l="Failed to load configuration for '%type'" d="indexengine.bo.default"}"
+            };
+
+            $.ajax({
+                url: "{url path='/admin/module/IndexEngine/configuration/'}" + currentVal,
+                statusCode: {
+                    400: function () {
+                        $formContainer.html("<div class='alert alert-info'>"+messages.nope.replace("%type", currentVal)+"</div>");
+                    }
+                }
+            }).success(function(data) {
+                $formContainer.html(currentVal);
+            }).fail(function() {
+                $formContainer.html("<div class='alert alert-warning'>"+messages.error.replace("%type", currentVal)+"</div>")
+            });
+
+
+        }
+
+        update_config_form();
+    })(jQuery);
+</script>

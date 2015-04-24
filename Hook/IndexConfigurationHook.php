@@ -12,7 +12,6 @@
 
 namespace IndexEngine\Hook;
 
-use IndexEngine\Manager\IndexConfigurationManagerInterface;
 use Thelia\Core\Event\Hook\HookRenderEvent;
 use Thelia\Core\Hook\BaseHook;
 
@@ -23,18 +22,13 @@ use Thelia\Core\Hook\BaseHook;
  */
 class IndexConfigurationHook extends BaseHook
 {
-    /**
-     * @var IndexConfigurationManagerInterface
-     */
-    private $manager;
-
-    public function __construct(IndexConfigurationManagerInterface $manager)
-    {
-        $this->manager = $manager;
-    }
-
     public function onIndexEngineIndexForm(HookRenderEvent $event)
     {
-        $event->add($this->manager->renderCurrentConfigurationTemplate());
+        $event->add($this->render("index-configuration/index-configuration-form.html"));
+    }
+
+    public function onIndexEngineIndexFormJavascript(HookRenderEvent $event)
+    {
+        $event->add($this->render("index-configuration/index-configuration-form-js.html"));
     }
 }

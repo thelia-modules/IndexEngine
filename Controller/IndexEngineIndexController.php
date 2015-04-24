@@ -8,6 +8,10 @@ namespace IndexEngine\Controller;
 
 use IndexEngine\Controller\Base\IndexEngineIndexController as BaseIndexEngineIndexController;
 use IndexEngine\Event\IndexEngineIndexEvent;
+use Thelia\Core\HttpFoundation\JsonResponse;
+use Thelia\Core\HttpFoundation\Response;
+use Thelia\Core\Security\AccessManager;
+use Thelia\Core\Security\Resource\AdminResources;
 
 /**
  * Class IndexEngineIndexController
@@ -52,5 +56,33 @@ class IndexEngineIndexController extends BaseIndexEngineIndexController
         $event->setIndexEngineDriverConfigurationId($formData["index_engine_driver_configuration_id"]);
 
         return $event;
+    }
+
+    public function renderIndexConfigurationAction($type)
+    {
+        if (null !== $response = $this->checkAuth(AdminResources::MODULE, "IndexEngine", AccessManager::VIEW)) {
+            if ($this->getRequest()->isXmlHttpRequest()) {
+                return new JsonResponse(["error" => "You're not authorized to view this resource"], 401);
+            }
+
+            return $response;
+        }
+
+        $content = $this->getManager()->renderConfigurationTemplate($type);
+        $response = new Response($content);
+
+        if ("" === trim($content)) {
+            $response->setStatusCode(400);
+        }
+
+        return $response;
+    }
+
+    /**
+     * @return \IndexEngine\Manager\IndexConfigurationManagerInterface
+     */
+    protected function getManager()
+    {
+        return $this->container->get("index_engine.index_configuration_manager");
     }
 }
