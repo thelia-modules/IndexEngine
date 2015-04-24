@@ -25,11 +25,27 @@ class IndexEngineIndexUpdateForm extends BaseIndexEngineIndexUpdateForm
         return array(
             "code" => "Code",
             "title" => "Title",
-            "entity" => "entity",
-            "serialized_columns" => "serialized_columns",
-            "serialized_condition" => "serialized_condition",
-            "index_engine_driver_configuration_id" => "index_engine_driver_configuration_id",
+            "index_engine_driver_configuration_id" => "Driver configuration",
         );
+    }
+
+    public function buildForm()
+    {
+        parent::buildForm();
+
+        $this->formBuilder
+            ->add("columns", "collection", [
+                "type" => "text",
+                "allow_add" => true,
+                "allow_delete" => true,
+                "required" => true,
+            ])
+            ->add("conditions", "collection", [
+                "type" => "index_condition",
+                "allow_add" => true,
+                "allow_delete" => true,
+            ])
+        ;
     }
 
     protected function addCodeField(array $translationKeys, array $fieldsIdKeys)
@@ -70,6 +86,13 @@ class IndexEngineIndexUpdateForm extends BaseIndexEngineIndexUpdateForm
 
     protected function addTypeField(array $translationKeys, array $fieldsIdKeys)
     {
-        IndexEngineIndexCreateForm::addTypeField($translationKeys, $fieldsIdKeys);
+        $this->formBuilder->add("type", "index_type", array(
+            "label" => $this->translator->trans($this->readKey("type", $translationKeys), [], IndexEngine::MESSAGE_DOMAIN),
+            "label_attr" => ["for" => $this->readKey("type", $fieldsIdKeys)],
+            "required" => true,
+            "constraints" => array(
+                new NotBlank(),
+            ),
+        ));
     }
 }

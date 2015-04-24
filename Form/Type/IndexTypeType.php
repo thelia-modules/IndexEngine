@@ -12,45 +12,40 @@
 
 namespace IndexEngine\Form\Type;
 
-use IndexEngine\Driver\Query\Comparison;
-use IndexEngine\IndexEngine;
-use Propel\Runtime\ActiveQuery\Criteria;
+use IndexEngine\Discovering\Repository\IndexableEntityRepositoryInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Symfony\Component\Translation\TranslatorInterface;
-
 
 /**
- * Class IndexComparisonType
+ * Class IndexTypeType
  * @package IndexEngine\Form\Type
  * @author Benjamin Perche <benjamin@thelia.net>
  */
-class IndexComparisonType extends AbstractType
+class IndexTypeType extends AbstractType
 {
-    /**
-     * @var TranslatorInterface
-     */
-    private $translator;
+    /** @var  IndexableEntityRepositoryInterface */
+    private $repository;
 
-    public function __construct(TranslatorInterface $translator)
+    public function __construct(IndexableEntityRepositoryInterface $repository)
     {
-        $this->translator = $translator;
+        $this->repository = $repository;
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
+        $foundTypes = $this->repository->listIndexableEntityTypes();
+
+        $choices = [];
+
+        foreach ($foundTypes as $type) {
+            $choices[$type] = $type;
+        }
+
         $resolver->replaceDefaults([
-            "choices" => [
-                Comparison::EQUAL => $this->translator->trans("Equals", [], IndexEngine::MESSAGE_DOMAIN),
-                Comparison::NOT_EQUAL => $this->translator->trans("Is different from", [], IndexEngine::MESSAGE_DOMAIN),
-                Comparison::LIKE => $this->translator->trans("Contains", [], IndexEngine::MESSAGE_DOMAIN),
-                Comparison::LESS => $this->translator->trans("Is less than", [], IndexEngine::MESSAGE_DOMAIN),
-                Comparison::LESS_EQUAL => $this->translator->trans("Is less or equal than", [], IndexEngine::MESSAGE_DOMAIN),
-                Comparison::GREATER => $this->translator->trans("Is greater than", [], IndexEngine::MESSAGE_DOMAIN),
-                Comparison::GREATER_EQUAL => $this->translator->trans("Is greater or equal than", [], IndexEngine::MESSAGE_DOMAIN),
-            ],
+            "choices" => $choices,
         ]);
     }
+
 
     public function getParent()
     {
@@ -64,6 +59,6 @@ class IndexComparisonType extends AbstractType
      */
     public function getName()
     {
-        return "index_comparison";
+        return "index_type";
     }
 }

@@ -1,3 +1,5 @@
+idea: Find a way to automatically join relations w/ MySQL (_i18n, FK)
+
 Drivers:
 - ElasticSearch
 - OpenSearchServer
