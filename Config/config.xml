@@ -14,6 +14,8 @@
     <parameter key="index_engine.configuration.manager.class">IndexEngine\Manager\ConfigurationManager</parameter>
     <parameter key="index_engine.driver_configuration_form.hook.class">IndexEngine\Hook\DriverConfigurationHook</parameter>
     <parameter key="index_engine.form.argument_form_builder.class">IndexEngine\Form\Builder\ArgumentFormBuilder</parameter>
+    <parameter key="index_engine.form.type.index_comparison.class">IndexEngine\Form\Type\IndexComparisonType</parameter>
+    <parameter key="index_engine.form.type.index_condition.class">IndexEngine\Form\Type\IndexConditionType</parameter>
 
     <!-- Commands -->
     <parameter key="index_engine.command.list_drivers.class">IndexEngine\IO\Command\IndexDriverListCommand</parameter>
@@ -60,27 +62,35 @@
     <service id="index_engine.event_dispatcher" class="%index_engine.event_dispatcher.class%">
       <argument type="service" id="service_container"/>
     </service>
-    <!-- Form types -->
-    <service id="index_engine.form.type.index_engine_driver" class="%index_engine.form.type.index_engine_driver.class%">
-      <argument type="service" id="index_engine.driver.registry"/>
-      <argument type="service" id="thelia.translator"/>
-      <tag name="thelia.form.type"/>
-    </service>
     <!-- Configuration related manager -->
     <service id="index_engine.configuration.manager" class="%index_engine.configuration.manager.class%" scope="request">
       <argument type="service" id="request"/>
       <argument type="service" id="index_engine.driver.registry"/>
-    </service>
-    <!-- Form type resolver and builder -->
-    <service id="index_engine.form.type_resolver" class="%index_engine.form.type_resolver.class%"/>
-    <service id="index_engine.form.argument_form_builder" class="%index_engine.form.argument_form_builder.class%">
-      <argument type="service" id="index_engine.form.type_resolver"/>
     </service>
     <!-- Thelia form listener -->
     <service id="index_engine.form.thelia_form_listener" class="%index_engine.form.thelia_form_listener.class%" scope="request">
       <argument type="service" id="index_engine.configuration.manager"/>
       <argument type="service" id="index_engine.form.argument_form_builder"/>
       <tag name="kernel.event_subscriber"/>
+    </service>
+
+    <!-- Form type resolver and builder -->
+    <service id="index_engine.form.type_resolver" class="%index_engine.form.type_resolver.class%"/>
+    <service id="index_engine.form.argument_form_builder" class="%index_engine.form.argument_form_builder.class%">
+      <argument type="service" id="index_engine.form.type_resolver"/>
+    </service>
+    <!-- Form types -->
+    <service id="index_engine.form.type.index_engine_driver" class="%index_engine.form.type.index_engine_driver.class%">
+      <argument type="service" id="index_engine.driver.registry"/>
+      <argument type="service" id="thelia.translator"/>
+      <tag name="thelia.form.type"/>
+    </service>
+    <service id="index_engine.form.type.index_comparison" class="%index_engine.form.type.index_comparison.class%">
+      <argument type="service" id="thelia.translator" />
+      <tag name="thelia.form.type" />
+    </service>
+    <service id="index_engine.form.type.index_condition" class="%index_engine.form.type.index_condition.class%">
+      <tag name="thelia.form.type" />
     </service>
     <!-- Bridge drivers -->
     <!-- elastic search -->

@@ -22,8 +22,8 @@ abstract class Comparison
     const EQUAL = "=";
     const LIKE  = "--\_(=.=)_/--";
     const NOT_EQUAL = "<>";
-    const LESSER = "<";
-    const LESSER_EQUAL = "<=";
+    const LESS = "<";
+    const LESS_EQUAL = "<=";
     const GREATER = ">";
     const GREATER_EQUAL = ">=";
 }
