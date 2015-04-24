@@ -11,6 +11,7 @@
 /*************************************************************************************/
 
 namespace IndexEngine\Driver;
+
 use IndexEngine\Driver\Event\DriverEvents;
 
 /**

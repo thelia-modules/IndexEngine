@@ -20,6 +20,7 @@ use IndexEngine\Driver\DriverEventSubscriber;
 use IndexEngine\Driver\Event\DriverConfigurationEvent;
 use IndexEngine\Driver\Event\DriverEvents;
 use IndexEngine\Driver\Event\IndexEvent;
+use IndexEngine\Driver\Event\IndexSearchQueryEvent;
 use IndexEngine\Driver\Exception\IndexNotFoundException;
 use IndexEngine\Entity\IndexMapping;
 
@@ -30,6 +31,12 @@ use IndexEngine\Entity\IndexMapping;
  */
 class ElasticSearchListener extends DriverEventSubscriber
 {
+    /**
+     * @param DriverConfigurationEvent $event
+     *
+     * This method is used to build the driver configuration form.
+     * Set all your the configuration fields you need here (server address, port, authentication, ...)
+     */
     public function getConfiguration(DriverConfigurationEvent $event)
     {
         $collection = $event->getArgumentCollection();
@@ -47,6 +54,12 @@ class ElasticSearchListener extends DriverEventSubscriber
         ]);
     }
 
+    /**
+     * @param DriverConfigurationEvent $event
+     *
+     * If a configuration is provided in getConfiguration(), this method is called to
+     * initialize the driver ( establish connection, load resources, ... )
+     */
     public function loadConfiguration(DriverConfigurationEvent $event)
     {
         $configuration = $event->getArgumentCollection();
@@ -63,6 +76,13 @@ class ElasticSearchListener extends DriverEventSubscriber
         ;
     }
 
+    /**
+     * @param IndexEvent $event
+     *
+     * This method prepares the basic query for creating the index in Elastic.
+     *
+     * It is placed before the real execution so that anyone can modify it before.
+     */
     public function prepareIndexMapping(IndexEvent $event)
     {
         $type = $event->getType();
@@ -95,6 +115,14 @@ class ElasticSearchListener extends DriverEventSubscriber
         $event->setExtraData($parameters);
     }
 
+    /**
+     * @param IndexEvent $event
+     *
+     * This method has to create the index with the given mapping.
+     *
+     * If the server return data, you should set it in the extra data so it can be logged.
+     * You can set anything that is serializable.
+     */
     public function createIndex(IndexEvent $event)
     {
         $data = $this->getClient()->indices()->create($event->getExtraData());
@@ -102,6 +130,13 @@ class ElasticSearchListener extends DriverEventSubscriber
         $event->setExtraData($data);
     }
 
+    /**
+     * @param IndexEvent $event
+     *
+     * @throws \IndexEngine\Driver\Exception\IndexNotFoundException if the index doesn't exist
+     *
+     * This method checks that the index corresponding to the type exists in the server
+     */
     public function indexExists(IndexEvent $event)
     {
         $exists = $this->getClient()->indices()->exists(array(
@@ -113,6 +148,14 @@ class ElasticSearchListener extends DriverEventSubscriber
         }
     }
 
+    /**
+     * @param IndexEvent $event
+     *
+     * Delete the index the belong to the given type
+     *
+     * If the server return data, you should set it in extra data so it can be logged.
+     * You can set anything that is serializable.
+     */
     public function deleteIndex(IndexEvent $event)
     {
         $name = $event->getIndexName();
@@ -120,11 +163,49 @@ class ElasticSearchListener extends DriverEventSubscriber
         $event->setExtraData($data);
     }
 
+    /**
+     * @param IndexEvent $event
+     *
+     * @throws \IndexEngine\Driver\Exception\IndexDataPersistException If something goes wrong during recording
+     *
+     * This method is called on command and manual index launch.
+     * You have to persist each IndexData entity in your search server.
+     *
+     * If the server return data, you should set it in extra data so it can be logged.
+     * You can set anything that is serializable.
+     */
     public function persistIndexes(IndexEvent $event)
     {
 
     }
 
+    /**
+     * @param IndexSearchQueryEvent $event
+     *
+     * This method is used to translate the IndexEngine query into a ElasticSearch one.
+     * The result is set into the extra content
+     */
+    public function prepareSearchQuery(IndexSearchQueryEvent $event)
+    {
+
+    }
+
+    /**
+     * @param IndexSearchQueryEvent $event
+     *
+     * Translate the query for the search engine, execute it and return the values with a IndexData vector.
+     */
+    public function executeSearchQuery(IndexSearchQueryEvent $event)
+    {
+
+    }
+
+    /**
+     * @param $type
+     * @return array
+     *
+     * Inner method that translates IndexEngine column type to a valid ElasticSearch index type
+     */
     protected function resolveType($type)
     {
         switch ($type) {
@@ -179,6 +260,7 @@ class ElasticSearchListener extends DriverEventSubscriber
         $events = parent::getDriverEvents();
 
         $events[DriverEvents::INDEX_CREATE][] = ["prepareIndexMapping", 128];
+        $events[DriverEvents::INDEX_SEARCH_QUERY][] = ["prepareSearchQuery", 128];
 
         return $events;
     }
