@@ -13,10 +13,12 @@
 namespace IndexEngine\Discovering\Configuration;
 
 use IndexEngine\Discovering\Collector\DatabaseSubscriber as DatabaseCollector;
+use IndexEngine\Discovering\Repository\IndexableEntityRepositoryInterface;
 use IndexEngine\Event\IndexEngineIndexEvents;
 use IndexEngine\Event\RenderConfigurationEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Thelia\Core\Template\ParserInterface;
+use Thelia\Core\Template\TemplateHelper;
 
 /**
  * Class DatabaseSubscriber
@@ -28,15 +30,37 @@ class DatabaseSubscriber implements EventSubscriberInterface
     /** @var ParserInterface */
     private $parser;
 
-    public function __construct(ParserInterface $parser)
+    /** @var IndexableEntityRepositoryInterface */
+    private $repository;
+
+    public function __construct(ParserInterface $parser, IndexableEntityRepositoryInterface $repository)
     {
         $this->parser = $parser;
+        $this->repository = $repository;
     }
 
     public function renderDatabaseConfiguration(RenderConfigurationEvent $event)
     {
-        if ($event->getType() === DatabaseCollector::TYPE) {
-            $event->addContent($this->parser->render("index-configuration/standard/database.html"));
+        if ($event->getType() === $type = DatabaseCollector::TYPE) {
+            // Ensure that the parser is on a back office context
+            $this->parser->setTemplateDefinition(TemplateHelper::getInstance()->getActiveAdminTemplate());
+
+            $event->addContent($this->parser->render("index-configuration/standard/entity.html", [
+                "index_type" => $type,
+                "entities" => $this->repository->listIndexableEntities($type),
+            ]));
+        }
+    }
+
+    public function renderDatabaseConfigurationColumns(RenderConfigurationEvent $event)
+    {
+        if ($event->getType() === $type = DatabaseCollector::TYPE) {
+            // Ensure that the parser is on a back office context
+            $this->parser->setTemplateDefinition(TemplateHelper::getInstance()->getActiveAdminTemplate());
+
+            $event->addContent($this->parser->render("index-configuration/standard/columns.html", [
+                "columns" => $this->repository->listIndexableEntityColumns($type, $event->getEntity()),
+            ]));
         }
     }
 
@@ -64,6 +88,7 @@ class DatabaseSubscriber implements EventSubscriberInterface
     {
         return [
             IndexEngineIndexEvents::RENDER_CONFIGURATION_TEMPLATE => ["renderDatabaseConfiguration"],
+            IndexEngineIndexEvents::RENDER_CONFIGURATION_COLUMNS_TEMPLATE => ["renderDatabaseConfigurationColumns"],
         ];
     }
 }

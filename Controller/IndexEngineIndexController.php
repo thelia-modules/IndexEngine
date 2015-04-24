@@ -78,6 +78,26 @@ class IndexEngineIndexController extends BaseIndexEngineIndexController
         return $response;
     }
 
+    public function renderColumnsConfigurationAction($type, $entity)
+    {
+        if (null !== $response = $this->checkAuth(AdminResources::MODULE, "IndexEngine", AccessManager::VIEW)) {
+            if ($this->getRequest()->isXmlHttpRequest()) {
+                return new JsonResponse(["error" => "You're not authorized to view this resource"], 401);
+            }
+
+            return $response;
+        }
+
+        $content = $this->getManager()->renderConfigurationColumnsTemplate($type, $entity);
+        $response = new Response($content);
+
+        if ("" === trim($content)) {
+            $response->setStatusCode(400);
+        }
+
+        return $response;
+    }
+
     /**
      * @return \IndexEngine\Manager\IndexConfigurationManagerInterface
      */

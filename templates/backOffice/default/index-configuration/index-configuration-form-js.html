@@ -22,7 +22,7 @@
                     }
                 }
             }).success(function(data) {
-                $formContainer.html(currentVal);
+                $formContainer.html(data);
             }).fail(function() {
                 $formContainer.html("<div class='alert alert-warning'>"+messages.error.replace("%type", currentVal)+"</div>")
             });

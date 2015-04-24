@@ -1,0 +1,57 @@
+{form name="index_engine_index.update"}
+<div class="row">
+    <div class="col-md-12">
+        {form_field form=$form field="entity"}
+            <div class="form-group">
+                <label for="index_engine_entity">
+                    {intl l="Entity" d="indexengine.bo.default"} <span class="required">*</span>
+                </label>
+
+                {form_error form=$form field="entity"}{$message}{/form_error}
+
+                <select name="{$name}" id="index_engine_entity" class="form-control index_engine_entity_table">
+                    <option value="">{intl l="Please choose an entity" d="indexengine.bo.default"}</option>
+                    {foreach from=$entities item=entity}
+                        <option value="{$entity}">{$entity}</option>
+                    {/foreach}
+                </select>
+            </div>
+        {/form_field}
+    </div>
+</div>
+
+<div id="index_engine_inner_column">
+
+</div>
+
+<script>
+    (function ($) {
+        var $entity = $(".index_engine_entity_table");
+        var $columnSpace = $("#index_engine_inner_column");
+
+        var errorMessage = "{intl l="An error occurred while reading %entity columns" d="indexengine.bo.default" entity=$entity}";
+
+        $entity.change(function() {
+            update_entity_columns();
+        });
+
+        function update_entity_columns() {
+            var currentVal = $entity.val();
+
+            if ("" == currentVal) {
+                $columnSpace.html("");
+            } else {
+                $.ajax({
+                    url: "{url path="/admin/module/IndexEngine/configuration/{$index_type}/columns/"}"+currentVal
+                }).success(function(data) {
+                    $columnSpace.html(data);
+                }).fail(function() {
+                    $columnSpace.html("<div class='alert alert-danger'>"+errorMessage+"</div>")
+                });
+            }
+        }
+
+        update_entity_columns();
+    })(jQuery);
+</script>
+{/form}

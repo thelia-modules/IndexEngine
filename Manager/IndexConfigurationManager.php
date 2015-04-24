@@ -86,4 +86,12 @@ class IndexConfigurationManager implements IndexConfigurationManagerInterface
 
         return $type;
     }
+
+    public function renderConfigurationColumnsTemplate($type, $entity)
+    {
+        return $this->dispatcher
+            ->dispatch(IndexEngineIndexEvents::RENDER_CONFIGURATION_COLUMNS_TEMPLATE, new RenderConfigurationEvent($type, $entity))
+            ->getContent()
+        ;
+    }
 }

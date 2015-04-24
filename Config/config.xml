@@ -64,6 +64,7 @@
       </service>
       <service id="index_engine.database_collector.render" class="%index_engine.database_collector.render.class%" scope="request">
           <argument type="service" id="thelia.parser" />
+          <argument type="service" id="index_engine.indexable_entity_repository" />
           <tag name="kernel.event_subscriber"/>
       </service>
 

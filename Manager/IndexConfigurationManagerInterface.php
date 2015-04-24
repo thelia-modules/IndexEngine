@@ -28,6 +28,15 @@ interface IndexConfigurationManagerInterface
     public function renderConfigurationTemplate($type);
 
     /**
+     * @param string $type
+     * @param string $entity
+     * @return string
+     *
+     * Render the columns configuration template for the given type & entity
+     */
+    public function renderConfigurationColumnsTemplate($type, $entity);
+
+    /**
      * @return string
      *
      * Render the configuration template for the current type

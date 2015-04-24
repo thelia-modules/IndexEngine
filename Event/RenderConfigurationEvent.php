@@ -24,11 +24,16 @@ class RenderConfigurationEvent extends Event
     /** @var string */
     private $content = "";
 
+    /** @var string */
     private $type;
 
-    public function __construct($type)
+    /** @var string */
+    private $entity;
+
+    public function __construct($type, $entity = null)
     {
         $this->type = $type;
+        $this->entity = $entity;
     }
 
     /**
@@ -61,5 +66,13 @@ class RenderConfigurationEvent extends Event
     {
         $this->content .= $content;
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEntity()
+    {
+        return $this->entity;
     }
 }

@@ -64,7 +64,7 @@ class IndexableEntityRepository implements IndexableEntityRepositoryInterface
             ;
         }
 
-        return $this->entities;
+        return $this->entities[$type];
     }
 
     public function listIndexableEntityColumns($type, $entity, $useCache = true)

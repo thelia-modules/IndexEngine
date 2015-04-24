@@ -15,4 +15,6 @@ use IndexEngine\Event\Base\IndexEngineIndexEvents as BaseIndexEngineIndexEvents;
 class IndexEngineIndexEvents extends BaseIndexEngineIndexEvents
 {
     const RENDER_CONFIGURATION_TEMPLATE = "index_engine.render_configuration_template";
+
+    const RENDER_CONFIGURATION_COLUMNS_TEMPLATE = "index_engine.render_configuration_template.columns";
 }
