@@ -58,7 +58,25 @@ class IndexEngine extends BaseModule
                     "en_US" => "Config form for the index drivers - javascript",
                 ],
                 "active" => true,
-            ]
+            ],
+            [
+                "code" => "index_engine.index.form",
+                "type" => TemplateDefinition::BACK_OFFICE,
+                "title" => [
+                    "fr_FR" => "Formulaire de configuration d'un index",
+                    "en_US" => "Config form for an index",
+                ],
+                "active" => true,
+            ],
+            [
+                "code" => "index_engine.index.form-javascript",
+                "type" => TemplateDefinition::BACK_OFFICE,
+                "title" => [
+                    "fr_FR" => "Formulaire de configuration d'un index - javascript",
+                    "en_US" => "Config form for an index - javascript",
+                ],
+                "active" => true,
+            ],
         ];
     }
 }

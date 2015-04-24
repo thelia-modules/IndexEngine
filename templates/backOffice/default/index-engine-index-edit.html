@@ -44,30 +44,59 @@
                         {loop name="index_engine_index_update" type="index-engine-index" backend_context="yes" id=$index_engine_index_id lang=$edit_language_id}
                             <div class="row">
                                 <div class="col-md-12">
-                                    {form_field form=$form field="code"}
-                                        <div class="form-group">
-                                            <label class="control-label" for="{$label_attr.for}">
-                                                {$label}
-                                                {if $required}<span class="required">*</span>{/if}
-                                            </label>
 
-                                            {form_error form=$form field="code"}{$message}{/form_error}
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            {form_field form=$form field="code"}
+                                                <div class="form-group">
+                                                    <label class="control-label" for="{$label_attr.for}">
+                                                        {$label}
+                                                        {if $required}<span class="required">*</span>{/if}
+                                                    </label>
 
-                                                <input type="text" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$CODE}" placeholder="{intl l='The IndexEngineIndex code'}" />
+                                                    {form_error form=$form field="code"}{$message}{/form_error}
+
+                                                    <input type="text" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$CODE}" placeholder="{intl l='The IndexEngineIndex code'}" />
+                                                </div>
+                                            {/form_field}
                                         </div>
-                                    {/form_field}
-                                    {form_field form=$form field="title"}
-                                        <div class="form-group">
-                                            <label class="control-label" for="{$label_attr.for}">
-                                                {$label}
-                                                {if $required}<span class="required">*</span>{/if}
-                                            </label>
+                                        <div class="col-md-4">
+                                            {form_field form=$form field="title"}
+                                                <div class="form-group">
+                                                    <label class="control-label" for="{$label_attr.for}">
+                                                        {$label}
+                                                        {if $required}<span class="required">*</span>{/if}
+                                                    </label>
 
-                                            {form_error form=$form field="title"}{$message}{/form_error}
+                                                    {form_error form=$form field="title"}{$message}{/form_error}
 
-                                                <input type="text" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$TITLE}" placeholder="{intl l='The IndexEngineIndex title'}" />
+                                                    <input type="text" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$TITLE}" placeholder="{intl l='The IndexEngineIndex title'}" />
+                                                </div>
+                                            {/form_field}
                                         </div>
-                                    {/form_field}
+                                        <div class="col-md-4">
+                                            {form_field form=$form field="index_engine_driver_configuration_id"}
+                                                <div class="form-group">
+                                                    <label class="control-label" for="{$label_attr.for}">
+                                                        {$label}
+                                                        {if $required}<span class="required">*</span>{/if}
+                                                    </label>
+
+                                                    {form_error form=$form field="index_engine_driver_configuration_id"}{$message}{/form_error}
+
+                                                    <select name="{$name}" id="{$label_attr.for}" class="form-control">
+                                                        {loop type="index-engine-driver-configuration" name="index-engine-driver-configuration-select"}
+                                                            <option value="{$ID}" {if $value==$ID}selected{/if}>{$CODE}</option>
+                                                        {/loop}
+                                                    </select>
+                                                </div>
+                                            {/form_field}
+                                        </div>
+                                    </div>
+
+                                    {hook name="index_engine.index.form" id=$ID}
+
+{*
                                     {form_field form=$form field="entity"}
                                         <div class="form-group">
                                             <label class="control-label" for="{$label_attr.for}">
@@ -77,22 +106,10 @@
 
                                             {form_error form=$form field="entity"}{$message}{/form_error}
 
-                                                <input type="text" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$ENTITY}" placeholder="{intl l='The IndexEngineIndex entity'}" />
+                                            <input type="text" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$ENTITY}" placeholder="{intl l='The IndexEngineIndex entity'}" />
                                         </div>
                                     {/form_field}
-                                    {form_field form=$form field="index_engine_driver_configuration_id"}
-                                        <div class="form-group">
-                                            <label class="control-label" for="{$label_attr.for}">
-                                                {$label}
-                                                {if $required}<span class="required">*</span>{/if}
-                                            </label>
-
-                                            {form_error form=$form field="index_engine_driver_configuration_id"}{$message}{/form_error}
-
-                                                <input type="number" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$INDEX_ENGINE_DRIVER_CONFIGURATION_ID}" placeholder="{intl l='The IndexEngineIndex index_engine_driver_configuration_id'}" />
-                                        </div>
-                                    {/form_field}
-
+*}
                                     {include "includes/inner-form-toolbar.html"
                                         hide_flags = true
                                         close_url = {url path="/admin/module/IndexEngine"}
@@ -108,6 +125,7 @@
                                     </small>
                                 </div>
                             </div>
+                            {assign current_id=$ID}
                         {/loop}
 
                     </form>
@@ -118,4 +136,5 @@
 {/block}
 
 {block name="javascript-initialization"}
+    {hook name="index_engine.index.form-javascript" id=$current_id}
 {/block}
