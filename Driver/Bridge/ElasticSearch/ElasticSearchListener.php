@@ -63,7 +63,7 @@ class ElasticSearchListener extends DriverEventSubscriber
         ;
     }
 
-    public function createIndex(IndexEvent $event)
+    public function prepareIndexMapping(IndexEvent $event)
     {
         $type = $event->getType();
         $mapping = $event->getMapping();
@@ -91,7 +91,12 @@ class ElasticSearchListener extends DriverEventSubscriber
             $esMapping["proprieties"][$column] = $resolvedType;
         }
 
-        $data = $this->getClient()->indices()->create($parameters);
+        $event->setExtraData($parameters);
+    }
+
+    public function createIndex(IndexEvent $event)
+    {
+        $data = $this->getClient()->indices()->create($event->getExtraData());
 
         $event->setExtraData($data);
     }
@@ -112,6 +117,11 @@ class ElasticSearchListener extends DriverEventSubscriber
         $type = $event->getType();
         $data = $this->getClient()->indices()->delete(array("index" => $type));
         $event->setExtraData($data);
+    }
+
+    public function persistIndexes(IndexEvent $event)
+    {
+
     }
 
     protected function resolveType($type)
@@ -137,6 +147,7 @@ class ElasticSearchListener extends DriverEventSubscriber
 
             default:
             case IndexMapping::TYPE_STRING:
+            case IndexMapping::TYPE_BIG_TEXT:
                 return ["type" => "string", "analyzer" => "standard"];
         }
     }
@@ -159,24 +170,12 @@ class ElasticSearchListener extends DriverEventSubscriber
         return ElasticSearchDriver::getCode();
     }
 
-    /**
-     * @return array
-     *
-     * Similar to \Symfony\Component\EventDispatcher\EventSubscriberInterface::getSubscribedEvents
-     * but the output will be filtered to add the driver code to the event names
-     */
     public static function getDriverEvents()
     {
-        return [
-            DriverEvents::DRIVER_GET_CONFIGURATION => [
-                ["getConfiguration", 0],
-            ],
-            DriverEvents::DRIVER_LOAD_CONFIGURATION => [
-                ["loadConfiguration", 0],
-            ],
-            DriverEvents::INDEX_EXISTS => [
-                ["indexExists", 0],
-            ],
-        ];
+        $events = parent::getDriverEvents();
+
+        $events[DriverEvents::INDEX_CREATE][] = ["prepareIndexMapping", 128];
+
+        return $events;
     }
 }

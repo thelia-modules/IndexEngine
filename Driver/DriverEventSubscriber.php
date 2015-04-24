@@ -11,6 +11,7 @@
 /*************************************************************************************/
 
 namespace IndexEngine\Driver;
+use IndexEngine\Driver\Event\DriverEvents;
 
 /**
  * Class DriverEventSubscriber
@@ -72,5 +73,38 @@ abstract class DriverEventSubscriber implements DriverEventSubscriberInterface
     public function setDriver(DriverInterface $driver)
     {
         $this->driver = $driver;
+    }
+
+    /**
+     * @return array
+     *
+     * Similar to \Symfony\Component\EventDispatcher\EventSubscriberInterface::getSubscribedEvents
+     * but the output will be filtered to add the driver code to the event names
+     */
+    public static function getDriverEvents()
+    {
+        return [
+            DriverEvents::DRIVER_GET_CONFIGURATION => [
+                ["getConfiguration", 0],
+            ],
+            DriverEvents::DRIVER_LOAD_CONFIGURATION => [
+                ["loadConfiguration", 0],
+            ],
+            DriverEvents::INDEX_CREATE => [
+                ["createIndex", 0],
+            ],
+            DriverEvents::INDEX_EXISTS => [
+                ["indexExists", 0],
+            ],
+            DriverEvents::INDEX_DELETE => [
+                ["deleteIndex", 0],
+            ],
+            DriverEvents::INDEXES_PERSIST => [
+                ["persistIndexes", 0]
+            ],
+            DriverEvents::INDEX_SEARCH_QUERY => [
+                ["executeSearchQuery", 0]
+            ]
+        ];
     }
 }
