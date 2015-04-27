@@ -40,15 +40,7 @@ class IndexComparisonType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->replaceDefaults([
-            "choices" => [
-                Comparison::EQUAL => $this->translator->trans("Equals", [], IndexEngine::MESSAGE_DOMAIN),
-                Comparison::NOT_EQUAL => $this->translator->trans("Is different from", [], IndexEngine::MESSAGE_DOMAIN),
-                Comparison::LIKE => $this->translator->trans("Contains", [], IndexEngine::MESSAGE_DOMAIN),
-                Comparison::LESS => $this->translator->trans("Is less than", [], IndexEngine::MESSAGE_DOMAIN),
-                Comparison::LESS_EQUAL => $this->translator->trans("Is less or equal than", [], IndexEngine::MESSAGE_DOMAIN),
-                Comparison::GREATER => $this->translator->trans("Is greater than", [], IndexEngine::MESSAGE_DOMAIN),
-                Comparison::GREATER_EQUAL => $this->translator->trans("Is greater or equal than", [], IndexEngine::MESSAGE_DOMAIN),
-            ],
+            "choices" => $this->getChoices()
         ]);
     }
 
@@ -65,5 +57,18 @@ class IndexComparisonType extends AbstractType
     public function getName()
     {
         return "index_comparison";
+    }
+
+    public function getChoices()
+    {
+        return [
+            Comparison::EQUAL => $this->translator->trans("Equals", [], IndexEngine::MESSAGE_DOMAIN),
+            Comparison::NOT_EQUAL => $this->translator->trans("Is different from", [], IndexEngine::MESSAGE_DOMAIN),
+            Comparison::LIKE => $this->translator->trans("Contains", [], IndexEngine::MESSAGE_DOMAIN),
+            Comparison::LESS => $this->translator->trans("Is less than", [], IndexEngine::MESSAGE_DOMAIN),
+            Comparison::LESS_EQUAL => $this->translator->trans("Is less or equal than", [], IndexEngine::MESSAGE_DOMAIN),
+            Comparison::GREATER => $this->translator->trans("Is greater than", [], IndexEngine::MESSAGE_DOMAIN),
+            Comparison::GREATER_EQUAL => $this->translator->trans("Is greater or equal than", [], IndexEngine::MESSAGE_DOMAIN),
+        ];
     }
 }

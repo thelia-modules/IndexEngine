@@ -48,12 +48,13 @@ class IndexEngineIndexController extends BaseIndexEngineIndexController
         $event = new IndexEngineIndexEvent();
 
         $event->setId($formData["id"]);
-        $event->setVisible($formData["visible"]);
         $event->setCode($formData["code"]);
         $event->setTitle($formData["title"]);
         $event->setType($formData["type"]);
         $event->setEntity($formData["entity"]);
         $event->setIndexEngineDriverConfigurationId($formData["index_engine_driver_configuration_id"]);
+        $event->setConditions($formData["conditions"]);
+        $event->setColumns($formData["columns"]);
 
         return $event;
     }

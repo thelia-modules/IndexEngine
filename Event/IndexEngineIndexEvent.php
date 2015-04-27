@@ -14,4 +14,43 @@ use IndexEngine\Event\Base\IndexEngineIndexEvent as BaseIndexEngineIndexEvent;
  */
 class IndexEngineIndexEvent extends BaseIndexEngineIndexEvent
 {
+    private $conditions = array();
+    private $columns = array();
+
+    /**
+     * @return array
+     */
+    public function getConditions()
+    {
+        return $this->conditions;
+    }
+
+    /**
+     * @param array $conditions
+     * @return $this
+     */
+    public function setConditions(array $conditions)
+    {
+        $this->conditions = $conditions;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getColumns()
+    {
+        return $this->columns;
+    }
+
+    /**
+     * @param array $columns
+     * @return $this
+     */
+    public function setColumns(array $columns)
+    {
+        $this->columns = $columns;
+        return $this;
+    }
+
 }

@@ -24,6 +24,80 @@
 
 </div>
 
+<div id="index_engine_criteria">
+    <div class="row">
+        <div class="col-md-12">
+            {capture "index_engine_condition_prototype"}
+                {form_field form=$form field="conditions"}
+                    <div class="row">
+                        <div class="col-md-2">
+                            <p>{intl l="The column" d="indexengine.bo.default"}</p>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <input type="text" name="{$name}[_ID_][column]" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <select name="{$name}[_ID_][comparison]" class="form-control">
+                                    {foreach from=$comparison_choices key=value item=label}
+                                        <option value="{$value}">{$label}</option>
+                                    {/foreach}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <input type="text" name="{$name}[_ID_][value]" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                {/form_field}
+            {/capture}
+
+            <h3>
+                {intl l="Criteria" d="indexengine.bo.default"}
+
+                <a href="#" class="btn btn-primary btn-xs btn-add-criterion" data-prototype="{$smarty.capture.index_engine_condition_prototype}">
+                    <i class="glyphicon glyphicon-plus-sign"></i>
+                </a>
+            </h3>
+
+            <div id="index_engine_criteria_container">
+                {$currentNumberOfCriteria=0}
+                {form_collection form=$form collection="conditions"}
+                    <div class="row">
+                        <div class="col-md-3">
+                            {intl l="The column" d="indexengine.bo.default"}
+                        </div>
+                        <div class="col-md-3">
+                            {form_collection_field form=$form row=$row field="column"}
+                                <input type="text" name="{$name}" value="{$value}" class="form-control" />
+                            {/form_collection_field}
+                        </div>
+                        <div class="col-md-3">
+                            {form_collection_field form=$form row=$row field="comparison"}
+                                <select name="{$name}" class="form-control">
+                                    {foreach from=$comparison_choices key=val item=label}
+                                        <option value="{$value}" {if $value == $val}selected{/if}>{$label}</option>
+                                    {/foreach}
+                                </select>
+                            {/form_collection_field}
+                        </div>
+                        <div class="col-md-3">
+                            {form_collection_field form=$form row=$row field="value"}
+                                <input type="text" name="{$name}" value="{$value}" class="form-control" />
+                            {/form_collection_field}
+                        </div>
+                    </div>
+                    {$currentNumberOfCriteria++}
+                {/form_collection}
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     (function ($) {
         var $entity = $(".index_engine_entity_table");
@@ -52,6 +126,14 @@
         }
 
         update_entity_columns();
+
+        var currentNumberOfCriteria = {$currentNumberOfCriteria};
+
+        $(".btn-add-criterion").click(function(e) {
+            e.preventDefault();
+
+            $("#index_engine_criteria_container").append($(this).data("prototype").replace(/_ID_/g, currentNumberOfCriteria++));
+        });
     })(jQuery);
 </script>
 {/form}

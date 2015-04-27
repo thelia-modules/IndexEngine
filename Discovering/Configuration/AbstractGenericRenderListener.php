@@ -12,10 +12,12 @@
 
 namespace IndexEngine\Discovering\Configuration;
 
+use IndexEngine\Form\Type\IndexComparisonType;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use IndexEngine\Discovering\Repository\IndexableEntityRepositoryInterface;
 use IndexEngine\Event\IndexEngineIndexEvents;
 use IndexEngine\Event\RenderConfigurationEvent;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Thelia\Core\Template\ParserInterface;
 use Thelia\Core\Template\TemplateHelper;
 
@@ -32,13 +34,20 @@ abstract class AbstractGenericRenderListener implements EventSubscriberInterface
     /** @var IndexableEntityRepositoryInterface */
     private $repository;
 
-    public function __construct(ParserInterface $parser, IndexableEntityRepositoryInterface $repository)
-    {
+    /** @var IndexComparisonType */
+    private $indexComparisonType;
+
+    public function __construct(
+        ParserInterface $parser,
+        IndexableEntityRepositoryInterface $repository,
+        IndexComparisonType $indexComparisonType
+    ) {
         $this->parser = $parser;
         $this->repository = $repository;
+        $this->indexComparisonType = $indexComparisonType;
     }
 
-    public function renderDatabaseConfiguration(RenderConfigurationEvent $event)
+    public function renderConfiguration(RenderConfigurationEvent $event)
     {
         if ($event->getType() === $type = $this->getType()) {
             // Ensure that the parser is on a back office context
@@ -47,11 +56,12 @@ abstract class AbstractGenericRenderListener implements EventSubscriberInterface
             $event->addContent($this->parser->render("index-configuration/standard/entity.html", [
                 "index_type" => $type,
                 "entities" => $this->repository->listIndexableEntities($type),
+                "comparison_choices" => $this->indexComparisonType->getChoices(),
             ]));
         }
     }
 
-    public function renderDatabaseConfigurationColumns(RenderConfigurationEvent $event)
+    public function renderConfigurationColumns(RenderConfigurationEvent $event)
     {
         if ($event->getType() === $type = $this->getType()) {
             // Ensure that the parser is on a back office context
@@ -86,8 +96,8 @@ abstract class AbstractGenericRenderListener implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            IndexEngineIndexEvents::RENDER_CONFIGURATION_TEMPLATE => ["renderDatabaseConfiguration"],
-            IndexEngineIndexEvents::RENDER_CONFIGURATION_COLUMNS_TEMPLATE => ["renderDatabaseConfigurationColumns"],
+            IndexEngineIndexEvents::RENDER_CONFIGURATION_TEMPLATE => ["renderConfiguration"],
+            IndexEngineIndexEvents::RENDER_CONFIGURATION_COLUMNS_TEMPLATE => ["renderConfigurationColumns"],
         ];
     }
 

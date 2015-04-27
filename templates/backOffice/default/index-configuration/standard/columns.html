@@ -3,46 +3,135 @@
         {if !is_array($value)}
             {$value=[]}
         {/if}
-    <div class="row">
-        <div class="col-md-6">
-            {if count($columns)}
-            <label for="index_engine_entity_column_possibilities">
-                {intl l="Found columns" d="indexengine.bo.default"}
-            </label>
-            <select multiple id="index_engine_entity_column_possibilities" class="form-control" size="7">
-                {foreach from=$columns item=column}
-                    <option value="{$column}" {if column|in_array:$value}disabled class="disabled"{/if}>{$column}</option>
-                {/foreach}
-            </select>
-            {else}
-                <div class="alert alert-info">
-                    {intl l="No column has been found, but you can add it manually" d="indexengine.bo.default"}
-                </div>
-            {/if}
-            <button type="button" class="btn btn-primary col-md-12">
-                {intl l="Select those columns" d="indexengine.bo.default"} &gt;&gt;
-            </button>
-        </div>
-
-        <div class="col-md-6">
-            <div class="form-group" data-prototype="{$smarty.capture.index_engine_configuration_column_prototype|escape}">
-                <label for="index_engine_entity">
-                    {intl l="Selected columns" d="indexengine.bo.default"} <span class="required">*</span>
+        <div class="row">
+            <div class="col-md-6">
+                {if count($columns)}
+                <label for="index_engine_entity_column_possibilities">
+                    {intl l="Found columns" d="indexengine.bo.default"}
                 </label>
-
-                {form_error form=$form field="entity"}{$message}{/form_error}
-
-                <select name="{$name}" id="index_engine_entity_column_selection" class="form-control index_engine_columns_table" multiple size="7">
-                    {foreach from=$value item=column}
-                        <option value="{$column}">{$column}</option>
+                <select multiple id="index_engine_entity_column_possibilities" class="form-control" size="7">
+                    {foreach from=$columns item=column}
+                        <option value="{$column}" {if column|in_array:$value}disabled class="disabled"{/if}>{$column}</option>
                     {/foreach}
                 </select>
-
-                <button type="button" class="btn btn-primary col-md-6">
-                    &lt;&lt; {intl l="Remove those columns" d="indexengine.bo.default"}
+                {else}
+                    <div class="alert alert-info">
+                        {intl l="No column has been found, but you can add it manually" d="indexengine.bo.default"}
+                    </div>
+                {/if}
+                <button type="button" class="btn btn-primary col-md-12 btn-index-engine-select-columns">
+                    {intl l="Select those columns" d="indexengine.bo.default"} &gt;&gt;
                 </button>
             </div>
+
+            <div class="col-md-6">
+                <div class="form-group" data-prototype="{$smarty.capture.index_engine_configuration_column_prototype|escape}">
+                    <label for="index_engine_entity">
+                        {intl l="Selected columns" d="indexengine.bo.default"} <span class="required">*</span>
+                    </label>
+
+                    {form_error form=$form field="columns"}{$message}{/form_error}
+
+                    <select name="{$name}[]" id="index_engine_entity_column_selection" class="form-control index_engine_columns_table" multiple size="7">
+                        {foreach from=$value item=column}
+                            <option value="{$column}">{$column}</option>
+                        {/foreach}
+                    </select>
+
+                    <button type="button" class="btn btn-primary col-md-12 btn-index-engine-unselect-columns">
+                        &lt;&lt; {intl l="Remove those columns" d="indexengine.bo.default"}
+                    </button>
+                </div>
+            </div>
         </div>
-    </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <label for="index_engine_entity_column_manual">
+                    {intl l="Manually add a column" d="indexengine.bo.default"}
+                </label>
+
+                <div class="input-group">
+                    <input id="index_engine_entity_column_manual" class="form-control" />
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-default btn-index-engine-manual-add">
+                            {intl l="Add this column" d="indexengine.bo.default"}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <script>
+            (function ($) {
+                // Select columns
+                $(".btn-index-engine-select-columns").click(function() {
+                    $("option:selected", "#index_engine_entity_column_possibilities")
+                        .each(function (i, option) {
+                            var $option = $(option);
+                            addValueToSelectedColumns($option.val(), $option);
+                        })
+                    ;
+                });
+
+                $columnSelection = $("#index_engine_entity_column_selection");
+
+                function addValueToSelectedColumns(name, $option) {
+                    if ($("option[value="+name+"]", $columnSelection).length == 0) {
+                        $columnSelection.append($("<option value='" + name + "'>" + name + "</option>").prop("selected", true));
+                    }
+
+                    $option
+                        .addClass("disabled disabled-select-option")
+                        .attr("disabled", true)
+                        .prop("selected", false);
+                }
+
+                // Manually add
+                var $manuallyAddInput =  $("#index_engine_entity_column_manual");
+                $(".btn-index-engine-manual-add").click(function() {
+                    manuallyAddInput();
+                });
+
+                function manuallyAddInput() {
+                    var columnName = $manuallyAddInput.val().trim();
+                    $manuallyAddInput.val("");
+
+                    if ("" !== columnName) {
+                        addValueToSelectedColumns(columnName, $("option[value="+columnName+"]", "#index_engine_entity_column_possibilities"));
+                    }
+                }
+
+                $manuallyAddInput.keypress(function(e) {
+                    if (e.keyCode === 13) {
+                        e.preventDefault();
+                        manuallyAddInput();
+                    }
+                });
+
+                // Unselect columns
+                $(".btn-index-engine-unselect-columns").click(function() {
+                   $("option:selected", "#index_engine_entity_column_selection")
+                       .each(function (i, option) {
+                           removeValueOfSelectedColumns($(option));
+                       })
+                });
+
+                function removeValueOfSelectedColumns($option) {
+                    var $foundColumn = $("option[value="+$option.val()+"]");
+
+                    if ($foundColumn.length != 0) {
+                        $foundColumn
+                            .removeClass("disabled")
+                            .removeClass("disabled-select-option")
+                            .prop("disabled", false)
+                        ;
+                    }
+
+                    $option.remove();
+                }
+            })(jQuery);
+        </script>
     {/form_field}
 {/form}
