@@ -1,0 +1,17 @@
+<script>
+    (function ($) {
+        $(".btn-launch-sql-query-test").click(function() {
+            $.ajax({
+                url: "{url path="/admin/module/IndexEngine/test_sql_query"}",
+                method: POST,
+                data: {
+                    sql_query: $("#index_engine_sql_query").val()
+                }
+            }).success(function(data) {
+
+            }).fail(function(data) {
+                $(".index_engine_sql_query_result").html("<div class='alert alert-danger'>"+data.error+"</div>")
+            })
+        });
+    })(jQuery);
+</script>

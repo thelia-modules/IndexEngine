@@ -29,6 +29,9 @@ class IndexConfigurationHook extends BaseHook
 
     public function onIndexEngineIndexFormJavascript(HookRenderEvent $event)
     {
-        $event->add($this->render("index-configuration/index-configuration-form-js.html"));
+        $event
+            ->add($this->render("index-configuration/index-configuration-form-js.html"))
+            ->add($this->render("index-configuration/sql-query/query-js.html"))
+        ;
     }
 }

@@ -12,20 +12,20 @@
 
 namespace IndexEngine\Discovering\Configuration;
 
-use IndexEngine\Discovering\Collector\DatabaseSubscriber as DatabaseCollector;
+use IndexEngine\Discovering\Collector\LoopSubscriber as LoopCollector;
 
 /**
- * Class DatabaseSubscriber
+ * Class LoopSubscriber
  * @package IndexEngine\Discovering\Configuration
  * @author Benjamin Perche <benjamin@thelia.net>
  */
-class DatabaseSubscriber extends AbstractGenericRenderListener
+class LoopSubscriber extends AbstractGenericRenderListener
 {
     /**
      * @return string The collector Type
      */
     protected function getType()
     {
-        return DatabaseCollector::TYPE;
+        return LoopCollector::TYPE;
     }
 }

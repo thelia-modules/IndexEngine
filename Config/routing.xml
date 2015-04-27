@@ -10,6 +10,10 @@
     <requirement key="type">.+</requirement>
   </route>
 
+    <route id="indexengine.sql_query_test" path="/admin/module/IndexEngine/test_sql_query" methods="post">
+        <default key="_controller">IndexEngine:IndexEngineSqlQuery:testQuery</default>
+    </route>
+
   <!-- TheliaStudio -->
   <route id="indexengine.index_engine_index.list" path="/admin/module/IndexEngine" methods="get">
     <default key="_controller">IndexEngine:IndexEngineIndex:default</default>
