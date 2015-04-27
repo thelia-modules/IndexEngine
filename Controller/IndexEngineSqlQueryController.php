@@ -59,7 +59,7 @@ class IndexEngineSqlQueryController extends BaseAdminController
             $stmt = $con->query($query);
             $stmt->execute();
 
-            $data = $stmt->fetchAll();
+            $data = $stmt->fetchAll(\PDO::FETCH_NAMED);
 
             if (count($data) > 10) {
                 $data = array_slice($data, 0, 10);

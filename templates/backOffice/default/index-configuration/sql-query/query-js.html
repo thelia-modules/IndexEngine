@@ -1,16 +1,45 @@
 <script>
     (function ($) {
-        $(".btn-launch-sql-query-test").click(function() {
+        $(document).on("click", ".btn-launch-sql-query-test", function() {
             $.ajax({
                 url: "{url path="/admin/module/IndexEngine/test_sql_query"}",
-                method: POST,
+                method: "POST",
                 data: {
                     sql_query: $("#index_engine_sql_query").val()
                 }
             }).success(function(data) {
+                if (data.length == 0) {
+                    $(".index_engine_sql_query_result").html("<div class='alert alert-info'>{intl l="No available result" d="indexengine.bo.default"}</div>")
+                } else {
+                    // build the result table
+                    var firstRow = data[0];
 
+                    // Header
+                    var theadData = "<thead>";
+                    $.each(firstRow, function (i) {
+                        theadData += "<th>" + i + "</th>";
+                    });
+                    theadData += "</thead>";
+
+                    // Body
+                    var tbodyData = "<tbody>";
+                    $.each(data, function (i, value) {
+                        tbodyData += "<tr>";
+                        $.each(value, function(j, innerValue) {
+                           tbodyData += "<td>"+innerValue+"</td>";
+                        });
+                        tbodyData += "</tr>";
+                    });
+                    tbodyData += "</tbody>";
+
+                    // Inject it
+                    $(".index_engine_sql_query_result").html(
+                        "<div class='alert alert-info'>{intl l="The results are limited to 10" d="indexengine.bo.default"}</div>" +
+                        "<div class='table-responsive'><table class='table table-striped table-condensed'>"+theadData+tbodyData+"</table></div>"
+                    );
+                }
             }).fail(function(data) {
-                $(".index_engine_sql_query_result").html("<div class='alert alert-danger'>"+data.error+"</div>")
+                $(".index_engine_sql_query_result").html("<div class='alert alert-danger'>"+data.responseJSON.error+"</div>")
             })
         });
     })(jQuery);
