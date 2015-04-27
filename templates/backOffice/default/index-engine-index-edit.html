@@ -5,7 +5,7 @@
     {$admin_current_location = 'tools'}
 {/block}
 
-{block name="page-title"}{intl l='IndexEngineIndex'}{/block}
+{block name="page-title"}{intl l='Index configuration builder'}{/block}
 
 {block name="check-resource"}admin.module{/block}
 {block name="check-access"}update{/block}
@@ -22,14 +22,14 @@
 
             <div class="general-block-decorator">
                 <div class="title title-without-tabs">
-                    {intl l="IndexEngineIndex edit" d="indexengine.bo.default"}
+                    {intl l="Index configuration builder" d="indexengine.bo.default"}
                 </div>
 
                 <div class="form-container">
                     <form method="POST" action="{$current_url}" {form_enctype form=$form} class="clearfix" >
 
                         {include "includes/inner-form-toolbar.html"
-                        close_url = {url path="/admin/module/IndexEngine"}
+                            close_url = {url path="/admin/module/IndexEngine"}
                         }
 
                         {form_field form=$form field="id"}

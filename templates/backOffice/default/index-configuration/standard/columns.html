@@ -1,1 +1,48 @@
-fffff
+{form name="index_engine_index.update"}
+    {form_field form=$form field="columns"}
+        {if !is_array($value)}
+            {$value=[]}
+        {/if}
+    <div class="row">
+        <div class="col-md-6">
+            {if count($columns)}
+            <label for="index_engine_entity_column_possibilities">
+                {intl l="Found columns" d="indexengine.bo.default"}
+            </label>
+            <select multiple id="index_engine_entity_column_possibilities" class="form-control" size="7">
+                {foreach from=$columns item=column}
+                    <option value="{$column}" {if column|in_array:$value}disabled class="disabled"{/if}>{$column}</option>
+                {/foreach}
+            </select>
+            {else}
+                <div class="alert alert-info">
+                    {intl l="No column has been found, but you can add it manually" d="indexengine.bo.default"}
+                </div>
+            {/if}
+            <button type="button" class="btn btn-primary col-md-12">
+                {intl l="Select those columns" d="indexengine.bo.default"} &gt;&gt;
+            </button>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group" data-prototype="{$smarty.capture.index_engine_configuration_column_prototype|escape}">
+                <label for="index_engine_entity">
+                    {intl l="Selected columns" d="indexengine.bo.default"} <span class="required">*</span>
+                </label>
+
+                {form_error form=$form field="entity"}{$message}{/form_error}
+
+                <select name="{$name}" id="index_engine_entity_column_selection" class="form-control index_engine_columns_table" multiple size="7">
+                    {foreach from=$value item=column}
+                        <option value="{$column}">{$column}</option>
+                    {/foreach}
+                </select>
+
+                <button type="button" class="btn btn-primary col-md-6">
+                    &lt;&lt; {intl l="Remove those columns" d="indexengine.bo.default"}
+                </button>
+            </div>
+        </div>
+    </div>
+    {/form_field}
+{/form}
