@@ -96,20 +96,12 @@
 
                                     {hook name="index_engine.index.form" id=$ID}
 
-{*
-                                    {form_field form=$form field="entity"}
-                                        <div class="form-group">
-                                            <label class="control-label" for="{$label_attr.for}">
-                                                {$label}
-                                                {if $required}<span class="required">*</span>{/if}
-                                            </label>
+                                    <div class="alert alert-info">
+                                        {intl l="By default, indexes are stored as simple string, but you can improve the mapping by defining your own types " d="indexengine.bo.default"}
+                                    </div>
 
-                                            {form_error form=$form field="entity"}{$message}{/form_error}
+                                    {include "index-configuration/standard/mapping.html" index_engine_index_id=$index_engine_index_id}
 
-                                            <input type="text" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$ENTITY}" placeholder="{intl l='The IndexEngineIndex entity'}" />
-                                        </div>
-                                    {/form_field}
-*}
                                     {include "includes/inner-form-toolbar.html"
                                         hide_flags = true
                                         close_url = {url path="/admin/module/IndexEngine"}

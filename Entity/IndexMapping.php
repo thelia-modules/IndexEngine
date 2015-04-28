@@ -96,4 +96,9 @@ class IndexMapping
 
         return $this->mapping[$column];
     }
+
+    public function getTypes()
+    {
+        return $this->types;
+    }
 }
