@@ -159,7 +159,6 @@ class IndexEngineDriverConfigurationTableMap extends TableMap
     public function buildRelations()
     {
         $this->addRelation('IndexEngineIndex', '\\IndexEngine\\Model\\IndexEngineIndex', RelationMap::ONE_TO_MANY, array('id' => 'index_engine_driver_configuration_id', ), 'CASCADE', 'CASCADE', 'IndexEngineIndices');
-        $this->addRelation('IndexEngineIndexTemplate', '\\IndexEngine\\Model\\IndexEngineIndexTemplate', RelationMap::ONE_TO_MANY, array('id' => 'index_engine_driver_configuration_id', ), 'CASCADE', 'CASCADE', 'IndexEngineIndexTemplates');
     } // buildRelations()
     /**
      * Method to invalidate the instance pool of all tables related to index_engine_driver_configuration     * by a foreign key with ON DELETE CASCADE
@@ -169,7 +168,6 @@ class IndexEngineDriverConfigurationTableMap extends TableMap
         // Invalidate objects in ".$this->getClassNameFromBuilder($joinedTableTableMapBuilder)." instance pool,
         // since one or more of them may be deleted by ON DELETE CASCADE/SETNULL rule.
                 IndexEngineIndexTableMap::clearInstancePool();
-                IndexEngineIndexTemplateTableMap::clearInstancePool();
             }
 
     /**

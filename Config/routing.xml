@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <routes xmlns="http://symfony.com/schema/routing" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
   <route id="indexengine.index_engine_index.ajax_configuration_columns" path="/admin/module/IndexEngine/configuration/{type}/columns/{entity}" methods="get">
-      <default key="_controller">IndexEngine:IndexEngineIndex:renderColumnsConfiguration</default>
-      <requirement key="type">.+</requirement>
-      <requirement key="entity">.+</requirement>
+    <default key="_controller">IndexEngine:IndexEngineIndex:renderColumnsConfiguration</default>
+    <requirement key="type">.+</requirement>
+    <requirement key="entity">.+</requirement>
   </route>
   <route id="indexengine.index_engine_index.ajax_configuration_form" path="/admin/module/IndexEngine/configuration/{type}" methods="get">
     <default key="_controller">IndexEngine:IndexEngineIndex:renderIndexConfiguration</default>
     <requirement key="type">.+</requirement>
   </route>
-
-    <route id="indexengine.sql_query_test" path="/admin/module/IndexEngine/test_sql_query" methods="post">
-        <default key="_controller">IndexEngine:IndexEngineSqlQuery:testQuery</default>
-    </route>
-
+  <route id="indexengine.sql_query_test" path="/admin/module/IndexEngine/test_sql_query" methods="post">
+    <default key="_controller">IndexEngine:IndexEngineSqlQuery:testQuery</default>
+  </route>
   <!-- TheliaStudio -->
   <route id="indexengine.index_engine_index.list" path="/admin/module/IndexEngine" methods="get">
     <default key="_controller">IndexEngine:IndexEngineIndex:default</default>
@@ -47,23 +45,5 @@
   </route>
   <route id="indexengine.index_engine_driver_configuration.delete" path="/admin/module/IndexEngine/index_engine_driver_configuration/delete" methods="post">
     <default key="_controller">IndexEngine:IndexEngineDriverConfiguration:delete</default>
-  </route>
-  <route id="indexengine.index_engine_index_template.list" path="/admin/module/IndexEngine/index_engine_index_template" methods="get">
-    <default key="_controller">IndexEngine:IndexEngineIndexTemplate:default</default>
-  </route>
-  <route id="indexengine.index_engine_index_template.create" path="/admin/module/IndexEngine/index_engine_index_template" methods="post">
-    <default key="_controller">IndexEngine:IndexEngineIndexTemplate:create</default>
-  </route>
-  <route id="indexengine.index_engine_index_template.view" path="/admin/module/IndexEngine/index_engine_index_template/edit" methods="get">
-    <default key="_controller">IndexEngine:IndexEngineIndexTemplate:update</default>
-  </route>
-  <route id="indexengine.index_engine_index_template.edit" path="/admin/module/IndexEngine/index_engine_index_template/edit" methods="post">
-    <default key="_controller">IndexEngine:IndexEngineIndexTemplate:processUpdate</default>
-  </route>
-  <route id="indexengine.index_engine_index_template.delete" path="/admin/module/IndexEngine/index_engine_index_template/delete" methods="post">
-    <default key="_controller">IndexEngine:IndexEngineIndexTemplate:delete</default>
-  </route>
-  <route id="indexengine.index_engine_index_template.toggle_visibility" path="/admin/module/IndexEngine/index_engine_index_template/toggleVisibility" methods="get">
-    <default key="_controller">IndexEngine:IndexEngineIndexTemplate:setToggleVisibility</default>
   </route>
 </routes>

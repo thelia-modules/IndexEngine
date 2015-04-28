@@ -41,10 +41,6 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildIndexEngineDriverConfigurationQuery rightJoinIndexEngineIndex($relationAlias = null) Adds a RIGHT JOIN clause to the query using the IndexEngineIndex relation
  * @method     ChildIndexEngineDriverConfigurationQuery innerJoinIndexEngineIndex($relationAlias = null) Adds a INNER JOIN clause to the query using the IndexEngineIndex relation
  *
- * @method     ChildIndexEngineDriverConfigurationQuery leftJoinIndexEngineIndexTemplate($relationAlias = null) Adds a LEFT JOIN clause to the query using the IndexEngineIndexTemplate relation
- * @method     ChildIndexEngineDriverConfigurationQuery rightJoinIndexEngineIndexTemplate($relationAlias = null) Adds a RIGHT JOIN clause to the query using the IndexEngineIndexTemplate relation
- * @method     ChildIndexEngineDriverConfigurationQuery innerJoinIndexEngineIndexTemplate($relationAlias = null) Adds a INNER JOIN clause to the query using the IndexEngineIndexTemplate relation
- *
  * @method     ChildIndexEngineDriverConfiguration findOne(ConnectionInterface $con = null) Return the first ChildIndexEngineDriverConfiguration matching the query
  * @method     ChildIndexEngineDriverConfiguration findOneOrCreate(ConnectionInterface $con = null) Return the first ChildIndexEngineDriverConfiguration matching the query, or a new ChildIndexEngineDriverConfiguration object populated from the query conditions when no match is found
  *
@@ -464,79 +460,6 @@ abstract class IndexEngineDriverConfigurationQuery extends ModelCriteria
         return $this
             ->joinIndexEngineIndex($relationAlias, $joinType)
             ->useQuery($relationAlias ? $relationAlias : 'IndexEngineIndex', '\IndexEngine\Model\IndexEngineIndexQuery');
-    }
-
-    /**
-     * Filter the query by a related \IndexEngine\Model\IndexEngineIndexTemplate object
-     *
-     * @param \IndexEngine\Model\IndexEngineIndexTemplate|ObjectCollection $indexEngineIndexTemplate  the related object to use as filter
-     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return ChildIndexEngineDriverConfigurationQuery The current query, for fluid interface
-     */
-    public function filterByIndexEngineIndexTemplate($indexEngineIndexTemplate, $comparison = null)
-    {
-        if ($indexEngineIndexTemplate instanceof \IndexEngine\Model\IndexEngineIndexTemplate) {
-            return $this
-                ->addUsingAlias(IndexEngineDriverConfigurationTableMap::ID, $indexEngineIndexTemplate->getIndexEngineDriverConfigurationId(), $comparison);
-        } elseif ($indexEngineIndexTemplate instanceof ObjectCollection) {
-            return $this
-                ->useIndexEngineIndexTemplateQuery()
-                ->filterByPrimaryKeys($indexEngineIndexTemplate->getPrimaryKeys())
-                ->endUse();
-        } else {
-            throw new PropelException('filterByIndexEngineIndexTemplate() only accepts arguments of type \IndexEngine\Model\IndexEngineIndexTemplate or Collection');
-        }
-    }
-
-    /**
-     * Adds a JOIN clause to the query using the IndexEngineIndexTemplate relation
-     *
-     * @param     string $relationAlias optional alias for the relation
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
-     *
-     * @return ChildIndexEngineDriverConfigurationQuery The current query, for fluid interface
-     */
-    public function joinIndexEngineIndexTemplate($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
-    {
-        $tableMap = $this->getTableMap();
-        $relationMap = $tableMap->getRelation('IndexEngineIndexTemplate');
-
-        // create a ModelJoin object for this join
-        $join = new ModelJoin();
-        $join->setJoinType($joinType);
-        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
-        if ($previousJoin = $this->getPreviousJoin()) {
-            $join->setPreviousJoin($previousJoin);
-        }
-
-        // add the ModelJoin to the current object
-        if ($relationAlias) {
-            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
-            $this->addJoinObject($join, $relationAlias);
-        } else {
-            $this->addJoinObject($join, 'IndexEngineIndexTemplate');
-        }
-
-        return $this;
-    }
-
-    /**
-     * Use the IndexEngineIndexTemplate relation IndexEngineIndexTemplate object
-     *
-     * @see useQuery()
-     *
-     * @param     string $relationAlias optional alias for the relation,
-     *                                   to be used as main alias in the secondary query
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
-     *
-     * @return   \IndexEngine\Model\IndexEngineIndexTemplateQuery A secondary query class using the current class as primary query
-     */
-    public function useIndexEngineIndexTemplateQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
-    {
-        return $this
-            ->joinIndexEngineIndexTemplate($relationAlias, $joinType)
-            ->useQuery($relationAlias ? $relationAlias : 'IndexEngineIndexTemplate', '\IndexEngine\Model\IndexEngineIndexTemplateQuery');
     }
 
     /**

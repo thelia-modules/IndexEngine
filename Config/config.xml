@@ -18,41 +18,33 @@
     <parameter key="index_engine.form.argument_form_builder.class">IndexEngine\Form\Builder\ArgumentFormBuilder</parameter>
     <parameter key="index_engine.form.type.index_comparison.class">IndexEngine\Form\Type\IndexComparisonType</parameter>
     <parameter key="index_engine.form.type.index_condition.class">IndexEngine\Form\Type\IndexConditionType</parameter>
-      <parameter key="index_engine.index_configuration_manager.class">IndexEngine\Manager\IndexConfigurationManager</parameter>
-      <parameter key="index_engine.form.type.index_type.class">IndexEngine\Form\Type\IndexTypeType</parameter>
-      <parameter key="index_engine.database_collector.render.class">IndexEngine\Discovering\Configuration\DatabaseSubscriber</parameter>
-      <parameter key="index_engine.loop_collector.render.class">IndexEngine\Discovering\Configuration\LoopSubscriber</parameter>
-      <parameter key="index_engine.sql_query_collector.render.class">IndexEngine\Discovering\Configuration\SqlQuerySubscriber</parameter>
-      <parameter key="index_engine.index_configuration.subscriber.class">IndexEngine\Listener\IndexConfigurationSubscriber</parameter>
-      <parameter key="index_engine.sql_manager.class">IndexEngine\Manager\SqlManager</parameter>
-
+    <parameter key="index_engine.index_configuration_manager.class">IndexEngine\Manager\IndexConfigurationManager</parameter>
+    <parameter key="index_engine.form.type.index_type.class">IndexEngine\Form\Type\IndexTypeType</parameter>
+    <parameter key="index_engine.database_collector.render.class">IndexEngine\Discovering\Configuration\DatabaseSubscriber</parameter>
+    <parameter key="index_engine.loop_collector.render.class">IndexEngine\Discovering\Configuration\LoopSubscriber</parameter>
+    <parameter key="index_engine.sql_query_collector.render.class">IndexEngine\Discovering\Configuration\SqlQuerySubscriber</parameter>
+    <parameter key="index_engine.index_configuration.subscriber.class">IndexEngine\Listener\IndexConfigurationSubscriber</parameter>
+    <parameter key="index_engine.sql_manager.class">IndexEngine\Manager\SqlManager</parameter>
     <!-- Commands -->
     <parameter key="index_engine.command.list_drivers.class">IndexEngine\IO\Command\IndexDriverListCommand</parameter>
     <parameter key="index_engine.command.index_exists.class">IndexEngine\IO\Command\IndexExistsCommand</parameter>
     <parameter key="index_engine.command.configuration_list.class">IndexEngine\IO\Command\IndexConfigurationListCommand</parameter>
   </parameters>
-
   <loops>
     <loop name="index-engine-index" class="IndexEngine\Loop\IndexEngineIndex"/>
     <loop name="index-engine-driver-configuration" class="IndexEngine\Loop\IndexEngineDriverConfiguration"/>
-    <loop name="index-engine-index-template" class="IndexEngine\Loop\IndexEngineIndexTemplate"/>
   </loops>
-
   <forms>
     <form name="index_engine_index.create" class="IndexEngine\Form\IndexEngineIndexCreateForm"/>
     <form name="index_engine_index.update" class="IndexEngine\Form\IndexEngineIndexUpdateForm"/>
     <form name="index_engine_driver_configuration.create" class="IndexEngine\Form\IndexEngineDriverConfigurationCreateForm"/>
     <form name="index_engine_driver_configuration.update" class="IndexEngine\Form\IndexEngineDriverConfigurationUpdateForm"/>
-    <form name="index_engine_index_template.create" class="IndexEngine\Form\IndexEngineIndexTemplateCreateForm"/>
-    <form name="index_engine_index_template.update" class="IndexEngine\Form\IndexEngineIndexTemplateUpdateForm"/>
   </forms>
-
   <commands>
     <command class="%index_engine.command.list_drivers.class%"/>
     <command class="%index_engine.command.index_exists.class%"/>
     <command class="%index_engine.command.configuration_list.class%"/>
   </commands>
-
   <services>
     <service id="index_engine.indexable_entity_repository" class="%index_engine.indexable_entity_repository.class%">
       <argument type="service" id="index_engine.event_dispatcher"/>
@@ -61,44 +53,40 @@
     <service id="index_engine.event_dispatcher" class="%index_engine.event_dispatcher.class%">
       <argument type="service" id="service_container"/>
     </service>
-
-      <!-- Configuration collectors and rendering services -->
-      <service id="index_engine.database_collector" class="%index_engine.database_collector.class%">
-          <argument type="service" id="index_engine.propel_connection"/>
-          <tag name="index_engine.event_subscriber"/>
-      </service>
-      <service id="index_engine.database_collector.render" class="%index_engine.database_collector.render.class%" scope="request">
-          <argument type="service" id="thelia.parser" />
-          <argument type="service" id="index_engine.indexable_entity_repository" />
-          <argument type="service" id="index_engine.form.type.index_comparison"/>
-          <argument type="service" id="index_engine.index_configuration_manager"/>
-          <tag name="kernel.event_subscriber"/>
-      </service>
-
-      <service id="index_engine.loop_collector" class="%index_engine.loop_collector.class%">
-          <argument>%Thelia.parser.loops%</argument>
-          <argument type="service" id="service_container"/>
-          <argument type="service" id="thelia.logger"/>
-          <tag name="index_engine.event_subscriber"/>
-      </service>
-      <service id="index_engine.loop_collector.render" class="%index_engine.loop_collector.render.class%" scope="request">
-          <argument type="service" id="thelia.parser" />
-          <argument type="service" id="index_engine.indexable_entity_repository" />
-          <argument type="service" id="index_engine.form.type.index_comparison"/>
-          <argument type="service" id="index_engine.index_configuration_manager"/>
-          <tag name="kernel.event_subscriber"/>
-      </service>
-
-      <service id="index_engine.sql_query_collector" class="%index_engine.sql_query_collector.class%">
-          <tag name="index_engine.event_subscriber"/>
-      </service>
-      <service id="index_engine.sql_query_collector.render" class="%index_engine.sql_query_collector.render.class%" scope="request">
-          <argument type="service" id="thelia.parser" />
-          <argument type="service" id="index_engine.indexable_entity_repository" />
-          <argument type="service" id="index_engine.index_configuration_manager" />
-          <tag name="kernel.event_subscriber"/>
-      </service>
-
+    <!-- Configuration collectors and rendering services -->
+    <service id="index_engine.database_collector" class="%index_engine.database_collector.class%">
+      <argument type="service" id="index_engine.propel_connection"/>
+      <tag name="index_engine.event_subscriber"/>
+    </service>
+    <service id="index_engine.database_collector.render" class="%index_engine.database_collector.render.class%" scope="request">
+      <argument type="service" id="thelia.parser"/>
+      <argument type="service" id="index_engine.indexable_entity_repository"/>
+      <argument type="service" id="index_engine.form.type.index_comparison"/>
+      <argument type="service" id="index_engine.index_configuration_manager"/>
+      <tag name="kernel.event_subscriber"/>
+    </service>
+    <service id="index_engine.loop_collector" class="%index_engine.loop_collector.class%">
+      <argument>%Thelia.parser.loops%</argument>
+      <argument type="service" id="service_container"/>
+      <argument type="service" id="thelia.logger"/>
+      <tag name="index_engine.event_subscriber"/>
+    </service>
+    <service id="index_engine.loop_collector.render" class="%index_engine.loop_collector.render.class%" scope="request">
+      <argument type="service" id="thelia.parser"/>
+      <argument type="service" id="index_engine.indexable_entity_repository"/>
+      <argument type="service" id="index_engine.form.type.index_comparison"/>
+      <argument type="service" id="index_engine.index_configuration_manager"/>
+      <tag name="kernel.event_subscriber"/>
+    </service>
+    <service id="index_engine.sql_query_collector" class="%index_engine.sql_query_collector.class%">
+      <tag name="index_engine.event_subscriber"/>
+    </service>
+    <service id="index_engine.sql_query_collector.render" class="%index_engine.sql_query_collector.render.class%" scope="request">
+      <argument type="service" id="thelia.parser"/>
+      <argument type="service" id="index_engine.indexable_entity_repository"/>
+      <argument type="service" id="index_engine.index_configuration_manager"/>
+      <tag name="kernel.event_subscriber"/>
+    </service>
     <!-- Configuration related manager -->
     <service id="index_engine.configuration.manager" class="%index_engine.configuration.manager.class%" scope="request">
       <argument type="service" id="request"/>
@@ -106,31 +94,28 @@
     </service>
     <service id="index_engine.index_configuration_manager" class="%index_engine.index_configuration_manager.class%" scope="request">
       <argument type="service" id="event_dispatcher"/>
-        <argument type="service" id="request"/>
-        <argument type="service" id="index_engine.indexable_entity_repository"/>
+      <argument type="service" id="request"/>
+      <argument type="service" id="index_engine.indexable_entity_repository"/>
     </service>
-      <service id="index_engine.sql_manager" class="%index_engine.sql_manager.class%">
-          <argument type="service" id="thelia.translator" />
-          <argument type="service" id="index_engine.propel_connection" />
-      </service>
-
+    <service id="index_engine.sql_manager" class="%index_engine.sql_manager.class%">
+      <argument type="service" id="thelia.translator"/>
+      <argument type="service" id="index_engine.propel_connection"/>
+    </service>
     <!-- Thelia form listener -->
     <service id="index_engine.form.thelia_form_listener" class="%index_engine.form.thelia_form_listener.class%" scope="request">
       <argument type="service" id="index_engine.configuration.manager"/>
       <argument type="service" id="index_engine.form.argument_form_builder"/>
-      <argument type="service" id="index_engine.index_configuration_manager" />
+      <argument type="service" id="index_engine.index_configuration_manager"/>
       <tag name="kernel.event_subscriber"/>
     </service>
-      <service id="index_engine.index_configuration.subscriber" class="%index_engine.index_configuration.subscriber.class%">
-        <tag name="kernel.event_subscriber" />
-      </service>
-
+    <service id="index_engine.index_configuration.subscriber" class="%index_engine.index_configuration.subscriber.class%">
+      <tag name="kernel.event_subscriber"/>
+    </service>
     <!-- Form type resolver and builder -->
     <service id="index_engine.form.type_resolver" class="%index_engine.form.type_resolver.class%"/>
     <service id="index_engine.form.argument_form_builder" class="%index_engine.form.argument_form_builder.class%">
       <argument type="service" id="index_engine.form.type_resolver"/>
     </service>
-
     <!-- Form types -->
     <service id="index_engine.form.type.index_engine_driver" class="%index_engine.form.type.index_engine_driver.class%">
       <argument type="service" id="index_engine.driver.registry"/>
@@ -138,17 +123,16 @@
       <tag name="thelia.form.type"/>
     </service>
     <service id="index_engine.form.type.index_comparison" class="%index_engine.form.type.index_comparison.class%">
-      <argument type="service" id="thelia.translator" />
-      <tag name="thelia.form.type" />
+      <argument type="service" id="thelia.translator"/>
+      <tag name="thelia.form.type"/>
     </service>
     <service id="index_engine.form.type.index_condition" class="%index_engine.form.type.index_condition.class%">
-      <tag name="thelia.form.type" />
+      <tag name="thelia.form.type"/>
     </service>
     <service id="index_engine.form.type.index_type" class="%index_engine.form.type.index_type.class%">
-        <argument type="service" id="index_engine.indexable_entity_repository" />
-      <tag name="thelia.form.type" />
+      <argument type="service" id="index_engine.indexable_entity_repository"/>
+      <tag name="thelia.form.type"/>
     </service>
-
     <!-- Bridge drivers -->
     <!-- elastic search -->
     <service id="index_engine.driver.elastic_search" class="%index_engine.driver.elastic_search.class%">
@@ -177,15 +161,7 @@
       <argument id="thelia.translator" type="service"/>
       <tag name="thelia.form.type"/>
     </service>
-    <service id="action.indexengine.index_engine_index_template_table" class="IndexEngine\Action\IndexEngineIndexTemplateAction">
-      <tag name="kernel.event_subscriber"/>
-    </service>
-    <service id="indexengine.form.type.index_engine_index_template_id" class="IndexEngine\Form\Type\IndexEngineIndexTemplateIdType">
-      <argument id="thelia.translator" type="service"/>
-      <tag name="thelia.form.type"/>
-    </service>
   </services>
-
   <hooks>
     <hook id="index_engine.driver_configuration_form.hook" class="%index_engine.driver_configuration_form.hook.class%" scope="request">
       <argument type="service" id="index_engine.driver.registry"/>

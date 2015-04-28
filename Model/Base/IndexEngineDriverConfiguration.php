@@ -8,8 +8,6 @@ use IndexEngine\Model\IndexEngineDriverConfiguration as ChildIndexEngineDriverCo
 use IndexEngine\Model\IndexEngineDriverConfigurationQuery as ChildIndexEngineDriverConfigurationQuery;
 use IndexEngine\Model\IndexEngineIndex as ChildIndexEngineIndex;
 use IndexEngine\Model\IndexEngineIndexQuery as ChildIndexEngineIndexQuery;
-use IndexEngine\Model\IndexEngineIndexTemplate as ChildIndexEngineIndexTemplate;
-use IndexEngine\Model\IndexEngineIndexTemplateQuery as ChildIndexEngineIndexTemplateQuery;
 use IndexEngine\Model\Map\IndexEngineDriverConfigurationTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
@@ -94,12 +92,6 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
     protected $collIndexEngineIndicesPartial;
 
     /**
-     * @var        ObjectCollection|ChildIndexEngineIndexTemplate[] Collection to store aggregation of ChildIndexEngineIndexTemplate objects.
-     */
-    protected $collIndexEngineIndexTemplates;
-    protected $collIndexEngineIndexTemplatesPartial;
-
-    /**
      * Flag to prevent endless save loop, if this object is referenced
      * by another object which falls in this transaction.
      *
@@ -112,12 +104,6 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
      * @var ObjectCollection
      */
     protected $indexEngineIndicesScheduledForDeletion = null;
-
-    /**
-     * An array of objects scheduled for deletion.
-     * @var ObjectCollection
-     */
-    protected $indexEngineIndexTemplatesScheduledForDeletion = null;
 
     /**
      * Initializes internal state of IndexEngine\Model\Base\IndexEngineDriverConfiguration object.
@@ -659,8 +645,6 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
 
             $this->collIndexEngineIndices = null;
 
-            $this->collIndexEngineIndexTemplates = null;
-
         } // if (deep)
     }
 
@@ -794,23 +778,6 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
 
                 if ($this->collIndexEngineIndices !== null) {
             foreach ($this->collIndexEngineIndices as $referrerFK) {
-                    if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
-                        $affectedRows += $referrerFK->save($con);
-                    }
-                }
-            }
-
-            if ($this->indexEngineIndexTemplatesScheduledForDeletion !== null) {
-                if (!$this->indexEngineIndexTemplatesScheduledForDeletion->isEmpty()) {
-                    \IndexEngine\Model\IndexEngineIndexTemplateQuery::create()
-                        ->filterByPrimaryKeys($this->indexEngineIndexTemplatesScheduledForDeletion->getPrimaryKeys(false))
-                        ->delete($con);
-                    $this->indexEngineIndexTemplatesScheduledForDeletion = null;
-                }
-            }
-
-                if ($this->collIndexEngineIndexTemplates !== null) {
-            foreach ($this->collIndexEngineIndexTemplates as $referrerFK) {
                     if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
                         $affectedRows += $referrerFK->save($con);
                     }
@@ -1005,9 +972,6 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
             if (null !== $this->collIndexEngineIndices) {
                 $result['IndexEngineIndices'] = $this->collIndexEngineIndices->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
-            if (null !== $this->collIndexEngineIndexTemplates) {
-                $result['IndexEngineIndexTemplates'] = $this->collIndexEngineIndexTemplates->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
-            }
         }
 
         return $result;
@@ -1181,12 +1145,6 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
                 }
             }
 
-            foreach ($this->getIndexEngineIndexTemplates() as $relObj) {
-                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
-                    $copyObj->addIndexEngineIndexTemplate($relObj->copy($deepCopy));
-                }
-            }
-
         } // if ($deepCopy)
 
         if ($makeNew) {
@@ -1230,9 +1188,6 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
     {
         if ('IndexEngineIndex' == $relationName) {
             return $this->initIndexEngineIndices();
-        }
-        if ('IndexEngineIndexTemplate' == $relationName) {
-            return $this->initIndexEngineIndexTemplates();
         }
     }
 
@@ -1455,224 +1410,6 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
     }
 
     /**
-     * Clears out the collIndexEngineIndexTemplates collection
-     *
-     * This does not modify the database; however, it will remove any associated objects, causing
-     * them to be refetched by subsequent calls to accessor method.
-     *
-     * @return void
-     * @see        addIndexEngineIndexTemplates()
-     */
-    public function clearIndexEngineIndexTemplates()
-    {
-        $this->collIndexEngineIndexTemplates = null; // important to set this to NULL since that means it is uninitialized
-    }
-
-    /**
-     * Reset is the collIndexEngineIndexTemplates collection loaded partially.
-     */
-    public function resetPartialIndexEngineIndexTemplates($v = true)
-    {
-        $this->collIndexEngineIndexTemplatesPartial = $v;
-    }
-
-    /**
-     * Initializes the collIndexEngineIndexTemplates collection.
-     *
-     * By default this just sets the collIndexEngineIndexTemplates collection to an empty array (like clearcollIndexEngineIndexTemplates());
-     * however, you may wish to override this method in your stub class to provide setting appropriate
-     * to your application -- for example, setting the initial array to the values stored in database.
-     *
-     * @param      boolean $overrideExisting If set to true, the method call initializes
-     *                                        the collection even if it is not empty
-     *
-     * @return void
-     */
-    public function initIndexEngineIndexTemplates($overrideExisting = true)
-    {
-        if (null !== $this->collIndexEngineIndexTemplates && !$overrideExisting) {
-            return;
-        }
-        $this->collIndexEngineIndexTemplates = new ObjectCollection();
-        $this->collIndexEngineIndexTemplates->setModel('\IndexEngine\Model\IndexEngineIndexTemplate');
-    }
-
-    /**
-     * Gets an array of ChildIndexEngineIndexTemplate objects which contain a foreign key that references this object.
-     *
-     * If the $criteria is not null, it is used to always fetch the results from the database.
-     * Otherwise the results are fetched from the database the first time, then cached.
-     * Next time the same method is called without $criteria, the cached collection is returned.
-     * If this ChildIndexEngineDriverConfiguration is new, it will return
-     * an empty collection or the current collection; the criteria is ignored on a new object.
-     *
-     * @param      Criteria $criteria optional Criteria object to narrow the query
-     * @param      ConnectionInterface $con optional connection object
-     * @return Collection|ChildIndexEngineIndexTemplate[] List of ChildIndexEngineIndexTemplate objects
-     * @throws PropelException
-     */
-    public function getIndexEngineIndexTemplates($criteria = null, ConnectionInterface $con = null)
-    {
-        $partial = $this->collIndexEngineIndexTemplatesPartial && !$this->isNew();
-        if (null === $this->collIndexEngineIndexTemplates || null !== $criteria  || $partial) {
-            if ($this->isNew() && null === $this->collIndexEngineIndexTemplates) {
-                // return empty collection
-                $this->initIndexEngineIndexTemplates();
-            } else {
-                $collIndexEngineIndexTemplates = ChildIndexEngineIndexTemplateQuery::create(null, $criteria)
-                    ->filterByIndexEngineDriverConfiguration($this)
-                    ->find($con);
-
-                if (null !== $criteria) {
-                    if (false !== $this->collIndexEngineIndexTemplatesPartial && count($collIndexEngineIndexTemplates)) {
-                        $this->initIndexEngineIndexTemplates(false);
-
-                        foreach ($collIndexEngineIndexTemplates as $obj) {
-                            if (false == $this->collIndexEngineIndexTemplates->contains($obj)) {
-                                $this->collIndexEngineIndexTemplates->append($obj);
-                            }
-                        }
-
-                        $this->collIndexEngineIndexTemplatesPartial = true;
-                    }
-
-                    reset($collIndexEngineIndexTemplates);
-
-                    return $collIndexEngineIndexTemplates;
-                }
-
-                if ($partial && $this->collIndexEngineIndexTemplates) {
-                    foreach ($this->collIndexEngineIndexTemplates as $obj) {
-                        if ($obj->isNew()) {
-                            $collIndexEngineIndexTemplates[] = $obj;
-                        }
-                    }
-                }
-
-                $this->collIndexEngineIndexTemplates = $collIndexEngineIndexTemplates;
-                $this->collIndexEngineIndexTemplatesPartial = false;
-            }
-        }
-
-        return $this->collIndexEngineIndexTemplates;
-    }
-
-    /**
-     * Sets a collection of IndexEngineIndexTemplate objects related by a one-to-many relationship
-     * to the current object.
-     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
-     * and new objects from the given Propel collection.
-     *
-     * @param      Collection $indexEngineIndexTemplates A Propel collection.
-     * @param      ConnectionInterface $con Optional connection object
-     * @return   ChildIndexEngineDriverConfiguration The current object (for fluent API support)
-     */
-    public function setIndexEngineIndexTemplates(Collection $indexEngineIndexTemplates, ConnectionInterface $con = null)
-    {
-        $indexEngineIndexTemplatesToDelete = $this->getIndexEngineIndexTemplates(new Criteria(), $con)->diff($indexEngineIndexTemplates);
-
-
-        $this->indexEngineIndexTemplatesScheduledForDeletion = $indexEngineIndexTemplatesToDelete;
-
-        foreach ($indexEngineIndexTemplatesToDelete as $indexEngineIndexTemplateRemoved) {
-            $indexEngineIndexTemplateRemoved->setIndexEngineDriverConfiguration(null);
-        }
-
-        $this->collIndexEngineIndexTemplates = null;
-        foreach ($indexEngineIndexTemplates as $indexEngineIndexTemplate) {
-            $this->addIndexEngineIndexTemplate($indexEngineIndexTemplate);
-        }
-
-        $this->collIndexEngineIndexTemplates = $indexEngineIndexTemplates;
-        $this->collIndexEngineIndexTemplatesPartial = false;
-
-        return $this;
-    }
-
-    /**
-     * Returns the number of related IndexEngineIndexTemplate objects.
-     *
-     * @param      Criteria $criteria
-     * @param      boolean $distinct
-     * @param      ConnectionInterface $con
-     * @return int             Count of related IndexEngineIndexTemplate objects.
-     * @throws PropelException
-     */
-    public function countIndexEngineIndexTemplates(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
-    {
-        $partial = $this->collIndexEngineIndexTemplatesPartial && !$this->isNew();
-        if (null === $this->collIndexEngineIndexTemplates || null !== $criteria || $partial) {
-            if ($this->isNew() && null === $this->collIndexEngineIndexTemplates) {
-                return 0;
-            }
-
-            if ($partial && !$criteria) {
-                return count($this->getIndexEngineIndexTemplates());
-            }
-
-            $query = ChildIndexEngineIndexTemplateQuery::create(null, $criteria);
-            if ($distinct) {
-                $query->distinct();
-            }
-
-            return $query
-                ->filterByIndexEngineDriverConfiguration($this)
-                ->count($con);
-        }
-
-        return count($this->collIndexEngineIndexTemplates);
-    }
-
-    /**
-     * Method called to associate a ChildIndexEngineIndexTemplate object to this object
-     * through the ChildIndexEngineIndexTemplate foreign key attribute.
-     *
-     * @param    ChildIndexEngineIndexTemplate $l ChildIndexEngineIndexTemplate
-     * @return   \IndexEngine\Model\IndexEngineDriverConfiguration The current object (for fluent API support)
-     */
-    public function addIndexEngineIndexTemplate(ChildIndexEngineIndexTemplate $l)
-    {
-        if ($this->collIndexEngineIndexTemplates === null) {
-            $this->initIndexEngineIndexTemplates();
-            $this->collIndexEngineIndexTemplatesPartial = true;
-        }
-
-        if (!in_array($l, $this->collIndexEngineIndexTemplates->getArrayCopy(), true)) { // only add it if the **same** object is not already associated
-            $this->doAddIndexEngineIndexTemplate($l);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param IndexEngineIndexTemplate $indexEngineIndexTemplate The indexEngineIndexTemplate object to add.
-     */
-    protected function doAddIndexEngineIndexTemplate($indexEngineIndexTemplate)
-    {
-        $this->collIndexEngineIndexTemplates[]= $indexEngineIndexTemplate;
-        $indexEngineIndexTemplate->setIndexEngineDriverConfiguration($this);
-    }
-
-    /**
-     * @param  IndexEngineIndexTemplate $indexEngineIndexTemplate The indexEngineIndexTemplate object to remove.
-     * @return ChildIndexEngineDriverConfiguration The current object (for fluent API support)
-     */
-    public function removeIndexEngineIndexTemplate($indexEngineIndexTemplate)
-    {
-        if ($this->getIndexEngineIndexTemplates()->contains($indexEngineIndexTemplate)) {
-            $this->collIndexEngineIndexTemplates->remove($this->collIndexEngineIndexTemplates->search($indexEngineIndexTemplate));
-            if (null === $this->indexEngineIndexTemplatesScheduledForDeletion) {
-                $this->indexEngineIndexTemplatesScheduledForDeletion = clone $this->collIndexEngineIndexTemplates;
-                $this->indexEngineIndexTemplatesScheduledForDeletion->clear();
-            }
-            $this->indexEngineIndexTemplatesScheduledForDeletion[]= $indexEngineIndexTemplate;
-            $indexEngineIndexTemplate->setIndexEngineDriverConfiguration(null);
-        }
-
-        return $this;
-    }
-
-    /**
      * Clears the current object and sets all attributes to their default values
      */
     public function clear()
@@ -1706,15 +1443,9 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
                     $o->clearAllReferences($deep);
                 }
             }
-            if ($this->collIndexEngineIndexTemplates) {
-                foreach ($this->collIndexEngineIndexTemplates as $o) {
-                    $o->clearAllReferences($deep);
-                }
-            }
         } // if ($deep)
 
         $this->collIndexEngineIndices = null;
-        $this->collIndexEngineIndexTemplates = null;
     }
 
     /**

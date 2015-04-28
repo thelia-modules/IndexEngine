@@ -20,8 +20,4 @@ class IndexEngineEvents
     const INDEX_ENGINE_DRIVER_CONFIGURATION_CREATE = "action.index_engine_driver_configuration.create";
     const INDEX_ENGINE_DRIVER_CONFIGURATION_UPDATE = "action.index_engine_driver_configuration.update";
     const INDEX_ENGINE_DRIVER_CONFIGURATION_DELETE = "action.index_engine_driver_configuration.delete";
-    const INDEX_ENGINE_INDEX_TEMPLATE_CREATE = "action.index_engine_index_template.create";
-    const INDEX_ENGINE_INDEX_TEMPLATE_UPDATE = "action.index_engine_index_template.update";
-    const INDEX_ENGINE_INDEX_TEMPLATE_DELETE = "action.index_engine_index_template.delete";
-    const INDEX_ENGINE_INDEX_TEMPLATE_TOGGLE_VISIBILITY = "action.index_engine_index_template.toggle_visilibity";
 }
