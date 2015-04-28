@@ -8,6 +8,7 @@ namespace IndexEngine\Form;
 
 use IndexEngine\Form\Base\IndexEngineIndexCreateForm;
 use IndexEngine\Form\Base\IndexEngineIndexUpdateForm as BaseIndexEngineIndexUpdateForm;
+use IndexEngine\Form\Transformer\IndexMappingTransformer;
 use IndexEngine\IndexEngine;
 use IndexEngine\Model\IndexEngineIndexQuery;
 use Symfony\Component\Validator\Constraints\Callback;
@@ -33,6 +34,8 @@ class IndexEngineIndexUpdateForm extends BaseIndexEngineIndexUpdateForm
     {
         parent::buildForm();
 
+        $mappingTransformer = new IndexMappingTransformer();
+
         $this->formBuilder
             ->add("columns", "collection", [
                 "type" => "text",
@@ -44,6 +47,18 @@ class IndexEngineIndexUpdateForm extends BaseIndexEngineIndexUpdateForm
                 "allow_add" => true,
                 "allow_delete" => true,
             ])
+            ->add(
+                $this->formBuilder->create(
+                    "mapping",
+                    "collection",
+                    [
+                        "type" => "index_mapping",
+                        "allow_add" => true,
+                        "allow_delete" => true,
+                    ]
+                )
+                ->addModelTransformer($mappingTransformer)
+            )
         ;
     }
 

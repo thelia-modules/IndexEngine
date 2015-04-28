@@ -16,6 +16,7 @@ class IndexEngineIndexEvent extends BaseIndexEngineIndexEvent
 {
     private $conditions = array();
     private $columns = array();
+    private $mapping = array();
 
     /**
      * @return array
@@ -65,6 +66,15 @@ class IndexEngineIndexEvent extends BaseIndexEngineIndexEvent
         return $this;
     }
 
+    public function getCondition($name, $default = null)
+    {
+        if (isset($this->conditions[$name])) {
+            return $this->conditions [$name];
+        }
+
+        return $default;
+    }
+
     /**
      * @deprecated
      */
@@ -79,5 +89,23 @@ class IndexEngineIndexEvent extends BaseIndexEngineIndexEvent
     public function getSerializedCondition()
     {
         return null;
+    }
+
+    /**
+     * @return array
+     */
+    public function getMapping()
+    {
+        return $this->mapping;
+    }
+
+    /**
+     * @param array $mapping
+     * @return $this
+     */
+    public function setMapping(array $mapping)
+    {
+        $this->mapping = $mapping;
+        return $this;
     }
 }

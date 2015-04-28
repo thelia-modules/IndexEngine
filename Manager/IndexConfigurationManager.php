@@ -180,4 +180,21 @@ class IndexConfigurationManager implements IndexConfigurationManagerInterface
 
         return [];
     }
+
+    /**
+     * @return array
+     *
+     * Get the current mapping from the conditions.
+     * If it doesn't exist, return an empty array
+     */
+    public function getCurrentMapping()
+    {
+        $conditions = $this->getCurrentConditions();
+
+        if (isset($conditions["mapping"]) && is_array($conditions["mapping"])) {
+            return $conditions["mapping"];
+        }
+
+        return [];
+    }
 }

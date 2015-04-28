@@ -96,11 +96,7 @@
 
                                     {hook name="index_engine.index.form" id=$ID}
 
-                                    <div class="alert alert-info">
-                                        {intl l="By default, indexes are stored as simple string, but you can improve the mapping by defining your own types " d="indexengine.bo.default"}
-                                    </div>
-
-                                    {include "index-configuration/standard/mapping.html" index_engine_index_id=$index_engine_index_id}
+                                    {include "index-configuration/standard/mapping.html" index_engine_index_id=$index_engine_index_id columns=$COLUMNS mappingChoices=$mappingChoices}
 
                                     {include "includes/inner-form-toolbar.html"
                                         hide_flags = true
@@ -129,4 +125,6 @@
 
 {block name="javascript-initialization"}
     {hook name="index_engine.index.form-javascript" id=$current_id}
+
+    {include "index-configuration/standard/mapping-js.html"}
 {/block}

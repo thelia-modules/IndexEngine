@@ -17,11 +17,11 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
- * Class MappingTypeType
+ * Class IndexMappingTypeType
  * @package IndexEngine\Form\Type
  * @author Benjamin Perche <benjamin@thelia.net>
  */
-class MappingTypeType extends AbstractType
+class IndexMappingTypeType extends AbstractType
 {
     /** @var  IndexMapping */
     private $indexMapping;

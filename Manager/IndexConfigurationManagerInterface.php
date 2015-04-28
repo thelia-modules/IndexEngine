@@ -92,4 +92,12 @@ interface IndexConfigurationManagerInterface
      * If it doesn't exist, return an empty array
      */
     public function getCurrentConditionsCriteria();
+
+    /**
+     * @return array
+     *
+     * Get the current mapping from the conditions.
+     * If it doesn't exist, return an empty array
+     */
+    public function getCurrentMapping();
 }

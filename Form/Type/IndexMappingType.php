@@ -32,7 +32,7 @@ class IndexMappingType extends AbstractType
                     new NotBlank()
                 ]
             ])
-            ->add("type", "mapping_type")
+            ->add("type", "index_mapping_type")
         ;
     }
 

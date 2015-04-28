@@ -18,6 +18,8 @@ class IndexEngineIndexAction extends BaseIndexEngineIndexAction
 {
     protected function createOrUpdate(IndexEngineIndexEvent $event, IndexEngineIndex $model)
     {
+        $event->addCondition("mapping", $event->getMapping());
+
         $model
             ->setColumns($event->getColumns())
             ->setConditions($event->getConditions())

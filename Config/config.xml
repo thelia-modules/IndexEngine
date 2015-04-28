@@ -25,7 +25,7 @@
     <parameter key="index_engine.sql_query_collector.render.class">IndexEngine\Discovering\Configuration\SqlQuerySubscriber</parameter>
     <parameter key="index_engine.index_configuration.subscriber.class">IndexEngine\Listener\IndexConfigurationSubscriber</parameter>
     <parameter key="index_engine.sql_manager.class">IndexEngine\Manager\SqlManager</parameter>
-    <parameter key="index_engine.form.type.mapping_type_type.class">IndexEngine\Form\Type\MappingTypeType</parameter>
+    <parameter key="index_engine.form.type.index_mapping_type_type.class">IndexEngine\Form\Type\IndexMappingTypeType</parameter>
     <parameter key="index_engine.default_index_mapping.class">IndexEngine\Entity\IndexMapping</parameter>
     <parameter key="index_engine.form.type.index_mapping_type.class">IndexEngine\Form\Type\IndexMappingType</parameter>
     <!-- Commands -->
@@ -140,7 +140,7 @@
       <argument type="service" id="index_engine.indexable_entity_repository"/>
       <tag name="thelia.form.type"/>
     </service>
-      <service id="index_engine.form.type.mapping_type_type" class="%index_engine.form.type.mapping_type_type.class%">
+      <service id="index_engine.form.type.index_mapping_type_type" class="%index_engine.form.type.index_mapping_type_type.class%">
           <argument type="service" id="index_engine.default_index_mapping" />
           <tag name="thelia.form.type"/>
       </service>

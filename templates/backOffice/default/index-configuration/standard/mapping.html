@@ -1,4 +1,96 @@
 {*
  Parameters:
- - index_engine_index_id
+ - index_engine_index_id : The index engin engine id
+ - columns : The current columns
+ - mappingChoices : The mapping type choices
  *}
+
+<hr /> <br/> <!-- Shotgun integration -->
+
+{form name="index_engine_index.update"}
+    {capture "index_engine_mapping_prototype"}
+        {form_field form=$form field="mapping"}
+            <div class="index-engine-mapping">
+                <div class="row">
+                    <div class="col-md-2">
+                        <p>{intl l="The column" d="indexengine.bo.default"}</p>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="text" name="{$name}[_ID_][column]" class="form-control" />
+                    </div>
+                    <div class="col-md-1">
+                        <p>{intl l="is a" d="indexengine.bo.default"}</p>
+                    </div>
+
+                    <div class="col-md-2">
+                        <select name="{$name}[_ID_][type]" class="form-control">
+                            {foreach from=$choices item=choice}
+                                <option value="{$choice}">{$choice}</option>
+                            {/foreach}
+                        </select>
+                    </div>
+
+                    <div class="col-md-1">
+                        <a href="#" class="btn btn-danger btn-index-engine-delete-mapping">
+                            <i class="glyphicon glyphicon-minus-sign"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {/form_field}
+    {/capture}
+
+    <h3>
+        {intl l="Mapping" d="indexengine.bo.default"}
+
+        <a href="#" class="btn btn-primary btn-xs btn-index-engine-add-mapping" data-prototype="{$smarty.capture.index_engine_mapping_prototype}">
+            <i class="glyphicon glyphicon-plus-sign"></i>
+        </a>
+    </h3>
+
+    <div class="alert alert-info">
+        {intl l="By default, indexes are stored as simple string, but you can improve the mapping by defining your own types " d="indexengine.bo.default"}
+    </div>
+
+    <div id="index_engine_mapping_container">
+        {$currentMappingId=0}
+
+        {form_collection form=$form collection="mapping"}
+            <div class="index-engine-mapping">
+                <div class="row">
+                    <div class="col-md-2">
+                        <p>{intl l="The column" d="indexengine.bo.default"}</p>
+                    </div>
+                    <div class="col-md-2">
+                        {form_collection_field form=$form row=$row field="column"}
+                            <input type="text" name="{$name}" class="form-control" value="{$value}"/>
+                        {/form_collection_field}
+                    </div>
+                    <div class="col-md-1">
+                        <p>{intl l="is a" d="indexengine.bo.default"}</p>
+                    </div>
+
+                    <div class="col-md-2">
+                        {form_collection_field form=$form row=$row field="type"}
+                        <select name="{$name}" class="form-control">
+                                {foreach from=$choices item=choice}
+                                    <option value="{$choice}" {if $choice == $value}selected{/if}>{$choice}</option>
+                                {/foreach}
+                        </select>
+                        {/form_collection_field}
+                    </div>
+                    <div class="col-md-1">
+                        <a href="#" class="btn btn-danger btn-index-engine-delete-mapping">
+                            <i class="glyphicon glyphicon-minus-sign"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {$currentMappingId=$currentMappingId+1}
+        {/form_collection}
+    </div>
+
+    <script>
+        var indexEngineCurrentMappingId = {$currentMappingId};
+    </script>
+{/form}

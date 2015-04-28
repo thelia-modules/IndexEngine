@@ -12,6 +12,7 @@
 
 namespace IndexEngine\Listener;
 
+use IndexEngine\Entity\IndexMapping;
 use IndexEngine\Event\IndexEngineIndexEvent;
 use IndexEngine\Event\IndexEngineIndexEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -45,6 +46,22 @@ class IndexConfigurationSubscriber implements EventSubscriberInterface
         $event->addCondition("criteria", $conditions);
     }
 
+    public function completeMissingMapping(IndexEngineIndexEvent $event)
+    {
+        $mapping = $event->getMapping();
+        $mappedColumns = array_keys($mapping);
+
+        $columns = $event->getColumns();
+
+        $notMappedColumns = array_diff($columns, $mappedColumns);
+
+        foreach ($notMappedColumns as $notMappedColumn) {
+            $mapping[$notMappedColumn] = IndexMapping::TYPE_STRING;
+        }
+
+        $event->setMapping($mapping);
+    }
+
     /**
      * Returns an array of event names this subscriber wants to listen to.
      *
@@ -70,6 +87,7 @@ class IndexConfigurationSubscriber implements EventSubscriberInterface
         return [
             IndexEngineIndexEvents::UPDATE => [
                 ["filterSqlQuery", 192],
+                ["completeMissingMapping", 192],
                 ["filterConditions", 999],
             ],
         ];

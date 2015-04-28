@@ -29,28 +29,22 @@
         <div class="col-md-12">
             {capture "index_engine_condition_prototype"}
                 {form_field form=$form field="conditions"}
-                    <div class="row">
+                    <div class="row index-engine-criterion-row">
                         <div class="col-md-2">
                             <p>{intl l="The column" d="indexengine.bo.default"}</p>
                         </div>
                         <div class="col-md-2">
-                            <div class="form-group">
-                                <input type="text" name="{$name}[_ID_][column]" class="form-control" />
-                            </div>
+                            <input type="text" name="{$name}[_ID_][column]" class="form-control" />
                         </div>
                         <div class="col-md-3">
-                            <div class="form-group">
-                                <select name="{$name}[_ID_][comparison]" class="form-control">
-                                    {foreach from=$comparison_choices key=value item=label}
-                                        <option value="{$value}">{$label}</option>
-                                    {/foreach}
-                                </select>
-                            </div>
+                            <select name="{$name}[_ID_][comparison]" class="form-control">
+                                {foreach from=$comparison_choices key=value item=label}
+                                    <option value="{$value}">{$label}</option>
+                                {/foreach}
+                            </select>
                         </div>
                         <div class="col-md-2">
-                            <div class="form-group">
-                                <input type="text" name="{$name}[_ID_][value]" class="form-control" />
-                            </div>
+                            <input type="text" name="{$name}[_ID_][value]" class="form-control" />
                         </div>
                         <div class="col-md-2">
                             <a href="#" class="btn btn-danger btn-delete-criterion-row">
@@ -72,7 +66,7 @@
             <div id="index_engine_criteria_container">
                 {$currentNumberOfCriteria=0}
                 {form_collection form=$form collection="conditions"}
-                    <div class="row">
+                    <div class="row index-engine-criterion-row">
                         <div class="col-md-2">
                             {intl l="The column" d="indexengine.bo.default"}
                         </div>
@@ -144,6 +138,12 @@
             e.preventDefault();
 
             $("#index_engine_criteria_container").append($(this).data("prototype").replace(/_ID_/g, currentNumberOfCriteria++));
+        });
+
+        $(document).on("click", ".btn-delete-criterion-row", function(e) {
+            e.preventDefault();
+
+            $(this).parents(".index-engine-criterion-row").eq(0).remove();
         });
     })(jQuery);
 </script>

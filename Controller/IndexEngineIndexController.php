@@ -128,6 +128,20 @@ class IndexEngineIndexController extends BaseIndexEngineIndexController
             "entity" => $manager->getCurrentEntity(),
             "columns" => $manager->getCurrentColumns(),
             "conditions" => $manager->getCurrentConditionsCriteria(),
+            "mapping" => $manager->getCurrentMapping(),
         ]));
+    }
+
+    protected function renderEditionTemplate()
+    {
+        return parent::renderEditionTemplate();
+    }
+
+    /**
+     * @return \IndexEngine\Entity\IndexMapping
+     */
+    public function getDefaultMapping()
+    {
+        return $this->container->get("index_engine.default_index_mapping");
     }
 }

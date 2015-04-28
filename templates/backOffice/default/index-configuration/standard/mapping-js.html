@@ -1,0 +1,22 @@
+<script>
+    (function ($) {
+        if (undefined === indexEngineCurrentMappingId) {
+            indexEngineCurrentMappingId = $(".index-engine-mapping").length;
+        }
+
+        $(document).on("click", ".btn-index-engine-add-mapping", function (e) {
+            e.preventDefault();
+
+            var $this = $(this);
+            var prototype = $this.data("prototype").replace(/_ID_/g, indexEngineCurrentMappingId++);
+
+            $("#index_engine_mapping_container").append(prototype);
+        });
+
+        $(document).on("click", ".btn-index-engine-delete-mapping", function(e) {
+            e.preventDefault();
+
+            $(this).parents(".index-engine-mapping").eq(0).remove();
+        });
+    })(jQuery);
+</script>

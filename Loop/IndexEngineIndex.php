@@ -7,6 +7,7 @@
 namespace IndexEngine\Loop;
 
 use IndexEngine\Loop\Base\IndexEngineIndex as BaseIndexEngineIndexLoop;
+use Thelia\Core\Template\Element\LoopResultRow;
 use Thelia\Core\Template\Loop\Argument\Argument;
 
 /**
@@ -34,6 +35,18 @@ class IndexEngineIndex extends BaseIndexEngineIndexLoop
         }
 
         return $query;
+    }
+
+    /**
+     * @param LoopResultRow $row
+     * @param \IndexEngine\Model\IndexEngineIndex $entryObject
+     */
+    protected function addMoreResults(LoopResultRow $row, $entryObject)
+    {
+        $row
+            ->set("COLUMNS", $entryObject->getColumns())
+            ->set("CONDITIONS", $entryObject->getConditions())
+        ;
     }
 
     // HotFix
