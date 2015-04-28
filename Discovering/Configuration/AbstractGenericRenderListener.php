@@ -13,6 +13,7 @@
 namespace IndexEngine\Discovering\Configuration;
 
 use IndexEngine\Form\Type\IndexComparisonType;
+use IndexEngine\Manager\IndexConfigurationManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use IndexEngine\Discovering\Repository\IndexableEntityRepositoryInterface;
 use IndexEngine\Event\IndexEngineIndexEvents;
@@ -37,14 +38,19 @@ abstract class AbstractGenericRenderListener implements EventSubscriberInterface
     /** @var IndexComparisonType */
     private $indexComparisonType;
 
+    /** @var IndexConfigurationManagerInterface */
+    private $manager;
+
     public function __construct(
         ParserInterface $parser,
         IndexableEntityRepositoryInterface $repository,
-        IndexComparisonType $indexComparisonType
+        IndexComparisonType $indexComparisonType,
+        IndexConfigurationManagerInterface $manager
     ) {
         $this->parser = $parser;
         $this->repository = $repository;
         $this->indexComparisonType = $indexComparisonType;
+        $this->manager = $manager;
     }
 
     public function renderConfiguration(RenderConfigurationEvent $event)
@@ -57,6 +63,7 @@ abstract class AbstractGenericRenderListener implements EventSubscriberInterface
                 "index_type" => $type,
                 "entities" => $this->repository->listIndexableEntities($type),
                 "comparison_choices" => $this->indexComparisonType->getChoices(),
+                "index_engine_index_id" => $this->manager->getCurrentIndexId(),
             ]));
         }
     }
@@ -69,6 +76,7 @@ abstract class AbstractGenericRenderListener implements EventSubscriberInterface
 
             $event->addContent($this->parser->render("index-configuration/standard/columns.html", [
                 "columns" => $this->repository->listIndexableEntityColumns($type, $event->getEntity()),
+                "index_engine_index_id" => $this->manager->getCurrentIndexId(),
             ]));
         }
     }

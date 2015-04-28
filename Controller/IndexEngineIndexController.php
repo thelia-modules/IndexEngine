@@ -69,6 +69,10 @@ class IndexEngineIndexController extends BaseIndexEngineIndexController
             return $response;
         }
 
+        $this->getParserContext()
+            ->addForm($this->getUpdateForm())
+        ;
+
         $content = $this->getManager()->renderConfigurationTemplate($type);
         $response = new Response($content);
 
@@ -89,6 +93,10 @@ class IndexEngineIndexController extends BaseIndexEngineIndexController
             return $response;
         }
 
+        $this->getParserContext()
+            ->addForm($this->getUpdateForm())
+        ;
+
         $content = $this->getManager()->renderConfigurationColumnsTemplate($type, $entity);
         $response = new Response($content);
 
@@ -105,5 +113,21 @@ class IndexEngineIndexController extends BaseIndexEngineIndexController
     protected function getManager()
     {
         return $this->container->get("index_engine.index_configuration_manager");
+    }
+
+    protected function getUpdateForm($data = array())
+    {
+        $manager = $this->getManager();
+
+        if (!is_array($data)) {
+            $data = array();
+        }
+
+        return parent::getUpdateForm(array_merge($data, [
+            "type" => $manager->getCurrentType(),
+            "entity" => $manager->getCurrentEntity(),
+            "columns" => $manager->getCurrentColumns(),
+            "conditions" => $manager->getCurrentConditionsCriteria(),
+        ]));
     }
 }

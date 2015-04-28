@@ -13,7 +13,9 @@
 namespace IndexEngine\Listener;
 
 use IndexEngine\Form\Builder\ArgumentFormBuilderInterface;
+use IndexEngine\Form\IndexEngineIndexUpdateForm;
 use IndexEngine\Manager\ConfigurationManagerInterface;
+use IndexEngine\Manager\IndexConfigurationManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Thelia\Core\Event\TheliaEvents;
 use IndexEngine\Form\IndexEngineDriverConfigurationUpdateForm;
@@ -33,12 +35,17 @@ class TheliaFormSubscriber implements EventSubscriberInterface
     /** @var   */
     private $argumentFormBuilder;
 
+    /** @var IndexConfigurationManagerInterface  */
+    private $indexConfigurationManager;
+
     public function __construct(
         ConfigurationManagerInterface $configurationManager,
-        ArgumentFormBuilderInterface $argumentFormBuilder
+        ArgumentFormBuilderInterface $argumentFormBuilder,
+        IndexConfigurationManagerInterface $indexConfigurationManager
     ) {
         $this->configurationManager = $configurationManager;
         $this->argumentFormBuilder = $argumentFormBuilder;
+        $this->indexConfigurationManager = $indexConfigurationManager;
     }
 
     public function addDatabaseFields(TheliaFormEvent $event)
@@ -53,6 +60,17 @@ class TheliaFormSubscriber implements EventSubscriberInterface
 
             $this->argumentFormBuilder->addField($argument, $formBuilder, $default);
         }
+    }
+
+    public function addSqlQuery(TheliaFormEvent $event)
+    {
+        $conditions = $this->indexConfigurationManager->getCurrentConditions();
+
+        $event->getForm()->getFormBuilder()
+            ->add("sql_query", "text", [
+                "data" => isset($conditions["query"]) ? $conditions["query"] : null,
+            ])
+        ;
     }
 
     /**
@@ -80,6 +98,9 @@ class TheliaFormSubscriber implements EventSubscriberInterface
         return [
             TheliaEvents::FORM_AFTER_BUILD.".".IndexEngineDriverConfigurationUpdateForm::FORM_NAME => [
                 ["addDatabaseFields", 128],
+            ],
+            TheliaEvents::FORM_AFTER_BUILD.".".IndexEngineIndexUpdateForm::FORM_NAME => [
+                ["addSqlQuery", 128],
             ],
         ];
     }

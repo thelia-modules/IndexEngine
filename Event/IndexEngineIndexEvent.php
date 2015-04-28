@@ -53,4 +53,31 @@ class IndexEngineIndexEvent extends BaseIndexEngineIndexEvent
         return $this;
     }
 
+    /**
+     * @param $name
+     * @param $value
+     * @return $this
+     */
+    public function addCondition($name, $value)
+    {
+        $this->conditions[$name] = $value;
+
+        return $this;
+    }
+
+    /**
+     * @deprecated
+     */
+    public function getSerializedColumns()
+    {
+        return null;
+    }
+
+    /**
+     * @deprecated
+     */
+    public function getSerializedCondition()
+    {
+        return null;
+    }
 }

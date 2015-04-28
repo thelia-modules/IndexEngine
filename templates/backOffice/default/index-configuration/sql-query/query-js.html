@@ -2,7 +2,7 @@
     (function ($) {
         $(document).on("click", ".btn-launch-sql-query-test", function() {
             $.ajax({
-                url: "{url path="/admin/module/IndexEngine/test_sql_query"}",
+                url: "{url path="/admin/module/IndexEngine/test_sql_query"}?index_engine_index_id={$index_engine_index_id}",
                 method: "POST",
                 data: {
                     sql_query: $("#index_engine_sql_query").val()

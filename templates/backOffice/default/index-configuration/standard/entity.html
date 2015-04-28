@@ -116,7 +116,7 @@
                 $columnSpace.html("");
             } else {
                 $.ajax({
-                    url: "{url path="/admin/module/IndexEngine/configuration/{$index_type}/columns/"}"+currentVal
+                    url: "{url path="/admin/module/IndexEngine/configuration/{$index_type}/columns/"}"+currentVal+"?index_engine_index_id={$index_engine_index_id}"
                 }).success(function(data) {
                     $columnSpace.html(data);
                 }).fail(function() {

@@ -15,6 +15,7 @@ namespace IndexEngine\Manager;
 use IndexEngine\Discovering\Repository\IndexableEntityRepositoryInterface;
 use IndexEngine\Event\IndexEngineIndexEvents;
 use IndexEngine\Event\RenderConfigurationEvent;
+use IndexEngine\Model\IndexEngineIndexQuery;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Thelia\Core\HttpFoundation\Request;
 
@@ -25,6 +26,8 @@ use Thelia\Core\HttpFoundation\Request;
  */
 class IndexConfigurationManager implements IndexConfigurationManagerInterface
 {
+    const INDEX_ID_PARAMETER = "index_engine_index_id";
+
     /**
      * @var EventDispatcherInterface
      */
@@ -74,17 +77,55 @@ class IndexConfigurationManager implements IndexConfigurationManagerInterface
         return $this->renderConfigurationTemplate($this->getCurrentType());
     }
 
-    protected function getCurrentType()
+    /**
+     * @return mixed|string
+     *
+     * Get the current index type. Return the first returned by the repository if there's currently no type
+     */
+    public function getCurrentType()
     {
-        $type = $this->request->query->get("index_type");
-
-        if (null === $type) {
-            $types = $this->repository->listIndexableEntityTypes();
-
-            $type = array_shift($types);
+        if (null !== $index = $this->getCurrencyIndex()) {
+            return $index->getType();
         }
 
+        $types = $this->repository->listIndexableEntityTypes();
+        $type = array_shift($types);
+
         return $type;
+    }
+
+    /**
+     * @return null|string
+     *
+     * Return null if the index doesn't exists, or its entity if it exists.
+     */
+    public function getCurrentEntity()
+    {
+        if (null !== $index = $this->getCurrencyIndex()) {
+            return $index->getEntity();
+        }
+
+        return null;
+    }
+
+    /**
+     * @return null|\IndexEngine\Model\IndexEngineIndex
+     *
+     * Get the current index based on the query parameter
+     */
+    public function getCurrencyIndex()
+    {
+        return IndexEngineIndexQuery::create()->findPk($this->getCurrentIndexId());
+    }
+
+    /**
+     * @return mixed
+     *
+     * Get the current index id based on the query parameter
+     */
+    public function getCurrentIndexId()
+    {
+        return $this->request->query->get(static::INDEX_ID_PARAMETER);
     }
 
     public function renderConfigurationColumnsTemplate($type, $entity)
@@ -93,5 +134,50 @@ class IndexConfigurationManager implements IndexConfigurationManagerInterface
             ->dispatch(IndexEngineIndexEvents::RENDER_CONFIGURATION_COLUMNS_TEMPLATE, new RenderConfigurationEvent($type, $entity))
             ->getContent()
         ;
+    }
+
+    /**
+     * @return array
+     *
+     * Get the current columns, or an empty array if the index doesn't exist
+     */
+    public function getCurrentColumns()
+    {
+        if (null !== $index = $this->getCurrencyIndex()) {
+            return $index->getColumns();
+        }
+
+        return [];
+    }
+
+    /**
+     * @return array
+     *
+     * Get the current conditions, or an empty array if the index doesn't exist
+     */
+    public function getCurrentConditions()
+    {
+        if (null !== $index = $this->getCurrencyIndex()) {
+            return $index->getConditions();
+        }
+
+        return [];
+    }
+
+    /**
+     * @return array
+     *
+     * Get the current criteria from the conditions.
+     * If it doesn't exist, return an empty array
+     */
+    public function getCurrentConditionsCriteria()
+    {
+        $conditions = $this->getCurrentConditions();
+
+        if (isset($conditions["criteria"]) && is_array($conditions["criteria"])) {
+            return $conditions["criteria"];
+        }
+
+        return [];
     }
 }

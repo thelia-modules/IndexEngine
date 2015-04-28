@@ -38,7 +38,6 @@ class IndexEngineIndexUpdateForm extends BaseIndexEngineIndexUpdateForm
                 "type" => "text",
                 "allow_add" => true,
                 "allow_delete" => true,
-                "required" => true,
             ])
             ->add("conditions", "collection", [
                 "type" => "index_condition",
@@ -81,7 +80,10 @@ class IndexEngineIndexUpdateForm extends BaseIndexEngineIndexUpdateForm
 
     protected function addEntityField(array $translationKeys, array $fieldsIdKeys)
     {
-        IndexEngineIndexCreateForm::addEntityField($translationKeys, $fieldsIdKeys);
+        $this->formBuilder->add("entity", "text", array(
+            "label" => $this->translator->trans($this->readKey("entity", $translationKeys), [], IndexEngine::MESSAGE_DOMAIN),
+            "label_attr" => ["for" => $this->readKey("entity", $fieldsIdKeys)],
+        ));
     }
 
     protected function addTypeField(array $translationKeys, array $fieldsIdKeys)

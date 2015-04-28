@@ -15,7 +15,7 @@
             };
 
             $.ajax({
-                url: "{url path='/admin/module/IndexEngine/configuration/'}" + currentVal,
+                url: "{url path='/admin/module/IndexEngine/configuration/'}" + currentVal + "?index_engine_index_id={$index_engine_index_id}",
                 statusCode: {
                     400: function () {
                         $formContainer.html("<div class='alert alert-info'>"+messages.nope.replace("%type", currentVal)+"</div>");

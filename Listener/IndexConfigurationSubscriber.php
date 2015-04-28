@@ -10,55 +10,25 @@
 /* file that was distributed with this source code.                                  */
 /*************************************************************************************/
 
-namespace IndexEngine\Discovering\Configuration;
+namespace IndexEngine\Listener;
 
-use IndexEngine\Discovering\Repository\IndexableEntityRepositoryInterface;
+use IndexEngine\Event\IndexEngineIndexEvent;
 use IndexEngine\Event\IndexEngineIndexEvents;
-use IndexEngine\Event\RenderConfigurationEvent;
-use IndexEngine\Manager\IndexConfigurationManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Thelia\Core\Template\ParserInterface;
-use Thelia\Core\Template\TemplateHelper;
-use IndexEngine\Discovering\Collector\SqlQuerySubscriber as SqlQueryCollector;
 
 /**
- * Class SqlQuerySubscriber
- * @package IndexEngine\Discovering\Configuration
+ * Class IndexConfigurationSubscriber
+ * @package IndexEngine\Listener
  * @author Benjamin Perche <benjamin@thelia.net>
  */
-class SqlQuerySubscriber implements EventSubscriberInterface
+class IndexConfigurationSubscriber implements EventSubscriberInterface
 {
-    /** @var ParserInterface */
-    private $parser;
-
-    /** @var IndexableEntityRepositoryInterface */
-    private $repository;
-
-    /** @var IndexConfigurationManagerInterface  */
-    private $manager;
-
-    public function __construct(
-        ParserInterface $parser,
-        IndexableEntityRepositoryInterface $repository,
-        IndexConfigurationManagerInterface $manager
-    ) {
-        $this->parser = $parser;
-        $this->repository = $repository;
-        $this->manager = $manager;
-    }
-
-
-    public function renderSqlQueryConfiguration(RenderConfigurationEvent $event)
+    public function filterSqlQuery(IndexEngineIndexEvent $event)
     {
-        if ($event->getType() === $type = SqlQueryCollector::TYPE) {
-            // Ensure that the parser is on a back office context
-            $this->parser->setTemplateDefinition(TemplateHelper::getInstance()->getActiveAdminTemplate());
+        $sqlQuery = $event->sql_query;
 
-            $event->addContent($this->parser->render("index-configuration/sql-query/query.html", [
-                "index_type" => $type,
-                "entities" => $this->repository->listIndexableEntities($type),
-                "index_engine_index_id" => $this->manager->getCurrentIndexId(),
-            ]));
+        if (! empty($sqlQuery)) {
+            $event->addCondition("query", $sqlQuery);
         }
     }
 
@@ -85,7 +55,9 @@ class SqlQuerySubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            IndexEngineIndexEvents::RENDER_CONFIGURATION_TEMPLATE => ["renderSqlQueryConfiguration"],
+            IndexEngineIndexEvents::UPDATE => [
+                ["filterSqlQuery", 192],
+            ]
         ];
     }
 }

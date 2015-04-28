@@ -23,6 +23,7 @@
       <parameter key="index_engine.database_collector.render.class">IndexEngine\Discovering\Configuration\DatabaseSubscriber</parameter>
       <parameter key="index_engine.loop_collector.render.class">IndexEngine\Discovering\Configuration\LoopSubscriber</parameter>
       <parameter key="index_engine.sql_query_collector.render.class">IndexEngine\Discovering\Configuration\SqlQuerySubscriber</parameter>
+      <parameter key="index_engine.index_configuration.subscriber.class">IndexEngine\Listener\IndexConfigurationSubscriber</parameter>
 
     <!-- Commands -->
     <parameter key="index_engine.command.list_drivers.class">IndexEngine\IO\Command\IndexDriverListCommand</parameter>
@@ -69,6 +70,7 @@
           <argument type="service" id="thelia.parser" />
           <argument type="service" id="index_engine.indexable_entity_repository" />
           <argument type="service" id="index_engine.form.type.index_comparison"/>
+          <argument type="service" id="index_engine.index_configuration_manager"/>
           <tag name="kernel.event_subscriber"/>
       </service>
 
@@ -82,6 +84,7 @@
           <argument type="service" id="thelia.parser" />
           <argument type="service" id="index_engine.indexable_entity_repository" />
           <argument type="service" id="index_engine.form.type.index_comparison"/>
+          <argument type="service" id="index_engine.index_configuration_manager"/>
           <tag name="kernel.event_subscriber"/>
       </service>
 
@@ -91,6 +94,7 @@
       <service id="index_engine.sql_query_collector.render" class="%index_engine.sql_query_collector.render.class%" scope="request">
           <argument type="service" id="thelia.parser" />
           <argument type="service" id="index_engine.indexable_entity_repository" />
+          <argument type="service" id="index_engine.index_configuration_manager" />
           <tag name="kernel.event_subscriber"/>
       </service>
 
@@ -109,8 +113,12 @@
     <service id="index_engine.form.thelia_form_listener" class="%index_engine.form.thelia_form_listener.class%" scope="request">
       <argument type="service" id="index_engine.configuration.manager"/>
       <argument type="service" id="index_engine.form.argument_form_builder"/>
+      <argument type="service" id="index_engine.index_configuration_manager" />
       <tag name="kernel.event_subscriber"/>
     </service>
+      <service id="index_engine.index_configuration.subscriber" class="%index_engine.index_configuration.subscriber.class%">
+        <tag name="kernel.event_subscriber" />
+      </service>
 
     <!-- Form type resolver and builder -->
     <service id="index_engine.form.type_resolver" class="%index_engine.form.type_resolver.class%"/>

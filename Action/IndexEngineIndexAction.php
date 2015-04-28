@@ -7,6 +7,8 @@
 namespace IndexEngine\Action;
 
 use IndexEngine\Action\Base\IndexEngineIndexAction as  BaseIndexEngineIndexAction;
+use IndexEngine\Event\IndexEngineIndexEvent;
+use IndexEngine\Model\IndexEngineIndex;
 
 /**
  * Class IndexEngineIndexAction
@@ -14,4 +16,13 @@ use IndexEngine\Action\Base\IndexEngineIndexAction as  BaseIndexEngineIndexActio
  */
 class IndexEngineIndexAction extends BaseIndexEngineIndexAction
 {
+    protected function createOrUpdate(IndexEngineIndexEvent $event, IndexEngineIndex $model)
+    {
+        $model
+            ->setColumns($event->getColumns())
+            ->setConditions($event->getConditions())
+        ;
+
+        parent::createOrUpdate($event, $model);
+    }
 }
