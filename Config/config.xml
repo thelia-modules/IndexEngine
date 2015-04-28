@@ -24,6 +24,7 @@
       <parameter key="index_engine.loop_collector.render.class">IndexEngine\Discovering\Configuration\LoopSubscriber</parameter>
       <parameter key="index_engine.sql_query_collector.render.class">IndexEngine\Discovering\Configuration\SqlQuerySubscriber</parameter>
       <parameter key="index_engine.index_configuration.subscriber.class">IndexEngine\Listener\IndexConfigurationSubscriber</parameter>
+      <parameter key="index_engine.sql_manager.class">IndexEngine\Manager\SqlManager</parameter>
 
     <!-- Commands -->
     <parameter key="index_engine.command.list_drivers.class">IndexEngine\IO\Command\IndexDriverListCommand</parameter>
@@ -108,6 +109,10 @@
         <argument type="service" id="request"/>
         <argument type="service" id="index_engine.indexable_entity_repository"/>
     </service>
+      <service id="index_engine.sql_manager" class="%index_engine.sql_manager.class%">
+          <argument type="service" id="thelia.translator" />
+          <argument type="service" id="index_engine.propel_connection" />
+      </service>
 
     <!-- Thelia form listener -->
     <service id="index_engine.form.thelia_form_listener" class="%index_engine.form.thelia_form_listener.class%" scope="request">

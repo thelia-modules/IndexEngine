@@ -11,7 +11,7 @@
                 </label>
                 <select multiple id="index_engine_entity_column_possibilities" class="form-control" size="7">
                     {foreach from=$columns item=column}
-                        <option value="{$column}" {if column|in_array:$value}disabled class="disabled"{/if}>{$column}</option>
+                        <option value="{$column}" {if $column|in_array:$value}disabled class="disabled disabled-select-option"{/if}>{$column}</option>
                     {/foreach}
                 </select>
                 {else}
@@ -131,6 +131,10 @@
 
                     $option.remove();
                 }
+
+                $("#index_engine_index_configuration_form").submit(function() {
+                     $("option", "#index_engine_entity_column_selection").prop("selected", true);
+                });
             })(jQuery);
         </script>
     {/form_field}

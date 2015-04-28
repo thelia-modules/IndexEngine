@@ -12,7 +12,7 @@
                 <select name="{$name}" id="index_engine_entity" class="form-control index_engine_entity_table">
                     <option value="">{intl l="Please choose an entity" d="indexengine.bo.default"}</option>
                     {foreach from=$entities item=entity}
-                        <option value="{$entity}">{$entity}</option>
+                        <option value="{$entity}" {if $entity == $value}selected{/if}>{$entity}</option>
                     {/foreach}
                 </select>
             </div>
@@ -33,7 +33,7 @@
                         <div class="col-md-2">
                             <p>{intl l="The column" d="indexengine.bo.default"}</p>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <div class="form-group">
                                 <input type="text" name="{$name}[_ID_][column]" class="form-control" />
                             </div>
@@ -47,10 +47,15 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <div class="form-group">
                                 <input type="text" name="{$name}[_ID_][value]" class="form-control" />
                             </div>
+                        </div>
+                        <div class="col-md-2">
+                            <a href="#" class="btn btn-danger btn-delete-criterion-row">
+                                <i class="glyphicon glyphicon-minus-sign"></i>
+                            </a>
                         </div>
                     </div>
                 {/form_field}
@@ -68,10 +73,10 @@
                 {$currentNumberOfCriteria=0}
                 {form_collection form=$form collection="conditions"}
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             {intl l="The column" d="indexengine.bo.default"}
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             {form_collection_field form=$form row=$row field="column"}
                                 <input type="text" name="{$name}" value="{$value}" class="form-control" />
                             {/form_collection_field}
@@ -85,13 +90,19 @@
                                 </select>
                             {/form_collection_field}
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             {form_collection_field form=$form row=$row field="value"}
                                 <input type="text" name="{$name}" value="{$value}" class="form-control" />
                             {/form_collection_field}
                         </div>
+
+                        <div class="col-md-2">
+                            <a href="#" class="btn btn-danger btn-delete-criterion-row">
+                                <i class="glyphicon glyphicon-minus-sign"></i>
+                            </a>
+                        </div>
                     </div>
-                    {$currentNumberOfCriteria++}
+                    {$currentNumberOfCriteria=$currentNumberOfCriteria+1}
                 {/form_collection}
             </div>
         </div>

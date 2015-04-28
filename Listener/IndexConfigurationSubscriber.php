@@ -33,6 +33,19 @@ class IndexConfigurationSubscriber implements EventSubscriberInterface
     }
 
     /**
+     * @param IndexEngineIndexEvent $event
+     *
+     * Initial filter of the conditions
+     */
+    public function filterConditions(IndexEngineIndexEvent $event)
+    {
+        $conditions = $event->getConditions();
+        $event->setConditions([]);
+
+        $event->addCondition("criteria", $conditions);
+    }
+
+    /**
      * Returns an array of event names this subscriber wants to listen to.
      *
      * The array keys are event names and the value can be:
@@ -57,7 +70,8 @@ class IndexConfigurationSubscriber implements EventSubscriberInterface
         return [
             IndexEngineIndexEvents::UPDATE => [
                 ["filterSqlQuery", 192],
-            ]
+                ["filterConditions", 999],
+            ],
         ];
     }
 }
