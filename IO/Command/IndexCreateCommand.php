@@ -43,7 +43,18 @@ class IndexCreateCommand extends ContainerAwareCommand
 
         $driver = $indexConfiguration->getLoadedDriver();
 
-        $driver->createIndex($indexConfiguration->getType(), $indexConfiguration->getTitle(), $indexConfiguration->getMapping());
+        $driver->createIndex(
+            $indexConfiguration->getType(),
+            $code = $indexConfiguration->getCode(),
+            $indexConfiguration->getTitle(),
+            $indexConfiguration->getMapping()
+        );
+
+        $output->renderBlock([
+            "",
+            sprintf("The index '%s' has been created", $code),
+            ""
+        ], "bg=green;fg=black");
     }
 
 

@@ -20,5 +20,8 @@ namespace IndexEngine\Entity;
  */
 class IndexData
 {
+    public function toArray()
+    {
 
+    }
 }

@@ -46,6 +46,7 @@ interface DriverInterface
 
     /**
      * @param string $type
+     * @param string $code
      * @param string $name
      * @param IndexMapping $mapping
      * @return mixed
@@ -55,19 +56,21 @@ interface DriverInterface
      * If the server return data, you should return it so it can be logged.
      * You can return anything that is serializable.
      */
-    public function createIndex($type, $name, IndexMapping $mapping);
+    public function createIndex($type, $code, $name, IndexMapping $mapping);
 
     /**
      * @param string $type
+     * @param string $code
      * @param string $name
      * @return bool
      *
      * This method checks that the index corresponding to the type exists in the server
      */
-    public function indexExists($type, $name);
+    public function indexExists($type, $code, $name);
 
     /**
      * @param string $type
+     * @param string $code
      * @param string $name
      * @return mixed
      *
@@ -76,10 +79,11 @@ interface DriverInterface
      * If the server return data, you should return it so it can be logged.
      * You can return anything that is serializable.
      */
-    public function deleteIndex($type, $name);
+    public function deleteIndex($type, $code, $name);
 
     /**
      * @param string $type
+     * @param string $code
      * @param string $name
      * @param IndexDataVector $indexDataVector
      * @param IndexMapping $mapping
@@ -93,7 +97,7 @@ interface DriverInterface
      * If the server return data, you should return it so it can be logged.
      * You can return anything that is serializable.
      */
-    public function persistIndexes($type, $name, IndexDataVector $indexDataVector, IndexMapping $mapping);
+    public function persistIndexes($type, $code, $name, IndexDataVector $indexDataVector, IndexMapping $mapping);
 
     /**
      * @param IndexQueryInterface $query

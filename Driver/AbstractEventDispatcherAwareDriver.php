@@ -76,6 +76,7 @@ abstract class AbstractEventDispatcherAwareDriver extends AbstractCollection imp
 
     /**
      * @param string $type
+     * @param string $code
      * @param string $name
      * @param IndexMapping $mapping
      * @return mixed
@@ -85,26 +86,27 @@ abstract class AbstractEventDispatcherAwareDriver extends AbstractCollection imp
      * If the server return data, you should return it so it can be logged.
      * You can return anything that is serializable.
      */
-    public function createIndex($type, $name, IndexMapping $mapping)
+    public function createIndex($type, $code, $name, IndexMapping $mapping)
     {
         /** @var IndexEvent $event */
-        $event = $this->dispatch(DriverEvents::INDEX_CREATE, new IndexEvent($type, $name, $mapping));
+        $event = $this->dispatch(DriverEvents::INDEX_CREATE, new IndexEvent($type, $code, $name, $mapping));
 
         return $event->getExtraData();
     }
 
     /**
      * @param string $type
+     * @param string $code
      * @param string $name
      * @return bool
      *
      * This method checks that the index corresponding to the type exists in the server
      */
-    public function indexExists($type, $name)
+    public function indexExists($type, $code, $name)
     {
         try {
             /** @var IndexEvent $event */
-            $this->dispatch(DriverEvents::INDEX_EXISTS, new IndexEvent($type, $name));
+            $this->dispatch(DriverEvents::INDEX_EXISTS, new IndexEvent($type, $code, $name));
             $exists = true;
         } catch (IndexNotFoundException $e) {
             $exists = false;
@@ -115,6 +117,7 @@ abstract class AbstractEventDispatcherAwareDriver extends AbstractCollection imp
 
     /**
      * @param string $type
+     * @param string $code
      * @param string $name
      * @return mixed
      *
@@ -123,11 +126,11 @@ abstract class AbstractEventDispatcherAwareDriver extends AbstractCollection imp
      * If the server return data, you should return it so it can be logged.
      * You can return anything that is serializable.
      */
-    public function deleteIndex($type, $name)
+    public function deleteIndex($type, $code, $name)
     {
-        if (true === $this->indexExists($type, $name)) {
+        if (true === $this->indexExists($type, $code, $name)) {
             /** @var IndexEvent $event */
-            $event = $this->dispatch(DriverEvents::INDEX_DELETE, new IndexEvent($type, $name));
+            $event = $this->dispatch(DriverEvents::INDEX_DELETE, new IndexEvent($type, $code, $name));
 
             return $event->getExtraData();
         }
@@ -143,6 +146,7 @@ abstract class AbstractEventDispatcherAwareDriver extends AbstractCollection imp
 
     /**
      * @param string $type
+     * @param string $code
      * @param string $name
      * @param IndexDataVector $indexDataVector
      * @param IndexMapping $mapping
@@ -156,10 +160,10 @@ abstract class AbstractEventDispatcherAwareDriver extends AbstractCollection imp
      * If the server return data, you should return it so it can be logged.
      * You can return anything that is serializable.
      */
-    public function persistIndexes($type, $name, IndexDataVector $indexDataVector, IndexMapping $mapping)
+    public function persistIndexes($type, $code, $name, IndexDataVector $indexDataVector, IndexMapping $mapping)
     {
         /** @var IndexEvent $event */
-        $event = $this->dispatch(DriverEvents::INDEXES_PERSIST, new IndexEvent($type, $name, $mapping, $indexDataVector));
+        $event = $this->dispatch(DriverEvents::INDEXES_PERSIST, new IndexEvent($type, $code, $name, $mapping, $indexDataVector));
 
         return $event->getExtraData();
     }

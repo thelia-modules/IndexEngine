@@ -85,11 +85,10 @@ class ElasticSearchListener extends DriverEventSubscriber
      */
     public function prepareIndexMapping(IndexEvent $event)
     {
-        $type = $event->getType();
-        $name = $event->getIndexName();
+        $code = $event->getIndexCode();
         $mapping = $event->getMapping();
 
-        $parameters = array("index" => $name);
+        $parameters = array("index" => $code);
         $driver = $this->getDriver();
 
         $shards = $driver->getExtraConfiguration("number_of_shards")->getValue();
@@ -102,7 +101,7 @@ class ElasticSearchListener extends DriverEventSubscriber
             $parameters["body"]["settings"]["number_of_replicas"] = $replicas;
         }
 
-        $esMapping = &$parameters["body"]["mappings"][$type];
+        $esMapping = &$parameters["body"]["mappings"][$code];
 
         $esMapping["_source"] = ["enabled" => $driver->getExtraConfiguration("save_source")];
 
@@ -140,7 +139,7 @@ class ElasticSearchListener extends DriverEventSubscriber
     public function indexExists(IndexEvent $event)
     {
         $exists = $this->getClient()->indices()->exists(array(
-            "index" => $event->getIndexName(),
+            "index" => $event->getIndexCode(),
         ));
 
         if (false === $exists) {
@@ -158,8 +157,8 @@ class ElasticSearchListener extends DriverEventSubscriber
      */
     public function deleteIndex(IndexEvent $event)
     {
-        $name = $event->getIndexName();
-        $data = $this->getClient()->indices()->delete(array("index" => $name));
+        $code = $event->getIndexCode();
+        $data = $this->getClient()->indices()->delete(array("index" => $code));
         $event->setExtraData($data);
     }
 
@@ -176,7 +175,18 @@ class ElasticSearchListener extends DriverEventSubscriber
      */
     public function persistIndexes(IndexEvent $event)
     {
+        $params = [
+            "index" => $event->getIndexName(),
+            "type" => $event->getType(),
+        ];
 
+        $client = $this->getClient();
+
+        foreach ($event->getIndexDataVector() as $data) {
+            $params["body"] = $data->toArray();
+
+            $client->index($params);
+        }
     }
 
     /**

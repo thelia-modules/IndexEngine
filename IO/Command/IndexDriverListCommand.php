@@ -29,7 +29,7 @@ class IndexDriverListCommand extends ContainerAwareCommand
     {
         $this
             ->setName("index:driver:list")
-            ->setDescription("List all the available drivers")
+            ->setDescription("List all the available seadrivers")
         ;
     }
 

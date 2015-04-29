@@ -12,6 +12,7 @@
 
 namespace IndexEngine\Discovering\Collector;
 
+use IndexEngine\Driver\Event\IndexEvent;
 use IndexEngine\Event\Module\CollectEvent;
 use IndexEngine\Event\Module\IndexEngineEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -29,6 +30,11 @@ class SqlQuerySubscriber implements EventSubscriberInterface
     public function addSqlQueryType(CollectEvent $event)
     {
         $event->add(static::TYPE);
+    }
+
+    public function collectData(IndexEvent $event)
+    {
+
     }
 
     /**
@@ -55,6 +61,7 @@ class SqlQuerySubscriber implements EventSubscriberInterface
     {
         return [
             IndexEngineEvents::COLLECT_ENTITY_TYPES     => ["addSqlQueryType"],
+            IndexEngineEvents::COLLECT_DATA_TO_INDEX    => ["collectData"],
         ];
     }
 }

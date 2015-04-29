@@ -16,56 +16,58 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Thelia\Command\ContainerAwareCommand;
-use Thelia\Command\Output\TheliaConsoleOutput;
 use Thelia\Core\HttpFoundation\Request;
 
 /**
- * Class IndexExistsCommand
+ * Class IndexDeleteCommand
  * @package IndexEngine\IO\Command
  * @author Benjamin Perche <benjamin@thelia.net>
  */
-class IndexExistsCommand extends ContainerAwareCommand
+class IndexDeleteCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
         $this
-            ->setName("index:exists")
-            ->setDescription("Checks if an index exists")
+            ->setName("index:delete")
+            ->setDescription("Deletes an index")
             ->addArgument("driver-configuration", InputArgument::REQUIRED, "The driver configuration code to use")
-            ->addArgument("index-name", InputArgument::REQUIRED, "The index name to check")
+            ->addArgument("index-code", InputArgument::REQUIRED, "The index configuration code to use")
         ;
     }
 
     /**
      * @param InputInterface $input
-     * @param TheliaConsoleOutput $output
+     * @param OutputInterface $output
      * @return int|null|void
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $configurationCode = $input->getArgument("driver-configuration");
-        $indexName = $input->getArgument("index-name");
+        $driverCode = $input->getArgument("driver-configuration");
+        $indexCode = $input->getArgument("index-code");
 
-        $configuration = $this->getManager()->getConfigurationFromCode($configurationCode, true);
+        $configuration = $this->getManager()->getConfigurationFromCode($driverCode, true);
+
         $driver = $configuration->getDriver();
 
-        if ($driver->indexExists(null, $indexName, $indexName)) {
+        if (!$driver->indexExists(null, $indexCode, $indexCode)) {
             $output->renderBlock([
                 "",
-                sprintf("The index type '%s' exists with the configuration '%s'", $indexName, $configurationCode),
+                sprintf("The index code '%s' doesn't exist with the configuration '%s'", $indexCode, $driverCode),
                 ""
-            ], "bg=green;fg=black");
+            ], "bg=red;fg=white");
 
-            return 0;
+            return 1;
         }
+
+        $configuration->getDriver()->deleteIndex(null, $indexCode, $indexCode);
 
         $output->renderBlock([
             "",
-            sprintf("The index type '%s' doesn't exist with the configuration '%s'", $indexName, $configurationCode),
+            sprintf("The index code '%s' has been delete with the configuration '%s'", $indexCode, $driverCode),
             ""
-        ], "bg=red;fg=white");
+        ], "bg=green;fg=black");
 
-        return 1;
+        return 0;
     }
 
     /**

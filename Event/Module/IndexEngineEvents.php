@@ -18,4 +18,6 @@ class IndexEngineEvents extends BaseIndexEngineEvents
     const COLLECT_ENTITY_TYPES      = "collect.entity_types";
     const COLLECT_ENTITIES          = "collect.entities";
     const COLLECT_ENTITY_COLUMNS    = "collect.entity_columns";
+
+    const COLLECT_DATA_TO_INDEX     = "collect.data_to_index";
 }

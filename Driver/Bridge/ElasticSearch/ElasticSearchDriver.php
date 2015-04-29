@@ -21,7 +21,7 @@ use IndexEngine\Driver\Exception\MissingLibraryException;
  * @package IndexEngine\Driver\Bridge
  * @author Benjamin Perche <benjamin@thelia.net>
  */
-class ElasticSearchDriver extends AbstractEventDispatcherAwareDriver implements DriverInterface
+class ElasticSearchDriver extends AbstractEventDispatcherAwareDriver
 {
     const DEFAULT_SERVER = "localhost:9200";
     const DEFAULT_SHARDS = 1;
