@@ -100,7 +100,7 @@ class IndexMappingTransformer implements DataTransformerInterface
         $builtData = [];
 
         foreach ($value as $entry) {
-            if (! isset($entry["column"]) || !isset($entry["type"])) {
+            if (! isset($entry["column"]) || ! isset($entry["type"])) {
                 throw new TransformationFailedException(sprintf("The following row must have both 'column' and 'type' keys but doesn't: %s", serialize($entry)));
             }
 

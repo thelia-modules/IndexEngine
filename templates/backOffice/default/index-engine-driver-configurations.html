@@ -27,6 +27,10 @@
                     <caption class="clearfix">
                         {intl l="Index engine driver configuration"}
 
+                        <a href="{url path="/admin/module/IndexEngine"}" class="btn btn-default">
+                            {intl l="Configure index" d="indexengine.bo.default"}
+                        </a>
+
                         {loop name="auth-create" type="auth" role="ADMIN" resource="admin.module" access="CREATE" module="IndexEngine"}
                             <div class="pull-right">
                                 <a class="btn btn-default btn-primary" title="{intl l='Create a new IndexEngineDriverConfiguration entry' d='indexengine.bo.default'}" data-target="#index_engine_driver_configuration-create" data-toggle="modal">

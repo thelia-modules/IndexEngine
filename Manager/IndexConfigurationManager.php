@@ -13,6 +13,7 @@
 namespace IndexEngine\Manager;
 
 use IndexEngine\Discovering\Repository\IndexableEntityRepositoryInterface;
+use IndexEngine\Entity\IndexMapping;
 use IndexEngine\Event\IndexEngineIndexEvents;
 use IndexEngine\Event\RenderConfigurationEvent;
 use IndexEngine\Model\IndexEngineIndexQuery;
@@ -196,5 +197,18 @@ class IndexConfigurationManager implements IndexConfigurationManagerInterface
         }
 
         return [];
+    }
+
+    /**
+     * @return \IndexEngine\Entity\IndexMapping
+     *
+     * Get the entity corresponding to the current mapping
+     */
+    public function getCurrentMappingEntity()
+    {
+        $mapping = $this->getCurrentMapping();
+
+        $entity = new IndexMapping();
+        return $entity->setMapping($mapping);
     }
 }

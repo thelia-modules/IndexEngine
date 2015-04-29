@@ -100,4 +100,11 @@ interface IndexConfigurationManagerInterface
      * If it doesn't exist, return an empty array
      */
     public function getCurrentMapping();
+
+    /**
+     * @return \IndexEngine\Entity\IndexMapping
+     *
+     * Get the entity corresponding to the current mapping
+     */
+    public function getCurrentMappingEntity();
 }

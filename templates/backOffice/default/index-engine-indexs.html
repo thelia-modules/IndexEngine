@@ -25,7 +25,11 @@
             <div class="table-responsive">
                 <table class="table table-striped table-condensed" id="index_engine_index-table">
                     <caption class="clearfix">
-                        {intl l="Index engine index"}
+                        {intl l="Index engine index" d="indexengine.bo.default"}
+
+                        <a href="{url path="/admin/module/IndexEngine/index_engine_driver_configuration"}" class="btn btn-default">
+                            {intl l="Configure driver" d="indexengine.bo.default"}
+                        </a>
 
                         {loop name="auth-create" type="auth" role="ADMIN" resource="admin.module" access="CREATE" module="IndexEngine"}
                             <div class="pull-right">

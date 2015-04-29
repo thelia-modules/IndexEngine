@@ -8,6 +8,7 @@ namespace IndexEngine\Controller;
 
 use IndexEngine\Controller\Base\IndexEngineIndexController as BaseIndexEngineIndexController;
 use IndexEngine\Event\IndexEngineIndexEvent;
+use IndexEngine\Form\Transformer\IndexMappingTransformer;
 use Thelia\Core\HttpFoundation\JsonResponse;
 use Thelia\Core\HttpFoundation\Response;
 use Thelia\Core\Security\AccessManager;
@@ -47,6 +48,8 @@ class IndexEngineIndexController extends BaseIndexEngineIndexController
     {
         $event = new IndexEngineIndexEvent();
 
+        $transformer = new IndexMappingTransformer();
+
         $event->setId($formData["id"]);
         $event->setCode($formData["code"]);
         $event->setTitle($formData["title"]);
@@ -55,6 +58,7 @@ class IndexEngineIndexController extends BaseIndexEngineIndexController
         $event->setIndexEngineDriverConfigurationId($formData["index_engine_driver_configuration_id"]);
         $event->setConditions($formData["conditions"]);
         $event->setColumns($formData["columns"]);
+        $event->setMapping($transformer->reverseTransform($formData["mapping"]));
 
         return $event;
     }
@@ -123,12 +127,14 @@ class IndexEngineIndexController extends BaseIndexEngineIndexController
             $data = array();
         }
 
+        $mappingTransformer = new IndexMappingTransformer();
+
         return parent::getUpdateForm(array_merge($data, [
             "type" => $manager->getCurrentType(),
             "entity" => $manager->getCurrentEntity(),
             "columns" => $manager->getCurrentColumns(),
             "conditions" => $manager->getCurrentConditionsCriteria(),
-            "mapping" => $manager->getCurrentMapping(),
+            "mapping" => $mappingTransformer->transform($manager->getCurrentMapping()), // I don't use the transformer in the form because ... well ... I can't make it work.
         ]));
     }
 
