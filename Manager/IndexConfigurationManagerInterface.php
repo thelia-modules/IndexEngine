@@ -107,4 +107,12 @@ interface IndexConfigurationManagerInterface
      * Get the entity corresponding to the current mapping
      */
     public function getCurrentMappingEntity();
+
+    /**
+     * @param $code
+     * @return \IndexEngine\Entity\IndexConfiguration
+     *
+     * @throws \IndexEngine\Exception\InvalidArgumentException
+     */
+    public function getConfigurationEntityFromCode($code);
 }

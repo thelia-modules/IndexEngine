@@ -13,9 +13,12 @@
 namespace IndexEngine\Manager;
 
 use IndexEngine\Discovering\Repository\IndexableEntityRepositoryInterface;
+use IndexEngine\Entity\IndexConfiguration;
 use IndexEngine\Entity\IndexMapping;
 use IndexEngine\Event\IndexEngineIndexEvents;
 use IndexEngine\Event\RenderConfigurationEvent;
+use IndexEngine\Exception\InvalidArgumentException;
+use IndexEngine\Model\IndexEngineIndex;
 use IndexEngine\Model\IndexEngineIndexQuery;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Thelia\Core\HttpFoundation\Request;
@@ -44,14 +47,19 @@ class IndexConfigurationManager implements IndexConfigurationManagerInterface
      */
     private $repository;
 
+    /** @var ConfigurationManagerInterface */
+    private $driverManager;
+
     public function __construct(
         EventDispatcherInterface $dispatcher,
         Request $request,
-        IndexableEntityRepositoryInterface $repository
+        IndexableEntityRepositoryInterface $repository,
+        ConfigurationManagerInterface $driverManager
     ) {
         $this->dispatcher = $dispatcher;
         $this->request = $request;
         $this->repository = $repository;
+        $this->driverManager = $driverManager;
     }
 
     /**
@@ -210,5 +218,53 @@ class IndexConfigurationManager implements IndexConfigurationManagerInterface
 
         $entity = new IndexMapping();
         return $entity->setMapping($mapping);
+    }
+
+    /**
+     * @param $code
+     * @return \IndexEngine\Entity\IndexConfiguration
+     *
+     * @throws \IndexEngine\Exception\InvalidArgumentException
+     */
+    public function getConfigurationEntityFromCode($code)
+    {
+        $dbConfiguration = IndexEngineIndexQuery::create()->findOneByCode($code);
+
+        if (null === $dbConfiguration) {
+            throw new InvalidArgumentException(sprintf("The index configuration code '%s' doesn't exist", $code));
+        }
+
+        return $this->getConfigurationEntityFromPropelEntity($dbConfiguration);
+    }
+
+    public function getConfigurationEntityFromPropelEntity(IndexEngineIndex $dbConfiguration)
+    {
+        $configuration = new IndexConfiguration();
+        $configuration
+            ->setCode($dbConfiguration->getCode())
+            ->setTitle($dbConfiguration->getTitle())
+            ->setType($dbConfiguration->getType())
+            ->setEntity($dbConfiguration->getEntity())
+            ->setColumns($dbConfiguration->getColumns())
+            ->setDriverConfiguration($this->driverManager->getConfigurationFromCode(
+                $dbConfiguration->getIndexEngineDriverConfiguration()->getCode()
+            ))
+        ;
+
+        $extraConfiguration = $dbConfiguration->getConditions();
+
+        if (isset($extraConfiguration["criteria"])) {
+            $configuration->setCriteria($extraConfiguration["criteria"]);
+            unset($extraConfiguration["criteria"]);
+        }
+
+        if (isset($extraConfiguration["mapping"])) {
+            $configuration->setMapping((new IndexMapping())->setMapping($extraConfiguration["mapping"]));
+            unset($extraConfiguration["mapping"]);
+        }
+
+        $configuration->setExtraData($extraConfiguration);
+
+        return $configuration;
     }
 }

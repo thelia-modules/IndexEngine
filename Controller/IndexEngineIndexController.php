@@ -140,7 +140,16 @@ class IndexEngineIndexController extends BaseIndexEngineIndexController
 
     protected function renderEditionTemplate()
     {
-        return parent::renderEditionTemplate();
+        $this->getParserContext()
+            ->set(
+                "index_engine_index_id",
+                $this->getRequest()->query->get("index_engine_index_id")
+            )
+        ;
+
+        return $this->render("index-engine-index-edit", [
+            "mappingChoices" => $this->getDefaultMapping()->getTypes()
+        ]);
     }
 
     /**

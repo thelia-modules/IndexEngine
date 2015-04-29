@@ -31,7 +31,8 @@
     <!-- Commands -->
     <parameter key="index_engine.command.list_drivers.class">IndexEngine\IO\Command\IndexDriverListCommand</parameter>
     <parameter key="index_engine.command.index_exists.class">IndexEngine\IO\Command\IndexExistsCommand</parameter>
-    <parameter key="index_engine.command.configuration_list.class">IndexEngine\IO\Command\IndexConfigurationListCommand</parameter>
+    <parameter key="index_engine.command.index_create.class">IndexEngine\IO\Command\IndexCreateCommand</parameter>
+    <parameter key="index_engine.command.configuration_list.class">IndexEngine\IO\Command\IndexDriverConfigurationListCommand</parameter>
   </parameters>
 
   <loops>
@@ -49,6 +50,7 @@
   <commands>
     <command class="%index_engine.command.list_drivers.class%"/>
     <command class="%index_engine.command.index_exists.class%"/>
+    <command class="%index_engine.command.index_create.class%"/>
     <command class="%index_engine.command.configuration_list.class%"/>
   </commands>
 
@@ -103,6 +105,7 @@
       <argument type="service" id="event_dispatcher"/>
       <argument type="service" id="request"/>
       <argument type="service" id="index_engine.indexable_entity_repository"/>
+      <argument type="service" id="index_engine.configuration.manager"/>
     </service>
     <service id="index_engine.sql_manager" class="%index_engine.sql_manager.class%">
       <argument type="service" id="thelia.translator"/>

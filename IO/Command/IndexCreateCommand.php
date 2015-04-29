@@ -16,6 +16,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Thelia\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Thelia\Core\HttpFoundation\Request;
 
 /**
  * Class IndexCreateCommand
@@ -28,14 +29,39 @@ class IndexCreateCommand extends ContainerAwareCommand
     {
         $this
             ->setName("index:create")
-            ->addArgument("driver-configuration", InputArgument::REQUIRED, "The driver configuration title to use")
+            ->setDescription("Create the index for the given index configuration")
             ->addArgument("index-configuration", InputArgument::REQUIRED, "The index configuration code to use")
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        // @TODO wesh
+        $this->enterRequestScope();
+        $configurationCode = $input->getArgument("index-configuration");
+
+        $indexConfiguration = $this->getIndexManager()->getConfigurationEntityFromCode($configurationCode);
+
+        $driver = $indexConfiguration->getLoadedDriver();
+
+        $driver->createIndex($indexConfiguration->getType(), $indexConfiguration->getTitle(), $indexConfiguration->getMapping());
     }
 
+
+    /**
+     * @return \IndexEngine\Manager\IndexConfigurationManagerInterface
+     */
+    protected function getIndexManager()
+    {
+        return $this->getContainer()->get("index_engine.index_configuration_manager");
+    }
+
+    protected function enterRequestScope()
+    {
+        $container = $this->getContainer();
+
+        if (!$container->isScopeActive("request")) {
+            $container->enterScope("request");
+            $container->set("request", new Request());
+        }
+    }
 }

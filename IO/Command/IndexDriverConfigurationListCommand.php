@@ -20,15 +20,18 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Thelia\Command\ContainerAwareCommand;
 
 /**
- * Class IndexConfigurationListCommand
+ * Class IndexDriverConfigurationListCommand
  * @package IndexEngine\IO\Command
  * @author Benjamin Perche <benjamin@thelia.net>
  */
-class IndexConfigurationListCommand extends ContainerAwareCommand
+class IndexDriverConfigurationListCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
-        $this->setName("index:configuration:list");
+        $this
+            ->setName("index:driver:configuration:list")
+            ->setDescription("List all the driver configurations")
+        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

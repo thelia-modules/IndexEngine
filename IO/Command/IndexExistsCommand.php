@@ -19,7 +19,6 @@ use Thelia\Command\ContainerAwareCommand;
 use Thelia\Command\Output\TheliaConsoleOutput;
 use Thelia\Core\HttpFoundation\Request;
 
-
 /**
  * Class IndexExistsCommand
  * @package IndexEngine\IO\Command
@@ -31,6 +30,7 @@ class IndexExistsCommand extends ContainerAwareCommand
     {
         $this
             ->setName("index:exists")
+            ->setDescription("Checks if an index exists")
             ->addArgument("driver-configuration", InputArgument::REQUIRED, "The driver configuration code to use")
             ->addArgument("index-name", InputArgument::REQUIRED, "The index name to check")
         ;

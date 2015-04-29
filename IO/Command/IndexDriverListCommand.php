@@ -27,7 +27,10 @@ class IndexDriverListCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
-        $this->setName("index:driver:list");
+        $this
+            ->setName("index:driver:list")
+            ->setDescription("List all the available drivers")
+        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

@@ -45,7 +45,7 @@ class IndexMapping
     ];
 
     /** @var array */
-    private $mapping;
+    private $mapping = array();
 
     /**
      * @param array $mapping

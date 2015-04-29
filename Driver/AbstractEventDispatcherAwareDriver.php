@@ -265,7 +265,7 @@ abstract class AbstractEventDispatcherAwareDriver extends AbstractCollection imp
 
     /**
      * @param string $name
-     * @return mixed
+     * @return \IndexEngine\Driver\Configuration\ArgumentInterface
      *
      * @throws \IndexEngine\Driver\Exception\InvalidNameException is the extra configuration doesn't exist
      *

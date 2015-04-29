@@ -92,12 +92,12 @@ class ElasticSearchListener extends DriverEventSubscriber
         $parameters = array("index" => $name);
         $driver = $this->getDriver();
 
-        $shards = $driver->getExtraConfiguration("number_of_shards");
+        $shards = $driver->getExtraConfiguration("number_of_shards")->getValue();
         if (null !== $shards) {
             $parameters["body"]["settings"]["number_of_shards"] = $shards;
         }
 
-        $replicas = $driver->getExtraConfiguration("number_of_replicas");
+        $replicas = $driver->getExtraConfiguration("number_of_replicas")->getValue();
         if (null !== $replicas) {
             $parameters["body"]["settings"]["number_of_replicas"] = $replicas;
         }
@@ -109,7 +109,7 @@ class ElasticSearchListener extends DriverEventSubscriber
         foreach ($mapping->getMapping() as $column => $type) {
             $resolvedType = $this->resolveType($type);
 
-            $esMapping["proprieties"][$column] = $resolvedType;
+            $esMapping["properties"][$column] = $resolvedType;
         }
 
         $event->setExtraData($parameters);
