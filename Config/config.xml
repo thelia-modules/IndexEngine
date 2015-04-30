@@ -4,8 +4,6 @@
     <parameter key="index_engine.indexable_entity_repository.class">IndexEngine\Discovering\Repository\IndexableEntityRepository</parameter>
     <parameter key="index_engine.driver.registry.class">IndexEngine\Driver\DriverRegistry</parameter>
     <parameter key="index_engine.event_dispatcher.class">Symfony\Component\EventDispatcher\ContainerAwareEventDispatcher</parameter>
-    <parameter key="index_engine.driver.elastic_search.class">IndexEngine\Driver\Bridge\ElasticSearch\ElasticSearchDriver</parameter>
-    <parameter key="index_engine.driver.elastic_search_listener.class">IndexEngine\Driver\Bridge\ElasticSearch\ElasticSearchListener</parameter>
     <parameter key="index_engine.database_collector.class">IndexEngine\Discovering\Collector\DatabaseSubscriber</parameter>
     <parameter key="index_engine.loop_collector.class">IndexEngine\Discovering\Collector\LoopSubscriber</parameter>
     <parameter key="index_engine.sql_query_collector.class">IndexEngine\Discovering\Collector\SqlQuerySubscriber</parameter>
@@ -34,6 +32,11 @@
     <parameter key="index_engine.command.index_create.class">IndexEngine\IO\Command\IndexCreateCommand</parameter>
     <parameter key="index_engine.command.index_delete.class">IndexEngine\IO\Command\IndexDeleteCommand</parameter>
     <parameter key="index_engine.command.configuration_list.class">IndexEngine\IO\Command\IndexDriverConfigurationListCommand</parameter>
+    <!-- Drivers -->
+      <parameter key="index_engine.driver.elastic_search.class">IndexEngine\Driver\Bridge\ElasticSearch\ElasticSearchDriver</parameter>
+      <parameter key="index_engine.driver.elastic_search_listener.class">IndexEngine\Driver\Bridge\ElasticSearch\ElasticSearchListener</parameter>
+      <parameter key="index_engine.driver.open_search_server.class">IndexEngine\Driver\Bridge\OpenSearchServer\OpenSearchServerDriver</parameter>
+      <parameter key="index_engine.driver.open_search_server_listener.class">IndexEngine\Driver\Bridge\OpenSearchServer\OpenSearchServerListener</parameter>
   </parameters>
 
   <loops>
@@ -162,6 +165,13 @@
     <service id="index_engine.driver.elastic_search_listener" class="%index_engine.driver.elastic_search_listener.class%">
       <tag name="index_engine.event_subscriber"/>
     </service>
+      <!-- OpenSearchServer -->
+      <service id="index_engine.driver.open_search_server" class="%index_engine.driver.open_search_server.class%">
+          <tag name="index_engine.driver" listener="index_engine.driver.open_search_server_listener" />
+      </service>
+      <service id="index_engine.driver.open_search_server_listener" class="%index_engine.driver.open_search_server_listener.class%">
+          <tag name="index_engine.event_subscriber" />
+      </service>
     <!-- Well ... -->
     <service id="index_engine.propel_connection_wrapper" factory-class="Propel\Runtime\Propel" factory-method="getConnection" class="Propel\Runtime\Connection\ConnectionWrapper"/>
     <service id="index_engine.propel_connection" factory-service="index_engine.propel_connection_wrapper" factory-method="getWrappedConnection" class="PDO"/>

@@ -55,7 +55,7 @@ class ArgumentCollection extends AbstractCollection implements ArgumentCollectio
     }
 
     /**
-     * @param ArgumentInterface $driver
+     * @param ArgumentInterface $argument
      * @param int $mode
      * @return $this
      *
@@ -149,7 +149,7 @@ class ArgumentCollection extends AbstractCollection implements ArgumentCollectio
     }
 
     /**
-     * @param ArgumentInterface $driver
+     * @param ArgumentInterface $argument
      * @param int $mode
      * @return bool
      *

@@ -22,7 +22,7 @@ use IndexEngine\Driver\CollectionInterface;
 interface ArgumentCollectionInterface extends CollectionInterface, \Countable
 {
     /**
-     * @param ArgumentInterface $driver
+     * @param ArgumentInterface $argument
      * @param int $mode
      * @return $this
      *
@@ -33,7 +33,7 @@ interface ArgumentCollectionInterface extends CollectionInterface, \Countable
      * You can change its behavior using the $mode parameter, modes are explained in the comments on the top of the constants
      * of CollectionInterface
      */
-    public function addArgument(ArgumentInterface $driver, $mode = self::MODE_OVERRIDE);
+    public function addArgument(ArgumentInterface $argument, $mode = self::MODE_OVERRIDE);
 
     /**
      * @param mixed $argumentNameOrInterface It can be a string, an object that implements __toString or a ArgumentInterface
@@ -66,7 +66,7 @@ interface ArgumentCollectionInterface extends CollectionInterface, \Countable
     public function getArgument($name, $mode = self::MODE_THROW_EXCEPTION_ON_ERROR);
 
     /**
-     * @param ArgumentInterface $driver
+     * @param ArgumentInterface $argument
      * @param int $mode
      * @return bool
      *
@@ -75,7 +75,7 @@ interface ArgumentCollectionInterface extends CollectionInterface, \Countable
      *
      * This method has to validate the argument name.
      */
-    public function isArgumentNameValid(ArgumentInterface $driver, $mode = self::MODE_RETURN_BOOLEAN);
+    public function isArgumentNameValid(ArgumentInterface $argument, $mode = self::MODE_RETURN_BOOLEAN);
 
     /**
      * @return ArgumentInterface[]
