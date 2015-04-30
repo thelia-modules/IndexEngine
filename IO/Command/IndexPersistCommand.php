@@ -12,8 +12,10 @@
 
 namespace IndexEngine\IO\Command;
 
+use Symfony\Component\Console\Helper\TableHelper;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Thelia\Command\ContainerAwareCommand;
 use Thelia\Core\HttpFoundation\Request;
@@ -31,12 +33,17 @@ class IndexPersistCommand extends ContainerAwareCommand
             ->setName("index:persist")
             ->setDescription("Collect the data and store it in the index server")
             ->addArgument("index-configuration", InputArgument::REQUIRED, "The index configuration code to use")
+            ->addOption("dry-run", null, InputOption::VALUE_NONE, "Only collect data, do not call the server")
+            ->addOption("debug", null, InputOption::VALUE_NONE, "Show the collected data")
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->enterRequestScope();
+
+        $dryRun = $input->getOption("dry-run");
+        $debug = $input->getOption("debug");
 
         $configurationCode = $input->getArgument("index-configuration");
         $indexManager = $this->getIndexManager();
@@ -45,24 +52,50 @@ class IndexPersistCommand extends ContainerAwareCommand
         $driver = $indexConfiguration->getLoadedDriver();
         $dataToIndex = $indexManager->collectDataForType($indexConfiguration);
 
-        $driver->persistIndexes(
-            $indexConfiguration->getType(),
-            $indexConfiguration->getCode(),
-            $indexConfiguration->getTitle(),
-            $dataToIndex,
-            $indexConfiguration->getMapping()
-        );
-
-        $output->renderBlock([
-            "",
-            sprintf(
-                "The data for index code '%s' have been stored with the driver '%s'. %d treated rows",
+        if (false === $dryRun) {
+            $driver->persistIndexes(
+                $indexConfiguration->getType(),
                 $indexConfiguration->getCode(),
-                $driver->getCode(),
-                $dataToIndex->count()
-            ),
-            ""
-        ], "bg=green;fg=black");
+                $indexConfiguration->getTitle(),
+                $dataToIndex,
+                $indexConfiguration->getMapping()
+            );
+        }
+
+        if (true === $debug) {
+            if (0 === $dataToIndex->count()) {
+                $output->renderBlock([
+                    "",
+                    "There is no data to index",
+                    ""
+                ], "bg=blue;fg=black");
+            } else {
+                $tableHelper = new TableHelper();
+                $dataToIndex->rewind();
+
+                $row = $dataToIndex->current();
+
+                $tableHelper->setHeaders(array_keys($row->getData()));
+
+                /** @var \IndexEngine\Entity\IndexData $indexData */
+                foreach ($dataToIndex as $indexData) {
+                    $tableHelper->addRow($indexData->getData());
+                }
+
+                $tableHelper->render($output);
+            }
+        } else {
+            $output->renderBlock([
+                "",
+                sprintf(
+                    "The data for index code '%s' have been stored with the driver '%s'. %d treated rows",
+                    $indexConfiguration->getCode(),
+                    $driver->getCode(),
+                    $dataToIndex->count()
+                ),
+                ""
+            ], "bg=green;fg=black");
+        }
     }
 
     /**

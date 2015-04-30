@@ -13,6 +13,8 @@
 namespace IndexEngine\Discovering\Collector;
 
 use IndexEngine\Driver\Event\IndexEvent;
+use IndexEngine\Driver\Query\IndexQuery;
+use IndexEngine\Entity\IndexData;
 use IndexEngine\Event\Module\CollectEvent;
 use IndexEngine\Event\Module\EntityCollectEvent;
 use IndexEngine\Event\Module\EntityColumnsCollectEvent;
@@ -85,7 +87,20 @@ class DatabaseSubscriber implements EventSubscriberInterface
             $columns = $configuration->getColumns();
             $conditions = $configuration->getExtraDataEntry("criteria", []);
 
+            $query = new IndexQuery($event->getType(), $table);
 
+            foreach ($conditions as $condition) {
+                $query->filterBy($condition["column"], $condition["value"], $condition["comparison"]);
+            }
+
+            $sqlQuery = $this->sqlManager->buildSqlQuery($query, $columns);
+
+            $dataVector = $event->getIndexDataVector();
+            $mapping = $event->getMapping();
+
+            foreach ($this->sqlManager->executeQuery($sqlQuery, PHP_INT_MAX) as $row) {
+                $dataVector[] = (new IndexData())->setData($row, $mapping);
+            }
         }
     }
 
