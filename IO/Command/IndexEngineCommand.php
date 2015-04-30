@@ -19,6 +19,7 @@ use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
 use Thelia\Command\ContainerAwareCommand;
 use Thelia\Core\HttpFoundation\Request;
 use Thelia\Core\HttpFoundation\Session\Session;
+use Thelia\Model\ConfigQuery;
 use Thelia\Model\LangQuery;
 use Thelia\Tools\URL;
 
@@ -58,7 +59,7 @@ class IndexEngineCommand extends ContainerAwareCommand
             // Prepare the fake request
             $container->enterScope("request");
 
-            $request = new Request();
+            $request = Request::create(ConfigQuery::getConfiguredShopUrl());
             $session = new Session(new MockArraySessionStorage());
             $locale = $input->getOption("locale");
             $lang = LangQuery::create()->findOneByLocale($locale);
@@ -70,6 +71,8 @@ class IndexEngineCommand extends ContainerAwareCommand
             $session->setLang($lang);
             $request->setSession($session);
             $container->set("request", $request);
+
+            $container->get("request.context")->fromRequest($request);
 
             // Initialize tools
             $container->get("thelia.translator");
