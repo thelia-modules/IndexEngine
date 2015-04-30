@@ -1,4 +1,6 @@
-idea: Find a way to automatically join relations w/ MySQL (_i18n, FK)
+idea: Add loop parameters field on form
+
+
 
 Drivers:
 - ElasticSearch

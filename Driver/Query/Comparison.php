@@ -20,7 +20,7 @@ namespace IndexEngine\Driver\Query;
 abstract class Comparison
 {
     const EQUAL = "=";
-    const LIKE  = "--\_(=.=)_/--";
+    const LIKE  = "LIKE";
     const NOT_EQUAL = "<>";
     const LESS = "<";
     const LESS_EQUAL = "<=";

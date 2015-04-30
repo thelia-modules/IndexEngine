@@ -85,7 +85,7 @@ class DatabaseSubscriber implements EventSubscriberInterface
 
             $table = $configuration->getEntity();
             $columns = $configuration->getColumns();
-            $conditions = $configuration->getExtraDataEntry("criteria", []);
+            $conditions = $configuration->getCriteria();
 
             $query = new IndexQuery($event->getType(), $table);
 
