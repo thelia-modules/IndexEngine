@@ -68,7 +68,7 @@ class IndexPersistCommand extends ContainerAwareCommand
                     "",
                     "There is no data to index",
                     ""
-                ], "bg=blue;fg=black");
+                ], "bg=blue;fg=white");
             } else {
                 $tableHelper = new TableHelper();
                 $dataToIndex->rewind();
