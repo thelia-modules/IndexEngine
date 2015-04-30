@@ -17,17 +17,18 @@ use IndexEngine\Model\Map\IndexEngineDriverConfigurationTableMap;
 use Symfony\Component\Console\Helper\TableHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Thelia\Command\ContainerAwareCommand;
 
 /**
  * Class IndexDriverConfigurationListCommand
  * @package IndexEngine\IO\Command
  * @author Benjamin Perche <benjamin@thelia.net>
  */
-class IndexDriverConfigurationListCommand extends ContainerAwareCommand
+class IndexDriverConfigurationListCommand extends IndexEngineCommand
 {
     protected function configure()
     {
+        parent::configure();
+
         $this
             ->setName("index:driver:configuration:list")
             ->setDescription("List all the driver configurations")

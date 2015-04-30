@@ -15,18 +15,18 @@ namespace IndexEngine\IO\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Thelia\Command\ContainerAwareCommand;
-use Thelia\Core\HttpFoundation\Request;
 
 /**
  * Class IndexDeleteCommand
  * @package IndexEngine\IO\Command
  * @author Benjamin Perche <benjamin@thelia.net>
  */
-class IndexDeleteCommand extends ContainerAwareCommand
+class IndexDeleteCommand extends IndexEngineCommand
 {
     protected function configure()
     {
+        parent::configure();
+
         $this
             ->setName("index:delete")
             ->setDescription("Deletes an index")
@@ -42,6 +42,8 @@ class IndexDeleteCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $this->enterRequestScope($input);
+
         $driverCode = $input->getArgument("driver-configuration");
         $indexCode = $input->getArgument("index-code");
 
@@ -68,20 +70,5 @@ class IndexDeleteCommand extends ContainerAwareCommand
         ], "bg=green;fg=black");
 
         return 0;
-    }
-
-    /**
-     * @return \IndexEngine\Manager\ConfigurationManagerInterface
-     */
-    protected function getManager()
-    {
-        $container = $this->getContainer();
-
-        if (!$container->isScopeActive("request")) {
-            $container->enterScope("request");
-            $container->set("request", new Request());
-        }
-
-        return $container->get("index_engine.configuration.manager");
     }
 }

@@ -23,10 +23,12 @@ use Thelia\Core\HttpFoundation\Request;
  * @package IndexEngine\IO\Command
  * @author Benjamin Perche <benjamin@thelia.net>
  */
-class IndexCreateCommand extends ContainerAwareCommand
+class IndexCreateCommand extends IndexEngineCommand
 {
     protected function configure()
     {
+        parent::configure();
+
         $this
             ->setName("index:create")
             ->setDescription("Create the index for the given index configuration")
@@ -36,7 +38,7 @@ class IndexCreateCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->enterRequestScope();
+        $this->enterRequestScope($input);
         $configurationCode = $input->getArgument("index-configuration");
 
         $indexConfiguration = $this->getIndexManager()->getConfigurationEntityFromCode($configurationCode);
@@ -57,22 +59,4 @@ class IndexCreateCommand extends ContainerAwareCommand
         ], "bg=green;fg=black");
     }
 
-
-    /**
-     * @return \IndexEngine\Manager\IndexConfigurationManagerInterface
-     */
-    protected function getIndexManager()
-    {
-        return $this->getContainer()->get("index_engine.index_configuration_manager");
-    }
-
-    protected function enterRequestScope()
-    {
-        $container = $this->getContainer();
-
-        if (!$container->isScopeActive("request")) {
-            $container->enterScope("request");
-            $container->set("request", new Request());
-        }
-    }
 }

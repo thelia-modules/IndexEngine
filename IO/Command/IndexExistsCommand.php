@@ -15,19 +15,19 @@ namespace IndexEngine\IO\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Thelia\Command\ContainerAwareCommand;
 use Thelia\Command\Output\TheliaConsoleOutput;
-use Thelia\Core\HttpFoundation\Request;
 
 /**
  * Class IndexExistsCommand
  * @package IndexEngine\IO\Command
  * @author Benjamin Perche <benjamin@thelia.net>
  */
-class IndexExistsCommand extends ContainerAwareCommand
+class IndexExistsCommand extends IndexEngineCommand
 {
     protected function configure()
     {
+        parent::configure();
+
         $this
             ->setName("index:exists")
             ->setDescription("Checks if an index exists")
@@ -43,10 +43,12 @@ class IndexExistsCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $this->enterRequestScope($input);
+
         $configurationCode = $input->getArgument("driver-configuration");
         $indexName = $input->getArgument("index-name");
 
-        $configuration = $this->getManager()->getConfigurationFromCode($configurationCode, true);
+        $configuration = $this->getDriverManager()->getConfigurationFromCode($configurationCode, true);
         $driver = $configuration->getDriver();
 
         if ($driver->indexExists(null, $indexName, $indexName)) {
@@ -66,20 +68,5 @@ class IndexExistsCommand extends ContainerAwareCommand
         ], "bg=red;fg=white");
 
         return 1;
-    }
-
-    /**
-     * @return \IndexEngine\Manager\ConfigurationManagerInterface
-     */
-    protected function getManager()
-    {
-        $container = $this->getContainer();
-
-        if (!$container->isScopeActive("request")) {
-            $container->enterScope("request");
-            $container->set("request", new Request());
-        }
-
-        return $container->get("index_engine.configuration.manager");
     }
 }

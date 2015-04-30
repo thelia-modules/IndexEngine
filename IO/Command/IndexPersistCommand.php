@@ -17,18 +17,18 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Thelia\Command\ContainerAwareCommand;
-use Thelia\Core\HttpFoundation\Request;
 
 /**
  * Class IndexPersistCommand
  * @package IndexEngine\IO\Command
  * @author Benjamin Perche <benjamin@thelia.net>
  */
-class IndexPersistCommand extends ContainerAwareCommand
+class IndexPersistCommand extends IndexEngineCommand
 {
     protected function configure()
     {
+        parent::configure();
+
         $this
             ->setName("index:persist")
             ->setDescription("Collect the data and store it in the index server")
@@ -40,7 +40,7 @@ class IndexPersistCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->enterRequestScope();
+        $this->enterRequestScope($input);
 
         $dryRun = $input->getOption("dry-run");
         $debug = $input->getOption("debug");
@@ -95,24 +95,6 @@ class IndexPersistCommand extends ContainerAwareCommand
                 ),
                 ""
             ], "bg=green;fg=black");
-        }
-    }
-
-    /**
-     * @return \IndexEngine\Manager\IndexConfigurationManagerInterface
-     */
-    protected function getIndexManager()
-    {
-        return $this->getContainer()->get("index_engine.index_configuration_manager");
-    }
-
-    protected function enterRequestScope()
-    {
-        $container = $this->getContainer();
-
-        if (!$container->isScopeActive("request")) {
-            $container->enterScope("request");
-            $container->set("request", new Request());
         }
     }
 }
