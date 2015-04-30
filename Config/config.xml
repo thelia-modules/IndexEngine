@@ -26,6 +26,7 @@
     <parameter key="index_engine.form.type.index_mapping_type_type.class">IndexEngine\Form\Type\IndexMappingTypeType</parameter>
     <parameter key="index_engine.default_index_mapping.class">IndexEngine\Entity\IndexMapping</parameter>
     <parameter key="index_engine.form.type.index_mapping_type.class">IndexEngine\Form\Type\IndexMappingType</parameter>
+
     <!-- Commands -->
     <parameter key="index_engine.command.list_drivers.class">IndexEngine\IO\Command\IndexDriverListCommand</parameter>
     <parameter key="index_engine.command.index_exists.class">IndexEngine\IO\Command\IndexExistsCommand</parameter>
@@ -33,6 +34,7 @@
     <parameter key="index_engine.command.index_delete.class">IndexEngine\IO\Command\IndexDeleteCommand</parameter>
     <parameter key="index_engine.command.index_persist.class">IndexEngine\IO\Command\IndexPersistCommand</parameter>
     <parameter key="index_engine.command.configuration_list.class">IndexEngine\IO\Command\IndexDriverConfigurationListCommand</parameter>
+
     <!-- Drivers -->
     <parameter key="index_engine.driver.elastic_search.class">IndexEngine\Driver\Bridge\ElasticSearch\ElasticSearchDriver</parameter>
     <parameter key="index_engine.driver.elastic_search_listener.class">IndexEngine\Driver\Bridge\ElasticSearch\ElasticSearchListener</parameter>
@@ -70,8 +72,10 @@
       <argument type="service" id="service_container"/>
     </service>
     <!-- Configuration collectors and rendering services -->
-    <service id="index_engine.database_collector" class="%index_engine.database_collector.class%">
+    <service id="index_engine.database_collector" class="%index_engine.database_collector.class%" scope="request">
       <argument type="service" id="index_engine.propel_connection"/>
+        <argument type="service" id="index_engine.index_configuration_manager" />
+        <argument type="service" id="index_engine.sql_manager" />
       <tag name="index_engine.event_subscriber"/>
     </service>
     <service id="index_engine.database_collector.render" class="%index_engine.database_collector.render.class%" scope="request">
@@ -81,8 +85,9 @@
       <argument type="service" id="index_engine.index_configuration_manager"/>
       <tag name="kernel.event_subscriber"/>
     </service>
-    <service id="index_engine.loop_collector" class="%index_engine.loop_collector.class%">
+    <service id="index_engine.loop_collector" class="%index_engine.loop_collector.class%" scope="request">
       <argument>%Thelia.parser.loops%</argument>
+      <argument type="service" id="index_engine.index_configuration_manager"/>
       <argument type="service" id="service_container"/>
       <argument type="service" id="thelia.logger"/>
       <tag name="index_engine.event_subscriber"/>

@@ -97,6 +97,13 @@ interface IndexQueryInterface
     public function getCriterionGroup($name);
 
     /**
+     * @return array
+     *
+     * This method dumps all the criterion groups and their links.
+     */
+    public function getCriterionGroups();
+
+    /**
      * @return $this
      *
      * Set the default mode to Link::LINK_OR

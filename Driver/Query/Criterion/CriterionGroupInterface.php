@@ -11,8 +11,8 @@
 /*************************************************************************************/
 
 namespace IndexEngine\Driver\Query\Criterion;
-use IndexEngine\Driver\Query\Link;
 
+use IndexEngine\Driver\Query\Link;
 
 /**
  * Interface CriterionGroupInterface
@@ -63,4 +63,11 @@ interface CriterionGroupInterface
      * Dump all the criteria
      */
     public function getCriteria();
+
+    /**
+     * @return int
+     *
+     * Get the current entry number of the collection
+     */
+    public function count();
 }

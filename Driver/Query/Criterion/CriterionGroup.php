@@ -25,6 +25,7 @@ class CriterionGroup extends AbstractCollection implements CriterionGroupInterfa
 {
     /** @var array  */
     private $collection = array();
+    private $collectionCount = 0;
 
     /**
      * @param CriterionInterface $criterion
@@ -41,6 +42,8 @@ class CriterionGroup extends AbstractCollection implements CriterionGroupInterfa
         } else {
             $this->collection[$this->resolveString($name, __METHOD__)] = [$criterion, $link];
         }
+
+        $this->collectionCount++;
 
         return $this;
     }
@@ -73,6 +76,7 @@ class CriterionGroup extends AbstractCollection implements CriterionGroupInterfa
         }
 
         unset($this->collection[$this->resolveString($name, __METHOD__)]);
+        $this->collectionCount--;
 
         return $this;
     }
@@ -102,5 +106,15 @@ class CriterionGroup extends AbstractCollection implements CriterionGroupInterfa
     public function getCriteria()
     {
         return $this->collection;
+    }
+
+    /**
+     * @return int
+     *
+     * Get the current entry number of the collection
+     */
+    public function count()
+    {
+        return $this->collectionCount;
     }
 }

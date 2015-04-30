@@ -51,4 +51,11 @@ interface CriterionInterface
      * @return $this
      */
     public function setComparison($comparison);
+
+    /**
+     * @return string
+     *
+     * The criterion can be represented as a string
+     */
+    public function __toString();
 }

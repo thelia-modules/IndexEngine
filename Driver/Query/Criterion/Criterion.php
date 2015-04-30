@@ -90,4 +90,14 @@ class Criterion implements CriterionInterface
         $this->comparison = $comparison;
         return $this;
     }
+
+    /**
+     * @return string
+     *
+     * The criterion can be represented as a string
+     */
+    public function __toString()
+    {
+        return sprintf("%s %s \"%s\"", $this->column, $this->comparison, $this->value);
+    }
 }

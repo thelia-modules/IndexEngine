@@ -12,9 +12,12 @@
 
 namespace IndexEngine\Discovering\Collector;
 
+use IndexEngine\Driver\Event\IndexEvent;
+use IndexEngine\Entity\IndexData;
 use IndexEngine\Event\Module\CollectEvent;
 use IndexEngine\Event\Module\EntityCollectEvent;
 use IndexEngine\Event\Module\EntityColumnsCollectEvent;
+use IndexEngine\Manager\IndexConfigurationManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -30,13 +33,34 @@ class LoopSubscriber implements EventSubscriberInterface
 {
     const TYPE = "loop";
 
+    /**
+     * @var array
+     */
     private $loopDefinition;
+
+    /**
+     * @var IndexConfigurationManagerInterface
+     */
+    private $indexManager;
+
+    /**
+     * @var ContainerInterface
+     */
     private $container;
+
+    /**
+     * @var NullLogger
+     */
     private $logger;
 
-    public function __construct(array $loopDefinition, ContainerInterface $container, LoggerInterface $logger = null)
-    {
+    public function __construct(
+        array $loopDefinition,
+        IndexConfigurationManagerInterface $indexManager,
+        ContainerInterface $container,
+        LoggerInterface $logger = null
+    ) {
         $this->loopDefinition = $loopDefinition;
+        $this->indexManager = $indexManager;
         $this->container = $container;
         $this->logger = $logger ?: new NullLogger();
     }
@@ -88,6 +112,31 @@ class LoopSubscriber implements EventSubscriberInterface
         }
     }
 
+    public function collectData(IndexEvent $event)
+    {
+        if ($event->getType() === static::TYPE) {
+            $configuration = $this->indexManager->getConfigurationEntityFromCode($event->getIndexCode());
+
+            if (isset($this->loopDefinition[$configuration->getEntity()])) {
+                $reflection = new \ReflectionClass($this->loopDefinition[$configuration->getEntity()]);
+
+                /** @var \Thelia\Core\Template\Element\BaseLoop $loopInstance */
+                $loopInstance = $reflection->newInstanceArgs([$this->container]);
+                $loopInstance->initializeArgs($configuration->getExtraDataEntry("loopCriteria", []));
+
+                $loopResult = $loopInstance->exec($pagination);
+
+                $indexDataVector = $event->getIndexDataVector();
+                $mapping = $event->getMapping();
+
+                /** @var \Thelia\Core\Template\Element\LoopResultRow $loopResultRow */
+                foreach ($loopResult as $loopResultRow) {
+                    $indexDataVector[] = (new IndexData())->setData($loopResultRow->getVarVal(), $mapping);
+                }
+            }
+        }
+    }
+
     /**
      * Returns an array of event names this subscriber wants to listen to.
      *
@@ -114,6 +163,7 @@ class LoopSubscriber implements EventSubscriberInterface
             IndexEngineEvents::COLLECT_ENTITY_TYPES     => ["addLoopType"],
             IndexEngineEvents::COLLECT_ENTITIES         => ["collectLoops"],
             IndexEngineEvents::COLLECT_ENTITY_COLUMNS   => ["collectLoopOutputs"],
+            IndexEngineEvents::COLLECT_DATA_TO_INDEX    => ["collectData"],
         ];
     }
 }

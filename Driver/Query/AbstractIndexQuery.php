@@ -195,6 +195,16 @@ abstract class AbstractIndexQuery extends AbstractCollection implements IndexQue
     }
 
     /**
+     * @return array
+     *
+     * This method dumps all the criterion groups and their links.
+     */
+    public function getCriterionGroups()
+    {
+        return $this->criterionGroups;
+    }
+
+    /**
      * @return $this
      *
      * Set the default mode to Link::LINK_OR

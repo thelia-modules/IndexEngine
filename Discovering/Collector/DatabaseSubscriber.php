@@ -12,10 +12,13 @@
 
 namespace IndexEngine\Discovering\Collector;
 
+use IndexEngine\Driver\Event\IndexEvent;
 use IndexEngine\Event\Module\CollectEvent;
 use IndexEngine\Event\Module\EntityCollectEvent;
 use IndexEngine\Event\Module\EntityColumnsCollectEvent;
 use IndexEngine\Event\Module\IndexEngineEvents;
+use IndexEngine\Manager\IndexConfigurationManagerInterface;
+use IndexEngine\Manager\SqlManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -30,9 +33,17 @@ class DatabaseSubscriber implements EventSubscriberInterface
     /** @var \PDO */
     private $con;
 
-    public function __construct(\PDO $con)
+    /** @var IndexConfigurationManagerInterface */
+    private $indexManager;
+
+    /** @var SqlManagerInterface */
+    private $sqlManager;
+
+    public function __construct(\PDO $con, IndexConfigurationManagerInterface $indexManager, SqlManagerInterface $sqlManager)
     {
         $this->con = $con;
+        $this->indexManager = $indexManager;
+        $this->sqlManager = $sqlManager;
     }
 
     public function addDatabaseType(CollectEvent $event)
@@ -65,6 +76,19 @@ class DatabaseSubscriber implements EventSubscriberInterface
         }
     }
 
+    public function collectData(IndexEvent $event)
+    {
+        if ($event->getType() === static::TYPE) {
+            $configuration = $this->indexManager->getConfigurationEntityFromCode($event->getIndexCode());
+
+            $table = $configuration->getEntity();
+            $columns = $configuration->getColumns();
+            $conditions = $configuration->getExtraDataEntry("criteria", []);
+
+
+        }
+    }
+
     /**
      * Returns an array of event names this subscriber wants to listen to.
      *
@@ -91,6 +115,7 @@ class DatabaseSubscriber implements EventSubscriberInterface
             IndexEngineEvents::COLLECT_ENTITY_TYPES     => ["addDatabaseType"],
             IndexEngineEvents::COLLECT_ENTITIES         => ["collectTables"],
             IndexEngineEvents::COLLECT_ENTITY_COLUMNS   => ["collectTableColumns"],
+            IndexEngineEvents::COLLECT_DATA_TO_INDEX    => ["collectData"],
         ];
     }
 }

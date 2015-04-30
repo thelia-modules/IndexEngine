@@ -12,6 +12,8 @@
 
 namespace IndexEngine\Manager;
 
+use IndexEngine\Driver\Query\IndexQueryInterface;
+use IndexEngine\Driver\Query\Link;
 use IndexEngine\Exception\SqlException;
 use IndexEngine\IndexEngine;
 use Symfony\Component\Translation\TranslatorInterface;
@@ -83,6 +85,85 @@ class SqlManager implements SqlManagerInterface
                     IndexEngine::MESSAGE_DOMAIN
                 )
             );
+        }
+    }
+
+    /**
+     * @param IndexQueryInterface $query
+     * @param array|null $columns
+     * @return string The built query
+     *
+     * This method compiles an IndexQueryInterface object into a SQL query
+     */
+    public function buildSqlQuery(IndexQueryInterface $query, array $columns = null)
+    {
+        $queryString = sprintf("SELECT %s FROM %s", implode(",", $columns), $query->getType());
+
+        if ("" !== $criteria = $this->buildSqlConditions($query)) {
+            $query .= sprintf(" WHERE %s", $criteria);
+        }
+
+        if (null !== $limit = $query->getLimit()) {
+            $queryString .= sprintf(" LIMIT %d", $limit);
+        }
+
+        return $queryString;
+    }
+
+    public function buildSqlConditions(IndexQueryInterface $query)
+    {
+        $criteriaString = "";
+        $criterionGroups = $query->getCriterionGroups();
+        $criterionGroupsCount = count($criterionGroups);
+
+        $groupIndex = 0;
+
+        foreach ($criterionGroups as $group) {
+            /** @var \IndexEngine\Driver\Query\Criterion\CriterionGroupInterface $criterionGroup */
+            list($criterionGroup, $link) = $group;
+
+            if (0 !== $criteriaCount = $criterionGroup->count()) {
+                $criteriaString .= "(";
+
+                $criterionIndex = 0;
+
+                foreach ($criterionGroup->getCriteria() as $criterionTable) {
+                    /** @var \IndexEngine\Driver\Query\Criterion\CriterionInterface $criterion */
+                    list($criterion, $criterionLink) = $criterionTable;
+
+                    $criteriaString .= (string) $criterion;
+
+                    $criterionIndex++;
+
+                    if ($criterionIndex !== $criteriaCount) {
+                        $this->addLink($criteriaString, $criterionLink);
+                    }
+                }
+
+                $criteriaString .= ")";
+                $groupIndex++;
+
+                if ($groupIndex !== $criterionGroupsCount) {
+                    $this->addLink($criteriaString, $link);
+                }
+            } else {
+                $criterionGroupsCount--;
+            }
+        }
+
+        return $criteriaString;
+    }
+
+    protected function addLink(&$criteriaString, $link)
+    {
+        switch ($link) {
+            case Link::LINK_AND:
+                $criteriaString .= " AND ";
+                break;
+
+            case Link::LINK_OR:
+                $criteriaString .= " OR ";
+                break;
         }
     }
 }

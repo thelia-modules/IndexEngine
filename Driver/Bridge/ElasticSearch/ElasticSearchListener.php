@@ -177,7 +177,7 @@ class ElasticSearchListener extends DriverEventSubscriber
     {
         $params = [
             "index" => $event->getIndexName(),
-            "type" => $event->getType(),
+            "type" => $event->getIndexCode(),
         ];
 
         $client = $this->getClient();
