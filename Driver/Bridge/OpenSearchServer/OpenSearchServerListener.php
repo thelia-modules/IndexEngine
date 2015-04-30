@@ -17,6 +17,10 @@ use IndexEngine\Driver\DriverEventSubscriber;
 use IndexEngine\Driver\Event\DriverConfigurationEvent;
 use IndexEngine\Driver\Event\IndexEvent;
 use IndexEngine\Driver\Event\IndexSearchQueryEvent;
+use IndexEngine\Driver\Exception\IndexNotFoundException;
+use OpenSearchServer\Handler;
+use OpenSearchServer\Index\Exists;
+use OpenSearchServer\Request;
 
 /**
  * Class OpenSearchServerListener
@@ -64,7 +68,17 @@ class OpenSearchServerListener extends DriverEventSubscriber
      */
     public function loadConfiguration(DriverConfigurationEvent $event)
     {
+        $collection = $event->getArgumentCollection();
 
+        $hostname = $collection->getArgument("hostname")->getValue();
+        $login = $collection->getArgument("login")->getValue();
+        $apiKey = $collection->getArgument("api-key")->getValue();
+
+        $this->getDriver()->addExtraConfiguration("client", new Handler([
+            "url" => $hostname,
+            "login" => $login,
+            "key" => $apiKey
+        ]));
     }
 
     /**
@@ -89,7 +103,15 @@ class OpenSearchServerListener extends DriverEventSubscriber
      */
     public function indexExists(IndexEvent $event)
     {
+        $request = new Exists();
+        $request->index($event->getIndexCode());
 
+        /** @var \OpenSearchServer\Response\Response $response */
+        $response = $this->getClient()->submit($request);
+
+        if (true !== $response->isSuccess()) {
+            throw new IndexNotFoundException(sprintf("The index '%s' doesn't exists with the current configuration", $event->getIndexCode()));
+        }
     }
 
     /**
@@ -129,5 +151,13 @@ class OpenSearchServerListener extends DriverEventSubscriber
     public function executeSearchQuery(IndexSearchQueryEvent $event)
     {
 
+    }
+
+    /**
+     * @return \OpenSearchServer\Handler
+     */
+    public function getClient()
+    {
+        return $this->getDriver()->getExtraConfiguration("client");
     }
 }
