@@ -19,8 +19,8 @@ namespace IndexEngine\Driver\Query;
  */
 class IndexQuery extends AbstractIndexQuery
 {
-    public static function create($type)
+    public static function create($type, $name)
     {
-        return new static($type);
+        return new static($type, $name);
     }
 }

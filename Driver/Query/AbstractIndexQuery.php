@@ -29,11 +29,13 @@ abstract class AbstractIndexQuery extends AbstractCollection implements IndexQue
     use FluidCallConditionTrait;
 
     private $type;
+    private $name;
     private $limit;
 
-    public function __construct($type)
+    public function __construct($type, $name)
     {
         $this->type = $this->resolveString($type, __METHOD__);
+        $this->name = $this->resolveString($name, __METHOD__);
     }
 
     /**
@@ -91,6 +93,10 @@ abstract class AbstractIndexQuery extends AbstractCollection implements IndexQue
 
         $criterionGroup = new CriterionGroup();
 
+        if (Link::LINK_DEFAULT === $innerMode) {
+            $innerMode = $this->currentMode;
+        }
+
         foreach ($values as $value) {
             $criterionGroup->addCriterion(new Criterion($column, $value, $comparison, $innerMode));
         }
@@ -130,6 +136,10 @@ abstract class AbstractIndexQuery extends AbstractCollection implements IndexQue
     {
         if (null !== $return = $this->validateMethodCall()) {
             return $return;
+        }
+
+        if (Link::LINK_DEFAULT === $outerMode) {
+            $outerMode = $this->currentMode;
         }
 
         if (null === $name) {
@@ -295,5 +305,15 @@ abstract class AbstractIndexQuery extends AbstractCollection implements IndexQue
     public function getLimit()
     {
         return $this->limit;
+    }
+
+    /**
+     * @return string
+     *
+     * The index name to apply the query on
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 }

@@ -97,10 +97,10 @@ class SqlManager implements SqlManagerInterface
      */
     public function buildSqlQuery(IndexQueryInterface $query, array $columns = null)
     {
-        $queryString = sprintf("SELECT %s FROM %s", implode(",", $columns), $query->getType());
+        $queryString = sprintf("SELECT `%s` FROM `%s`", implode("`,`", $columns), $query->getName());
 
         if ("" !== $criteria = $this->buildSqlConditions($query)) {
-            $query .= sprintf(" WHERE %s", $criteria);
+            $queryString .= sprintf(" WHERE %s", $criteria);
         }
 
         if (null !== $limit = $query->getLimit()) {
@@ -131,7 +131,7 @@ class SqlManager implements SqlManagerInterface
                     /** @var \IndexEngine\Driver\Query\Criterion\CriterionInterface $criterion */
                     list($criterion, $criterionLink) = $criterionTable;
 
-                    $criteriaString .= (string) $criterion;
+                    $criteriaString .= sprintf("`%s` %s \"%s\"", $criterion->getColumn(), $criterion->getComparison(), $criterion->getValue());
 
                     $criterionIndex++;
 
