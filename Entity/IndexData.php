@@ -12,7 +12,6 @@
 
 namespace IndexEngine\Entity;
 
-
 /**
  * Class IndexData
  * @package IndexEngine\Entity
@@ -20,8 +19,28 @@ namespace IndexEngine\Entity;
  */
 class IndexData
 {
-    public function toArray()
-    {
+    private $data = array();
 
+    /**
+     * @return array
+     */
+    public function getData()
+    {
+        return $this->data;
+    }
+
+    /**
+     * @param array $data
+     * @return $this
+     */
+    public function setData(array $data, IndexMapping $mapping)
+    {
+        foreach ($mapping->getMapping() as $column => $type) {
+            if (isset($data[$column])) {
+                $this->data[$column] = $mapping->getCastedValue($data[$column], $type);
+            }
+        }
+
+        return $this;
     }
 }

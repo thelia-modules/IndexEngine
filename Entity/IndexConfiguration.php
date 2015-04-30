@@ -209,11 +209,62 @@ class IndexConfiguration
         return $this;
     }
 
+    /**
+     * @return \IndexEngine\Driver\DriverInterface
+     */
     public function getLoadedDriver()
     {
         $driver = $this->driverConfiguration->getDriver();
         $driver->loadConfiguration($this->driverConfiguration->getConfiguration());
 
         return $driver;
+    }
+
+    /**
+     * @param string $name
+     * @param mixed $default
+     * @return mixed
+     */
+    public function getExtraDataEntry($name, $default = null)
+    {
+        if (true === $this->hasExtraDataEntry($name)) {
+            return $this->extraData[$name];
+        }
+
+        return $default;
+    }
+
+    /**
+     * @param string $name
+     * @return bool
+     */
+    public function hasExtraDataEntry($name)
+    {
+        return isset($this->extraData[$name]);
+    }
+
+    /**
+     * @param string $name
+     * @param mixed $value
+     * @return $this
+     */
+    public function setExtraDataEntry($name, $value)
+    {
+        $this->extraData[$name] = $value;
+
+        return $this;
+    }
+
+    /**
+     * @param string $name
+     * @return $this
+     */
+    public function deleteExtraDataEntry($name)
+    {
+        if ($this->hasExtraDataEntry($name)) {
+            unset($this->extraData[$name]);
+        }
+
+        return $this;
     }
 }

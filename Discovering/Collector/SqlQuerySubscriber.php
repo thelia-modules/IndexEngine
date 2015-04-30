@@ -13,8 +13,11 @@
 namespace IndexEngine\Discovering\Collector;
 
 use IndexEngine\Driver\Event\IndexEvent;
+use IndexEngine\Entity\IndexData;
 use IndexEngine\Event\Module\CollectEvent;
 use IndexEngine\Event\Module\IndexEngineEvents;
+use IndexEngine\Manager\IndexConfigurationManagerInterface;
+use IndexEngine\Manager\SqlManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 
@@ -27,6 +30,18 @@ class SqlQuerySubscriber implements EventSubscriberInterface
 {
     const TYPE = "sql query";
 
+    /** @var IndexConfigurationManagerInterface  */
+    private $indexManager;
+
+    /** @var SqlManagerInterface  */
+    private $sqlManager;
+
+    public function __construct(IndexConfigurationManagerInterface $indexManager, SqlManagerInterface $sqlManager)
+    {
+        $this->indexManager = $indexManager;
+        $this->sqlManager = $sqlManager;
+    }
+
     public function addSqlQueryType(CollectEvent $event)
     {
         $event->add(static::TYPE);
@@ -34,7 +49,18 @@ class SqlQuerySubscriber implements EventSubscriberInterface
 
     public function collectData(IndexEvent $event)
     {
+        if ($event->getType() === static::TYPE) {
+            $configuration = $this->indexManager->getConfigurationEntityFromCode($event->getIndexCode());
 
+            if (null !== $query = $configuration->getExtraDataEntry("query")) {
+                $dataVector = $event->getIndexDataVector();
+                $mapping = $event->getMapping();
+
+                foreach ($this->sqlManager->executeQuery($query, PHP_INT_MAX) as $row) {
+                    $dataVector[] = (new IndexData())->setData($row, $mapping);
+                }
+            }
+        }
     }
 
     /**

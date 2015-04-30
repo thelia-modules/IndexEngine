@@ -13,9 +13,11 @@
 namespace IndexEngine\Manager;
 
 use IndexEngine\Discovering\Repository\IndexableEntityRepositoryInterface;
+use IndexEngine\Driver\Event\IndexEvent;
 use IndexEngine\Entity\IndexConfiguration;
 use IndexEngine\Entity\IndexMapping;
 use IndexEngine\Event\IndexEngineIndexEvents;
+use IndexEngine\Event\Module\IndexEngineEvents;
 use IndexEngine\Event\RenderConfigurationEvent;
 use IndexEngine\Exception\InvalidArgumentException;
 use IndexEngine\Model\IndexEngineIndex;
@@ -35,7 +37,12 @@ class IndexConfigurationManager implements IndexConfigurationManagerInterface
     /**
      * @var EventDispatcherInterface
      */
-    private $dispatcher;
+    private $theliaDispatcher;
+
+    /**
+     * @var EventDispatcherInterface
+     */
+    private $indexEngineDispatcher;
 
     /**
      * @var Request
@@ -51,12 +58,14 @@ class IndexConfigurationManager implements IndexConfigurationManagerInterface
     private $driverManager;
 
     public function __construct(
-        EventDispatcherInterface $dispatcher,
+        EventDispatcherInterface $theliaDispatcher,
+        EventDispatcherInterface $indexEngineDispatcher,
         Request $request,
         IndexableEntityRepositoryInterface $repository,
         ConfigurationManagerInterface $driverManager
     ) {
-        $this->dispatcher = $dispatcher;
+        $this->theliaDispatcher = $theliaDispatcher;
+        $this->indexEngineDispatcher = $indexEngineDispatcher;
         $this->request = $request;
         $this->repository = $repository;
         $this->driverManager = $driverManager;
@@ -70,7 +79,7 @@ class IndexConfigurationManager implements IndexConfigurationManagerInterface
      */
     public function renderConfigurationTemplate($type)
     {
-        return $this->dispatcher
+        return $this->theliaDispatcher
             ->dispatch(IndexEngineIndexEvents::RENDER_CONFIGURATION_TEMPLATE, new RenderConfigurationEvent($type))
             ->getContent()
         ;
@@ -139,7 +148,7 @@ class IndexConfigurationManager implements IndexConfigurationManagerInterface
 
     public function renderConfigurationColumnsTemplate($type, $entity)
     {
-        return $this->dispatcher
+        return $this->theliaDispatcher
             ->dispatch(IndexEngineIndexEvents::RENDER_CONFIGURATION_COLUMNS_TEMPLATE, new RenderConfigurationEvent($type, $entity))
             ->getContent()
         ;
@@ -266,5 +275,25 @@ class IndexConfigurationManager implements IndexConfigurationManagerInterface
         $configuration->setExtraData($extraConfiguration);
 
         return $configuration;
+    }
+
+    /**
+     * @param IndexConfiguration $configuration
+     * @return \IndexEngine\Entity\IndexDataVector
+     *
+     * This method has to collect the data to index and return an IndexData vector
+     */
+    public function collectDataForType(IndexConfiguration $configuration)
+    {
+        $event = new IndexEvent(
+            $configuration->getType(),
+            $configuration->getCode(),
+            $configuration->getTitle(),
+            $configuration->getMapping()
+        );
+
+        $this->indexEngineDispatcher->dispatch(IndexEngineEvents::COLLECT_DATA_TO_INDEX, $event);
+
+        return $event->getIndexDataVector();
     }
 }

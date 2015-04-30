@@ -12,7 +12,6 @@
 
 namespace IndexEngine\Driver\Exception;
 
-
 /**
  * Class MissingLibraryException
  * @package IndexEngine\Driver\Exception
@@ -23,9 +22,18 @@ class MissingLibraryException extends \RuntimeException
     public static function createComposer($package, $libraryName)
     {
         return new static(sprintf(
-            "You need to install the a package to use %s. Please run: composer require %s",
+            "You need to install a package to use %s. Please run: composer require %s",
             $libraryName,
             $package
+        ));
+    }
+
+    public static function createExtension($extension, $libraryName)
+    {
+        return new static(sprintf(
+            "You need to install a PHP extension to use %s. Please install: %s",
+            $libraryName,
+            $extension
         ));
     }
 }

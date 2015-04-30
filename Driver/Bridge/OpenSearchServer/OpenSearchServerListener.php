@@ -20,7 +20,6 @@ use IndexEngine\Driver\Event\IndexSearchQueryEvent;
 use IndexEngine\Driver\Exception\IndexNotFoundException;
 use OpenSearchServer\Handler;
 use OpenSearchServer\Index\Exists;
-use OpenSearchServer\Request;
 
 /**
  * Class OpenSearchServerListener
@@ -56,7 +55,7 @@ class OpenSearchServerListener extends DriverEventSubscriber
         ;
 
         $collection->setDefaults([
-            "hostname" => "http://localhost:9090"
+            "hostname" => OpenSearchServerDriver::DEFAULT_HOST
         ]);
     }
 

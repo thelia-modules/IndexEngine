@@ -22,6 +22,8 @@ use IndexEngine\Driver\Exception\MissingLibraryException;
  */
 class OpenSearchServerDriver extends AbstractEventDispatcherAwareDriver
 {
+    const DEFAULT_HOST = "http://localhost:9090";
+
     public function checkDependencies()
     {
         if (!class_exists("OpenSearchServer\\Handler")) {

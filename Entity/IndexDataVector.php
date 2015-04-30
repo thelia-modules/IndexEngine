@@ -159,6 +159,10 @@ class IndexDataVector implements \ArrayAccess, \Iterator
     public function rewind()
     {
         $this->cursor = 0;
+    }
 
+    public function count()
+    {
+        return $this->collectionCount;
     }
 }

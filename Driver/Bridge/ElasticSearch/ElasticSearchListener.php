@@ -182,8 +182,9 @@ class ElasticSearchListener extends DriverEventSubscriber
 
         $client = $this->getClient();
 
+        /** @var \IndexEngine\Entity\IndexData $data */
         foreach ($event->getIndexDataVector() as $data) {
-            $params["body"] = $data->toArray();
+            $params["body"] = $data->getData();
 
             $client->index($params);
         }

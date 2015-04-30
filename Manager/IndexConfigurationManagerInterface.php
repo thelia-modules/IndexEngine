@@ -11,6 +11,7 @@
 /*************************************************************************************/
 namespace IndexEngine\Manager;
 
+use IndexEngine\Entity\IndexConfiguration;
 
 /**
  * Class IndexConfigurationManager
@@ -115,4 +116,12 @@ interface IndexConfigurationManagerInterface
      * @throws \IndexEngine\Exception\InvalidArgumentException
      */
     public function getConfigurationEntityFromCode($code);
+
+    /**
+     * @param IndexConfiguration $configuration
+     * @return \IndexEngine\Entity\IndexDataVector
+     *
+     * This method has to collect the data to index and return an IndexData vector
+     */
+    public function collectDataForType(IndexConfiguration $configuration);
 }

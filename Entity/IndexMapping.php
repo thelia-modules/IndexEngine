@@ -101,4 +101,59 @@ class IndexMapping
     {
         return $this->types;
     }
+
+    /**
+     * @param $entry
+     * @param $type
+     * @return mixed
+     *
+     * Converts the entry to the given type
+     */
+    public function getCastedValue($entry, $type)
+    {
+        switch ($type) {
+            case IndexMapping::TYPE_BOOLEAN:
+                $castedValue = (bool) $entry;
+                break;
+
+            case IndexMapping::TYPE_INTEGER:
+                $castedValue = (int) $entry;
+                break;
+
+            case IndexMapping::TYPE_FLOAT:
+                $castedValue = (float) $entry;
+                break;
+
+            case IndexMapping::TYPE_DATE:
+                if ($entry instanceof \DateTime) {
+                    $entry =  $entry->format("Y-m-d");
+                }
+
+                $castedValue = (string) $entry;
+                break;
+
+            case IndexMapping::TYPE_TIME:
+                if ($entry instanceof \DateTime) {
+                    $entry =  $entry->format("H:i:s");
+                }
+
+                $castedValue = (string) $entry;
+                break;
+
+            case IndexMapping::TYPE_DATETIME:
+                if ($entry instanceof \DateTime) {
+                    $entry =  $entry->format(\DateTime::ATOM);
+                }
+
+                $castedValue = (string) $entry;
+                break;
+
+            default:
+            case IndexMapping::TYPE_STRING:
+            case IndexMapping::TYPE_BIG_TEXT:
+                $castedValue = (string) $entry;
+        }
+
+        return $castedValue;
+    }
 }
