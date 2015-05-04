@@ -31,6 +31,8 @@ abstract class AbstractIndexQuery extends AbstractCollection implements IndexQue
     private $type;
     private $name;
     private $limit;
+    private $offset;
+    private $orderBy;
 
     public function __construct($type, $name)
     {
@@ -315,5 +317,74 @@ abstract class AbstractIndexQuery extends AbstractCollection implements IndexQue
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * @param $offset
+     * @return $this
+     *
+     * Set the current offset
+     */
+    public function setOffset($offset)
+    {
+        if (null !== $return = $this->validateMethodCall()) {
+            return $return;
+        }
+
+        $this->offset = $offset;
+
+        return $this;
+    }
+
+    /**
+     * @return int|null
+     *
+     * Get the current offset
+     */
+    public function getOffset()
+    {
+        return $this->offset;
+    }
+
+    /**
+     * @param string $column
+     * @param string $type
+     * @return $this
+     *
+     * Add a field to the order stack
+     */
+    public function orderBy($column, $type = Order::ASC)
+    {
+        if (null !== $return = $this->validateMethodCall()) {
+            return $return;
+        }
+
+        $this->orderBy[] = [$column, $type];
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     *
+     * Return the reference to the orderBy stack
+     */
+    public function &getOrderBy()
+    {
+        return $this->orderBy;
+    }
+
+    /**
+     * @return $this
+     *
+     * Reset the order by stack
+     */
+    public function clearOrderBy()
+    {
+        if (null !== $return = $this->validateMethodCall()) {
+            return $return;
+        }
+
+        $this->orderBy = array();
     }
 }

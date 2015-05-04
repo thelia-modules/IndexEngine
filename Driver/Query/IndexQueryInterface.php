@@ -145,4 +145,42 @@ interface IndexQueryInterface
      * Get the max number of results to return
      */
     public function getLimit();
+
+    /**
+     * @param $offset
+     * @return $this
+     *
+     * Set the current offset
+     */
+    public function setOffset($offset);
+
+    /**
+     * @return int|null
+     *
+     * Get the current offset
+     */
+    public function getOffset();
+
+    /**
+     * @param string $column
+     * @param string $type
+     * @return $this
+     *
+     * Add a field to the order stack
+     */
+    public function orderBy($column, $type = Order::ASC);
+
+    /**
+     * @return array
+     *
+     * Return the reference to the orderBy stack
+     */
+    public function &getOrderBy();
+
+    /**
+     * @return $this
+     *
+     * Reset the order by stack
+     */
+    public function clearOrderBy();
 }

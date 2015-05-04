@@ -23,6 +23,7 @@ use IndexEngine\Driver\Event\IndexEvent;
 use IndexEngine\Driver\Event\IndexSearchQueryEvent;
 use IndexEngine\Driver\Exception\IndexNotFoundException;
 use IndexEngine\Driver\Exception\TimeoutException;
+use IndexEngine\Driver\Query\Order;
 use IndexEngine\Entity\IndexData;
 use IndexEngine\Entity\IndexDataVector;
 use IndexEngine\Entity\IndexMapping;
@@ -201,7 +202,38 @@ class ElasticSearchListener extends DriverEventSubscriber
      */
     public function prepareSearchQuery(IndexSearchQueryEvent $event)
     {
+        $body = [];
+        $query = $event->getQuery();
 
+        if (null !== $limit = $query->getLimit()) {
+            $body["size"] = $limit;
+        }
+
+        if (null !== $orderBy = $query->getOrderBy()) {
+            foreach ($orderBy as $order) {
+                list ($orderColumn, $orderType) = $order;
+
+                switch ($orderType) {
+                    case Order::ASC:
+                        $body["sort"][$orderColumn] = "asc";
+                        break;
+
+                    case Order::DESC:
+                        $body["sort"][$orderColumn] = "desc";
+                        break;
+                }
+
+            }
+        }
+
+        foreach ($query->getCriterionGroups() as $criterionGroup) {
+            /** @var \IndexEngine\Driver\Query\Criterion\CriterionGroup $group */
+            list ($group, $link) = $criterionGroup;
+
+            if (0 !== $groupCount = $group->count()) {
+
+            }
+        }
     }
 
     /**
