@@ -48,7 +48,7 @@ class IndexEngineCommand extends ContainerAwareCommand
      */
     protected function getDriverManager()
     {
-        return $this->getContainer()->get("index_engine.configuration_manager");
+        return $this->getContainer()->get("index_engine.configuration.manager");
     }
 
     protected function enterRequestScope(InputInterface $input)

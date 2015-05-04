@@ -47,7 +47,7 @@ class IndexDeleteCommand extends IndexEngineCommand
         $driverCode = $input->getArgument("driver-configuration");
         $indexCode = $input->getArgument("index-code");
 
-        $configuration = $this->getManager()->getConfigurationFromCode($driverCode, true);
+        $configuration = $this->getDriverManager()->getConfigurationFromCode($driverCode, true);
 
         $driver = $configuration->getDriver();
 

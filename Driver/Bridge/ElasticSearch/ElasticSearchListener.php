@@ -208,7 +208,22 @@ class ElasticSearchListener extends DriverEventSubscriber
      */
     public function executeSearchQuery(IndexSearchQueryEvent $event)
     {
+        $query = $event->getQuery();
 
+        $params = [
+            "type" => $query->getType(),
+            "index" => $query->getName(),
+            "body" => $event->getExtraData()
+        ];
+
+        $event->setResults(
+            $this->filterResults($this->getClient()->search($params)
+        ));
+    }
+
+    public function filterResults(array $results)
+    {
+        return $results; // @TODO standardize output
     }
 
     /**
@@ -230,13 +245,13 @@ class ElasticSearchListener extends DriverEventSubscriber
                 return ["type" => "integer"];
 
             case IndexMapping::TYPE_DATE:
-                return ["type" => "date"];
+                return ["type" => "date", "format" => "YYYY-MM-dd"];
 
             case IndexMapping::TYPE_DATETIME:
-                return ["type" => "date_time"];
+                return ["type" => "date"];
 
             case IndexMapping::TYPE_TIME:
-                return ["type" => "time"];
+                return ["type" => "date", "format" => "HH:mm:ss"];
 
             default:
             case IndexMapping::TYPE_STRING:

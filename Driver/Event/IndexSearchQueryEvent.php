@@ -31,6 +31,9 @@ class IndexSearchQueryEvent extends Event
     /** @var IndexQueryInterface */
     private $query;
 
+    /** @var  array */
+    private $extraData = array();
+
     public function __construct(IndexQueryInterface $query, IndexDataVector $indexDataVector = null)
     {
         $this->query = $query;
@@ -80,6 +83,24 @@ class IndexSearchQueryEvent extends Event
     public function setQuery(IndexQueryInterface $query)
     {
         $this->query = $query;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getExtraData()
+    {
+        return $this->extraData;
+    }
+
+    /**
+     * @param array $extraData
+     * @return $this
+     */
+    public function setExtraData(array $extraData)
+    {
+        $this->extraData = $extraData;
         return $this;
     }
 }
