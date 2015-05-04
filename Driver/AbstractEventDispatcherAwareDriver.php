@@ -170,16 +170,17 @@ abstract class AbstractEventDispatcherAwareDriver extends AbstractCollection imp
 
     /**
      * @param IndexQueryInterface $query
+     * @param IndexMapping $mapping
      * @return \IndexEngine\Entity\IndexDataVector
      *
      * Translate the query for the search engine, execute it and return the values with a IndexData vector.
      *
      * Even if the response is empty, return an empty vector.
      */
-    public function executeSearchQuery(IndexQueryInterface $query)
+    public function executeSearchQuery(IndexQueryInterface $query, IndexMapping $mapping)
     {
         /** @var IndexSearchQueryEvent $event */
-        $event = $this->dispatch(DriverEvents::INDEXES_PERSIST, new IndexSearchQueryEvent($query));
+        $event = $this->dispatch(DriverEvents::INDEX_SEARCH_QUERY, new IndexSearchQueryEvent($query, $mapping));
 
         return $event->getResults();
     }

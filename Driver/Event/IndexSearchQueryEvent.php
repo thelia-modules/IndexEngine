@@ -16,6 +16,7 @@ use IndexEngine\Driver\Query\IndexQuery;
 use IndexEngine\Driver\Query\IndexQueryInterface;
 use IndexEngine\Entity\IndexData;
 use IndexEngine\Entity\IndexDataVector;
+use IndexEngine\Entity\IndexMapping;
 use Symfony\Component\EventDispatcher\Event;
 
 /**
@@ -34,9 +35,13 @@ class IndexSearchQueryEvent extends Event
     /** @var  array */
     private $extraData = array();
 
-    public function __construct(IndexQueryInterface $query, IndexDataVector $indexDataVector = null)
+    /** @var IndexMapping */
+    private $mapping;
+
+    public function __construct(IndexQueryInterface $query, IndexMapping $mapping, IndexDataVector $indexDataVector = null)
     {
         $this->query = $query;
+        $this->mapping = $mapping;
         $this->results = $indexDataVector ?: new IndexDataVector();
     }
 
@@ -101,6 +106,24 @@ class IndexSearchQueryEvent extends Event
     public function setExtraData(array $extraData)
     {
         $this->extraData = $extraData;
+        return $this;
+    }
+
+    /**
+     * @return IndexMapping
+     */
+    public function getMapping()
+    {
+        return $this->mapping;
+    }
+
+    /**
+     * @param IndexMapping $mapping
+     * @return $this
+     */
+    public function setMapping(IndexMapping $mapping)
+    {
+        $this->mapping = $mapping;
         return $this;
     }
 }

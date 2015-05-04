@@ -10,27 +10,14 @@
 /* file that was distributed with this source code.                                  */
 /*************************************************************************************/
 
-namespace IndexEngine\Driver\Query;
+namespace IndexEngine\Driver\Exception;
 
 
 /**
- * Interface IndexActiveQueryInterface
- * @package IndexEngine\Driver\Query
+ * Class TimeoutException
+ * @package IndexEngine\Driver\Exception
  * @author Benjamin Perche <benjamin@thelia.net>
  */
-interface IndexActiveQueryInterface extends IndexQueryInterface
+class TimeoutException extends \RuntimeException
 {
-    /**
-     * @return \IndexEngine\Entity\IndexDataVector
-     *
-     * Return the list of results matching the query
-     */
-    public function find();
-
-    /**
-     * @return null|\IndexEngine\Entity\IndexData
-     *
-     * Return the first result found matching the query, null if no result is found
-     */
-    public function findOne();
 }

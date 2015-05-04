@@ -101,13 +101,14 @@ interface DriverInterface
 
     /**
      * @param IndexQueryInterface $query
+     * @param IndexMapping $mapping
      * @return \IndexEngine\Entity\IndexDataVector
      *
      * Translate the query for the search engine, execute it and return the values with a IndexData vector.
      *
      * Even if the response is empty, return an empty vector.
      */
-    public function executeSearchQuery(IndexQueryInterface $query);
+    public function executeSearchQuery(IndexQueryInterface $query, IndexMapping $mapping);
 
     /**
      * @param string $name

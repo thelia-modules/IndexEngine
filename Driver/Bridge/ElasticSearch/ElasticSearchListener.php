@@ -22,6 +22,9 @@ use IndexEngine\Driver\Event\DriverEvents;
 use IndexEngine\Driver\Event\IndexEvent;
 use IndexEngine\Driver\Event\IndexSearchQueryEvent;
 use IndexEngine\Driver\Exception\IndexNotFoundException;
+use IndexEngine\Driver\Exception\TimeoutException;
+use IndexEngine\Entity\IndexData;
+use IndexEngine\Entity\IndexDataVector;
 use IndexEngine\Entity\IndexMapping;
 
 /**
@@ -216,14 +219,26 @@ class ElasticSearchListener extends DriverEventSubscriber
             "body" => $event->getExtraData()
         ];
 
+        $results = $this->getClient()->search($params);
+
+        if ($results["timed_out"]) {
+            throw new TimeoutException("The query timed out");
+        }
+
         $event->setResults(
-            $this->filterResults($this->getClient()->search($params)
-        ));
+            $this->filterResults($results["hits"]["hits"], $event->getMapping())
+        );
     }
 
-    public function filterResults(array $results)
+    public function filterResults(array $results, IndexMapping $mapping)
     {
-        return $results; // @TODO standardize output
+        $resultVector = new IndexDataVector();
+
+        foreach ($results as $result) {
+            $resultVector[] = (new IndexData())->setData($result, $mapping);
+        }
+
+        return $resultVector;
     }
 
     /**

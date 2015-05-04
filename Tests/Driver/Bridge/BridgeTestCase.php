@@ -16,6 +16,7 @@ use IndexEngine\Driver\AbstractEventDispatcherAwareDriver;
 use IndexEngine\Driver\Configuration\ArgumentCollection;
 use IndexEngine\Driver\DriverEventSubscriberInterface;
 use IndexEngine\Driver\DriverInterface;
+use IndexEngine\Driver\Query\IndexQuery;
 use IndexEngine\Entity\IndexData;
 use IndexEngine\Entity\IndexDataVector;
 use IndexEngine\Entity\IndexMapping;
@@ -97,7 +98,11 @@ abstract class BridgeTestCase extends \PHPUnit_Framework_TestCase
      */
     public function testRetrieveData()
     {
+        $query = new IndexQuery("foo", "bar");
 
+        $results = $this->driver->executeSearchQuery($query, $this->getMapping());
+
+        $this->assertEquals($this->getDataVector(), $results);
     }
 
     /**
