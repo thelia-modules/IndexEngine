@@ -32,10 +32,10 @@ abstract class AbstractIndexQuery extends AbstractCollection implements IndexQue
     private $name;
     private $limit;
 
-    public function __construct($name, $type)
+    public function __construct($type, $name)
     {
-        $this->name = $this->resolveString($name, __METHOD__);
         $this->type = $this->resolveString($type, __METHOD__);
+        $this->name = $this->resolveString($name, __METHOD__);
     }
 
     /**

@@ -91,6 +91,9 @@ abstract class BridgeTestCase extends \PHPUnit_Framework_TestCase
     public function testInsertData($type, $code, $name, IndexDataVector $indexDataVector, IndexMapping $mapping)
     {
         $this->driver->persistIndexes($type, $code, $name, $indexDataVector, $mapping);
+
+        // Let the time to the driver to build the index
+        sleep(5);
     }
 
     /**
@@ -98,11 +101,28 @@ abstract class BridgeTestCase extends \PHPUnit_Framework_TestCase
      */
     public function testRetrieveData()
     {
-        $query = new IndexQuery("foo", "bar");
+        $query = new IndexQuery("bar", "baz");
 
         $results = $this->driver->executeSearchQuery($query, $this->getMapping());
 
-        $this->assertEquals($this->getDataVector(), $results);
+        $data = iterator_to_array($results);
+        $expectedData = iterator_to_array($this->getDataVector());
+
+        $sortClosure = function (IndexData $a, IndexData $b) {
+            $aId = $a->getData()["id"];
+            $bId = $b->getData()["id"];
+
+            if ($aId === $bId) {
+                return 0;
+            }
+
+            return $aId < $bId ? -1 : 1;
+        };
+
+        usort($data, $sortClosure);
+        usort($expectedData, $sortClosure);
+
+        $this->assertEquals($expectedData, $data);
     }
 
     /**

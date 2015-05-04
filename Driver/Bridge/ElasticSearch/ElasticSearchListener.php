@@ -91,7 +91,7 @@ class ElasticSearchListener extends DriverEventSubscriber
         $code = $event->getIndexCode();
         $mapping = $event->getMapping();
 
-        $parameters = array("index" => $code);
+        $parameters = array("index" => $event->getIndexName());
         $driver = $this->getDriver();
 
         $shards = $driver->getExtraConfiguration("number_of_shards")->getValue();
@@ -142,7 +142,7 @@ class ElasticSearchListener extends DriverEventSubscriber
     public function indexExists(IndexEvent $event)
     {
         $exists = $this->getClient()->indices()->exists(array(
-            "index" => $event->getIndexCode(),
+            "index" => $event->getIndexName(),
         ));
 
         if (false === $exists) {
@@ -160,8 +160,8 @@ class ElasticSearchListener extends DriverEventSubscriber
      */
     public function deleteIndex(IndexEvent $event)
     {
-        $code = $event->getIndexCode();
-        $data = $this->getClient()->indices()->delete(array("index" => $code));
+        $name = $event->getIndexName();
+        $data = $this->getClient()->indices()->delete(array("index" => $name));
         $event->setExtraData($data);
     }
 
@@ -214,8 +214,8 @@ class ElasticSearchListener extends DriverEventSubscriber
         $query = $event->getQuery();
 
         $params = [
-            "type" => $query->getType(),
             "index" => $query->getName(),
+            "type" => $query->getType(),
             "body" => $event->getExtraData()
         ];
 
@@ -235,7 +235,7 @@ class ElasticSearchListener extends DriverEventSubscriber
         $resultVector = new IndexDataVector();
 
         foreach ($results as $result) {
-            $resultVector[] = (new IndexData())->setData($result, $mapping);
+            $resultVector[] = (new IndexData())->setData($result["_source"], $mapping);
         }
 
         return $resultVector;
