@@ -261,16 +261,7 @@ class ElasticSearchListener extends DriverEventSubscriber
             /** @var CriterionInterface $criterionGroup */
             $criterion = array_pop($criterion)[0];
 
-            $subQuery["filtered"] = [
-                "query" => ["match_all" => []],
-                "filter" => [
-                    "bool" => [
-                        "must" => [
-                            $this->transformCriterion($criterion)
-                        ]
-                    ]
-                ]
-            ];
+            $subQuery["filtered"] = $this->transformCriterion($criterion);
         } else {
             //Handle multiple criteria
 
@@ -293,27 +284,41 @@ class ElasticSearchListener extends DriverEventSubscriber
             if (count($splitConditions) === 1) {
                 // Group without OR
                 $subQuery["filtered"] = [
-                    "query" => ["match_all" => []],
-                    "filter" => [
-                    ]
+                    "filter" => []
                 ];
 
                 $keyBag = [];
 
                 /** @var CriterionInterface $criterion */
                 foreach ($splitConditions[0] as $criterion) {
-                    if (!isset($subQuery["filtered"]["filter"])) {
-                        $subQuery["filtered"]["filter"] = [];
-                    }
-
-                    $subQuery["filtered"]["filter"] = array_merge_recursive(
-                        $subQuery["filtered"]["filter"],
+                    $subQuery["filtered"] = array_merge_recursive(
+                        $subQuery["filtered"],
                         $this->transformCriterion($criterion, $keyBag)
                     );
-
                 }
             }  else {
                 // Group with OR
+                $subQueries = [];
+
+                foreach ($splitConditions as $splitCondition) {
+                    $keyBag = [];
+
+                    $subQuery["filtered"] = [
+                        "filter" => []
+                    ];
+
+                    /** @var CriterionInterface $criterion */
+                    foreach ($splitCondition as $criterion) {
+                        $subQuery["filtered"] = array_merge_recursive(
+                            $subQuery["filtered"],
+                            $this->transformCriterion($criterion, $keyBag)
+                        );
+                    }
+
+                    $subQueries[]["query"] = $subQuery;
+                }
+
+                $subQuery = ["query" => ["or" => $subQueries]];
             }
         }
 
@@ -329,28 +334,28 @@ class ElasticSearchListener extends DriverEventSubscriber
 
         switch ($criterion->getComparison()) {
             case Comparison::EQUAL:
-                $subQuery["bool"]["must"][$keyBag[0]++]["term"][$criterion->getColumn()] = $criterion->getValue();
+                $subQuery["filter"]["bool"]["must"][$keyBag[0]++]["term"][$criterion->getColumn()] = $criterion->getValue();
                 break;
             case Comparison::NOT_EQUAL:
-                $subQuery["bool"]["must_not"][$keyBag[1]++]["term"][$criterion->getColumn()] = $criterion->getValue();
+                $subQuery["filter"]["bool"]["must_not"][$keyBag[1]++]["term"][$criterion->getColumn()] = $criterion->getValue();
                 break;
             case Comparison::LIKE:
-                $subQuery["fuzzy_like_this_field"][$keyBag[2]++][$criterion->getColumn()]["like_text"] = $criterion->getValue();
+                $subQuery["query"][$keyBag[2]++]["fuzzy_like_this_field"][$criterion->getColumn()]["like_text"] = $criterion->getValue();
                 break;
             case Comparison::LESS:
-                $subQuery["bool"]["must"][$keyBag[0]++]["range"][$criterion->getColumn()]["lt"] = $criterion->getValue();
+                $subQuery["filter"]["bool"]["must"][$keyBag[0]++]["range"][$criterion->getColumn()]["lt"] = $criterion->getValue();
                 break;
             case Comparison::LESS_EQUAL:
-                $subQuery["bool"]["must"][$keyBag[0]++]["range"][$criterion->getColumn()]["lte"] = $criterion->getValue();
+                $subQuery["filter"]["bool"]["must"][$keyBag[0]++]["range"][$criterion->getColumn()]["lte"] = $criterion->getValue();
                 break;
             case Comparison::GREATER:
-                $subQuery["bool"]["must"][$keyBag[0]++]["range"][$criterion->getColumn()]["gt"] = $criterion->getValue();
+                $subQuery["filter"]["bool"]["must"][$keyBag[0]++]["range"][$criterion->getColumn()]["gt"] = $criterion->getValue();
                 break;
             case Comparison::GREATER_EQUAL:
-                $subQuery["bool"]["must"][$keyBag[0]++]["range"][$criterion->getColumn()]["gte"] = $criterion->getValue();
+                $subQuery["filter"]["bool"]["must"][$keyBag[0]++]["range"][$criterion->getColumn()]["gte"] = $criterion->getValue();
                 break;
             default:
-                $subQuery["match_all"] = [];
+                $subQuery = [];
         }
 
         return $subQuery;

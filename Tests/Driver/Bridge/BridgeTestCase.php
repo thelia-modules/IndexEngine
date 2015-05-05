@@ -20,6 +20,7 @@ use IndexEngine\Driver\Query\Comparison;
 use IndexEngine\Driver\Query\Criterion\Criterion;
 use IndexEngine\Driver\Query\Criterion\CriterionGroup;
 use IndexEngine\Driver\Query\IndexQuery;
+use IndexEngine\Driver\Query\Link;
 use IndexEngine\Entity\IndexData;
 use IndexEngine\Entity\IndexDataVector;
 use IndexEngine\Entity\IndexMapping;
@@ -244,7 +245,7 @@ abstract class BridgeTestCase extends \PHPUnit_Framework_TestCase
             ->addCriterion(new Criterion("id", 2, Comparison::GREATER_EQUAL))
             ->addCriterion(new Criterion("price", 40, Comparison::GREATER))
             ->addCriterion(new Criterion("price", 50, Comparison::LESS))
-            ->addCriterion(new Criterion("title", "T-shir", Comparison::LIKE))
+            ->addCriterion(new Criterion("code", "T-shir", Comparison::LIKE))
             ->addCriterion(new Criterion("description", "best", Comparison::LIKE))
         ;
 
@@ -259,12 +260,39 @@ abstract class BridgeTestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @depends testRetrieveDataWithMultipleFilterOnTwoField
+     */
+    public function testRetrieveDataWithASimpleOrFilterOnOneField()
+    {
+        $query = $this->getBaseQuery();
+        $group = new CriterionGroup();
+        $group
+            ->addCriterion(new Criterion("id", 2, Comparison::NOT_EQUAL), null, Link::LINK_OR)
+            ->addCriterion(new Criterion("id", 2, Comparison::GREATER_EQUAL))
+        ;
+
+        $query->addCriterionGroup($group);
+
+        $results = $this->driver->executeSearchQuery($query, $this->getMapping());
+        $data = iterator_to_array($results);
+
+        $this->assertCount(3, $data);
+
+        // The IDS are 2,3 and 4. we ignored 1 \o/
+        for ($i = 2; $i <= 4; ++$i) {
+            /** @var IndexData $row */
+            $row = $data[$i-2];
+            $this->assertEquals($i, $row->getData()["id"]);
+        }
+    }
+
+    /**
      * @param $type
      * @param $code
      * @param $name
      *
      * @dataProvider generateIndex
-     * @depends testRetrieveDataWithMultipleFilterOnTwoField
+     * @depends testRetrieveDataWithASimpleOrFilterOnOneField
      */
     public function testDeleteIndex($type, $code, $name)
     {
