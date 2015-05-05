@@ -142,7 +142,6 @@ abstract class BridgeTestCase extends \PHPUnit_Framework_TestCase
      */
     public function testRetrieveDataWithTwoFiltersOnOneField()
     {
-        // Then it supports 2 operators with a simple AND link
         $query = $this->getBaseQuery();
         $group = new CriterionGroup();
         $group
@@ -169,7 +168,6 @@ abstract class BridgeTestCase extends \PHPUnit_Framework_TestCase
      */
     public function testRetrieveDataWithThreeFiltersOnOneField()
     {
-        // Then it supports 2 operators with a simple AND link
         $query = $this->getBaseQuery();
         $group = new CriterionGroup();
         $group
@@ -191,9 +189,8 @@ abstract class BridgeTestCase extends \PHPUnit_Framework_TestCase
     /**
      * @depends testRetrieveDataWithThreeFiltersOnOneField
      */
-    public function testRetrieveDataWithMultipleDifferantFiltersOnOneField()
+    public function testRetrieveDataWithMultipleDifferentFiltersOnOneField()
     {
-        // Then it supports 2 operators with a simple AND link
         $query = $this->getBaseQuery();
         $group = new CriterionGroup();
         $group
@@ -214,11 +211,10 @@ abstract class BridgeTestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @depends testRetrieveDataWithMultipleDifferantFiltersOnOneField
+     * @depends testRetrieveDataWithMultipleDifferentFiltersOnOneField
      */
     public function testRetrieveDataWithOneFilterOnTwoField()
     {
-    // Then it supports 2 operators with a simple AND link
         $query = $this->getBaseQuery();
         $group = new CriterionGroup();
         $group
@@ -237,12 +233,38 @@ abstract class BridgeTestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @depends testRetrieveDataWithOneFilterOnTwoField
+     */
+    public function testRetrieveDataWithMultipleFilterOnTwoField()
+    {
+        $query = $this->getBaseQuery();
+        $group = new CriterionGroup();
+        $group
+            ->addCriterion(new Criterion("id", 2, Comparison::NOT_EQUAL))
+            ->addCriterion(new Criterion("id", 2, Comparison::GREATER_EQUAL))
+            ->addCriterion(new Criterion("price", 40, Comparison::GREATER))
+            ->addCriterion(new Criterion("price", 50, Comparison::LESS))
+            ->addCriterion(new Criterion("title", "T-shir", Comparison::LIKE))
+            ->addCriterion(new Criterion("description", "best", Comparison::LIKE))
+        ;
+
+        $query->addCriterionGroup($group);
+
+        $results = $this->driver->executeSearchQuery($query, $this->getMapping());
+        $data = iterator_to_array($results);
+
+        $this->assertCount(1, $data);
+
+        $this->assertEquals(4, $data[0]->getData()["id"]);
+    }
+
+    /**
      * @param $type
      * @param $code
      * @param $name
      *
      * @dataProvider generateIndex
-     * @depends testRetrieveDataWithTwoFiltersOnOneField
+     * @depends testRetrieveDataWithMultipleFilterOnTwoField
      */
     public function testDeleteIndex($type, $code, $name)
     {
