@@ -24,6 +24,8 @@ use IndexEngine\Driver\Event\IndexSearchQueryEvent;
 use IndexEngine\Driver\Exception\IndexNotFoundException;
 use IndexEngine\Driver\Exception\TimeoutException;
 use IndexEngine\Driver\Query\Comparison;
+use IndexEngine\Driver\Query\Criterion\CriterionGroupInterface;
+use IndexEngine\Driver\Query\Criterion\CriterionInterface;
 use IndexEngine\Driver\Query\Link;
 use IndexEngine\Driver\Query\Order;
 use IndexEngine\Entity\IndexData;
@@ -232,65 +234,119 @@ class ElasticSearchListener extends DriverEventSubscriber
         $totalGroupCount = count($groups);
         $groupIndex = 0;
 
-        foreach ($groups as $criterionGroup) {
-            /** @var \IndexEngine\Driver\Query\Criterion\CriterionGroup $group */
-            list ($group, $link) = $criterionGroup;
+        $previousGroupLink = null;
 
-            if (0 !== $currentGroupCount = $group->count()) {
-                $criterionIndex = 0;
+        if ($totalGroupCount === 1) {
+            // Handle simple group
+            $criterionGroup = $query->getCriterionGroups();
+            /** @var CriterionGroupInterface $criterionGroup */
+            $criterionGroup = array_pop($criterionGroup)[0];
 
-                foreach ($group->getCriteria() as $criterion) {
-                    /** @var \IndexEngine\Driver\Query\Criterion\CriterionInterface $criterionObject */
-                    list ($criterionObject, $criterionLink) = $criterion;
+            $body["query"] = $this->transformCriterionGroup($criterionGroup);
+        } else {
+            // Handle complex group
+        }
 
-                    switch ($criterionObject->getComparison()) {
-                        case Comparison::EQUAL:
-                            $subQuery["bool"]["must"]["term"][$criterionObject->getColumn()] = $criterionObject->getValue();
-                            break;
-                        case Comparison::NOT_EQUAL:
-                            $subQuery["bool"]["must_not"]["term"][$criterionObject->getColumn()] = $criterionObject->getValue();
-                            break;
-                        case Comparison::LIKE:
-                            $subQuery["fuzzy_like_this_field"][$criterionObject->getColumn()]["like_text"] = $criterionObject->getValue();
-                            break;
-                        case Comparison::LESS:
-                            $subQuery["range"][$criterionObject->getColumn()]["lt"] = $criterionObject->getValue();
-                            break;
-                        case Comparison::LESS_EQUAL:
-                            $subQuery["range"][$criterionObject->getColumn()]["lte"] = $criterionObject->getValue();
-                            break;
-                        case Comparison::GREATER:
-                            $subQuery["range"][$criterionObject->getColumn()]["gt"] = $criterionObject->getValue();
-                            break;
-                        case Comparison::GREATER_EQUAL:
-                            $subQuery["range"][$criterionObject->getColumn()]["gte"] = $criterionObject->getValue();
-                            break;
-                        default:
-                            $subQuery["match_all"] = [];
-                    }
+        $event->setExtraData($body);
+    }
 
-                    if ($currentGroupCount !== $criterionIndex++) {
-                        switch ($criterionLink) {
-                            case Link::LINK_AND:
-                                break;
-                            case Link::LINK_OR:
-                                break;
-                        }
-                    }
+    public function transformCriterionGroup(CriterionGroupInterface $criterionGroup)
+    {
+        $criterionCount = $criterionGroup->count();
+        $subQuery = [];
+
+        if ($criterionCount === 1) {
+            // Handle simple criterion
+            $criterion = $criterionGroup->getCriteria();
+            /** @var CriterionInterface $criterionGroup */
+            $criterion = array_pop($criterion)[0];
+
+            $subQuery["filtered"] = [
+                "query" => ["match_all" => []],
+                "filter" => [
+                    "bool" => [
+                        "must" => [
+                            $this->transformCriterion($criterion)
+                        ]
+                    ]
+                ]
+            ];
+        } else {
+            //Handle multiple criteria
+
+            // 1st, split OR groups
+            // This must be transformed with operator priority: AND is prior to OR.
+
+            $splitConditions = [];
+            $i = 0;
+
+            foreach ($criterionGroup->getCriteria() as $criterionTuple) {
+                /** @var CriterionInterface $criterion */
+                list ($criterion, $link) = $criterionTuple;
+                $splitConditions[$i][] = $criterion;
+
+                if ($link === Link::LINK_OR) {
+                    $i++;
                 }
+            }
 
-                if ($totalGroupCount !== $groupIndex++) {
-                    switch ($link) {
-                        case Link::LINK_AND:
-                            break;
-                        case Link::LINK_OR:
-                            break;
+            if (count($splitConditions) === 1) {
+                // Group without OR
+                $subQuery["filtered"] = [
+                    "query" => ["match_all" => []],
+                    "filter" => [
+                    ]
+                ];
+
+                /** @var CriterionInterface $criterion */
+                foreach ($splitConditions[0] as $criterion) {
+                    if (!isset($subQuery["filtered"]["filter"])) {
+                        $subQuery["filtered"]["filter"] = [];
                     }
+
+                    $subQuery["filtered"]["filter"] = array_merge(
+                        $subQuery["filtered"]["filter"],
+                        $this->transformCriterion($criterion)
+                    );
                 }
-            } else {
-                $totalGroupCount--;
+            }  else {
+                // Group with OR
             }
         }
+
+
+        return $subQuery;
+    }
+
+    protected function transformCriterion(CriterionInterface $criterion)
+    {
+        switch ($criterion->getComparison()) {
+            case Comparison::EQUAL:
+                $subQuery["bool"]["must"]["term"][$criterion->getColumn()] = $criterion->getValue();
+                break;
+            case Comparison::NOT_EQUAL:
+                $subQuery["bool"]["must_not"]["term"][$criterion->getColumn()] = $criterion->getValue();
+                break;
+            case Comparison::LIKE:
+                $subQuery["fuzzy_like_this_field"][$criterion->getColumn()]["like_text"] = $criterion->getValue();
+                break;
+            case Comparison::LESS:
+                $subQuery["bool"]["must"]["range"][$criterion->getColumn()]["lt"] = $criterion->getValue();
+                break;
+            case Comparison::LESS_EQUAL:
+                $subQuery["bool"]["must"]["range"][$criterion->getColumn()]["lte"] = $criterion->getValue();
+                break;
+            case Comparison::GREATER:
+                $subQuery["bool"]["must"]["range"][$criterion->getColumn()]["gt"] = $criterion->getValue();
+                break;
+            case Comparison::GREATER_EQUAL:
+                $subQuery["bool"]["must"]["range"][$criterion->getColumn()]["gte"] = $criterion->getValue();
+                break;
+            default:
+                $subQuery["match_all"] = [];
+        }
+
+        return $subQuery;
     }
 
     /**

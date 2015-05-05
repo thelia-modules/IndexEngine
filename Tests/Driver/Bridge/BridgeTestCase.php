@@ -16,10 +16,14 @@ use IndexEngine\Driver\AbstractEventDispatcherAwareDriver;
 use IndexEngine\Driver\Configuration\ArgumentCollection;
 use IndexEngine\Driver\DriverEventSubscriberInterface;
 use IndexEngine\Driver\DriverInterface;
+use IndexEngine\Driver\Query\Comparison;
+use IndexEngine\Driver\Query\Criterion\Criterion;
+use IndexEngine\Driver\Query\Criterion\CriterionGroup;
 use IndexEngine\Driver\Query\IndexQuery;
 use IndexEngine\Entity\IndexData;
 use IndexEngine\Entity\IndexDataVector;
 use IndexEngine\Entity\IndexMapping;
+use Propel\Runtime\ActiveQuery\Criteria;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
@@ -99,30 +103,112 @@ abstract class BridgeTestCase extends \PHPUnit_Framework_TestCase
     /**
      * @depends testInsertData
      */
-    public function testRetrieveData()
+    public function testRetrieveDataWithoutFilter()
     {
-        $query = new IndexQuery("bar", "baz");
+        // Test that it supports an empty query
+        $query = $this->getBaseQuery();
 
         $results = $this->driver->executeSearchQuery($query, $this->getMapping());
 
         $data = iterator_to_array($results);
         $expectedData = iterator_to_array($this->getDataVector());
 
-        $sortClosure = function (IndexData $a, IndexData $b) {
-            $aId = $a->getData()["id"];
-            $bId = $b->getData()["id"];
-
-            if ($aId === $bId) {
-                return 0;
-            }
-
-            return $aId < $bId ? -1 : 1;
-        };
-
-        usort($data, $sortClosure);
-        usort($expectedData, $sortClosure);
-
+        // Then it support a simple >= operator
         $this->assertEquals($expectedData, $data);
+    }
+
+    /**
+     * @depends testRetrieveDataWithoutFilter
+     */
+    public function testRetrieveDataWithOneFilterOnOneField()
+    {
+        $query = $this->getBaseQuery()->filterBy("id", 2, Criteria::GREATER_EQUAL);
+
+        $results = $this->driver->executeSearchQuery($query, $this->getMapping());
+        $data = iterator_to_array($results);
+
+        $this->assertCount(3, $data);
+
+        // The IDS are 2,3 and 4. we ignored 1 \o/
+        for ($i = 2; $i <= 4; ++$i) {
+            /** @var IndexData $row */
+            $row = $data[$i-2];
+            $this->assertEquals($i, $row->getData()["id"]);
+        }
+    }
+
+    /**
+     * @depends testRetrieveDataWithOneFilterOnOneField
+     */
+    public function testRetrieveDataWithTwoFiltersOnOneField()
+    {
+        // Then it supports 2 operators with a simple AND link
+        $query = $this->getBaseQuery();
+        $group = new CriterionGroup();
+        $group
+            ->addCriterion(new Criterion("id", 2, Comparison::GREATER_EQUAL))
+            ->addCriterion(new Criterion("id", 3, Comparison::LESS_EQUAL))
+        ;
+        $query->addCriterionGroup($group);
+
+        $results = $this->driver->executeSearchQuery($query, $this->getMapping());
+        $data = iterator_to_array($results);
+
+        $this->assertCount(2, $data);
+
+        // The IDS are 2 and 3. we ignored 1 and 4 \o/
+        for ($i = 2; $i <= 3; ++$i) {
+            /** @var IndexData $row */
+            $row = $data[$i-2];
+            $this->assertEquals($i, $row->getData()["id"]);
+        }
+    }
+
+    /**
+     * @depends testRetrieveDataWithTwoFiltersOnOneField
+     */
+    public function testRetrieveDataWithThreeFiltersOnOneField()
+    {
+        // Then it supports 2 operators with a simple AND link
+        $query = $this->getBaseQuery();
+        $group = new CriterionGroup();
+        $group
+            ->addCriterion(new Criterion("id", 2, Comparison::NOT_EQUAL))
+            ->addCriterion(new Criterion("id", 3, Comparison::NOT_EQUAL))
+            ->addCriterion(new Criterion("id", 4, Comparison::NOT_EQUAL))
+        ;
+        $query->addCriterionGroup($group);
+
+        $results = $this->driver->executeSearchQuery($query, $this->getMapping());
+        $data = iterator_to_array($results);
+
+        $this->assertCount(1, $data);
+
+        // The IDS are 2 and 3. we ignored 1 and 4 \o/
+        $this->assertEquals(1, $data[0]->getData()["id"]);
+    }
+
+    /**
+     * @depends testRetrieveDataWithThreeFiltersOnOneField
+     */
+    public function testRetrieveDataWithOneFilterOnTwoField()
+    {
+    // Then it supports 2 operators with a simple AND link
+        $query = $this->getBaseQuery();
+        $group = new CriterionGroup();
+        $group
+            ->addCriterion(new Criterion("id", 2, Comparison::GREATER_EQUAL))
+            ->addCriterion(new Criterion("price", 40, Comparison::GREATER))
+        ;
+        $query->addCriterionGroup($group);
+
+        $results = $this->driver->executeSearchQuery($query, $this->getMapping());
+        $data = iterator_to_array($results);
+
+        $this->assertCount(2, $data);
+
+        $this->assertEquals(2, $data[0]->getData()["id"]);
+        $this->assertEquals(4, $data[1]->getData()["id"]);
     }
 
     /**
@@ -131,7 +217,7 @@ abstract class BridgeTestCase extends \PHPUnit_Framework_TestCase
      * @param $name
      *
      * @dataProvider generateIndex
-     * @depends testRetrieveData
+     * @depends testRetrieveDataWithTwoFiltersOnOneField
      */
     public function testDeleteIndex($type, $code, $name)
     {
@@ -166,6 +252,14 @@ abstract class BridgeTestCase extends \PHPUnit_Framework_TestCase
         return [
             ["foo", "bar", "baz", $this->getDataVector(), $this->getMapping()]
         ];
+    }
+
+    protected function getBaseQuery()
+    {
+        $query = new IndexQuery("bar", "baz");
+        $query->orderBy("id");
+
+        return $query;
     }
 
     public function getDataVector()
