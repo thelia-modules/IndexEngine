@@ -23,6 +23,8 @@ use IndexEngine\Driver\Event\IndexEvent;
 use IndexEngine\Driver\Event\IndexSearchQueryEvent;
 use IndexEngine\Driver\Exception\IndexNotFoundException;
 use IndexEngine\Driver\Exception\TimeoutException;
+use IndexEngine\Driver\Query\Comparison;
+use IndexEngine\Driver\Query\Link;
 use IndexEngine\Driver\Query\Order;
 use IndexEngine\Entity\IndexData;
 use IndexEngine\Entity\IndexDataVector;
@@ -226,12 +228,67 @@ class ElasticSearchListener extends DriverEventSubscriber
             }
         }
 
-        foreach ($query->getCriterionGroups() as $criterionGroup) {
+        $groups = $query->getCriterionGroups();
+        $totalGroupCount = count($groups);
+        $groupIndex = 0;
+
+        foreach ($groups as $criterionGroup) {
             /** @var \IndexEngine\Driver\Query\Criterion\CriterionGroup $group */
             list ($group, $link) = $criterionGroup;
 
-            if (0 !== $groupCount = $group->count()) {
+            if (0 !== $currentGroupCount = $group->count()) {
+                $criterionIndex = 0;
 
+                foreach ($group->getCriteria() as $criterion) {
+                    /** @var \IndexEngine\Driver\Query\Criterion\CriterionInterface $criterionObject */
+                    list ($criterionObject, $criterionLink) = $criterion;
+
+                    switch ($criterionObject->getComparison()) {
+                        case Comparison::EQUAL:
+                            $subQuery["bool"]["must"]["term"][$criterionObject->getColumn()] = $criterionObject->getValue();
+                            break;
+                        case Comparison::NOT_EQUAL:
+                            $subQuery["bool"]["must_not"]["term"][$criterionObject->getColumn()] = $criterionObject->getValue();
+                            break;
+                        case Comparison::LIKE:
+                            $subQuery["fuzzy_like_this_field"][$criterionObject->getColumn()]["like_text"] = $criterionObject->getValue();
+                            break;
+                        case Comparison::LESS:
+                            $subQuery["range"][$criterionObject->getColumn()]["lt"] = $criterionObject->getValue();
+                            break;
+                        case Comparison::LESS_EQUAL:
+                            $subQuery["range"][$criterionObject->getColumn()]["lte"] = $criterionObject->getValue();
+                            break;
+                        case Comparison::GREATER:
+                            $subQuery["range"][$criterionObject->getColumn()]["gt"] = $criterionObject->getValue();
+                            break;
+                        case Comparison::GREATER_EQUAL:
+                            $subQuery["range"][$criterionObject->getColumn()]["gte"] = $criterionObject->getValue();
+                            break;
+                        default:
+                            $subQuery["match_all"] = [];
+                    }
+
+                    if ($currentGroupCount !== $criterionIndex++) {
+                        switch ($criterionLink) {
+                            case Link::LINK_AND:
+                                break;
+                            case Link::LINK_OR:
+                                break;
+                        }
+                    }
+                }
+
+                if ($totalGroupCount !== $groupIndex++) {
+                    switch ($link) {
+                        case Link::LINK_AND:
+                            break;
+                        case Link::LINK_OR:
+                            break;
+                    }
+                }
+            } else {
+                $totalGroupCount--;
             }
         }
     }
