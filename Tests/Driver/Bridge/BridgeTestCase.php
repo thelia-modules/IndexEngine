@@ -191,6 +191,31 @@ abstract class BridgeTestCase extends \PHPUnit_Framework_TestCase
     /**
      * @depends testRetrieveDataWithThreeFiltersOnOneField
      */
+    public function testRetrieveDataWithMultipleDifferantFiltersOnOneField()
+    {
+        // Then it supports 2 operators with a simple AND link
+        $query = $this->getBaseQuery();
+        $group = new CriterionGroup();
+        $group
+            ->addCriterion(new Criterion("id", 2, Comparison::NOT_EQUAL))
+            ->addCriterion(new Criterion("id", 3, Comparison::LESS_EQUAL))
+            ->addCriterion(new Criterion("id", 1, Comparison::GREATER_EQUAL))
+            ->addCriterion(new Criterion("id", 3, Comparison::NOT_EQUAL))
+        ;
+        $query->addCriterionGroup($group);
+
+        $results = $this->driver->executeSearchQuery($query, $this->getMapping());
+        $data = iterator_to_array($results);
+
+        $this->assertCount(1, $data);
+
+        // The IDS are 2 and 3. we ignored 1 and 4 \o/
+        $this->assertEquals(1, $data[0]->getData()["id"]);
+    }
+
+    /**
+     * @depends testRetrieveDataWithMultipleDifferantFiltersOnOneField
+     */
     public function testRetrieveDataWithOneFilterOnTwoField()
     {
     // Then it supports 2 operators with a simple AND link

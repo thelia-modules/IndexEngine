@@ -298,16 +298,19 @@ class ElasticSearchListener extends DriverEventSubscriber
                     ]
                 ];
 
+                $keyBag = [];
+
                 /** @var CriterionInterface $criterion */
                 foreach ($splitConditions[0] as $criterion) {
                     if (!isset($subQuery["filtered"]["filter"])) {
                         $subQuery["filtered"]["filter"] = [];
                     }
 
-                    $subQuery["filtered"]["filter"] = array_merge(
+                    $subQuery["filtered"]["filter"] = array_merge_recursive(
                         $subQuery["filtered"]["filter"],
-                        $this->transformCriterion($criterion)
+                        $this->transformCriterion($criterion, $keyBag)
                     );
+
                 }
             }  else {
                 // Group with OR
@@ -318,29 +321,33 @@ class ElasticSearchListener extends DriverEventSubscriber
         return $subQuery;
     }
 
-    protected function transformCriterion(CriterionInterface $criterion)
+    protected function transformCriterion(CriterionInterface $criterion, array &$keyBag = array())
     {
+        if (!isset($keyBag[0])) {
+            $keyBag = [0, 0, 0];
+        }
+
         switch ($criterion->getComparison()) {
             case Comparison::EQUAL:
-                $subQuery["bool"]["must"]["term"][$criterion->getColumn()] = $criterion->getValue();
+                $subQuery["bool"]["must"][$keyBag[0]++]["term"][$criterion->getColumn()] = $criterion->getValue();
                 break;
             case Comparison::NOT_EQUAL:
-                $subQuery["bool"]["must_not"]["term"][$criterion->getColumn()] = $criterion->getValue();
+                $subQuery["bool"]["must_not"][$keyBag[1]++]["term"][$criterion->getColumn()] = $criterion->getValue();
                 break;
             case Comparison::LIKE:
-                $subQuery["fuzzy_like_this_field"][$criterion->getColumn()]["like_text"] = $criterion->getValue();
+                $subQuery["fuzzy_like_this_field"][$keyBag[2]++][$criterion->getColumn()]["like_text"] = $criterion->getValue();
                 break;
             case Comparison::LESS:
-                $subQuery["bool"]["must"]["range"][$criterion->getColumn()]["lt"] = $criterion->getValue();
+                $subQuery["bool"]["must"][$keyBag[0]++]["range"][$criterion->getColumn()]["lt"] = $criterion->getValue();
                 break;
             case Comparison::LESS_EQUAL:
-                $subQuery["bool"]["must"]["range"][$criterion->getColumn()]["lte"] = $criterion->getValue();
+                $subQuery["bool"]["must"][$keyBag[0]++]["range"][$criterion->getColumn()]["lte"] = $criterion->getValue();
                 break;
             case Comparison::GREATER:
-                $subQuery["bool"]["must"]["range"][$criterion->getColumn()]["gt"] = $criterion->getValue();
+                $subQuery["bool"]["must"][$keyBag[0]++]["range"][$criterion->getColumn()]["gt"] = $criterion->getValue();
                 break;
             case Comparison::GREATER_EQUAL:
-                $subQuery["bool"]["must"]["range"][$criterion->getColumn()]["gte"] = $criterion->getValue();
+                $subQuery["bool"]["must"][$keyBag[0]++]["range"][$criterion->getColumn()]["gte"] = $criterion->getValue();
                 break;
             default:
                 $subQuery["match_all"] = [];
