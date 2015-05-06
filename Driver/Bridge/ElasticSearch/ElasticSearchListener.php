@@ -318,7 +318,7 @@ class ElasticSearchListener extends DriverEventSubscriber
                     $subQueries[]["query"] = $subQuery;
                 }
 
-                $subQuery = ["query" => ["or" => $subQueries]];
+                $subQuery = ["filtered" => ["filter" => ["or" => $subQueries]]];
             }
         }
 
