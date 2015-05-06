@@ -16,6 +16,17 @@ Summary
 1. Install
 ---
 
+With composer:
+```sh
+$ php composer.phar require thelia/index-engine-module:~1.0
+```
+
+Then install the libraries you need.
+Example:
+```sh
+$ php composer.phar require 
+```
+
 2. Configure your driver
 ---
 

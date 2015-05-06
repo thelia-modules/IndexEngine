@@ -11,6 +11,7 @@
 /*************************************************************************************/
 
 namespace IndexEngine\Entity;
+use IndexEngine\Driver\Query\IndexQuery;
 
 /**
  * Class IndexConfiguration
@@ -266,5 +267,10 @@ class IndexConfiguration
         }
 
         return $this;
+    }
+
+    public function createQuery()
+    {
+        return new IndexQuery($this->getCode(), $this->getEntity());
     }
 }

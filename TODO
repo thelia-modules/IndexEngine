@@ -8,6 +8,10 @@ Documentation:
 - How to configure the indexes
 - Write how to create a driver
 
+Import/Export:
+- Driver configuration
+- Index configuration
+
 Tests:
 - Query
 - Managers
