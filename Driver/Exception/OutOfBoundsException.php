@@ -12,7 +12,6 @@
 
 namespace IndexEngine\Driver\Exception;
 
-
 /**
  * Class OutOfBoundsException
  * @package IndexEngine\Driver\Exception

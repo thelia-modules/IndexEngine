@@ -29,8 +29,8 @@ interface IndexConfigurationManagerInterface
     public function renderConfigurationTemplate($type);
 
     /**
-     * @param string $type
-     * @param string $entity
+     * @param  string $type
+     * @param  string $entity
      * @return string
      *
      * Render the columns configuration template for the given type & entity
@@ -118,7 +118,7 @@ interface IndexConfigurationManagerInterface
     public function getConfigurationEntityFromCode($code);
 
     /**
-     * @param IndexConfiguration $configuration
+     * @param  IndexConfiguration                  $configuration
      * @return \IndexEngine\Entity\IndexDataVector
      *
      * This method has to collect the data to index and return an IndexData vector

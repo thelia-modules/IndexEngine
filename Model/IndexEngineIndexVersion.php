@@ -6,5 +6,4 @@ use IndexEngine\Model\Base\IndexEngineIndexVersion as BaseIndexEngineIndexVersio
 
 class IndexEngineIndexVersion extends BaseIndexEngineIndexVersion
 {
-
 }

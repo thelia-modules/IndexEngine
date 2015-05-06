@@ -55,8 +55,8 @@ class ArgumentCollection extends AbstractCollection implements ArgumentCollectio
     }
 
     /**
-     * @param ArgumentInterface $argument
-     * @param int $mode
+     * @param  ArgumentInterface $argument
+     * @param  int               $mode
      * @return $this
      *
      * @throws \IndexEngine\Driver\Exception\UnknownModeException
@@ -85,7 +85,7 @@ class ArgumentCollection extends AbstractCollection implements ArgumentCollectio
     }
 
     /**
-     * @param mixed $argumentNameOrInterface It can be a string, an object that implements __toString or a ArgumentInterface
+     * @param  mixed $argumentNameOrInterface It can be a string, an object that implements __toString or a ArgumentInterface
      * @return bool
      *
      * This method checks if the argument is already defined and return a boolean.
@@ -97,7 +97,7 @@ class ArgumentCollection extends AbstractCollection implements ArgumentCollectio
 
     /**
      * @param $argumentNameOrInterface
-     * @param int $mode
+     * @param  int  $mode
      * @return bool
      *
      * @throws \IndexEngine\Driver\Exception\InvalidNameException
@@ -117,14 +117,14 @@ class ArgumentCollection extends AbstractCollection implements ArgumentCollectio
             return false;
         }
 
-        unset ($this->collection[$resolvedName]);
+        unset($this->collection[$resolvedName]);
 
         return true;
     }
 
     /**
      * @param $name
-     * @param int $mode
+     * @param  int                          $mode
      * @return false|null|ArgumentInterface
      *
      * @throws \IndexEngine\Driver\Exception\InvalidNameException
@@ -141,7 +141,7 @@ class ArgumentCollection extends AbstractCollection implements ArgumentCollectio
             } elseif ($mode === static::MODE_RETURN_BOOLEAN) {
                 return false;
             } elseif ($mode === static::MODE_RETURN_NULL) {
-                return null;
+                return;
             }
         }
 
@@ -149,8 +149,8 @@ class ArgumentCollection extends AbstractCollection implements ArgumentCollectio
     }
 
     /**
-     * @param ArgumentInterface $argument
-     * @param int $mode
+     * @param  ArgumentInterface $argument
+     * @param  int               $mode
      * @return bool
      *
      * @throws \IndexEngine\Driver\Exception\UnknownModeException
@@ -184,7 +184,7 @@ class ArgumentCollection extends AbstractCollection implements ArgumentCollectio
     }
 
     /**
-     * @param array $defaults
+     * @param  array $defaults
      * @return $this
      *
      * This method has to store arguments defaults and return itself
@@ -208,7 +208,7 @@ class ArgumentCollection extends AbstractCollection implements ArgumentCollectio
     }
 
     /**
-     * @param mixed $argumentNameOrInterface
+     * @param  mixed  $argumentNameOrInterface
      * @return string
      *
      * @throws \IndexEngine\Exception\InvalidArgumentException
@@ -225,7 +225,7 @@ class ArgumentCollection extends AbstractCollection implements ArgumentCollectio
     }
 
     /**
-     * @param array $values
+     * @param  array $values
      * @return $this
      *
      * Load the values into the arguments.
@@ -265,9 +265,9 @@ class ArgumentCollection extends AbstractCollection implements ArgumentCollectio
      * Count elements of an object
      * @link http://php.net/manual/en/countable.count.php
      * @return int The custom count as an integer.
-     * </p>
-     * <p>
-     * The return value is cast to an integer.
+     *             </p>
+     *             <p>
+     *             The return value is cast to an integer.
      */
     public function count()
     {

@@ -22,8 +22,8 @@ use IndexEngine\Driver\CollectionInterface;
 interface ArgumentCollectionInterface extends CollectionInterface, \Countable
 {
     /**
-     * @param ArgumentInterface $argument
-     * @param int $mode
+     * @param  ArgumentInterface $argument
+     * @param  int               $mode
      * @return $this
      *
      * @throws \IndexEngine\Driver\Exception\UnknownModeException
@@ -36,7 +36,7 @@ interface ArgumentCollectionInterface extends CollectionInterface, \Countable
     public function addArgument(ArgumentInterface $argument, $mode = self::MODE_OVERRIDE);
 
     /**
-     * @param mixed $argumentNameOrInterface It can be a string, an object that implements __toString or a ArgumentInterface
+     * @param  mixed $argumentNameOrInterface It can be a string, an object that implements __toString or a ArgumentInterface
      * @return bool
      *
      * This method checks if the argument is already defined and return a boolean.
@@ -45,7 +45,7 @@ interface ArgumentCollectionInterface extends CollectionInterface, \Countable
 
     /**
      * @param $argumentNameOrInterface
-     * @param int $mode
+     * @param  int  $mode
      * @return bool
      *
      * @throws \IndexEngine\Driver\Exception\InvalidNameException
@@ -56,7 +56,7 @@ interface ArgumentCollectionInterface extends CollectionInterface, \Countable
 
     /**
      * @param $name
-     * @param int $mode
+     * @param  int                          $mode
      * @return false|null|ArgumentInterface
      *
      * @throws \IndexEngine\Driver\Exception\InvalidNameException
@@ -66,8 +66,8 @@ interface ArgumentCollectionInterface extends CollectionInterface, \Countable
     public function getArgument($name, $mode = self::MODE_THROW_EXCEPTION_ON_ERROR);
 
     /**
-     * @param ArgumentInterface $argument
-     * @param int $mode
+     * @param  ArgumentInterface $argument
+     * @param  int               $mode
      * @return bool
      *
      * @throws \IndexEngine\Driver\Exception\UnknownModeException
@@ -92,7 +92,7 @@ interface ArgumentCollectionInterface extends CollectionInterface, \Countable
     public function getArgumentNames();
 
     /**
-     * @param array $defaults
+     * @param  array $defaults
      * @return $this
      *
      * This method has to store arguments defaults and return itself
@@ -108,7 +108,7 @@ interface ArgumentCollectionInterface extends CollectionInterface, \Countable
     public function getDefaults();
 
     /**
-     * @param array $values
+     * @param  array $values
      * @return $this
      *
      * Load the values into the arguments.

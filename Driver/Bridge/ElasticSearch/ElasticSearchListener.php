@@ -217,7 +217,7 @@ class ElasticSearchListener extends DriverEventSubscriber
 
         if (null !== $orderBy = $query->getOrderBy()) {
             foreach ($orderBy as $order) {
-                list ($orderColumn, $orderType) = $order;
+                list($orderColumn, $orderType) = $order;
 
                 switch ($orderType) {
                     case Order::ASC:
@@ -228,7 +228,6 @@ class ElasticSearchListener extends DriverEventSubscriber
                         $body["sort"][$orderColumn] = "desc";
                         break;
                 }
-
             }
         }
 
@@ -251,7 +250,7 @@ class ElasticSearchListener extends DriverEventSubscriber
 
             foreach ($groups as $groupTuple) {
                 /** @var CriterionGroupInterface $criterionGroup */
-                list ($criterionGroup, $link) = $groupTuple;
+                list($criterionGroup, $link) = $groupTuple;
                 $splitGroups[$i][] = $criterionGroup;
 
                 if ($link === Link::LINK_OR) {
@@ -282,7 +281,7 @@ class ElasticSearchListener extends DriverEventSubscriber
     }
 
     /**
-     * @param CriterionGroupInterface $criterionGroup
+     * @param  CriterionGroupInterface $criterionGroup
      * @return array
      *
      * @TODO: IMPROVE THAT WORKING PIECE OF SHIT TO A BEAUTIFUL PIECE OF CODE
@@ -310,7 +309,7 @@ class ElasticSearchListener extends DriverEventSubscriber
 
             foreach ($criterionGroup->getCriteria() as $criterionTuple) {
                 /** @var CriterionInterface $criterion */
-                list ($criterion, $link) = $criterionTuple;
+                list($criterion, $link) = $criterionTuple;
                 $splitConditions[$i][] = $criterion;
 
                 if ($link === Link::LINK_OR) {
@@ -321,7 +320,7 @@ class ElasticSearchListener extends DriverEventSubscriber
             if (count($splitConditions) === 1) {
                 // Group without OR
                 $subQuery["filtered"] = [
-                    "filter" => []
+                    "filter" => [],
                 ];
 
                 $keyBag = [];
@@ -333,7 +332,7 @@ class ElasticSearchListener extends DriverEventSubscriber
                         $this->transformCriterion($criterion, $keyBag)
                     );
                 }
-            }  else {
+            } else {
                 // Group with OR
                 $subQueries = [];
 
@@ -341,7 +340,7 @@ class ElasticSearchListener extends DriverEventSubscriber
                     $keyBag = [];
 
                     $subQuery["filtered"] = [
-                        "filter" => []
+                        "filter" => [],
                     ];
 
                     /** @var CriterionInterface $criterion */
@@ -409,7 +408,7 @@ class ElasticSearchListener extends DriverEventSubscriber
         $params = [
             "index" => $query->getName(),
             "type" => $query->getType(),
-            "body" => $event->getExtraData()
+            "body" => $event->getExtraData(),
         ];
 
         $results = $this->getClient()->search($params);

@@ -2,8 +2,8 @@
 
 namespace IndexEngine\Model\Base;
 
-use \Exception;
-use \PDO;
+use Exception;
+use PDO;
 use IndexEngine\Model\IndexEngineIndexVersion as ChildIndexEngineIndexVersion;
 use IndexEngine\Model\IndexEngineIndexVersionQuery as ChildIndexEngineIndexVersionQuery;
 use IndexEngine\Model\Map\IndexEngineIndexVersionTableMap;
@@ -95,13 +95,12 @@ use Propel\Runtime\Exception\PropelException;
  */
 abstract class IndexEngineIndexVersionQuery extends ModelCriteria
 {
-
     /**
      * Initializes internal state of \IndexEngine\Model\Base\IndexEngineIndexVersionQuery object.
      *
-     * @param     string $dbName The database name
-     * @param     string $modelName The phpName of a model, e.g. 'Book'
-     * @param     string $modelAlias The alias for the model in this query, e.g. 'b'
+     * @param string $dbName     The database name
+     * @param string $modelName  The phpName of a model, e.g. 'Book'
+     * @param string $modelAlias The alias for the model in this query, e.g. 'b'
      */
     public function __construct($dbName = 'thelia', $modelName = '\\IndexEngine\\Model\\IndexEngineIndexVersion', $modelAlias = null)
     {
@@ -111,8 +110,8 @@ abstract class IndexEngineIndexVersionQuery extends ModelCriteria
     /**
      * Returns a new ChildIndexEngineIndexVersionQuery object.
      *
-     * @param     string $modelAlias The alias of a model in the query
-     * @param     Criteria $criteria Optional Criteria to build the query from
+     * @param string   $modelAlias The alias of a model in the query
+     * @param Criteria $criteria   Optional Criteria to build the query from
      *
      * @return ChildIndexEngineIndexVersionQuery
      */
@@ -149,7 +148,7 @@ abstract class IndexEngineIndexVersionQuery extends ModelCriteria
     public function findPk($key, $con = null)
     {
         if ($key === null) {
-            return null;
+            return;
         }
         if ((null !== ($obj = IndexEngineIndexVersionTableMap::getInstanceFromPool(serialize(array((string) $key[0], (string) $key[1]))))) && !$this->formatter) {
             // the object is already in the instance pool
@@ -172,10 +171,10 @@ abstract class IndexEngineIndexVersionQuery extends ModelCriteria
      * Find object by primary key using raw SQL to go fast.
      * Bypass doSelect() and the object formatter by using generated code.
      *
-     * @param     mixed $key Primary key to use for the query
-     * @param     ConnectionInterface $con A connection object
+     * @param mixed               $key Primary key to use for the query
+     * @param ConnectionInterface $con A connection object
      *
-     * @return   ChildIndexEngineIndexVersion A model object, or null if the key is not found
+     * @return ChildIndexEngineIndexVersion A model object, or null if the key is not found
      */
     protected function findPkSimple($key, $con)
     {
@@ -203,8 +202,8 @@ abstract class IndexEngineIndexVersionQuery extends ModelCriteria
     /**
      * Find object by primary key.
      *
-     * @param     mixed $key Primary key to use for the query
-     * @param     ConnectionInterface $con A connection object
+     * @param mixed               $key Primary key to use for the query
+     * @param ConnectionInterface $con A connection object
      *
      * @return ChildIndexEngineIndexVersion|array|mixed the result, formatted by the current formatter
      */
@@ -224,8 +223,8 @@ abstract class IndexEngineIndexVersionQuery extends ModelCriteria
      * <code>
      * $objs = $c->findPks(array(array(12, 56), array(832, 123), array(123, 456)), $con);
      * </code>
-     * @param     array $keys Primary keys to use for the query
-     * @param     ConnectionInterface $con an optional connection object
+     * @param array               $keys Primary keys to use for the query
+     * @param ConnectionInterface $con  an optional connection object
      *
      * @return ObjectCollection|array|mixed the list of results, formatted by the current formatter
      */
@@ -246,7 +245,7 @@ abstract class IndexEngineIndexVersionQuery extends ModelCriteria
     /**
      * Filter the query by primary key
      *
-     * @param     mixed $key Primary key to use for the query
+     * @param mixed $key Primary key to use for the query
      *
      * @return ChildIndexEngineIndexVersionQuery The current query, for fluid interface
      */
@@ -261,7 +260,7 @@ abstract class IndexEngineIndexVersionQuery extends ModelCriteria
     /**
      * Filter the query by a list of primary keys
      *
-     * @param     array $keys The list of primary key to use for the query
+     * @param array $keys The list of primary key to use for the query
      *
      * @return ChildIndexEngineIndexVersionQuery The current query, for fluid interface
      */
@@ -292,11 +291,11 @@ abstract class IndexEngineIndexVersionQuery extends ModelCriteria
      *
      * @see       filterByIndexEngineIndex()
      *
-     * @param     mixed $id The value to use as filter.
-     *              Use scalar values for equality.
-     *              Use array values for in_array() equivalent.
-     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param mixed  $id         The value to use as filter.
+     *                           Use scalar values for equality.
+     *                           Use array values for in_array() equivalent.
+     *                           Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return ChildIndexEngineIndexVersionQuery The current query, for fluid interface
      */
@@ -333,11 +332,11 @@ abstract class IndexEngineIndexVersionQuery extends ModelCriteria
      * $query->filterByVisible(array('min' => 12)); // WHERE visible > 12
      * </code>
      *
-     * @param     mixed $visible The value to use as filter.
-     *              Use scalar values for equality.
-     *              Use array values for in_array() equivalent.
-     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param mixed  $visible    The value to use as filter.
+     *                           Use scalar values for equality.
+     *                           Use array values for in_array() equivalent.
+     *                           Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return ChildIndexEngineIndexVersionQuery The current query, for fluid interface
      */
@@ -373,9 +372,9 @@ abstract class IndexEngineIndexVersionQuery extends ModelCriteria
      * $query->filterByCode('%fooValue%'); // WHERE code LIKE '%fooValue%'
      * </code>
      *
-     * @param     string $code The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string $code       The value to use as filter.
+     *                           Accepts wildcards (* and % trigger a LIKE)
+     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return ChildIndexEngineIndexVersionQuery The current query, for fluid interface
      */
@@ -402,9 +401,9 @@ abstract class IndexEngineIndexVersionQuery extends ModelCriteria
      * $query->filterByTitle('%fooValue%'); // WHERE title LIKE '%fooValue%'
      * </code>
      *
-     * @param     string $title The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string $title      The value to use as filter.
+     *                           Accepts wildcards (* and % trigger a LIKE)
+     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return ChildIndexEngineIndexVersionQuery The current query, for fluid interface
      */
@@ -431,9 +430,9 @@ abstract class IndexEngineIndexVersionQuery extends ModelCriteria
      * $query->filterByType('%fooValue%'); // WHERE type LIKE '%fooValue%'
      * </code>
      *
-     * @param     string $type The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string $type       The value to use as filter.
+     *                           Accepts wildcards (* and % trigger a LIKE)
+     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return ChildIndexEngineIndexVersionQuery The current query, for fluid interface
      */
@@ -460,9 +459,9 @@ abstract class IndexEngineIndexVersionQuery extends ModelCriteria
      * $query->filterByEntity('%fooValue%'); // WHERE entity LIKE '%fooValue%'
      * </code>
      *
-     * @param     string $entity The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string $entity     The value to use as filter.
+     *                           Accepts wildcards (* and % trigger a LIKE)
+     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return ChildIndexEngineIndexVersionQuery The current query, for fluid interface
      */
@@ -489,9 +488,9 @@ abstract class IndexEngineIndexVersionQuery extends ModelCriteria
      * $query->filterBySerializedColumns('%fooValue%'); // WHERE serialized_columns LIKE '%fooValue%'
      * </code>
      *
-     * @param     string $serializedColumns The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string $serializedColumns The value to use as filter.
+     *                                  Accepts wildcards (* and % trigger a LIKE)
+     * @param string $comparison        Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return ChildIndexEngineIndexVersionQuery The current query, for fluid interface
      */
@@ -518,9 +517,9 @@ abstract class IndexEngineIndexVersionQuery extends ModelCriteria
      * $query->filterBySerializedCondition('%fooValue%'); // WHERE serialized_condition LIKE '%fooValue%'
      * </code>
      *
-     * @param     string $serializedCondition The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string $serializedCondition The value to use as filter.
+     *                                    Accepts wildcards (* and % trigger a LIKE)
+     * @param string $comparison          Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return ChildIndexEngineIndexVersionQuery The current query, for fluid interface
      */
@@ -548,11 +547,11 @@ abstract class IndexEngineIndexVersionQuery extends ModelCriteria
      * $query->filterByIndexEngineDriverConfigurationId(array('min' => 12)); // WHERE index_engine_driver_configuration_id > 12
      * </code>
      *
-     * @param     mixed $indexEngineDriverConfigurationId The value to use as filter.
-     *              Use scalar values for equality.
-     *              Use array values for in_array() equivalent.
-     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param mixed  $indexEngineDriverConfigurationId The value to use as filter.
+     *                                                 Use scalar values for equality.
+     *                                                 Use array values for in_array() equivalent.
+     *                                                 Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param string $comparison                       Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return ChildIndexEngineIndexVersionQuery The current query, for fluid interface
      */
@@ -589,13 +588,13 @@ abstract class IndexEngineIndexVersionQuery extends ModelCriteria
      * $query->filterByCreatedAt(array('max' => 'yesterday')); // WHERE created_at > '2011-03-13'
      * </code>
      *
-     * @param     mixed $createdAt The value to use as filter.
-     *              Values can be integers (unix timestamps), DateTime objects, or strings.
-     *              Empty strings are treated as NULL.
-     *              Use scalar values for equality.
-     *              Use array values for in_array() equivalent.
-     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param mixed  $createdAt  The value to use as filter.
+     *                           Values can be integers (unix timestamps), DateTime objects, or strings.
+     *                           Empty strings are treated as NULL.
+     *                           Use scalar values for equality.
+     *                           Use array values for in_array() equivalent.
+     *                           Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return ChildIndexEngineIndexVersionQuery The current query, for fluid interface
      */
@@ -632,13 +631,13 @@ abstract class IndexEngineIndexVersionQuery extends ModelCriteria
      * $query->filterByUpdatedAt(array('max' => 'yesterday')); // WHERE updated_at > '2011-03-13'
      * </code>
      *
-     * @param     mixed $updatedAt The value to use as filter.
-     *              Values can be integers (unix timestamps), DateTime objects, or strings.
-     *              Empty strings are treated as NULL.
-     *              Use scalar values for equality.
-     *              Use array values for in_array() equivalent.
-     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param mixed  $updatedAt  The value to use as filter.
+     *                           Values can be integers (unix timestamps), DateTime objects, or strings.
+     *                           Empty strings are treated as NULL.
+     *                           Use scalar values for equality.
+     *                           Use array values for in_array() equivalent.
+     *                           Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return ChildIndexEngineIndexVersionQuery The current query, for fluid interface
      */
@@ -675,11 +674,11 @@ abstract class IndexEngineIndexVersionQuery extends ModelCriteria
      * $query->filterByVersion(array('min' => 12)); // WHERE version > 12
      * </code>
      *
-     * @param     mixed $version The value to use as filter.
-     *              Use scalar values for equality.
-     *              Use array values for in_array() equivalent.
-     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param mixed  $version    The value to use as filter.
+     *                           Use scalar values for equality.
+     *                           Use array values for in_array() equivalent.
+     *                           Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return ChildIndexEngineIndexVersionQuery The current query, for fluid interface
      */
@@ -716,13 +715,13 @@ abstract class IndexEngineIndexVersionQuery extends ModelCriteria
      * $query->filterByVersionCreatedAt(array('max' => 'yesterday')); // WHERE version_created_at > '2011-03-13'
      * </code>
      *
-     * @param     mixed $versionCreatedAt The value to use as filter.
-     *              Values can be integers (unix timestamps), DateTime objects, or strings.
-     *              Empty strings are treated as NULL.
-     *              Use scalar values for equality.
-     *              Use array values for in_array() equivalent.
-     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param mixed  $versionCreatedAt The value to use as filter.
+     *                                 Values can be integers (unix timestamps), DateTime objects, or strings.
+     *                                 Empty strings are treated as NULL.
+     *                                 Use scalar values for equality.
+     *                                 Use array values for in_array() equivalent.
+     *                                 Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param string $comparison       Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return ChildIndexEngineIndexVersionQuery The current query, for fluid interface
      */
@@ -758,9 +757,9 @@ abstract class IndexEngineIndexVersionQuery extends ModelCriteria
      * $query->filterByVersionCreatedBy('%fooValue%'); // WHERE version_created_by LIKE '%fooValue%'
      * </code>
      *
-     * @param     string $versionCreatedBy The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string $versionCreatedBy The value to use as filter.
+     *                                 Accepts wildcards (* and % trigger a LIKE)
+     * @param string $comparison       Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return ChildIndexEngineIndexVersionQuery The current query, for fluid interface
      */
@@ -782,7 +781,7 @@ abstract class IndexEngineIndexVersionQuery extends ModelCriteria
      * Filter the query by a related \IndexEngine\Model\IndexEngineIndex object
      *
      * @param \IndexEngine\Model\IndexEngineIndex|ObjectCollection $indexEngineIndex The related object(s) to use as filter
-     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string                                               $comparison       Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return ChildIndexEngineIndexVersionQuery The current query, for fluid interface
      */
@@ -806,8 +805,8 @@ abstract class IndexEngineIndexVersionQuery extends ModelCriteria
     /**
      * Adds a JOIN clause to the query using the IndexEngineIndex relation
      *
-     * @param     string $relationAlias optional alias for the relation
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     * @param string $relationAlias optional alias for the relation
+     * @param string $joinType      Accepted values are null, 'left join', 'right join', 'inner join'
      *
      * @return ChildIndexEngineIndexVersionQuery The current query, for fluid interface
      */
@@ -840,11 +839,11 @@ abstract class IndexEngineIndexVersionQuery extends ModelCriteria
      *
      * @see useQuery()
      *
-     * @param     string $relationAlias optional alias for the relation,
-     *                                   to be used as main alias in the secondary query
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     * @param string $relationAlias optional alias for the relation,
+     *                              to be used as main alias in the secondary query
+     * @param string $joinType      Accepted values are null, 'left join', 'right join', 'inner join'
      *
-     * @return   \IndexEngine\Model\IndexEngineIndexQuery A secondary query class using the current class as primary query
+     * @return \IndexEngine\Model\IndexEngineIndexQuery A secondary query class using the current class as primary query
      */
     public function useIndexEngineIndexQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
     {
@@ -856,7 +855,7 @@ abstract class IndexEngineIndexVersionQuery extends ModelCriteria
     /**
      * Exclude object from result
      *
-     * @param   ChildIndexEngineIndexVersion $indexEngineIndexVersion Object to remove from the list of results
+     * @param ChildIndexEngineIndexVersion $indexEngineIndexVersion Object to remove from the list of results
      *
      * @return ChildIndexEngineIndexVersionQuery The current query, for fluid interface
      */
@@ -874,8 +873,8 @@ abstract class IndexEngineIndexVersionQuery extends ModelCriteria
     /**
      * Deletes all rows from the index_engine_index_version table.
      *
-     * @param ConnectionInterface $con the connection to use
-     * @return int The number of affected rows (if supported by underlying database driver).
+     * @param  ConnectionInterface $con the connection to use
+     * @return int                 The number of affected rows (if supported by underlying database driver).
      */
     public function doDeleteAll(ConnectionInterface $con = null)
     {
@@ -903,37 +902,36 @@ abstract class IndexEngineIndexVersionQuery extends ModelCriteria
         return $affectedRows;
     }
 
-    /**
-     * Performs a DELETE on the database, given a ChildIndexEngineIndexVersion or Criteria object OR a primary key value.
-     *
-     * @param mixed               $values Criteria or ChildIndexEngineIndexVersion object or primary key or array of primary keys
-     *              which is used to create the DELETE statement
-     * @param ConnectionInterface $con the connection to use
-     * @return int The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
-     *                if supported by native driver or if emulated using Propel.
-     * @throws PropelException Any exceptions caught during processing will be
-     *         rethrown wrapped into a PropelException.
-     */
+     /**
+      * Performs a DELETE on the database, given a ChildIndexEngineIndexVersion or Criteria object OR a primary key value.
+      *
+      * @param mixed               $values Criteria or ChildIndexEngineIndexVersion object or primary key or array of primary keys
+      *              which is used to create the DELETE statement
+      * @param ConnectionInterface $con the connection to use
+      * @return int The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
+      *                if supported by native driver or if emulated using Propel.
+      * @throws PropelException Any exceptions caught during processing will be
+      *         rethrown wrapped into a PropelException.
+      */
      public function delete(ConnectionInterface $con = null)
      {
-        if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(IndexEngineIndexVersionTableMap::DATABASE_NAME);
-        }
+         if (null === $con) {
+             $con = Propel::getServiceContainer()->getWriteConnection(IndexEngineIndexVersionTableMap::DATABASE_NAME);
+         }
 
-        $criteria = $this;
+         $criteria = $this;
 
         // Set the correct dbName
         $criteria->setDbName(IndexEngineIndexVersionTableMap::DATABASE_NAME);
 
-        $affectedRows = 0; // initialize var to track total num of affected rows
+         $affectedRows = 0; // initialize var to track total num of affected rows
 
         try {
             // use transaction because $criteria could contain info
             // for more than one table or we could emulating ON DELETE CASCADE, etc.
             $con->beginTransaction();
 
-
-        IndexEngineIndexVersionTableMap::removeInstanceFromPool($criteria);
+            IndexEngineIndexVersionTableMap::removeInstanceFromPool($criteria);
 
             $affectedRows += ModelCriteria::delete($con);
             IndexEngineIndexVersionTableMap::clearRelatedInstancePool();
@@ -944,6 +942,5 @@ abstract class IndexEngineIndexVersionQuery extends ModelCriteria
             $con->rollBack();
             throw $e;
         }
-    }
-
+     }
 } // IndexEngineIndexVersionQuery

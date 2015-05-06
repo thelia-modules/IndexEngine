@@ -12,7 +12,6 @@
 
 namespace IndexEngine\Driver\Exception;
 
-
 /**
  * Class InvalidDriverCodeException
  * @package IndexEngine\Driver\Exception

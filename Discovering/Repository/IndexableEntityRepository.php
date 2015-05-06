@@ -17,7 +17,6 @@ use IndexEngine\Event\Module\EntityCollectEvent;
 use IndexEngine\Event\Module\EntityColumnsCollectEvent;
 use IndexEngine\Event\Module\IndexEngineEvents;
 use IndexEngine\Exception\InvalidArgumentException;
-use IndexEngine\Discovering\Repository\IndexableEntityRepositoryInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**

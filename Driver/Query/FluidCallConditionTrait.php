@@ -32,7 +32,7 @@ trait FluidCallConditionTrait
     protected $executionState = 0;
 
     /**
-     * @param bool $condition
+     * @param  bool  $condition
      * @return $this
      */
     public function _if($condition)
@@ -44,16 +44,16 @@ trait FluidCallConditionTrait
     }
 
     /**
-     * @param bool $condition
+     * @param  bool  $condition
      * @return $this
      */
     public function _elseif($condition)
     {
         if (-1 !== $this->currentElement) {
             if (false === $this->conditionStack[$this->currentElement]) {
-                $this->conditionStack[$this->currentElement] = (bool)$condition;
-            } elseif (2 > (int)$this->conditionStack[$this->currentElement]) {
-                $this->conditionStack[$this->currentElement] = 1 + (int)$this->conditionStack[$this->currentElement];
+                $this->conditionStack[$this->currentElement] = (bool) $condition;
+            } elseif (2 > (int) $this->conditionStack[$this->currentElement]) {
+                $this->conditionStack[$this->currentElement] = 1 + (int) $this->conditionStack[$this->currentElement];
             }
         }
 
@@ -66,8 +66,8 @@ trait FluidCallConditionTrait
     public function _else()
     {
         if (-1 !== $this->currentElement) {
-            if (2 > (int)$this->conditionStack[$this->currentElement]) {
-                $this->conditionStack[$this->currentElement] = 1 + (int)$this->conditionStack[$this->currentElement];
+            if (2 > (int) $this->conditionStack[$this->currentElement]) {
+                $this->conditionStack[$this->currentElement] = 1 + (int) $this->conditionStack[$this->currentElement];
             }
         }
 
@@ -99,6 +99,6 @@ trait FluidCallConditionTrait
             return $this;
         }
 
-        return null;
+        return;
     }
 }

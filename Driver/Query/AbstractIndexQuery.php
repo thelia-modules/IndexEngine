@@ -55,10 +55,10 @@ abstract class AbstractIndexQuery extends AbstractCollection implements IndexQue
     protected $criterionGroups = array();
 
     /**
-     * @param string $column
-     * @param mixed $value
-     * @param string $comparison
-     * @param null $outerMode
+     * @param  string $column
+     * @param  mixed  $value
+     * @param  string $comparison
+     * @param  null   $outerMode
      * @return $this
      *
      * This method creates and adds a criterion.
@@ -70,11 +70,11 @@ abstract class AbstractIndexQuery extends AbstractCollection implements IndexQue
     }
 
     /**
-     * @param string $column
-     * @param array $values
-     * @param string $comparison
-     * @param null|string $innerMode
-     * @param null|string $outerMode
+     * @param  string      $column
+     * @param  array       $values
+     * @param  string      $comparison
+     * @param  null|string $innerMode
+     * @param  null|string $outerMode
      * @return $this
      *
      * This method allow you to filter a column with multiple values.
@@ -107,9 +107,9 @@ abstract class AbstractIndexQuery extends AbstractCollection implements IndexQue
     }
 
     /**
-     * @param CriterionInterface $criterion
-     * @param null|string $name
-     * @param null|string $outerMode
+     * @param  CriterionInterface $criterion
+     * @param  null|string        $name
+     * @param  null|string        $outerMode
      * @return AbstractIndexQuery
      *
      * Transforms the criterion into a criterion group and adds it to the stack
@@ -127,9 +127,9 @@ abstract class AbstractIndexQuery extends AbstractCollection implements IndexQue
     }
 
     /**
-     * @param CriterionGroupInterface $criterionGroup
-     * @param null|string $name
-     * @param null|string $outerMode
+     * @param  CriterionGroupInterface $criterionGroup
+     * @param  null|string             $name
+     * @param  null|string             $outerMode
      * @return $this
      *
      * Add a criterion group
@@ -287,7 +287,7 @@ abstract class AbstractIndexQuery extends AbstractCollection implements IndexQue
     }
 
     /**
-     * @param int $limit
+     * @param  int   $limit
      * @return $this
      *
      * Set the max number of results to return
@@ -347,8 +347,8 @@ abstract class AbstractIndexQuery extends AbstractCollection implements IndexQue
     }
 
     /**
-     * @param string $column
-     * @param string $type
+     * @param  string $column
+     * @param  string $type
      * @return $this
      *
      * Add a field to the order stack

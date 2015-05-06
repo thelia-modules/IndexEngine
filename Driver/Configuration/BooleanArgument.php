@@ -28,6 +28,7 @@ class BooleanArgument extends AbstractArgument
     {
         if (is_int($value) || is_float($value) || is_numeric($value) || is_bool($value)) {
             $this->value = (bool) $value;
+
             return $this;
         }
 
@@ -49,6 +50,7 @@ class BooleanArgument extends AbstractArgument
         }
 
         $this->value = (bool) $string;
+
         return $this;
     }
 

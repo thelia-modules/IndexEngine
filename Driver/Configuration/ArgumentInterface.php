@@ -12,7 +12,6 @@
 
 namespace IndexEngine\Driver\Configuration;
 
-
 /**
  * Interface ArgumentInterface
  * @package IndexEngine\Driver\Configuration

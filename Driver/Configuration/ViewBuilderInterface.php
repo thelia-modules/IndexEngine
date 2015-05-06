@@ -22,7 +22,7 @@ use Thelia\Form\BaseForm;
 interface ViewBuilderInterface
 {
     /**
-     * @param BaseForm $form
+     * @param  BaseForm $form
      * @return string
      *
      * Generates the view for the configuration form.

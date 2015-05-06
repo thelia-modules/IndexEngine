@@ -28,9 +28,9 @@ class CriterionGroup extends AbstractCollection implements CriterionGroupInterfa
     private $collectionCount = 0;
 
     /**
-     * @param CriterionInterface $criterion
-     * @param null|string $name
-     * @param string $link
+     * @param  CriterionInterface $criterion
+     * @param  null|string        $name
+     * @param  string             $link
      * @return $this
      *
      * Add a criterion to the group

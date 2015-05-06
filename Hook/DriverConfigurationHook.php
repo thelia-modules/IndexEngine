@@ -68,7 +68,7 @@ class DriverConfigurationHook extends BaseHook
 
             /** @var \IndexEngine\Driver\Configuration\ArgumentInterface $argument */
             foreach ($configuration->getArguments() as $argument) {
-                if($argument instanceof ParserAwareArgumentInterface) {
+                if ($argument instanceof ParserAwareArgumentInterface) {
                     $argument->setParser($this->parser);
                 }
 

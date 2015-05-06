@@ -35,9 +35,9 @@ class ArgumentFormBuilder implements ArgumentFormBuilderInterface
     }
 
     /**
-     * @param ArgumentInterface $argument
-     * @param SfFormBuilderInterface $builder
-     * @param mixed $defaultValue
+     * @param  ArgumentInterface      $argument
+     * @param  SfFormBuilderInterface $builder
+     * @param  mixed                  $defaultValue
      * @return void
      *
      * Add the needed field(s) into the symfony form builder for the given argument
@@ -68,8 +68,8 @@ class ArgumentFormBuilder implements ArgumentFormBuilderInterface
                     "cascade_validation" => true,
                     "options" => [
                         "label" => $argumentLabel,
-                        "required" => false
-                    ]
+                        "required" => false,
+                    ],
                 ];
             } else {
                 $type = $this->typeResolver->transform($argument->getType());
@@ -80,7 +80,7 @@ class ArgumentFormBuilder implements ArgumentFormBuilderInterface
 
                 $options = [
                     "label" => $argumentLabel,
-                    "required" => false
+                    "required" => false,
                 ];
 
                 if ($argument instanceof EnumArgument) {

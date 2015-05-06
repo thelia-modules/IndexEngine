@@ -12,7 +12,6 @@
 
 namespace IndexEngine\Driver\Configuration;
 
-
 /**
  * Class StringArgument
  * @package IndexEngine\Driver\Configuration

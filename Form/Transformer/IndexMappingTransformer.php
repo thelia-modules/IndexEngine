@@ -52,15 +52,15 @@ class IndexMappingTransformer implements DataTransformerInterface
     public function transform($value)
     {
         if (!is_array($value)) {
-            return null;
+            return;
         }
 
         $builtData = [];
 
         foreach ($value as $key => $entry) {
-            $builtData[]= [
+            $builtData[] = [
                 "column" => $key,
-                "type" => $entry
+                "type" => $entry,
             ];
         }
 
@@ -94,7 +94,7 @@ class IndexMappingTransformer implements DataTransformerInterface
     public function reverseTransform($value)
     {
         if (!is_array($value)) {
-            return null;
+            return;
         }
 
         $builtData = [];

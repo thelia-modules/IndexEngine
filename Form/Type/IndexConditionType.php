@@ -35,7 +35,7 @@ class IndexConditionType extends AbstractType
             ->add("comparison", "index_comparison", [
                 "required" => true,
                 "constraints" => [
-                    new NotBlank()
+                    new NotBlank(),
                 ]
             ])
             ->add("value", "text", [

@@ -29,7 +29,7 @@ interface EventDispatcherAwareInterface
     public function getDispatcher();
 
     /**
-     * @param EventDispatcherInterface $dispatcher
+     * @param  EventDispatcherInterface $dispatcher
      * @return void
      *
      * Set the current dispatcher

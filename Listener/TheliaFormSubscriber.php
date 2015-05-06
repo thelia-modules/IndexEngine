@@ -21,7 +21,6 @@ use Thelia\Core\Event\TheliaEvents;
 use IndexEngine\Form\IndexEngineDriverConfigurationUpdateForm;
 use Thelia\Core\Event\TheliaFormEvent;
 
-
 /**
  * Class TheliaFormSubscriber
  * @package IndexEngine\Listener

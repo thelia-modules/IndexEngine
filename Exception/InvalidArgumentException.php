@@ -12,7 +12,6 @@
 
 namespace IndexEngine\Exception;
 
-
 /**
  * Class InvalidArgumentException
  * @package IndexEngine\Exception

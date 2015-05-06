@@ -64,7 +64,7 @@ class TypeResolver implements DataTransformerInterface
             return self::$typeMatch[$value];
         }
 
-        return null;
+        return;
     }
 
     /**
@@ -97,6 +97,6 @@ class TypeResolver implements DataTransformerInterface
             return $key;
         }
 
-        return null;
+        return;
     }
 }

@@ -46,12 +46,13 @@ class Criterion implements CriterionInterface
     }
 
     /**
-     * @param string $column
+     * @param  string $column
      * @return $this
      */
     public function setColumn($column)
     {
         $this->column = $column;
+
         return $this;
     }
 
@@ -64,12 +65,13 @@ class Criterion implements CriterionInterface
     }
 
     /**
-     * @param mixed $value
+     * @param  mixed $value
      * @return $this
      */
     public function setValue($value)
     {
         $this->value = $value;
+
         return $this;
     }
 
@@ -82,12 +84,13 @@ class Criterion implements CriterionInterface
     }
 
     /**
-     * @param string $comparison
+     * @param  string $comparison
      * @return $this
      */
     public function setComparison($comparison)
     {
         $this->comparison = $comparison;
+
         return $this;
     }
 

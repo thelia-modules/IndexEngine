@@ -22,10 +22,10 @@ use IndexEngine\Driver\Query\Criterion\CriterionInterface;
 interface IndexQueryInterface
 {
     /**
-     * @param string $column
-     * @param mixed $value
-     * @param string $comparison
-     * @param null $outerMode
+     * @param  string $column
+     * @param  mixed  $value
+     * @param  string $comparison
+     * @param  null   $outerMode
      * @return $this
      *
      * This method creates and adds a criterion.
@@ -34,11 +34,11 @@ interface IndexQueryInterface
     public function filterBy($column, $value, $comparison = Comparison::EQUAL, $outerMode = Link::LINK_DEFAULT);
 
     /**
-     * @param string $column
-     * @param array $values
-     * @param string $comparison
-     * @param null|string $innerMode
-     * @param null|string $outerMode
+     * @param  string      $column
+     * @param  array       $values
+     * @param  string      $comparison
+     * @param  null|string $innerMode
+     * @param  null|string $outerMode
      * @return $this
      *
      * This method allow you to filter a column with multiple values.
@@ -49,9 +49,9 @@ interface IndexQueryInterface
     public function filterByArray($column, array $values, $comparison = Comparison::EQUAL, $innerMode = Link::LINK_AND, $outerMode = Link::LINK_DEFAULT);
 
     /**
-     * @param CriterionInterface $criterion
-     * @param null|string $name
-     * @param null|string $outerMode
+     * @param  CriterionInterface $criterion
+     * @param  null|string        $name
+     * @param  null|string        $outerMode
      * @return AbstractIndexQuery
      *
      * Transforms the criterion into a criterion group and adds it to the stack
@@ -59,9 +59,9 @@ interface IndexQueryInterface
     public function addCriterion(CriterionInterface $criterion, $name = null, $outerMode = Link::LINK_DEFAULT);
 
     /**
-     * @param CriterionGroupInterface $criterionGroup
-     * @param null|string $name
-     * @param null|string $outerMode
+     * @param  CriterionGroupInterface $criterionGroup
+     * @param  null|string             $name
+     * @param  null|string             $outerMode
      * @return $this
      *
      * Add a criterion group
@@ -132,7 +132,7 @@ interface IndexQueryInterface
     public function getName();
 
     /**
-     * @param int $limit
+     * @param  int   $limit
      * @return $this
      *
      * Set the max number of results to return
@@ -162,8 +162,8 @@ interface IndexQueryInterface
     public function getOffset();
 
     /**
-     * @param string $column
-     * @param string $type
+     * @param  string $column
+     * @param  string $type
      * @return $this
      *
      * Add a field to the order stack

@@ -29,7 +29,7 @@ class IndexMappingType extends AbstractType
             ->add("column", "text", [
                 "required" => true,
                 "constraints" => [
-                    new NotBlank()
+                    new NotBlank(),
                 ]
             ])
             ->add("type", "index_mapping_type")

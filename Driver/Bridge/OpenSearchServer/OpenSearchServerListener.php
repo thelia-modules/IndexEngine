@@ -55,7 +55,7 @@ class OpenSearchServerListener extends DriverEventSubscriber
         ;
 
         $collection->setDefaults([
-            "hostname" => OpenSearchServerDriver::DEFAULT_HOST
+            "hostname" => OpenSearchServerDriver::DEFAULT_HOST,
         ]);
     }
 
@@ -76,7 +76,7 @@ class OpenSearchServerListener extends DriverEventSubscriber
         $this->getDriver()->addExtraConfiguration("client", new Handler([
             "url" => $hostname,
             "login" => $login,
-            "key" => $apiKey
+            "key" => $apiKey,
         ]));
     }
 
@@ -90,7 +90,6 @@ class OpenSearchServerListener extends DriverEventSubscriber
      */
     public function createIndex(IndexEvent $event)
     {
-
     }
 
     /**
@@ -123,7 +122,6 @@ class OpenSearchServerListener extends DriverEventSubscriber
      */
     public function deleteIndex(IndexEvent $event)
     {
-
     }
 
     /**
@@ -139,7 +137,6 @@ class OpenSearchServerListener extends DriverEventSubscriber
      */
     public function persistIndexes(IndexEvent $event)
     {
-
     }
 
     /**
@@ -149,7 +146,6 @@ class OpenSearchServerListener extends DriverEventSubscriber
      */
     public function executeSearchQuery(IndexSearchQueryEvent $event)
     {
-
     }
 
     /**

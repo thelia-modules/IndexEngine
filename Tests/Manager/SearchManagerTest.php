@@ -16,7 +16,6 @@ use IndexEngine\Driver\Query\IndexQuery;
 use IndexEngine\Driver\Query\Order;
 use IndexEngine\Manager\SearchManager;
 
-
 /**
  * Class SearchManagerTest
  * @package IndexEngine\Tests\Manager
@@ -58,7 +57,7 @@ class SearchManagerTest extends \PHPUnit_Framework_TestCase
             "banana-reverse",
             ["apple"],
             ["pear", "asc"],
-            ["pineapple", "desc"]
+            ["pineapple", "desc"],
         ];
 
         $expectedOrders = [

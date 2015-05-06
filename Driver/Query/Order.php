@@ -12,7 +12,6 @@
 
 namespace IndexEngine\Driver\Query;
 
-
 /**
  * Class Order
  * @package IndexEngine\Driver\Query

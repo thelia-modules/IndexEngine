@@ -69,12 +69,13 @@ class IndexEvent extends Event
     }
 
     /**
-     * @param string $type
+     * @param  string $type
      * @return $this
      */
     public function setType($type)
     {
         $this->type = $type;
+
         return $this;
     }
 
@@ -87,12 +88,13 @@ class IndexEvent extends Event
     }
 
     /**
-     * @param string $name
+     * @param  string $name
      * @return $this
      */
     public function setIndexName($name)
     {
         $this->indexName = $name;
+
         return $this;
     }
 
@@ -105,12 +107,13 @@ class IndexEvent extends Event
     }
 
     /**
-     * @param IndexMapping $mapping
+     * @param  IndexMapping $mapping
      * @return $this
      */
     public function setMapping(IndexMapping $mapping)
     {
         $this->mapping = $mapping;
+
         return $this;
     }
 
@@ -123,12 +126,13 @@ class IndexEvent extends Event
     }
 
     /**
-     * @param IndexDataVector $indexDataVector
+     * @param  IndexDataVector $indexDataVector
      * @return $this
      */
     public function setIndexDataVector(IndexDataVector $indexDataVector)
     {
         $this->indexDataVector = $indexDataVector;
+
         return $this;
     }
 
@@ -141,12 +145,13 @@ class IndexEvent extends Event
     }
 
     /**
-     * @param mixed $extraData
+     * @param  mixed $extraData
      * @return $this
      */
     public function setExtraData($extraData)
     {
         $this->extraData = $extraData;
+
         return $this;
     }
 
@@ -159,12 +164,13 @@ class IndexEvent extends Event
     }
 
     /**
-     * @param string $indexCode
+     * @param  string $indexCode
      * @return $this
      */
     public function setIndexCode($indexCode)
     {
         $this->indexCode = $indexCode;
+
         return $this;
     }
 }

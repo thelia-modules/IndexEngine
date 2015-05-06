@@ -4,7 +4,6 @@ namespace IndexEngine\Model;
 
 use IndexEngine\Model\Base\IndexEngineIndexVersionQuery as BaseIndexEngineIndexVersionQuery;
 
-
 /**
  * Skeleton subclass for performing query and update operations on the 'index_engine_index_version' table.
  *
@@ -17,5 +16,4 @@ use IndexEngine\Model\Base\IndexEngineIndexVersionQuery as BaseIndexEngineIndexV
  */
 class IndexEngineIndexVersionQuery extends BaseIndexEngineIndexVersionQuery
 {
-
 } // IndexEngineIndexVersionQuery

@@ -12,7 +12,6 @@
 
 namespace IndexEngine\Driver\Query\Criterion;
 
-
 /**
  * Interface CriterionInterface
  * @package IndexEngine\Driver\Query\Criterion
@@ -26,7 +25,7 @@ interface CriterionInterface
     public function getColumn();
 
     /**
-     * @param string $column
+     * @param  string $column
      * @return $this
      */
     public function setColumn($column);
@@ -37,7 +36,7 @@ interface CriterionInterface
     public function getValue();
 
     /**
-     * @param mixed $value
+     * @param  mixed $value
      * @return $this
      */
     public function setValue($value);
@@ -47,7 +46,7 @@ interface CriterionInterface
      */
     public function getComparison();
     /**
-     * @param string $comparison
+     * @param  string $comparison
      * @return $this
      */
     public function setComparison($comparison);

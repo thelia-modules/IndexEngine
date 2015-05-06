@@ -22,9 +22,9 @@ use IndexEngine\Driver\Query\Link;
 interface CriterionGroupInterface
 {
     /**
-     * @param CriterionInterface $criterion
-     * @param null|string $name
-     * @param string $link
+     * @param  CriterionInterface $criterion
+     * @param  null|string        $name
+     * @param  string             $link
      * @return $this
      *
      * Add a criterion to the group

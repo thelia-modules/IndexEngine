@@ -37,8 +37,8 @@ class IndexExistsCommand extends IndexEngineCommand
     }
 
     /**
-     * @param InputInterface $input
-     * @param TheliaConsoleOutput $output
+     * @param  InputInterface      $input
+     * @param  TheliaConsoleOutput $output
      * @return int|null|void
      */
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -55,7 +55,7 @@ class IndexExistsCommand extends IndexEngineCommand
             $output->renderBlock([
                 "",
                 sprintf("The index type '%s' exists with the configuration '%s'", $indexName, $configurationCode),
-                ""
+                "",
             ], "bg=green;fg=black");
 
             return 0;
@@ -64,7 +64,7 @@ class IndexExistsCommand extends IndexEngineCommand
         $output->renderBlock([
             "",
             sprintf("The index type '%s' doesn't exist with the configuration '%s'", $indexName, $configurationCode),
-            ""
+            "",
         ], "bg=red;fg=white");
 
         return 1;

@@ -11,7 +11,6 @@
 /*************************************************************************************/
 namespace IndexEngine\Driver;
 
-
 /**
  * Class DriverRegistry
  * @package IndexEngine\Driver
@@ -20,8 +19,8 @@ namespace IndexEngine\Driver;
 interface DriverRegistryInterface extends CollectionInterface
 {
     /**
-     * @param DriverInterface $driver
-     * @param int $mode
+     * @param  DriverInterface $driver
+     * @param  int             $mode
      * @return $this
      *
      * @throws \IndexEngine\Driver\Exception\UnknownModeException
@@ -34,7 +33,7 @@ interface DriverRegistryInterface extends CollectionInterface
     public function addDriver(DriverInterface $driver, $mode = self::MODE_OVERRIDE);
 
     /**
-     * @param mixed $codeOrDriver It can be a string, an object that implements __toString or a DriverInterface
+     * @param  mixed $codeOrDriver It can be a string, an object that implements __toString or a DriverInterface
      * @return bool
      *
      * This method checks if the driver is already registered and return a boolean.
@@ -43,7 +42,7 @@ interface DriverRegistryInterface extends CollectionInterface
 
     /**
      * @param $codeOrDriver
-     * @param int $mode
+     * @param  int  $mode
      * @return bool
      *
      * @throws \IndexEngine\Driver\Exception\InvalidDriverCodeException
@@ -54,7 +53,7 @@ interface DriverRegistryInterface extends CollectionInterface
 
     /**
      * @param $name
-     * @param int $mode
+     * @param  int                        $mode
      * @return false|null|DriverInterface
      *
      * @throws \IndexEngine\Driver\Exception\InvalidNameException
@@ -64,8 +63,8 @@ interface DriverRegistryInterface extends CollectionInterface
     public function getDriver($code, $mode = self::MODE_THROW_EXCEPTION_ON_ERROR);
 
     /**
-     * @param DriverInterface $driver
-     * @param int $mode
+     * @param  DriverInterface $driver
+     * @param  int             $mode
      * @return bool
      *
      * @throws \IndexEngine\Driver\Exception\UnknownModeException

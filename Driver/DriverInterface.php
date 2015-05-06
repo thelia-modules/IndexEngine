@@ -34,7 +34,7 @@ interface DriverInterface
     public function getConfiguration();
 
     /**
-     * @param null|ArgumentCollectionInterface $configuration
+     * @param  null|ArgumentCollectionInterface $configuration
      * @return void
      *
      * If a configuration is provided in getConfiguration(), this method is called to
@@ -45,10 +45,10 @@ interface DriverInterface
     public function loadConfiguration(ArgumentCollectionInterface $configuration = null);
 
     /**
-     * @param string $type
-     * @param string $code
-     * @param string $name
-     * @param IndexMapping $mapping
+     * @param  string       $type
+     * @param  string       $code
+     * @param  string       $name
+     * @param  IndexMapping $mapping
      * @return mixed
      *
      * This method has to create the index with the given mapping.
@@ -59,9 +59,9 @@ interface DriverInterface
     public function createIndex($type, $code, $name, IndexMapping $mapping);
 
     /**
-     * @param string $type
-     * @param string $code
-     * @param string $name
+     * @param  string $type
+     * @param  string $code
+     * @param  string $name
      * @return bool
      *
      * This method checks that the index corresponding to the type exists in the server
@@ -69,9 +69,9 @@ interface DriverInterface
     public function indexExists($type, $code, $name);
 
     /**
-     * @param string $type
-     * @param string $code
-     * @param string $name
+     * @param  string $type
+     * @param  string $code
+     * @param  string $name
      * @return mixed
      *
      * Delete the index the belong to the given type
@@ -82,11 +82,11 @@ interface DriverInterface
     public function deleteIndex($type, $code, $name);
 
     /**
-     * @param string $type
-     * @param string $code
-     * @param string $name
-     * @param IndexDataVector $indexDataVector
-     * @param IndexMapping $mapping
+     * @param  string          $type
+     * @param  string          $code
+     * @param  string          $name
+     * @param  IndexDataVector $indexDataVector
+     * @param  IndexMapping    $mapping
      * @return mixed
      *
      * @throws \IndexEngine\Driver\Exception\IndexDataPersistException If something goes wrong during recording
@@ -100,8 +100,8 @@ interface DriverInterface
     public function persistIndexes($type, $code, $name, IndexDataVector $indexDataVector, IndexMapping $mapping);
 
     /**
-     * @param IndexQueryInterface $query
-     * @param IndexMapping $mapping
+     * @param  IndexQueryInterface                 $query
+     * @param  IndexMapping                        $mapping
      * @return \IndexEngine\Entity\IndexDataVector
      *
      * Translate the query for the search engine, execute it and return the values with a IndexData vector.
@@ -111,8 +111,8 @@ interface DriverInterface
     public function executeSearchQuery(IndexQueryInterface $query, IndexMapping $mapping);
 
     /**
-     * @param string $name
-     * @param mixed $value
+     * @param  string $name
+     * @param  mixed  $value
      * @return $this
      *
      * Add an extra configuration in the collection
@@ -120,7 +120,7 @@ interface DriverInterface
     public function addExtraConfiguration($name, $value);
 
     /**
-     * @param string $name
+     * @param  string $name
      * @return bool
      *
      * Check if the extra configuration named $name exists
@@ -128,7 +128,7 @@ interface DriverInterface
     public function hasExtraConfiguration($name);
 
     /**
-     * @param string $name
+     * @param  string $name
      * @return $this
      *
      * @throws \IndexEngine\Driver\Exception\InvalidNameException is the extra configuration doesn't exist
@@ -138,7 +138,7 @@ interface DriverInterface
     public function deleteExtraConfiguration($name);
 
     /**
-     * @param string $name
+     * @param  string $name
      * @return mixed
      *
      * @throws \IndexEngine\Driver\Exception\InvalidNameException is the extra configuration doesn't exist

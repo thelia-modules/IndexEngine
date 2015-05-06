@@ -4,7 +4,6 @@ namespace IndexEngine\Model;
 
 use IndexEngine\Model\Base\IndexEngineIndexQuery as BaseIndexEngineIndexQuery;
 
-
 /**
  * Skeleton subclass for performing query and update operations on the 'index_engine_index' table.
  *
@@ -17,5 +16,4 @@ use IndexEngine\Model\Base\IndexEngineIndexQuery as BaseIndexEngineIndexQuery;
  */
 class IndexEngineIndexQuery extends BaseIndexEngineIndexQuery
 {
-
 } // IndexEngineIndexQuery

@@ -93,7 +93,7 @@ abstract class BridgeTestCase extends \PHPUnit_Framework_TestCase
      * @param $code
      * @param $name
      * @param IndexDataVector $indexDataVector
-     * @param IndexMapping $mapping
+     * @param IndexMapping    $mapping
      *
      * @dataProvider generateIndexData
      * @depends testCreateIndex
@@ -491,8 +491,6 @@ abstract class BridgeTestCase extends \PHPUnit_Framework_TestCase
             ->addCriterion(new Criterion("description", "Great", Comparison::LIKE))
         ;
 
-
-
         $query = $this->getBaseQuery()
             ->addCriterionGroup($criterionGroupOne, null, Link::LINK_OR)
             ->addCriterionGroup($criterionGroupTwo)
@@ -540,7 +538,7 @@ abstract class BridgeTestCase extends \PHPUnit_Framework_TestCase
             "price" => IndexMapping::TYPE_FLOAT,
             "out_date" => IndexMapping::TYPE_DATE,
             "out_hour" => IndexMapping::TYPE_TIME,
-            "created_at" => IndexMapping::TYPE_DATETIME
+            "created_at" => IndexMapping::TYPE_DATETIME,
         ]);
     }
 
@@ -571,7 +569,7 @@ abstract class BridgeTestCase extends \PHPUnit_Framework_TestCase
             "price" => 42.123,
             "out_date" => "2012-12-21",
             "out_hour" => "12:23:34",
-            "created_at" => "2015-05-04T12:52:00"
+            "created_at" => "2015-05-04T12:52:00",
         ], $this->getMapping());
 
         $dataVector[] = (new IndexData())->setData([
@@ -582,7 +580,7 @@ abstract class BridgeTestCase extends \PHPUnit_Framework_TestCase
             "price" => 55.32,
             "out_date" => "2012-12-21",
             "out_hour" => "23:34:45",
-            "created_at" => "2015-05-04T12:55:00"
+            "created_at" => "2015-05-04T12:55:00",
         ], $this->getMapping());
 
         $dataVector[] = (new IndexData())->setData([
@@ -593,7 +591,7 @@ abstract class BridgeTestCase extends \PHPUnit_Framework_TestCase
             "price" => 1,
             "out_date" => "1970-01-01",
             "out_hour" => "00:00:00",
-            "created_at" => "2015-05-04T12:56:00"
+            "created_at" => "2015-05-04T12:56:00",
         ], $this->getMapping());
 
         $dataVector[] = (new IndexData())->setData([
@@ -604,7 +602,7 @@ abstract class BridgeTestCase extends \PHPUnit_Framework_TestCase
             "price" => 43,
             "out_date" => "2015-05-04",
             "out_hour" => "12:23:34",
-            "created_at" => "2015-05-04T12:58:00"
+            "created_at" => "2015-05-04T12:58:00",
         ], $this->getMapping());
 
         return $dataVector;
@@ -621,7 +619,7 @@ abstract class BridgeTestCase extends \PHPUnit_Framework_TestCase
     public function getListener()
     {
         // Must return the listener if the driver needs it
-        return null;
+        return;
     }
 
     /**

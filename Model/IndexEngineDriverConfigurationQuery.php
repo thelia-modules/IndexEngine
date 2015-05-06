@@ -4,7 +4,6 @@ namespace IndexEngine\Model;
 
 use IndexEngine\Model\Base\IndexEngineDriverConfigurationQuery as BaseIndexEngineDriverConfigurationQuery;
 
-
 /**
  * Skeleton subclass for performing query and update operations on the 'index_engine_driver_configuration' table.
  *
@@ -17,5 +16,4 @@ use IndexEngine\Model\Base\IndexEngineDriverConfigurationQuery as BaseIndexEngin
  */
 class IndexEngineDriverConfigurationQuery extends BaseIndexEngineDriverConfigurationQuery
 {
-
 } // IndexEngineDriverConfigurationQuery

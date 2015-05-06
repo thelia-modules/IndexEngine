@@ -39,7 +39,7 @@ class SqlManager implements SqlManagerInterface
 
     /**
      * @param $query
-     * @param int $limit
+     * @param  int   $limit
      * @return array The fetched data
      *
      * @throws \IndexEngine\Exception\SqlException If the query has a problem
@@ -89,9 +89,9 @@ class SqlManager implements SqlManagerInterface
     }
 
     /**
-     * @param IndexQueryInterface $query
-     * @param array|null $columns
-     * @return string The built query
+     * @param  IndexQueryInterface $query
+     * @param  array|null          $columns
+     * @return string              The built query
      *
      * This method compiles an IndexQueryInterface object into a SQL query
      */

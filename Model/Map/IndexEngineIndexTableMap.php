@@ -14,7 +14,6 @@ use Propel\Runtime\Map\RelationMap;
 use Propel\Runtime\Map\TableMap;
 use Propel\Runtime\Map\TableMapTrait;
 
-
 /**
  * This class defines the structure of the 'index_engine_index' table.
  *
@@ -151,13 +150,13 @@ class IndexEngineIndexTableMap extends TableMap
      * first dimension keys are the type constants
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
-    protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'Visible', 'Code', 'Title', 'Type', 'Entity', 'SerializedColumns', 'SerializedCondition', 'IndexEngineDriverConfigurationId', 'CreatedAt', 'UpdatedAt', 'Version', 'VersionCreatedAt', 'VersionCreatedBy', ),
-        self::TYPE_STUDLYPHPNAME => array('id', 'visible', 'code', 'title', 'type', 'entity', 'serializedColumns', 'serializedCondition', 'indexEngineDriverConfigurationId', 'createdAt', 'updatedAt', 'version', 'versionCreatedAt', 'versionCreatedBy', ),
-        self::TYPE_COLNAME       => array(IndexEngineIndexTableMap::ID, IndexEngineIndexTableMap::VISIBLE, IndexEngineIndexTableMap::CODE, IndexEngineIndexTableMap::TITLE, IndexEngineIndexTableMap::TYPE, IndexEngineIndexTableMap::ENTITY, IndexEngineIndexTableMap::SERIALIZED_COLUMNS, IndexEngineIndexTableMap::SERIALIZED_CONDITION, IndexEngineIndexTableMap::INDEX_ENGINE_DRIVER_CONFIGURATION_ID, IndexEngineIndexTableMap::CREATED_AT, IndexEngineIndexTableMap::UPDATED_AT, IndexEngineIndexTableMap::VERSION, IndexEngineIndexTableMap::VERSION_CREATED_AT, IndexEngineIndexTableMap::VERSION_CREATED_BY, ),
-        self::TYPE_RAW_COLNAME   => array('ID', 'VISIBLE', 'CODE', 'TITLE', 'TYPE', 'ENTITY', 'SERIALIZED_COLUMNS', 'SERIALIZED_CONDITION', 'INDEX_ENGINE_DRIVER_CONFIGURATION_ID', 'CREATED_AT', 'UPDATED_AT', 'VERSION', 'VERSION_CREATED_AT', 'VERSION_CREATED_BY', ),
-        self::TYPE_FIELDNAME     => array('id', 'visible', 'code', 'title', 'type', 'entity', 'serialized_columns', 'serialized_condition', 'index_engine_driver_configuration_id', 'created_at', 'updated_at', 'version', 'version_created_at', 'version_created_by', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, )
+    protected static $fieldNames = array(
+        self::TYPE_PHPNAME       => array('Id', 'Visible', 'Code', 'Title', 'Type', 'Entity', 'SerializedColumns', 'SerializedCondition', 'IndexEngineDriverConfigurationId', 'CreatedAt', 'UpdatedAt', 'Version', 'VersionCreatedAt', 'VersionCreatedBy'),
+        self::TYPE_STUDLYPHPNAME => array('id', 'visible', 'code', 'title', 'type', 'entity', 'serializedColumns', 'serializedCondition', 'indexEngineDriverConfigurationId', 'createdAt', 'updatedAt', 'version', 'versionCreatedAt', 'versionCreatedBy'),
+        self::TYPE_COLNAME       => array(IndexEngineIndexTableMap::ID, IndexEngineIndexTableMap::VISIBLE, IndexEngineIndexTableMap::CODE, IndexEngineIndexTableMap::TITLE, IndexEngineIndexTableMap::TYPE, IndexEngineIndexTableMap::ENTITY, IndexEngineIndexTableMap::SERIALIZED_COLUMNS, IndexEngineIndexTableMap::SERIALIZED_CONDITION, IndexEngineIndexTableMap::INDEX_ENGINE_DRIVER_CONFIGURATION_ID, IndexEngineIndexTableMap::CREATED_AT, IndexEngineIndexTableMap::UPDATED_AT, IndexEngineIndexTableMap::VERSION, IndexEngineIndexTableMap::VERSION_CREATED_AT, IndexEngineIndexTableMap::VERSION_CREATED_BY),
+        self::TYPE_RAW_COLNAME   => array('ID', 'VISIBLE', 'CODE', 'TITLE', 'TYPE', 'ENTITY', 'SERIALIZED_COLUMNS', 'SERIALIZED_CONDITION', 'INDEX_ENGINE_DRIVER_CONFIGURATION_ID', 'CREATED_AT', 'UPDATED_AT', 'VERSION', 'VERSION_CREATED_AT', 'VERSION_CREATED_BY'),
+        self::TYPE_FIELDNAME     => array('id', 'visible', 'code', 'title', 'type', 'entity', 'serialized_columns', 'serialized_condition', 'index_engine_driver_configuration_id', 'created_at', 'updated_at', 'version', 'version_created_at', 'version_created_by'),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13),
     );
 
     /**
@@ -166,13 +165,13 @@ class IndexEngineIndexTableMap extends TableMap
      * first dimension keys are the type constants
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
-    protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'Visible' => 1, 'Code' => 2, 'Title' => 3, 'Type' => 4, 'Entity' => 5, 'SerializedColumns' => 6, 'SerializedCondition' => 7, 'IndexEngineDriverConfigurationId' => 8, 'CreatedAt' => 9, 'UpdatedAt' => 10, 'Version' => 11, 'VersionCreatedAt' => 12, 'VersionCreatedBy' => 13, ),
-        self::TYPE_STUDLYPHPNAME => array('id' => 0, 'visible' => 1, 'code' => 2, 'title' => 3, 'type' => 4, 'entity' => 5, 'serializedColumns' => 6, 'serializedCondition' => 7, 'indexEngineDriverConfigurationId' => 8, 'createdAt' => 9, 'updatedAt' => 10, 'version' => 11, 'versionCreatedAt' => 12, 'versionCreatedBy' => 13, ),
-        self::TYPE_COLNAME       => array(IndexEngineIndexTableMap::ID => 0, IndexEngineIndexTableMap::VISIBLE => 1, IndexEngineIndexTableMap::CODE => 2, IndexEngineIndexTableMap::TITLE => 3, IndexEngineIndexTableMap::TYPE => 4, IndexEngineIndexTableMap::ENTITY => 5, IndexEngineIndexTableMap::SERIALIZED_COLUMNS => 6, IndexEngineIndexTableMap::SERIALIZED_CONDITION => 7, IndexEngineIndexTableMap::INDEX_ENGINE_DRIVER_CONFIGURATION_ID => 8, IndexEngineIndexTableMap::CREATED_AT => 9, IndexEngineIndexTableMap::UPDATED_AT => 10, IndexEngineIndexTableMap::VERSION => 11, IndexEngineIndexTableMap::VERSION_CREATED_AT => 12, IndexEngineIndexTableMap::VERSION_CREATED_BY => 13, ),
-        self::TYPE_RAW_COLNAME   => array('ID' => 0, 'VISIBLE' => 1, 'CODE' => 2, 'TITLE' => 3, 'TYPE' => 4, 'ENTITY' => 5, 'SERIALIZED_COLUMNS' => 6, 'SERIALIZED_CONDITION' => 7, 'INDEX_ENGINE_DRIVER_CONFIGURATION_ID' => 8, 'CREATED_AT' => 9, 'UPDATED_AT' => 10, 'VERSION' => 11, 'VERSION_CREATED_AT' => 12, 'VERSION_CREATED_BY' => 13, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'visible' => 1, 'code' => 2, 'title' => 3, 'type' => 4, 'entity' => 5, 'serialized_columns' => 6, 'serialized_condition' => 7, 'index_engine_driver_configuration_id' => 8, 'created_at' => 9, 'updated_at' => 10, 'version' => 11, 'version_created_at' => 12, 'version_created_by' => 13, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, )
+    protected static $fieldKeys = array(
+        self::TYPE_PHPNAME       => array('Id' => 0, 'Visible' => 1, 'Code' => 2, 'Title' => 3, 'Type' => 4, 'Entity' => 5, 'SerializedColumns' => 6, 'SerializedCondition' => 7, 'IndexEngineDriverConfigurationId' => 8, 'CreatedAt' => 9, 'UpdatedAt' => 10, 'Version' => 11, 'VersionCreatedAt' => 12, 'VersionCreatedBy' => 13),
+        self::TYPE_STUDLYPHPNAME => array('id' => 0, 'visible' => 1, 'code' => 2, 'title' => 3, 'type' => 4, 'entity' => 5, 'serializedColumns' => 6, 'serializedCondition' => 7, 'indexEngineDriverConfigurationId' => 8, 'createdAt' => 9, 'updatedAt' => 10, 'version' => 11, 'versionCreatedAt' => 12, 'versionCreatedBy' => 13),
+        self::TYPE_COLNAME       => array(IndexEngineIndexTableMap::ID => 0, IndexEngineIndexTableMap::VISIBLE => 1, IndexEngineIndexTableMap::CODE => 2, IndexEngineIndexTableMap::TITLE => 3, IndexEngineIndexTableMap::TYPE => 4, IndexEngineIndexTableMap::ENTITY => 5, IndexEngineIndexTableMap::SERIALIZED_COLUMNS => 6, IndexEngineIndexTableMap::SERIALIZED_CONDITION => 7, IndexEngineIndexTableMap::INDEX_ENGINE_DRIVER_CONFIGURATION_ID => 8, IndexEngineIndexTableMap::CREATED_AT => 9, IndexEngineIndexTableMap::UPDATED_AT => 10, IndexEngineIndexTableMap::VERSION => 11, IndexEngineIndexTableMap::VERSION_CREATED_AT => 12, IndexEngineIndexTableMap::VERSION_CREATED_BY => 13),
+        self::TYPE_RAW_COLNAME   => array('ID' => 0, 'VISIBLE' => 1, 'CODE' => 2, 'TITLE' => 3, 'TYPE' => 4, 'ENTITY' => 5, 'SERIALIZED_COLUMNS' => 6, 'SERIALIZED_CONDITION' => 7, 'INDEX_ENGINE_DRIVER_CONFIGURATION_ID' => 8, 'CREATED_AT' => 9, 'UPDATED_AT' => 10, 'VERSION' => 11, 'VERSION_CREATED_AT' => 12, 'VERSION_CREATED_BY' => 13),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'visible' => 1, 'code' => 2, 'title' => 3, 'type' => 4, 'entity' => 5, 'serialized_columns' => 6, 'serialized_condition' => 7, 'index_engine_driver_configuration_id' => 8, 'created_at' => 9, 'updated_at' => 10, 'version' => 11, 'version_created_at' => 12, 'version_created_by' => 13),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13),
     );
 
     /**
@@ -212,8 +211,8 @@ class IndexEngineIndexTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('IndexEngineDriverConfiguration', '\\IndexEngine\\Model\\IndexEngineDriverConfiguration', RelationMap::MANY_TO_ONE, array('index_engine_driver_configuration_id' => 'id', ), 'CASCADE', 'CASCADE');
-        $this->addRelation('IndexEngineIndexVersion', '\\IndexEngine\\Model\\IndexEngineIndexVersion', RelationMap::ONE_TO_MANY, array('id' => 'id', ), 'CASCADE', null, 'IndexEngineIndexVersions');
+        $this->addRelation('IndexEngineDriverConfiguration', '\\IndexEngine\\Model\\IndexEngineDriverConfiguration', RelationMap::MANY_TO_ONE, array('index_engine_driver_configuration_id' => 'id'), 'CASCADE', 'CASCADE');
+        $this->addRelation('IndexEngineIndexVersion', '\\IndexEngine\\Model\\IndexEngineIndexVersion', RelationMap::ONE_TO_MANY, array('id' => 'id'), 'CASCADE', null, 'IndexEngineIndexVersions');
     } // buildRelations()
 
     /**
@@ -225,8 +224,8 @@ class IndexEngineIndexTableMap extends TableMap
     public function getBehaviors()
     {
         return array(
-            'timestampable' => array('create_column' => 'created_at', 'update_column' => 'updated_at', ),
-            'versionable' => array('version_column' => 'version', 'version_table' => '', 'log_created_at' => 'true', 'log_created_by' => 'true', 'log_comment' => 'false', 'version_created_at_column' => 'version_created_at', 'version_created_by_column' => 'version_created_by', 'version_comment_column' => 'version_comment', ),
+            'timestampable' => array('create_column' => 'created_at', 'update_column' => 'updated_at'),
+            'versionable' => array('version_column' => 'version', 'version_table' => '', 'log_created_at' => 'true', 'log_created_by' => 'true', 'log_comment' => 'false', 'version_created_at_column' => 'version_created_at', 'version_created_by_column' => 'version_created_by', 'version_comment_column' => 'version_comment'),
         );
     } // getBehaviors()
     /**
@@ -237,7 +236,7 @@ class IndexEngineIndexTableMap extends TableMap
         // Invalidate objects in ".$this->getClassNameFromBuilder($joinedTableTableMapBuilder)." instance pool,
         // since one or more of them may be deleted by ON DELETE CASCADE/SETNULL rule.
                 IndexEngineIndexVersionTableMap::clearInstancePool();
-            }
+    }
 
     /**
      * Retrieves a string version of the primary key from the DB resultset row that can be used to uniquely identify a row in this table.
@@ -248,13 +247,13 @@ class IndexEngineIndexTableMap extends TableMap
      * @param array  $row       resultset row.
      * @param int    $offset    The 0-based offset for reading from the resultset row.
      * @param string $indexType One of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_STUDLYPHPNAME
-     *                           TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM
+     *                          TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM
      */
     public static function getPrimaryKeyHashFromRow($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
         // If the PK cannot be derived from the row, return NULL.
         if ($row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)] === null) {
-            return null;
+            return;
         }
 
         return (string) $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
@@ -268,14 +267,13 @@ class IndexEngineIndexTableMap extends TableMap
      * @param array  $row       resultset row.
      * @param int    $offset    The 0-based offset for reading from the resultset row.
      * @param string $indexType One of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_STUDLYPHPNAME
-     *                           TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM
+     *                          TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM
      *
      * @return mixed The primary key of the row
      */
     public static function getPrimaryKeyFromRow($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
-
-            return (int) $row[
+        return (int) $row[
                             $indexType == TableMap::TYPE_NUM
                             ? 0 + $offset
                             : self::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)
@@ -290,8 +288,8 @@ class IndexEngineIndexTableMap extends TableMap
      * relative to a location on the PHP include_path.
      * (e.g. path.to.MyClass -> 'path/to/MyClass.php')
      *
-     * @param boolean $withPrefix Whether or not to return the path with the class name
-     * @return string path.to.ClassName
+     * @param  boolean $withPrefix Whether or not to return the path with the class name
+     * @return string  path.to.ClassName
      */
     public static function getOMClass($withPrefix = true)
     {
@@ -304,12 +302,12 @@ class IndexEngineIndexTableMap extends TableMap
      * @param array  $row       row returned by DataFetcher->fetch().
      * @param int    $offset    The 0-based offset for reading from the resultset row.
      * @param string $indexType The index type of $row. Mostly DataFetcher->getIndexType().
-                                 One of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_STUDLYPHPNAME
+     One of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_STUDLYPHPNAME
      *                           TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM.
      *
      * @throws PropelException Any exceptions caught during processing will be
-     *         rethrown wrapped into a PropelException.
-     * @return array (IndexEngineIndex object, last column rank)
+     *                         rethrown wrapped into a PropelException.
+     * @return array           (IndexEngineIndex object, last column rank)
      */
     public static function populateObject($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
@@ -333,10 +331,10 @@ class IndexEngineIndexTableMap extends TableMap
      * The returned array will contain objects of the default type or
      * objects that inherit from the default.
      *
-     * @param DataFetcherInterface $dataFetcher
+     * @param  DataFetcherInterface $dataFetcher
      * @return array
-     * @throws PropelException Any exceptions caught during processing will be
-     *         rethrown wrapped into a PropelException.
+     * @throws PropelException      Any exceptions caught during processing will be
+     *                                          rethrown wrapped into a PropelException.
      */
     public static function populateObjects(DataFetcherInterface $dataFetcher)
     {
@@ -369,10 +367,10 @@ class IndexEngineIndexTableMap extends TableMap
      * XML schema will not be added to the select list and only loaded
      * on demand.
      *
-     * @param Criteria $criteria object containing the columns to add.
-     * @param string   $alias    optional table alias
+     * @param  Criteria        $criteria object containing the columns to add.
+     * @param  string          $alias    optional table alias
      * @throws PropelException Any exceptions caught during processing will be
-     *         rethrown wrapped into a PropelException.
+     *                                  rethrown wrapped into a PropelException.
      */
     public static function addSelectColumns(Criteria $criteria, $alias = null)
     {
@@ -392,20 +390,20 @@ class IndexEngineIndexTableMap extends TableMap
             $criteria->addSelectColumn(IndexEngineIndexTableMap::VERSION_CREATED_AT);
             $criteria->addSelectColumn(IndexEngineIndexTableMap::VERSION_CREATED_BY);
         } else {
-            $criteria->addSelectColumn($alias . '.ID');
-            $criteria->addSelectColumn($alias . '.VISIBLE');
-            $criteria->addSelectColumn($alias . '.CODE');
-            $criteria->addSelectColumn($alias . '.TITLE');
-            $criteria->addSelectColumn($alias . '.TYPE');
-            $criteria->addSelectColumn($alias . '.ENTITY');
-            $criteria->addSelectColumn($alias . '.SERIALIZED_COLUMNS');
-            $criteria->addSelectColumn($alias . '.SERIALIZED_CONDITION');
-            $criteria->addSelectColumn($alias . '.INDEX_ENGINE_DRIVER_CONFIGURATION_ID');
-            $criteria->addSelectColumn($alias . '.CREATED_AT');
-            $criteria->addSelectColumn($alias . '.UPDATED_AT');
-            $criteria->addSelectColumn($alias . '.VERSION');
-            $criteria->addSelectColumn($alias . '.VERSION_CREATED_AT');
-            $criteria->addSelectColumn($alias . '.VERSION_CREATED_BY');
+            $criteria->addSelectColumn($alias.'.ID');
+            $criteria->addSelectColumn($alias.'.VISIBLE');
+            $criteria->addSelectColumn($alias.'.CODE');
+            $criteria->addSelectColumn($alias.'.TITLE');
+            $criteria->addSelectColumn($alias.'.TYPE');
+            $criteria->addSelectColumn($alias.'.ENTITY');
+            $criteria->addSelectColumn($alias.'.SERIALIZED_COLUMNS');
+            $criteria->addSelectColumn($alias.'.SERIALIZED_CONDITION');
+            $criteria->addSelectColumn($alias.'.INDEX_ENGINE_DRIVER_CONFIGURATION_ID');
+            $criteria->addSelectColumn($alias.'.CREATED_AT');
+            $criteria->addSelectColumn($alias.'.UPDATED_AT');
+            $criteria->addSelectColumn($alias.'.VERSION');
+            $criteria->addSelectColumn($alias.'.VERSION_CREATED_AT');
+            $criteria->addSelectColumn($alias.'.VERSION_CREATED_BY');
         }
     }
 
@@ -414,7 +412,7 @@ class IndexEngineIndexTableMap extends TableMap
      * This method is not needed for general use but a specific application could have a need.
      * @return TableMap
      * @throws PropelException Any exceptions caught during processing will be
-     *         rethrown wrapped into a PropelException.
+     *                         rethrown wrapped into a PropelException.
      */
     public static function getTableMap()
     {
@@ -426,56 +424,58 @@ class IndexEngineIndexTableMap extends TableMap
      */
     public static function buildTableMap()
     {
-      $dbMap = Propel::getServiceContainer()->getDatabaseMap(IndexEngineIndexTableMap::DATABASE_NAME);
-      if (!$dbMap->hasTable(IndexEngineIndexTableMap::TABLE_NAME)) {
-        $dbMap->addTableObject(new IndexEngineIndexTableMap());
-      }
+        $dbMap = Propel::getServiceContainer()->getDatabaseMap(IndexEngineIndexTableMap::DATABASE_NAME);
+        if (!$dbMap->hasTable(IndexEngineIndexTableMap::TABLE_NAME)) {
+            $dbMap->addTableObject(new IndexEngineIndexTableMap());
+        }
     }
 
-    /**
-     * Performs a DELETE on the database, given a IndexEngineIndex or Criteria object OR a primary key value.
-     *
-     * @param mixed               $values Criteria or IndexEngineIndex object or primary key or array of primary keys
-     *              which is used to create the DELETE statement
-     * @param ConnectionInterface $con the connection to use
-     * @return int The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
-     *                if supported by native driver or if emulated using Propel.
-     * @throws PropelException Any exceptions caught during processing will be
-     *         rethrown wrapped into a PropelException.
-     */
+     /**
+      * Performs a DELETE on the database, given a IndexEngineIndex or Criteria object OR a primary key value.
+      *
+      * @param mixed               $values Criteria or IndexEngineIndex object or primary key or array of primary keys
+      *              which is used to create the DELETE statement
+      * @param ConnectionInterface $con the connection to use
+      * @return int The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
+      *                if supported by native driver or if emulated using Propel.
+      * @throws PropelException Any exceptions caught during processing will be
+      *         rethrown wrapped into a PropelException.
+      */
      public static function doDelete($values, ConnectionInterface $con = null)
      {
-        if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(IndexEngineIndexTableMap::DATABASE_NAME);
-        }
+         if (null === $con) {
+             $con = Propel::getServiceContainer()->getWriteConnection(IndexEngineIndexTableMap::DATABASE_NAME);
+         }
 
-        if ($values instanceof Criteria) {
-            // rename for clarity
+         if ($values instanceof Criteria) {
+             // rename for clarity
             $criteria = $values;
-        } elseif ($values instanceof \IndexEngine\Model\IndexEngineIndex) { // it's a model object
+         } elseif ($values instanceof \IndexEngine\Model\IndexEngineIndex) { // it's a model object
             // create criteria based on pk values
             $criteria = $values->buildPkeyCriteria();
-        } else { // it's a primary key, or an array of pks
+         } else { // it's a primary key, or an array of pks
             $criteria = new Criteria(IndexEngineIndexTableMap::DATABASE_NAME);
-            $criteria->add(IndexEngineIndexTableMap::ID, (array) $values, Criteria::IN);
-        }
+             $criteria->add(IndexEngineIndexTableMap::ID, (array) $values, Criteria::IN);
+         }
 
-        $query = IndexEngineIndexQuery::create()->mergeWith($criteria);
+         $query = IndexEngineIndexQuery::create()->mergeWith($criteria);
 
-        if ($values instanceof Criteria) { IndexEngineIndexTableMap::clearInstancePool();
-        } elseif (!is_object($values)) { // it's a primary key, or an array of pks
-            foreach ((array) $values as $singleval) { IndexEngineIndexTableMap::removeInstanceFromPool($singleval);
+         if ($values instanceof Criteria) {
+             IndexEngineIndexTableMap::clearInstancePool();
+         } elseif (!is_object($values)) { // it's a primary key, or an array of pks
+            foreach ((array) $values as $singleval) {
+                IndexEngineIndexTableMap::removeInstanceFromPool($singleval);
             }
-        }
+         }
 
-        return $query->delete($con);
-    }
+         return $query->delete($con);
+     }
 
     /**
      * Deletes all rows from the index_engine_index table.
      *
-     * @param ConnectionInterface $con the connection to use
-     * @return int The number of affected rows (if supported by underlying database driver).
+     * @param  ConnectionInterface $con the connection to use
+     * @return int                 The number of affected rows (if supported by underlying database driver).
      */
     public static function doDeleteAll(ConnectionInterface $con = null)
     {
@@ -485,11 +485,11 @@ class IndexEngineIndexTableMap extends TableMap
     /**
      * Performs an INSERT on the database, given a IndexEngineIndex or Criteria object.
      *
-     * @param mixed               $criteria Criteria or IndexEngineIndex object containing data that is used to create the INSERT statement.
-     * @param ConnectionInterface $con the ConnectionInterface connection to use
-     * @return mixed           The new primary key.
-     * @throws PropelException Any exceptions caught during processing will be
-     *         rethrown wrapped into a PropelException.
+     * @param  mixed               $criteria Criteria or IndexEngineIndex object containing data that is used to create the INSERT statement.
+     * @param  ConnectionInterface $con      the ConnectionInterface connection to use
+     * @return mixed               The new primary key.
+     * @throws PropelException     Any exceptions caught during processing will be
+     *                                      rethrown wrapped into a PropelException.
      */
     public static function doInsert($criteria, ConnectionInterface $con = null)
     {
@@ -503,10 +503,9 @@ class IndexEngineIndexTableMap extends TableMap
             $criteria = $criteria->buildCriteria(); // build Criteria from IndexEngineIndex object
         }
 
-        if ($criteria->containsKey(IndexEngineIndexTableMap::ID) && $criteria->keyContainsValue(IndexEngineIndexTableMap::ID) ) {
+        if ($criteria->containsKey(IndexEngineIndexTableMap::ID) && $criteria->keyContainsValue(IndexEngineIndexTableMap::ID)) {
             throw new PropelException('Cannot insert a value for auto-increment primary key ('.IndexEngineIndexTableMap::ID.')');
         }
-
 
         // Set the correct dbName
         $query = IndexEngineIndexQuery::create()->mergeWith($criteria);
@@ -524,7 +523,6 @@ class IndexEngineIndexTableMap extends TableMap
 
         return $pk;
     }
-
 } // IndexEngineIndexTableMap
 // This is the static code needed to register the TableMap for this table with the main Propel class.
 //

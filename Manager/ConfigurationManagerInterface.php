@@ -12,7 +12,6 @@
 
 namespace IndexEngine\Manager;
 
-
 /**
  * Interface ConfigurationManagerInterface
  * @package IndexEngine\Manager
@@ -29,7 +28,7 @@ interface ConfigurationManagerInterface
     public function getCurrentConfigurationId();
 
     /**
-     * @param bool $loadIntoDriver If true, the found configuration will be loaded into the driver
+     * @param  bool                                    $loadIntoDriver If true, the found configuration will be loaded into the driver
      * @return \IndexEngine\Entity\DriverConfiguration
      *
      * @throws \IndexEngine\Driver\Exception\OutOfBoundsException
@@ -39,8 +38,8 @@ interface ConfigurationManagerInterface
     public function getCurrentConfiguration($loadIntoDriver = false);
 
     /**
-     * @param int $configurationId
-     * @param bool $loadIntoDriver
+     * @param  int                                     $configurationId
+     * @param  bool                                    $loadIntoDriver
      * @return \IndexEngine\Entity\DriverConfiguration
      *
      * Get the configuration from the ID
@@ -48,8 +47,8 @@ interface ConfigurationManagerInterface
     public function getConfiguration($configurationId, $loadIntoDriver = false);
 
     /**
-     * @param string $configurationCode
-     * @param bool $loadIntoDriver
+     * @param  string                                  $configurationCode
+     * @param  bool                                    $loadIntoDriver
      * @return \IndexEngine\Entity\DriverConfiguration
      *
      * @throws \IndexEngine\Driver\Exception\InvalidDriverCodeException

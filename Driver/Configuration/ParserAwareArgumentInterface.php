@@ -22,7 +22,7 @@ use Thelia\Core\Template\ParserInterface;
 interface ParserAwareArgumentInterface
 {
     /**
-     * @param ParserInterface $parser
+     * @param  ParserInterface $parser
      * @return $this
      *
      * Inject the parser into the argument

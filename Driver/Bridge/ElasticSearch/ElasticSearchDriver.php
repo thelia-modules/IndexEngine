@@ -13,7 +13,6 @@
 namespace IndexEngine\Driver\Bridge\ElasticSearch;
 
 use IndexEngine\Driver\AbstractEventDispatcherAwareDriver;
-use IndexEngine\Driver\DriverInterface;
 use IndexEngine\Driver\Exception\MissingLibraryException;
 
 /**

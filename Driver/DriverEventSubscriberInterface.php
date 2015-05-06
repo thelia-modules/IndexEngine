@@ -47,7 +47,7 @@ interface DriverEventSubscriberInterface extends EventSubscriberInterface
     public function getDriver();
 
     /**
-     * @param DriverInterface $driver
+     * @param  DriverInterface $driver
      * @return void
      *
      * Set the current driver instance

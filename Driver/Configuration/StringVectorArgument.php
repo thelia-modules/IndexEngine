@@ -107,13 +107,13 @@ class StringVectorArgument extends AbstractCollection implements
      * (PHP 5 &gt;= 5.0.0)<br/>
      * Whether a offset exists
      * @link http://php.net/manual/en/arrayaccess.offsetexists.php
-     * @param mixed $offset <p>
-     * An offset to check for.
-     * </p>
+     * @param  mixed   $offset <p>
+     *                         An offset to check for.
+     *                         </p>
      * @return boolean true on success or false on failure.
-     * </p>
-     * <p>
-     * The return value will be casted to boolean if non-boolean was returned.
+     *                        </p>
+     *                        <p>
+     *                        The return value will be casted to boolean if non-boolean was returned.
      */
     public function offsetExists($offset)
     {
@@ -124,9 +124,9 @@ class StringVectorArgument extends AbstractCollection implements
      * (PHP 5 &gt;= 5.0.0)<br/>
      * Offset to retrieve
      * @link http://php.net/manual/en/arrayaccess.offsetget.php
-     * @param mixed $offset <p>
-     * The offset to retrieve.
-     * </p>
+     * @param  mixed $offset <p>
+     *                       The offset to retrieve.
+     *                       </p>
      * @return mixed Can return all value types.
      */
     public function offsetGet($offset)
@@ -142,12 +142,12 @@ class StringVectorArgument extends AbstractCollection implements
      * (PHP 5 &gt;= 5.0.0)<br/>
      * Offset to set
      * @link http://php.net/manual/en/arrayaccess.offsetset.php
-     * @param mixed $offset <p>
-     * The offset to assign the value to.
-     * </p>
-     * @param mixed $value <p>
-     * The value to set.
-     * </p>
+     * @param  mixed $offset <p>
+     *                       The offset to assign the value to.
+     *                       </p>
+     * @param  mixed $value  <p>
+     *                       The value to set.
+     *                       </p>
      * @return void
      */
     public function offsetSet($offset, $value)
@@ -165,9 +165,9 @@ class StringVectorArgument extends AbstractCollection implements
      * (PHP 5 &gt;= 5.0.0)<br/>
      * Offset to unset
      * @link http://php.net/manual/en/arrayaccess.offsetunset.php
-     * @param mixed $offset <p>
-     * The offset to unset.
-     * </p>
+     * @param  mixed $offset <p>
+     *                       The offset to unset.
+     *                       </p>
      * @return void
      */
     public function offsetUnset($offset)
@@ -210,7 +210,7 @@ class StringVectorArgument extends AbstractCollection implements
     }
 
     /**
-     * @param ParserInterface $parser
+     * @param  ParserInterface $parser
      * @return $this
      *
      * Inject the parser into the argument
@@ -241,12 +241,13 @@ class StringVectorArgument extends AbstractCollection implements
     }
 
     /**
-     * @param boolean $allowNullValue
+     * @param  boolean $allowNullValue
      * @return $this
      */
     public function setAllowNullValue($allowNullValue = true)
     {
         $this->allowNullValue = $allowNullValue;
+
         return $this;
     }
 
@@ -288,7 +289,7 @@ class StringVectorArgument extends AbstractCollection implements
      * Checks if current position is valid
      * @link http://php.net/manual/en/iterator.valid.php
      * @return boolean The return value will be casted to boolean and then evaluated.
-     * Returns true on success or false on failure.
+     *                 Returns true on success or false on failure.
      */
     public function valid()
     {

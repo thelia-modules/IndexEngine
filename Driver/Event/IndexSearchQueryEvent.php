@@ -12,7 +12,6 @@
 
 namespace IndexEngine\Driver\Event;
 
-use IndexEngine\Driver\Query\IndexQuery;
 use IndexEngine\Driver\Query\IndexQueryInterface;
 use IndexEngine\Entity\IndexData;
 use IndexEngine\Entity\IndexDataVector;
@@ -46,12 +45,13 @@ class IndexSearchQueryEvent extends Event
     }
 
     /**
-     * @param IndexData $data
+     * @param  IndexData $data
      * @return $this
      */
     public function addResult(IndexData $data)
     {
         $this->results[] = $data;
+
         return $this;
     }
 
@@ -64,12 +64,13 @@ class IndexSearchQueryEvent extends Event
     }
 
     /**
-     * @param IndexDataVector $results
+     * @param  IndexDataVector $results
      * @return $this
      */
     public function setResults(IndexDataVector $results)
     {
         $this->results = $results;
+
         return $this;
     }
 
@@ -82,12 +83,13 @@ class IndexSearchQueryEvent extends Event
     }
 
     /**
-     * @param IndexQueryInterface $query
+     * @param  IndexQueryInterface $query
      * @return $this
      */
     public function setQuery(IndexQueryInterface $query)
     {
         $this->query = $query;
+
         return $this;
     }
 
@@ -100,12 +102,13 @@ class IndexSearchQueryEvent extends Event
     }
 
     /**
-     * @param array $extraData
+     * @param  array $extraData
      * @return $this
      */
     public function setExtraData(array $extraData)
     {
         $this->extraData = $extraData;
+
         return $this;
     }
 
@@ -118,12 +121,13 @@ class IndexSearchQueryEvent extends Event
     }
 
     /**
-     * @param IndexMapping $mapping
+     * @param  IndexMapping $mapping
      * @return $this
      */
     public function setMapping(IndexMapping $mapping)
     {
         $this->mapping = $mapping;
+
         return $this;
     }
 }

@@ -25,6 +25,7 @@ class FloatArgument extends AbstractArgument
     {
         if (is_int($value) || is_float($value) || is_numeric($value)) {
             $this->value = (float) $value;
+
             return $this;
         }
 
@@ -38,6 +39,7 @@ class FloatArgument extends AbstractArgument
         }
 
         $this->value = (float) $string;
+
         return $this;
     }
 

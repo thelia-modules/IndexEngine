@@ -26,10 +26,9 @@ class SearchManager implements SearchManagerInterface
     const ORDER_REVERSE_SUFFIX = "-reverse";
     const ORDER_REVERSE_SUFFIX_LEN = 8;
 
-
     /**
-     * @param IndexConfiguration $configuration
-     * @param array $params
+     * @param  IndexConfiguration $configuration
+     * @param  array              $params
      * @return array
      *
      * @throws \IndexEngine\Exception\SearchException if something goes wrong

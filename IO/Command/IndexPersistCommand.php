@@ -67,7 +67,7 @@ class IndexPersistCommand extends IndexEngineCommand
                 $output->renderBlock([
                     "",
                     "There is no data to index",
-                    ""
+                    "",
                 ], "bg=blue;fg=white");
             } else {
                 $tableHelper = new TableHelper();
@@ -93,7 +93,7 @@ class IndexPersistCommand extends IndexEngineCommand
                     $driver->getCode(),
                     $dataToIndex->count()
                 ),
-                ""
+                "",
             ], "bg=green;fg=black");
         }
     }

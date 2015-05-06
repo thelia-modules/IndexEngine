@@ -14,11 +14,9 @@ namespace IndexEngine\Form\Type;
 
 use IndexEngine\Driver\Query\Comparison;
 use IndexEngine\IndexEngine;
-use Propel\Runtime\ActiveQuery\Criteria;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Translation\TranslatorInterface;
-
 
 /**
  * Class IndexComparisonType
@@ -40,7 +38,7 @@ class IndexComparisonType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->replaceDefaults([
-            "choices" => $this->getChoices()
+            "choices" => $this->getChoices(),
         ]);
     }
 

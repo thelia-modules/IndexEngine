@@ -48,8 +48,8 @@ class IndexMapping
     private $mapping = array();
 
     /**
-     * @param array $mapping
-     * @param string $fallbackType
+     * @param  array  $mapping
+     * @param  string $fallbackType
      * @return $this
      */
     public function setMapping(array $mapping, $fallbackType = self::TYPE_STRING)

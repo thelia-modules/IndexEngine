@@ -12,7 +12,6 @@
 
 namespace IndexEngine\Event\Module;
 
-
 /**
  * Class EntityCollectEvent
  * @package IndexEngine\Event\Module

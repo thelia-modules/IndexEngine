@@ -20,7 +20,6 @@ use IndexEngine\Manager\IndexConfigurationManagerInterface;
 use IndexEngine\Manager\SqlManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-
 /**
  * Class SqlQuerySubscriber
  * @package IndexEngine\Discovering\Collector

@@ -53,18 +53,20 @@ class RenderConfigurationEvent extends Event
     }
 
     /**
-     * @param string $content
+     * @param  string $content
      * @return $this
      */
     public function setContent($content)
     {
         $this->content = $content;
+
         return $this;
     }
 
     public function addContent($content)
     {
         $this->content .= $content;
+
         return $this;
     }
 

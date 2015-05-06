@@ -2,8 +2,8 @@
 
 namespace IndexEngine\Model\Base;
 
-use \Exception;
-use \PDO;
+use Exception;
+use PDO;
 use IndexEngine\Model\IndexEngineDriverConfiguration as ChildIndexEngineDriverConfiguration;
 use IndexEngine\Model\IndexEngineDriverConfigurationQuery as ChildIndexEngineDriverConfigurationQuery;
 use IndexEngine\Model\IndexEngineIndex as ChildIndexEngineIndex;
@@ -27,7 +27,6 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
      * TableMap class name
      */
     const TABLE_MAP = '\\IndexEngine\\Model\\Map\\IndexEngineDriverConfigurationTableMap';
-
 
     /**
      * attribute to determine if this object has previously been saved.
@@ -220,7 +219,7 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
         }
 
         if (null === $this->getPrimaryKey()
-            || null === $obj->getPrimaryKey())  {
+            || null === $obj->getPrimaryKey()) {
             return false;
         }
 
@@ -304,7 +303,7 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
      */
     protected function log($msg, $priority = Propel::LOG_INFO)
     {
-        return Propel::log(get_class($this) . ': ' . $msg, $priority);
+        return Propel::log(get_class($this).': '.$msg, $priority);
     }
 
     /**
@@ -314,9 +313,9 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
      * $book->importFrom('JSON', '{"Id":9012,"Title":"Don Juan","ISBN":"0140422161","Price":12.99,"PublisherId":1234,"AuthorId":5678}');
      * </code>
      *
-     * @param mixed $parser A AbstractParser instance,
+     * @param mixed  $parser A AbstractParser instance,
      *                       or a format name ('XML', 'YAML', 'JSON', 'CSV')
-     * @param string $data The source data to import from
+     * @param string $data   The source data to import from
      *
      * @return IndexEngineDriverConfiguration The current object, for fluid interface
      */
@@ -366,63 +365,58 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
     /**
      * Get the [id] column value.
      *
-     * @return   int
+     * @return int
      */
     public function getId()
     {
-
         return $this->id;
     }
 
     /**
      * Get the [code] column value.
      *
-     * @return   string
+     * @return string
      */
     public function getCode()
     {
-
         return $this->code;
     }
 
     /**
      * Get the [driver_code] column value.
      *
-     * @return   string
+     * @return string
      */
     public function getDriverCode()
     {
-
         return $this->driver_code;
     }
 
     /**
      * Get the [title] column value.
      *
-     * @return   string
+     * @return string
      */
     public function getTitle()
     {
-
         return $this->title;
     }
 
     /**
      * Get the [serialized_configuration] column value.
      *
-     * @return   string
+     * @return string
      */
     public function getSerializedConfiguration()
     {
-
         return $this->serialized_configuration;
     }
 
     /**
      * Set the value of [id] column.
      *
-     * @param      int $v new value
-     * @return   \IndexEngine\Model\IndexEngineDriverConfiguration The current object (for fluent API support)
+     * @param  int                                               $v new value
+     * @return \IndexEngine\Model\IndexEngineDriverConfiguration The current object (for fluent API support)
      */
     public function setId($v)
     {
@@ -435,15 +429,14 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
             $this->modifiedColumns[IndexEngineDriverConfigurationTableMap::ID] = true;
         }
 
-
         return $this;
     } // setId()
 
     /**
      * Set the value of [code] column.
      *
-     * @param      string $v new value
-     * @return   \IndexEngine\Model\IndexEngineDriverConfiguration The current object (for fluent API support)
+     * @param  string                                            $v new value
+     * @return \IndexEngine\Model\IndexEngineDriverConfiguration The current object (for fluent API support)
      */
     public function setCode($v)
     {
@@ -456,15 +449,14 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
             $this->modifiedColumns[IndexEngineDriverConfigurationTableMap::CODE] = true;
         }
 
-
         return $this;
     } // setCode()
 
     /**
      * Set the value of [driver_code] column.
      *
-     * @param      string $v new value
-     * @return   \IndexEngine\Model\IndexEngineDriverConfiguration The current object (for fluent API support)
+     * @param  string                                            $v new value
+     * @return \IndexEngine\Model\IndexEngineDriverConfiguration The current object (for fluent API support)
      */
     public function setDriverCode($v)
     {
@@ -477,15 +469,14 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
             $this->modifiedColumns[IndexEngineDriverConfigurationTableMap::DRIVER_CODE] = true;
         }
 
-
         return $this;
     } // setDriverCode()
 
     /**
      * Set the value of [title] column.
      *
-     * @param      string $v new value
-     * @return   \IndexEngine\Model\IndexEngineDriverConfiguration The current object (for fluent API support)
+     * @param  string                                            $v new value
+     * @return \IndexEngine\Model\IndexEngineDriverConfiguration The current object (for fluent API support)
      */
     public function setTitle($v)
     {
@@ -498,15 +489,14 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
             $this->modifiedColumns[IndexEngineDriverConfigurationTableMap::TITLE] = true;
         }
 
-
         return $this;
     } // setTitle()
 
     /**
      * Set the value of [serialized_configuration] column.
      *
-     * @param      string $v new value
-     * @return   \IndexEngine\Model\IndexEngineDriverConfiguration The current object (for fluent API support)
+     * @param  string                                            $v new value
+     * @return \IndexEngine\Model\IndexEngineDriverConfiguration The current object (for fluent API support)
      */
     public function setSerializedConfiguration($v)
     {
@@ -518,7 +508,6 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
             $this->serialized_configuration = $v;
             $this->modifiedColumns[IndexEngineDriverConfigurationTableMap::SERIALIZED_CONFIGURATION] = true;
         }
-
 
         return $this;
     } // setSerializedConfiguration()
@@ -549,7 +538,7 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
      * @param int     $startcol  0-based offset column which indicates which restultset column to start with.
      * @param boolean $rehydrate Whether this object is being re-hydrated from the database.
      * @param string  $indexType The index type of $row. Mostly DataFetcher->getIndexType().
-                                  One of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_STUDLYPHPNAME
+     One of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_STUDLYPHPNAME
      *                            TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM.
      *
      * @return int             next starting column
@@ -558,8 +547,6 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
     public function hydrate($row, $startcol = 0, $rehydrate = false, $indexType = TableMap::TYPE_NUM)
     {
         try {
-
-
             $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : IndexEngineDriverConfigurationTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
             $this->id = (null !== $col) ? (int) $col : null;
 
@@ -583,7 +570,6 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
             }
 
             return $startcol + 5; // 5 = IndexEngineDriverConfigurationTableMap::NUM_HYDRATE_COLUMNS.
-
         } catch (Exception $e) {
             throw new PropelException("Error populating \IndexEngine\Model\IndexEngineDriverConfiguration object", 0, $e);
         }
@@ -611,10 +597,10 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
      *
      * This will only work if the object has been saved and has a valid primary key set.
      *
-     * @param      boolean $deep (optional) Whether to also de-associated any related objects.
-     * @param      ConnectionInterface $con (optional) The ConnectionInterface connection to use.
+     * @param  boolean             $deep (optional) Whether to also de-associated any related objects.
+     * @param  ConnectionInterface $con  (optional) The ConnectionInterface connection to use.
      * @return void
-     * @throws PropelException - if this object is deleted, unsaved or doesn't have pk match in db
+     * @throws PropelException     - if this object is deleted, unsaved or doesn't have pk match in db
      */
     public function reload($deep = false, ConnectionInterface $con = null)
     {
@@ -644,14 +630,13 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
         if ($deep) {  // also de-associate any related objects?
 
             $this->collIndexEngineIndices = null;
-
         } // if (deep)
     }
 
     /**
      * Removes this object from datastore and sets delete attribute.
      *
-     * @param      ConnectionInterface $con
+     * @param  ConnectionInterface $con
      * @return void
      * @throws PropelException
      * @see IndexEngineDriverConfiguration::setDeleted()
@@ -694,8 +679,8 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
      * method.  This method wraps all precipitate database operations in a
      * single transaction.
      *
-     * @param      ConnectionInterface $con
-     * @return int             The number of rows affected by this insert/update and any referring fk objects' save() operations.
+     * @param  ConnectionInterface $con
+     * @return int                 The number of rows affected by this insert/update and any referring fk objects' save() operations.
      * @throws PropelException
      * @see doSave()
      */
@@ -745,8 +730,8 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
      * If the object is new, it inserts it; otherwise an update is performed.
      * All related objects are also updated in this method.
      *
-     * @param      ConnectionInterface $con
-     * @return int             The number of rows affected by this insert/update and any referring fk objects' save() operations.
+     * @param  ConnectionInterface $con
+     * @return int                 The number of rows affected by this insert/update and any referring fk objects' save() operations.
      * @throws PropelException
      * @see save()
      */
@@ -776,8 +761,8 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
                 }
             }
 
-                if ($this->collIndexEngineIndices !== null) {
-            foreach ($this->collIndexEngineIndices as $referrerFK) {
+            if ($this->collIndexEngineIndices !== null) {
+                foreach ($this->collIndexEngineIndices as $referrerFK) {
                     if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
                         $affectedRows += $referrerFK->save($con);
                     }
@@ -785,7 +770,6 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
             }
 
             $this->alreadyInSave = false;
-
         }
 
         return $affectedRows;
@@ -794,7 +778,7 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
     /**
      * Insert the row in the database.
      *
-     * @param      ConnectionInterface $con
+     * @param ConnectionInterface $con
      *
      * @throws PropelException
      * @see doSave()
@@ -806,24 +790,24 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
 
         $this->modifiedColumns[IndexEngineDriverConfigurationTableMap::ID] = true;
         if (null !== $this->id) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key (' . IndexEngineDriverConfigurationTableMap::ID . ')');
+            throw new PropelException('Cannot insert a value for auto-increment primary key ('.IndexEngineDriverConfigurationTableMap::ID.')');
         }
 
          // check the columns in natural order for more readable SQL queries
         if ($this->isColumnModified(IndexEngineDriverConfigurationTableMap::ID)) {
-            $modifiedColumns[':p' . $index++]  = 'ID';
+            $modifiedColumns[':p'.$index++]  = 'ID';
         }
         if ($this->isColumnModified(IndexEngineDriverConfigurationTableMap::CODE)) {
-            $modifiedColumns[':p' . $index++]  = 'CODE';
+            $modifiedColumns[':p'.$index++]  = 'CODE';
         }
         if ($this->isColumnModified(IndexEngineDriverConfigurationTableMap::DRIVER_CODE)) {
-            $modifiedColumns[':p' . $index++]  = 'DRIVER_CODE';
+            $modifiedColumns[':p'.$index++]  = 'DRIVER_CODE';
         }
         if ($this->isColumnModified(IndexEngineDriverConfigurationTableMap::TITLE)) {
-            $modifiedColumns[':p' . $index++]  = 'TITLE';
+            $modifiedColumns[':p'.$index++]  = 'TITLE';
         }
         if ($this->isColumnModified(IndexEngineDriverConfigurationTableMap::SERIALIZED_CONFIGURATION)) {
-            $modifiedColumns[':p' . $index++]  = 'SERIALIZED_CONFIGURATION';
+            $modifiedColumns[':p'.$index++]  = 'SERIALIZED_CONFIGURATION';
         }
 
         $sql = sprintf(
@@ -872,7 +856,7 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
     /**
      * Update the row in the database.
      *
-     * @param      ConnectionInterface $con
+     * @param ConnectionInterface $con
      *
      * @return Integer Number of updated rows
      * @see doSave()
@@ -888,12 +872,12 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
     /**
      * Retrieves a field from the object by name passed in as a string.
      *
-     * @param      string $name name
-     * @param      string $type The type of fieldname the $name is of:
-     *                     one of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_STUDLYPHPNAME
-     *                     TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM.
-     *                     Defaults to TableMap::TYPE_PHPNAME.
-     * @return mixed Value of field.
+     * @param  string $name name
+     * @param  string $type The type of fieldname the $name is of:
+     *                      one of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_STUDLYPHPNAME
+     *                      TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM.
+     *                      Defaults to TableMap::TYPE_PHPNAME.
+     * @return mixed  Value of field.
      */
     public function getByName($name, $type = TableMap::TYPE_PHPNAME)
     {
@@ -907,7 +891,7 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
      * Retrieves a field from the object by Position as specified in the xml schema.
      * Zero-based.
      *
-     * @param      int $pos position in xml schema
+     * @param  int   $pos position in xml schema
      * @return mixed Value of field at $pos
      */
     public function getByPosition($pos)
@@ -929,7 +913,7 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
                 return $this->getSerializedConfiguration();
                 break;
             default:
-                return null;
+                return;
                 break;
         } // switch()
     }
@@ -940,12 +924,12 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
      * You can specify the key type of the array by passing one of the class
      * type constants.
      *
-     * @param     string  $keyType (optional) One of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_STUDLYPHPNAME,
-     *                    TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM.
-     *                    Defaults to TableMap::TYPE_PHPNAME.
-     * @param     boolean $includeLazyLoadColumns (optional) Whether to include lazy loaded columns. Defaults to TRUE.
-     * @param     array $alreadyDumpedObjects List of objects to skip to avoid recursion
-     * @param     boolean $includeForeignObjects (optional) Whether to include hydrated related objects. Default to FALSE.
+     * @param string  $keyType                (optional) One of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_STUDLYPHPNAME,
+     *                                        TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM.
+     *                                        Defaults to TableMap::TYPE_PHPNAME.
+     * @param boolean $includeLazyLoadColumns (optional) Whether to include lazy loaded columns. Defaults to TRUE.
+     * @param array   $alreadyDumpedObjects   List of objects to skip to avoid recursion
+     * @param boolean $includeForeignObjects  (optional) Whether to include hydrated related objects. Default to FALSE.
      *
      * @return array an associative array containing the field names (as keys) and field values
      */
@@ -980,12 +964,12 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
     /**
      * Sets a field from the object by name passed in as a string.
      *
-     * @param      string $name
-     * @param      mixed  $value field value
-     * @param      string $type The type of fieldname the $name is of:
-     *                     one of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_STUDLYPHPNAME
-     *                     TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM.
-     *                     Defaults to TableMap::TYPE_PHPNAME.
+     * @param  string $name
+     * @param  mixed  $value field value
+     * @param  string $type  The type of fieldname the $name is of:
+     *                       one of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_STUDLYPHPNAME
+     *                       TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM.
+     *                       Defaults to TableMap::TYPE_PHPNAME.
      * @return void
      */
     public function setByName($name, $value, $type = TableMap::TYPE_PHPNAME)
@@ -999,8 +983,8 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
      * Sets a field from the object by Position as specified in the xml schema.
      * Zero-based.
      *
-     * @param      int $pos position in xml schema
-     * @param      mixed $value field value
+     * @param  int   $pos   position in xml schema
+     * @param  mixed $value field value
      * @return void
      */
     public function setByPosition($pos, $value)
@@ -1037,19 +1021,29 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
      * TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM.
      * The default key type is the column's TableMap::TYPE_PHPNAME.
      *
-     * @param      array  $arr     An array to populate the object from.
-     * @param      string $keyType The type of keys the array uses.
+     * @param  array  $arr     An array to populate the object from.
+     * @param  string $keyType The type of keys the array uses.
      * @return void
      */
     public function fromArray($arr, $keyType = TableMap::TYPE_PHPNAME)
     {
         $keys = IndexEngineDriverConfigurationTableMap::getFieldNames($keyType);
 
-        if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
-        if (array_key_exists($keys[1], $arr)) $this->setCode($arr[$keys[1]]);
-        if (array_key_exists($keys[2], $arr)) $this->setDriverCode($arr[$keys[2]]);
-        if (array_key_exists($keys[3], $arr)) $this->setTitle($arr[$keys[3]]);
-        if (array_key_exists($keys[4], $arr)) $this->setSerializedConfiguration($arr[$keys[4]]);
+        if (array_key_exists($keys[0], $arr)) {
+            $this->setId($arr[$keys[0]]);
+        }
+        if (array_key_exists($keys[1], $arr)) {
+            $this->setCode($arr[$keys[1]]);
+        }
+        if (array_key_exists($keys[2], $arr)) {
+            $this->setDriverCode($arr[$keys[2]]);
+        }
+        if (array_key_exists($keys[3], $arr)) {
+            $this->setTitle($arr[$keys[3]]);
+        }
+        if (array_key_exists($keys[4], $arr)) {
+            $this->setSerializedConfiguration($arr[$keys[4]]);
+        }
     }
 
     /**
@@ -1061,11 +1055,21 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
     {
         $criteria = new Criteria(IndexEngineDriverConfigurationTableMap::DATABASE_NAME);
 
-        if ($this->isColumnModified(IndexEngineDriverConfigurationTableMap::ID)) $criteria->add(IndexEngineDriverConfigurationTableMap::ID, $this->id);
-        if ($this->isColumnModified(IndexEngineDriverConfigurationTableMap::CODE)) $criteria->add(IndexEngineDriverConfigurationTableMap::CODE, $this->code);
-        if ($this->isColumnModified(IndexEngineDriverConfigurationTableMap::DRIVER_CODE)) $criteria->add(IndexEngineDriverConfigurationTableMap::DRIVER_CODE, $this->driver_code);
-        if ($this->isColumnModified(IndexEngineDriverConfigurationTableMap::TITLE)) $criteria->add(IndexEngineDriverConfigurationTableMap::TITLE, $this->title);
-        if ($this->isColumnModified(IndexEngineDriverConfigurationTableMap::SERIALIZED_CONFIGURATION)) $criteria->add(IndexEngineDriverConfigurationTableMap::SERIALIZED_CONFIGURATION, $this->serialized_configuration);
+        if ($this->isColumnModified(IndexEngineDriverConfigurationTableMap::ID)) {
+            $criteria->add(IndexEngineDriverConfigurationTableMap::ID, $this->id);
+        }
+        if ($this->isColumnModified(IndexEngineDriverConfigurationTableMap::CODE)) {
+            $criteria->add(IndexEngineDriverConfigurationTableMap::CODE, $this->code);
+        }
+        if ($this->isColumnModified(IndexEngineDriverConfigurationTableMap::DRIVER_CODE)) {
+            $criteria->add(IndexEngineDriverConfigurationTableMap::DRIVER_CODE, $this->driver_code);
+        }
+        if ($this->isColumnModified(IndexEngineDriverConfigurationTableMap::TITLE)) {
+            $criteria->add(IndexEngineDriverConfigurationTableMap::TITLE, $this->title);
+        }
+        if ($this->isColumnModified(IndexEngineDriverConfigurationTableMap::SERIALIZED_CONFIGURATION)) {
+            $criteria->add(IndexEngineDriverConfigurationTableMap::SERIALIZED_CONFIGURATION, $this->serialized_configuration);
+        }
 
         return $criteria;
     }
@@ -1088,7 +1092,7 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
 
     /**
      * Returns the primary key for this object (row).
-     * @return   int
+     * @return int
      */
     public function getPrimaryKey()
     {
@@ -1098,7 +1102,7 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
     /**
      * Generic method to set the primary key (id column).
      *
-     * @param       int $key Primary key.
+     * @param  int  $key Primary key.
      * @return void
      */
     public function setPrimaryKey($key)
@@ -1112,7 +1116,6 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
      */
     public function isPrimaryKeyNull()
     {
-
         return null === $this->getId();
     }
 
@@ -1122,9 +1125,9 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
      * If desired, this method can also make copies of all associated (fkey referrers)
      * objects.
      *
-     * @param      object $copyObj An object of \IndexEngine\Model\IndexEngineDriverConfiguration (or compatible) type.
-     * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-     * @param      boolean $makeNew Whether to reset autoincrement PKs and make the object new.
+     * @param  object          $copyObj  An object of \IndexEngine\Model\IndexEngineDriverConfiguration (or compatible) type.
+     * @param  boolean         $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
+     * @param  boolean         $makeNew  Whether to reset autoincrement PKs and make the object new.
      * @throws PropelException
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
@@ -1144,12 +1147,11 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
                     $copyObj->addIndexEngineIndex($relObj->copy($deepCopy));
                 }
             }
-
         } // if ($deepCopy)
 
         if ($makeNew) {
             $copyObj->setNew(true);
-            $copyObj->setId(NULL); // this is a auto-increment column, so set to default value
+            $copyObj->setId(null); // this is a auto-increment column, so set to default value
         }
     }
 
@@ -1161,8 +1163,8 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
      * If desired, this method can also make copies of all associated (fkey referrers)
      * objects.
      *
-     * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-     * @return                 \IndexEngine\Model\IndexEngineDriverConfiguration Clone of current object.
+     * @param  boolean                                           $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
+     * @return \IndexEngine\Model\IndexEngineDriverConfiguration Clone of current object.
      * @throws PropelException
      */
     public function copy($deepCopy = false)
@@ -1175,13 +1177,12 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
         return $copyObj;
     }
 
-
     /**
      * Initializes a collection based on the name of a relation.
      * Avoids crafting an 'init[$relationName]s' method name
      * that wouldn't work when StandardEnglishPluralizer is used.
      *
-     * @param      string $relationName The name of the relation to initialize
+     * @param  string $relationName The name of the relation to initialize
      * @return void
      */
     public function initRelation($relationName)
@@ -1220,8 +1221,8 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
      * however, you may wish to override this method in your stub class to provide setting appropriate
      * to your application -- for example, setting the initial array to the values stored in database.
      *
-     * @param      boolean $overrideExisting If set to true, the method call initializes
-     *                                        the collection even if it is not empty
+     * @param boolean $overrideExisting If set to true, the method call initializes
+     *                                  the collection even if it is not empty
      *
      * @return void
      */
@@ -1243,8 +1244,8 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
      * If this ChildIndexEngineDriverConfiguration is new, it will return
      * an empty collection or the current collection; the criteria is ignored on a new object.
      *
-     * @param      Criteria $criteria optional Criteria object to narrow the query
-     * @param      ConnectionInterface $con optional connection object
+     * @param  Criteria                           $criteria optional Criteria object to narrow the query
+     * @param  ConnectionInterface                $con      optional connection object
      * @return Collection|ChildIndexEngineIndex[] List of ChildIndexEngineIndex objects
      * @throws PropelException
      */
@@ -1300,14 +1301,13 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
      * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
      * and new objects from the given Propel collection.
      *
-     * @param      Collection $indexEngineIndices A Propel collection.
-     * @param      ConnectionInterface $con Optional connection object
-     * @return   ChildIndexEngineDriverConfiguration The current object (for fluent API support)
+     * @param  Collection                          $indexEngineIndices A Propel collection.
+     * @param  ConnectionInterface                 $con                Optional connection object
+     * @return ChildIndexEngineDriverConfiguration The current object (for fluent API support)
      */
     public function setIndexEngineIndices(Collection $indexEngineIndices, ConnectionInterface $con = null)
     {
         $indexEngineIndicesToDelete = $this->getIndexEngineIndices(new Criteria(), $con)->diff($indexEngineIndices);
-
 
         $this->indexEngineIndicesScheduledForDeletion = $indexEngineIndicesToDelete;
 
@@ -1329,10 +1329,10 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
     /**
      * Returns the number of related IndexEngineIndex objects.
      *
-     * @param      Criteria $criteria
-     * @param      boolean $distinct
-     * @param      ConnectionInterface $con
-     * @return int             Count of related IndexEngineIndex objects.
+     * @param  Criteria            $criteria
+     * @param  boolean             $distinct
+     * @param  ConnectionInterface $con
+     * @return int                 Count of related IndexEngineIndex objects.
      * @throws PropelException
      */
     public function countIndexEngineIndices(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
@@ -1364,8 +1364,8 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
      * Method called to associate a ChildIndexEngineIndex object to this object
      * through the ChildIndexEngineIndex foreign key attribute.
      *
-     * @param    ChildIndexEngineIndex $l ChildIndexEngineIndex
-     * @return   \IndexEngine\Model\IndexEngineDriverConfiguration The current object (for fluent API support)
+     * @param  ChildIndexEngineIndex                             $l ChildIndexEngineIndex
+     * @return \IndexEngine\Model\IndexEngineDriverConfiguration The current object (for fluent API support)
      */
     public function addIndexEngineIndex(ChildIndexEngineIndex $l)
     {
@@ -1386,12 +1386,12 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
      */
     protected function doAddIndexEngineIndex($indexEngineIndex)
     {
-        $this->collIndexEngineIndices[]= $indexEngineIndex;
+        $this->collIndexEngineIndices[] = $indexEngineIndex;
         $indexEngineIndex->setIndexEngineDriverConfiguration($this);
     }
 
     /**
-     * @param  IndexEngineIndex $indexEngineIndex The indexEngineIndex object to remove.
+     * @param  IndexEngineIndex                    $indexEngineIndex The indexEngineIndex object to remove.
      * @return ChildIndexEngineDriverConfiguration The current object (for fluent API support)
      */
     public function removeIndexEngineIndex($indexEngineIndex)
@@ -1402,7 +1402,7 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
                 $this->indexEngineIndicesScheduledForDeletion = clone $this->collIndexEngineIndices;
                 $this->indexEngineIndicesScheduledForDeletion->clear();
             }
-            $this->indexEngineIndicesScheduledForDeletion[]= clone $indexEngineIndex;
+            $this->indexEngineIndicesScheduledForDeletion[] = clone $indexEngineIndex;
             $indexEngineIndex->setIndexEngineDriverConfiguration(null);
         }
 
@@ -1433,7 +1433,7 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
      * objects with circular references (even in PHP 5.3). This is currently necessary
      * when using Propel in certain daemon or large-volume/high-memory operations.
      *
-     * @param      boolean $deep Whether to also clear the references on all referrer objects.
+     * @param boolean $deep Whether to also clear the references on all referrer objects.
      */
     public function clearAllReferences($deep = false)
     {
@@ -1474,7 +1474,6 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
      */
     public function postSave(ConnectionInterface $con = null)
     {
-
     }
 
     /**
@@ -1493,7 +1492,6 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
      */
     public function postInsert(ConnectionInterface $con = null)
     {
-
     }
 
     /**
@@ -1512,7 +1510,6 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
      */
     public function postUpdate(ConnectionInterface $con = null)
     {
-
     }
 
     /**
@@ -1531,9 +1528,7 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
      */
     public function postDelete(ConnectionInterface $con = null)
     {
-
     }
-
 
     /**
      * Derived method to catches calls to undefined methods.
@@ -1575,5 +1570,4 @@ abstract class IndexEngineDriverConfiguration implements ActiveRecordInterface
 
         throw new BadMethodCallException(sprintf('Call to undefined method: %s.', $name));
     }
-
 }

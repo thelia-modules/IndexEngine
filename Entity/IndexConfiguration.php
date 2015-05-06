@@ -11,6 +11,7 @@
 /*************************************************************************************/
 
 namespace IndexEngine\Entity;
+
 use IndexEngine\Driver\Query\IndexQuery;
 
 /**
@@ -47,7 +48,6 @@ class IndexConfiguration
     /** @var array */
     private $extraData;
 
-
     /**
      * @return DriverConfiguration
      */
@@ -57,12 +57,13 @@ class IndexConfiguration
     }
 
     /**
-     * @param DriverConfiguration $driverConfiguration
+     * @param  DriverConfiguration $driverConfiguration
      * @return $this
      */
     public function setDriverConfiguration(DriverConfiguration $driverConfiguration)
     {
         $this->driverConfiguration = $driverConfiguration;
+
         return $this;
     }
 
@@ -75,12 +76,13 @@ class IndexConfiguration
     }
 
     /**
-     * @param array $extraData
+     * @param  array $extraData
      * @return $this
      */
     public function setExtraData(array $extraData)
     {
         $this->extraData = $extraData;
+
         return $this;
     }
 
@@ -93,12 +95,13 @@ class IndexConfiguration
     }
 
     /**
-     * @param IndexMapping $mapping
+     * @param  IndexMapping $mapping
      * @return $this
      */
     public function setMapping(IndexMapping $mapping)
     {
         $this->mapping = $mapping;
+
         return $this;
     }
 
@@ -111,12 +114,13 @@ class IndexConfiguration
     }
 
     /**
-     * @param string $code
+     * @param  string $code
      * @return $this
      */
     public function setCode($code)
     {
         $this->code = $code;
+
         return $this;
     }
 
@@ -129,12 +133,13 @@ class IndexConfiguration
     }
 
     /**
-     * @param string $title
+     * @param  string $title
      * @return $this
      */
     public function setTitle($title)
     {
         $this->title = $title;
+
         return $this;
     }
 
@@ -147,12 +152,13 @@ class IndexConfiguration
     }
 
     /**
-     * @param string $type
+     * @param  string $type
      * @return $this
      */
     public function setType($type)
     {
         $this->type = $type;
+
         return $this;
     }
 
@@ -165,12 +171,13 @@ class IndexConfiguration
     }
 
     /**
-     * @param string $entity
+     * @param  string $entity
      * @return $this
      */
     public function setEntity($entity)
     {
         $this->entity = $entity;
+
         return $this;
     }
 
@@ -183,12 +190,13 @@ class IndexConfiguration
     }
 
     /**
-     * @param array $columns
+     * @param  array $columns
      * @return $this
      */
     public function setColumns(array $columns)
     {
         $this->columns = $columns;
+
         return $this;
     }
 
@@ -201,12 +209,13 @@ class IndexConfiguration
     }
 
     /**
-     * @param array $criteria
+     * @param  array $criteria
      * @return $this
      */
     public function setCriteria(array $criteria)
     {
         $this->criteria = $criteria;
+
         return $this;
     }
 
@@ -222,8 +231,8 @@ class IndexConfiguration
     }
 
     /**
-     * @param string $name
-     * @param mixed $default
+     * @param  string $name
+     * @param  mixed  $default
      * @return mixed
      */
     public function getExtraDataEntry($name, $default = null)
@@ -236,7 +245,7 @@ class IndexConfiguration
     }
 
     /**
-     * @param string $name
+     * @param  string $name
      * @return bool
      */
     public function hasExtraDataEntry($name)
@@ -245,8 +254,8 @@ class IndexConfiguration
     }
 
     /**
-     * @param string $name
-     * @param mixed $value
+     * @param  string $name
+     * @param  mixed  $value
      * @return $this
      */
     public function setExtraDataEntry($name, $value)
@@ -257,7 +266,7 @@ class IndexConfiguration
     }
 
     /**
-     * @param string $name
+     * @param  string $name
      * @return $this
      */
     public function deleteExtraDataEntry($name)

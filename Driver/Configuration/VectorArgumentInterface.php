@@ -12,7 +12,6 @@
 
 namespace IndexEngine\Driver\Configuration;
 
-
 /**
  * Interface VectorArgumentInterface
  * @package IndexEngine\Driver\Configuration

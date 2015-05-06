@@ -16,7 +16,6 @@ use IndexEngine\Driver\DriverInterface;
 use IndexEngine\Driver\Bridge\ElasticSearch\ElasticSearchDriver;
 use IndexEngine\Driver\Bridge\ElasticSearch\ElasticSearchListener;
 
-
 /**
  * Class ElasticSearchTest
  * @package IndexEngine\Tests\Driver\Bridge

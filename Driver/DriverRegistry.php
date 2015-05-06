@@ -31,8 +31,8 @@ class DriverRegistry extends AbstractCollection implements DriverRegistryInterfa
     private $drivers = array();
 
     /**
-     * @param DriverInterface $driver
-     * @param int $mode
+     * @param  DriverInterface $driver
+     * @param  int             $mode
      * @return $this
      *
      * @throws \IndexEngine\Driver\Exception\UnknownModeException
@@ -60,7 +60,7 @@ class DriverRegistry extends AbstractCollection implements DriverRegistryInterfa
     }
 
     /**
-     * @param mixed $codeOrDriver It can be a string, an object that implements __toString or a DriverInterface
+     * @param  mixed $codeOrDriver It can be a string, an object that implements __toString or a DriverInterface
      * @return bool
      *
      * This method checks if the driver is already registered and return a boolean.
@@ -72,7 +72,7 @@ class DriverRegistry extends AbstractCollection implements DriverRegistryInterfa
 
     /**
      * @param $codeOrDriver
-     * @param int $mode
+     * @param  int  $mode
      * @return bool
      *
      * @throws \IndexEngine\Driver\Exception\InvalidDriverCodeException
@@ -92,14 +92,14 @@ class DriverRegistry extends AbstractCollection implements DriverRegistryInterfa
             return false;
         }
 
-        unset ($this->drivers[$resolvedCode]);
+        unset($this->drivers[$resolvedCode]);
 
         return true;
     }
 
     /**
      * @param $name
-     * @param int $mode
+     * @param  int                        $mode
      * @return false|null|DriverInterface
      *
      * @throws \IndexEngine\Driver\Exception\InvalidNameException
@@ -116,7 +116,7 @@ class DriverRegistry extends AbstractCollection implements DriverRegistryInterfa
             } elseif ($mode === static::MODE_RETURN_BOOLEAN) {
                 return false;
             } elseif ($mode === static::MODE_RETURN_NULL) {
-                return null;
+                return;
             }
         }
 
@@ -124,8 +124,8 @@ class DriverRegistry extends AbstractCollection implements DriverRegistryInterfa
     }
 
     /**
-     * @param DriverInterface $driver
-     * @param int $mode
+     * @param  DriverInterface $driver
+     * @param  int             $mode
      * @return bool
      *
      * @throws \IndexEngine\Driver\Exception\UnknownModeException
@@ -159,7 +159,7 @@ class DriverRegistry extends AbstractCollection implements DriverRegistryInterfa
     }
 
     /**
-     * @param mixed $codeOrDriver
+     * @param  mixed  $codeOrDriver
      * @return string
      *
      * @throws \IndexEngine\Exception\InvalidArgumentException

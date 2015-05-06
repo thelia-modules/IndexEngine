@@ -72,7 +72,7 @@ abstract class AbstractCollection implements CollectionInterface
     }
 
     /**
-     * @param mixed $currentMode
+     * @param mixed  $currentMode
      * @param string $method
      *
      * @throws \IndexEngine\Driver\Exception\UnknownModeException
@@ -89,8 +89,8 @@ abstract class AbstractCollection implements CollectionInterface
     }
 
     /**
-     * @param DriverInterface $driver
-     * @param int $mode
+     * @param  DriverInterface $driver
+     * @param  int             $mode
      * @return bool
      *
      * @throws \IndexEngine\Driver\Exception\UnknownModeException
@@ -104,11 +104,11 @@ abstract class AbstractCollection implements CollectionInterface
             $this->throwUnknownModeException($mode, $method);
         }
 
-        return (bool)preg_match("/^[a-z\d\-_\.]{1,64}$/i", $value);
+        return (bool) preg_match("/^[a-z\d\-_\.]{1,64}$/i", $value);
     }
 
     /**
-     * @param mixed $codeOrDriver
+     * @param  mixed  $codeOrDriver
      * @return string
      *
      * @throws \IndexEngine\Exception\InvalidArgumentException

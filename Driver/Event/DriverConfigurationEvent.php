@@ -40,12 +40,13 @@ class DriverConfigurationEvent extends Event
     }
 
     /**
-     * @param ArgumentCollectionInterface $argumentCollection
+     * @param  ArgumentCollectionInterface $argumentCollection
      * @return $this
      */
     public function setArgumentCollection(ArgumentCollectionInterface $argumentCollection)
     {
         $this->argumentCollection = $argumentCollection;
+
         return $this;
     }
 }

@@ -61,7 +61,7 @@ abstract class AbstractEventDispatcherAwareDriver extends AbstractCollection imp
     }
 
     /**
-     * @param null|ArgumentCollectionInterface $configuration
+     * @param  null|ArgumentCollectionInterface $configuration
      * @return void
      *
      * If a configuration is provided in getConfiguration(), this method is called to
@@ -75,10 +75,10 @@ abstract class AbstractEventDispatcherAwareDriver extends AbstractCollection imp
     }
 
     /**
-     * @param string $type
-     * @param string $code
-     * @param string $name
-     * @param IndexMapping $mapping
+     * @param  string       $type
+     * @param  string       $code
+     * @param  string       $name
+     * @param  IndexMapping $mapping
      * @return mixed
      *
      * This method has to create the index with the given mapping.
@@ -95,9 +95,9 @@ abstract class AbstractEventDispatcherAwareDriver extends AbstractCollection imp
     }
 
     /**
-     * @param string $type
-     * @param string $code
-     * @param string $name
+     * @param  string $type
+     * @param  string $code
+     * @param  string $name
      * @return bool
      *
      * This method checks that the index corresponding to the type exists in the server
@@ -116,9 +116,9 @@ abstract class AbstractEventDispatcherAwareDriver extends AbstractCollection imp
     }
 
     /**
-     * @param string $type
-     * @param string $code
-     * @param string $name
+     * @param  string $type
+     * @param  string $code
+     * @param  string $name
      * @return mixed
      *
      * Delete the index the belong to the given type
@@ -145,11 +145,11 @@ abstract class AbstractEventDispatcherAwareDriver extends AbstractCollection imp
     }
 
     /**
-     * @param string $type
-     * @param string $code
-     * @param string $name
-     * @param IndexDataVector $indexDataVector
-     * @param IndexMapping $mapping
+     * @param  string          $type
+     * @param  string          $code
+     * @param  string          $name
+     * @param  IndexDataVector $indexDataVector
+     * @param  IndexMapping    $mapping
      * @return mixed
      *
      * @throws \IndexEngine\Driver\Exception\IndexDataPersistException If something goes wrong during recording
@@ -169,8 +169,8 @@ abstract class AbstractEventDispatcherAwareDriver extends AbstractCollection imp
     }
 
     /**
-     * @param IndexQueryInterface $query
-     * @param IndexMapping $mapping
+     * @param  IndexQueryInterface                 $query
+     * @param  IndexMapping                        $mapping
      * @return \IndexEngine\Entity\IndexDataVector
      *
      * Translate the query for the search engine, execute it and return the values with a IndexData vector.
@@ -209,7 +209,7 @@ abstract class AbstractEventDispatcherAwareDriver extends AbstractCollection imp
     }
 
     /**
-     * @param EventDispatcherInterface $dispatcher
+     * @param  EventDispatcherInterface $dispatcher
      * @return void
      *
      * Set the current dispatcher
@@ -220,8 +220,8 @@ abstract class AbstractEventDispatcherAwareDriver extends AbstractCollection imp
     }
 
     /**
-     * @param string $name
-     * @param mixed $value
+     * @param  string $name
+     * @param  mixed  $value
      * @return $this
      *
      * Add an extra configuration in the collection
@@ -235,7 +235,7 @@ abstract class AbstractEventDispatcherAwareDriver extends AbstractCollection imp
     }
 
     /**
-     * @param string $name
+     * @param  string $name
      * @return bool
      *
      * Check if the extra configuration named $name exists
@@ -248,7 +248,7 @@ abstract class AbstractEventDispatcherAwareDriver extends AbstractCollection imp
     }
 
     /**
-     * @param string $name
+     * @param  string $name
      * @return $this
      *
      * @throws \IndexEngine\Driver\Exception\InvalidNameException is the extra configuration doesn't exist
@@ -269,7 +269,7 @@ abstract class AbstractEventDispatcherAwareDriver extends AbstractCollection imp
     }
 
     /**
-     * @param string $name
+     * @param  string $name
      * @return mixed
      *
      * @throws \IndexEngine\Driver\Exception\InvalidNameException is the extra configuration doesn't exist
@@ -299,7 +299,7 @@ abstract class AbstractEventDispatcherAwareDriver extends AbstractCollection imp
 
     /**
      * @param $eventName
-     * @param Event $event
+     * @param  Event $event
      * @return Event the 2nd parameter event
      */
     protected function dispatch($eventName, Event $event)
@@ -309,6 +309,6 @@ abstract class AbstractEventDispatcherAwareDriver extends AbstractCollection imp
 
     protected function getEventName($driverEvent)
     {
-        return $driverEvent . "." . static::getCode();
+        return $driverEvent.".".static::getCode();
     }
 }

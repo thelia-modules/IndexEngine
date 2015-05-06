@@ -13,10 +13,8 @@
 namespace IndexEngine\IO\Command;
 
 use Symfony\Component\Console\Input\InputArgument;
-use Thelia\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Thelia\Core\HttpFoundation\Request;
 
 /**
  * Class IndexCreateCommand
@@ -55,8 +53,7 @@ class IndexCreateCommand extends IndexEngineCommand
         $output->renderBlock([
             "",
             sprintf("The index '%s' has been created", $code),
-            ""
+            "",
         ], "bg=green;fg=black");
     }
-
 }

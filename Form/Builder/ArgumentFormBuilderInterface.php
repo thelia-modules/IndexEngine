@@ -22,9 +22,9 @@ use Symfony\Component\Form\FormBuilderInterface as SfFormBuilderInterface;
 interface ArgumentFormBuilderInterface
 {
     /**
-     * @param ArgumentInterface $argument
-     * @param SfFormBuilderInterface $builder
-     * @param mixed $defaultValue
+     * @param  ArgumentInterface      $argument
+     * @param  SfFormBuilderInterface $builder
+     * @param  mixed                  $defaultValue
      * @return void
      *
      * Add the needed field(s) into the symfony form builder for the given argument

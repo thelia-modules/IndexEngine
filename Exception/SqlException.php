@@ -12,7 +12,6 @@
 
 namespace IndexEngine\Exception;
 
-
 /**
  * Class SqlException
  * @package IndexEngine\Exception

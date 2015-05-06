@@ -18,7 +18,6 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use IndexEngine\Discovering\Repository\IndexableEntityRepositoryInterface;
 use IndexEngine\Event\IndexEngineIndexEvents;
 use IndexEngine\Event\RenderConfigurationEvent;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Thelia\Core\Template\ParserInterface;
 use Thelia\Core\Template\TemplateHelper;
 

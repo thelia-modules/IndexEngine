@@ -13,7 +13,6 @@ namespace IndexEngine\Manager;
 
 use IndexEngine\Entity\IndexConfiguration;
 
-
 /**
  * Class SearchManager
  * @package IndexEngine\Manager
@@ -22,8 +21,8 @@ use IndexEngine\Entity\IndexConfiguration;
 interface SearchManagerInterface
 {
     /**
-     * @param IndexConfiguration $configuration
-     * @param array $params
+     * @param  IndexConfiguration $configuration
+     * @param  array              $params
      * @return array
      *
      * @throws \IndexEngine\Exception\SearchException if something goes wrong

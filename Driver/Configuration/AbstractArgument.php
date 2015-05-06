@@ -102,6 +102,6 @@ abstract class AbstractArgument implements ArgumentInterface
 
     protected function getValidationRegex()
     {
-        return null;
+        return;
     }
 }

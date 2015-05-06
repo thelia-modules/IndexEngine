@@ -2,9 +2,9 @@
 
 namespace IndexEngine\Model\Base;
 
-use \DateTime;
-use \Exception;
-use \PDO;
+use DateTime;
+use Exception;
+use PDO;
 use IndexEngine\Model\IndexEngineDriverConfiguration as ChildIndexEngineDriverConfiguration;
 use IndexEngine\Model\IndexEngineDriverConfigurationQuery as ChildIndexEngineDriverConfigurationQuery;
 use IndexEngine\Model\IndexEngineIndex as ChildIndexEngineIndex;
@@ -32,7 +32,6 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
      * TableMap class name
      */
     const TABLE_MAP = '\\IndexEngine\\Model\\Map\\IndexEngineIndexTableMap';
-
 
     /**
      * attribute to determine if this object has previously been saved.
@@ -308,7 +307,7 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
         }
 
         if (null === $this->getPrimaryKey()
-            || null === $obj->getPrimaryKey())  {
+            || null === $obj->getPrimaryKey()) {
             return false;
         }
 
@@ -392,7 +391,7 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
      */
     protected function log($msg, $priority = Propel::LOG_INFO)
     {
-        return Propel::log(get_class($this) . ': ' . $msg, $priority);
+        return Propel::log(get_class($this).': '.$msg, $priority);
     }
 
     /**
@@ -402,9 +401,9 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
      * $book->importFrom('JSON', '{"Id":9012,"Title":"Don Juan","ISBN":"0140422161","Price":12.99,"PublisherId":1234,"AuthorId":5678}');
      * </code>
      *
-     * @param mixed $parser A AbstractParser instance,
+     * @param mixed  $parser A AbstractParser instance,
      *                       or a format name ('XML', 'YAML', 'JSON', 'CSV')
-     * @param string $data The source data to import from
+     * @param string $data   The source data to import from
      *
      * @return IndexEngineIndex The current object, for fluid interface
      */
@@ -454,99 +453,90 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
     /**
      * Get the [id] column value.
      *
-     * @return   int
+     * @return int
      */
     public function getId()
     {
-
         return $this->id;
     }
 
     /**
      * Get the [visible] column value.
      *
-     * @return   int
+     * @return int
      */
     public function getVisible()
     {
-
         return $this->visible;
     }
 
     /**
      * Get the [code] column value.
      *
-     * @return   string
+     * @return string
      */
     public function getCode()
     {
-
         return $this->code;
     }
 
     /**
      * Get the [title] column value.
      *
-     * @return   string
+     * @return string
      */
     public function getTitle()
     {
-
         return $this->title;
     }
 
     /**
      * Get the [type] column value.
      *
-     * @return   string
+     * @return string
      */
     public function getType()
     {
-
         return $this->type;
     }
 
     /**
      * Get the [entity] column value.
      *
-     * @return   string
+     * @return string
      */
     public function getEntity()
     {
-
         return $this->entity;
     }
 
     /**
      * Get the [serialized_columns] column value.
      *
-     * @return   string
+     * @return string
      */
     public function getSerializedColumns()
     {
-
         return $this->serialized_columns;
     }
 
     /**
      * Get the [serialized_condition] column value.
      *
-     * @return   string
+     * @return string
      */
     public function getSerializedCondition()
     {
-
         return $this->serialized_condition;
     }
 
     /**
      * Get the [index_engine_driver_configuration_id] column value.
      *
-     * @return   int
+     * @return int
      */
     public function getIndexEngineDriverConfigurationId()
     {
-
         return $this->index_engine_driver_configuration_id;
     }
 
@@ -554,14 +544,14 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
      * Get the [optionally formatted] temporal [created_at] column value.
      *
      *
-     * @param      string $format The date/time format string (either date()-style or strftime()-style).
-     *                            If format is NULL, then the raw \DateTime object will be returned.
+     * @param string $format The date/time format string (either date()-style or strftime()-style).
+     *                       If format is NULL, then the raw \DateTime object will be returned.
      *
      * @return mixed Formatted date/time value as string or \DateTime object (if format is NULL), NULL if column is NULL, and 0 if column value is 0000-00-00 00:00:00
      *
      * @throws PropelException - if unable to parse/validate the date/time value.
      */
-    public function getCreatedAt($format = NULL)
+    public function getCreatedAt($format = null)
     {
         if ($format === null) {
             return $this->created_at;
@@ -574,14 +564,14 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
      * Get the [optionally formatted] temporal [updated_at] column value.
      *
      *
-     * @param      string $format The date/time format string (either date()-style or strftime()-style).
-     *                            If format is NULL, then the raw \DateTime object will be returned.
+     * @param string $format The date/time format string (either date()-style or strftime()-style).
+     *                       If format is NULL, then the raw \DateTime object will be returned.
      *
      * @return mixed Formatted date/time value as string or \DateTime object (if format is NULL), NULL if column is NULL, and 0 if column value is 0000-00-00 00:00:00
      *
      * @throws PropelException - if unable to parse/validate the date/time value.
      */
-    public function getUpdatedAt($format = NULL)
+    public function getUpdatedAt($format = null)
     {
         if ($format === null) {
             return $this->updated_at;
@@ -593,11 +583,10 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
     /**
      * Get the [version] column value.
      *
-     * @return   int
+     * @return int
      */
     public function getVersion()
     {
-
         return $this->version;
     }
 
@@ -605,14 +594,14 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
      * Get the [optionally formatted] temporal [version_created_at] column value.
      *
      *
-     * @param      string $format The date/time format string (either date()-style or strftime()-style).
-     *                            If format is NULL, then the raw \DateTime object will be returned.
+     * @param string $format The date/time format string (either date()-style or strftime()-style).
+     *                       If format is NULL, then the raw \DateTime object will be returned.
      *
      * @return mixed Formatted date/time value as string or \DateTime object (if format is NULL), NULL if column is NULL, and 0 if column value is 0000-00-00 00:00:00
      *
      * @throws PropelException - if unable to parse/validate the date/time value.
      */
-    public function getVersionCreatedAt($format = NULL)
+    public function getVersionCreatedAt($format = null)
     {
         if ($format === null) {
             return $this->version_created_at;
@@ -624,19 +613,18 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
     /**
      * Get the [version_created_by] column value.
      *
-     * @return   string
+     * @return string
      */
     public function getVersionCreatedBy()
     {
-
         return $this->version_created_by;
     }
 
     /**
      * Set the value of [id] column.
      *
-     * @param      int $v new value
-     * @return   \IndexEngine\Model\IndexEngineIndex The current object (for fluent API support)
+     * @param  int                                 $v new value
+     * @return \IndexEngine\Model\IndexEngineIndex The current object (for fluent API support)
      */
     public function setId($v)
     {
@@ -649,15 +637,14 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
             $this->modifiedColumns[IndexEngineIndexTableMap::ID] = true;
         }
 
-
         return $this;
     } // setId()
 
     /**
      * Set the value of [visible] column.
      *
-     * @param      int $v new value
-     * @return   \IndexEngine\Model\IndexEngineIndex The current object (for fluent API support)
+     * @param  int                                 $v new value
+     * @return \IndexEngine\Model\IndexEngineIndex The current object (for fluent API support)
      */
     public function setVisible($v)
     {
@@ -670,15 +657,14 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
             $this->modifiedColumns[IndexEngineIndexTableMap::VISIBLE] = true;
         }
 
-
         return $this;
     } // setVisible()
 
     /**
      * Set the value of [code] column.
      *
-     * @param      string $v new value
-     * @return   \IndexEngine\Model\IndexEngineIndex The current object (for fluent API support)
+     * @param  string                              $v new value
+     * @return \IndexEngine\Model\IndexEngineIndex The current object (for fluent API support)
      */
     public function setCode($v)
     {
@@ -691,15 +677,14 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
             $this->modifiedColumns[IndexEngineIndexTableMap::CODE] = true;
         }
 
-
         return $this;
     } // setCode()
 
     /**
      * Set the value of [title] column.
      *
-     * @param      string $v new value
-     * @return   \IndexEngine\Model\IndexEngineIndex The current object (for fluent API support)
+     * @param  string                              $v new value
+     * @return \IndexEngine\Model\IndexEngineIndex The current object (for fluent API support)
      */
     public function setTitle($v)
     {
@@ -712,15 +697,14 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
             $this->modifiedColumns[IndexEngineIndexTableMap::TITLE] = true;
         }
 
-
         return $this;
     } // setTitle()
 
     /**
      * Set the value of [type] column.
      *
-     * @param      string $v new value
-     * @return   \IndexEngine\Model\IndexEngineIndex The current object (for fluent API support)
+     * @param  string                              $v new value
+     * @return \IndexEngine\Model\IndexEngineIndex The current object (for fluent API support)
      */
     public function setType($v)
     {
@@ -733,15 +717,14 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
             $this->modifiedColumns[IndexEngineIndexTableMap::TYPE] = true;
         }
 
-
         return $this;
     } // setType()
 
     /**
      * Set the value of [entity] column.
      *
-     * @param      string $v new value
-     * @return   \IndexEngine\Model\IndexEngineIndex The current object (for fluent API support)
+     * @param  string                              $v new value
+     * @return \IndexEngine\Model\IndexEngineIndex The current object (for fluent API support)
      */
     public function setEntity($v)
     {
@@ -754,15 +737,14 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
             $this->modifiedColumns[IndexEngineIndexTableMap::ENTITY] = true;
         }
 
-
         return $this;
     } // setEntity()
 
     /**
      * Set the value of [serialized_columns] column.
      *
-     * @param      string $v new value
-     * @return   \IndexEngine\Model\IndexEngineIndex The current object (for fluent API support)
+     * @param  string                              $v new value
+     * @return \IndexEngine\Model\IndexEngineIndex The current object (for fluent API support)
      */
     public function setSerializedColumns($v)
     {
@@ -775,15 +757,14 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
             $this->modifiedColumns[IndexEngineIndexTableMap::SERIALIZED_COLUMNS] = true;
         }
 
-
         return $this;
     } // setSerializedColumns()
 
     /**
      * Set the value of [serialized_condition] column.
      *
-     * @param      string $v new value
-     * @return   \IndexEngine\Model\IndexEngineIndex The current object (for fluent API support)
+     * @param  string                              $v new value
+     * @return \IndexEngine\Model\IndexEngineIndex The current object (for fluent API support)
      */
     public function setSerializedCondition($v)
     {
@@ -796,15 +777,14 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
             $this->modifiedColumns[IndexEngineIndexTableMap::SERIALIZED_CONDITION] = true;
         }
 
-
         return $this;
     } // setSerializedCondition()
 
     /**
      * Set the value of [index_engine_driver_configuration_id] column.
      *
-     * @param      int $v new value
-     * @return   \IndexEngine\Model\IndexEngineIndex The current object (for fluent API support)
+     * @param  int                                 $v new value
+     * @return \IndexEngine\Model\IndexEngineIndex The current object (for fluent API support)
      */
     public function setIndexEngineDriverConfigurationId($v)
     {
@@ -821,16 +801,15 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
             $this->aIndexEngineDriverConfiguration = null;
         }
 
-
         return $this;
     } // setIndexEngineDriverConfigurationId()
 
     /**
      * Sets the value of [created_at] column to a normalized version of the date/time value specified.
      *
-     * @param      mixed $v string, integer (timestamp), or \DateTime value.
-     *               Empty strings are treated as NULL.
-     * @return   \IndexEngine\Model\IndexEngineIndex The current object (for fluent API support)
+     * @param  mixed                               $v string, integer (timestamp), or \DateTime value.
+     *                                                Empty strings are treated as NULL.
+     * @return \IndexEngine\Model\IndexEngineIndex The current object (for fluent API support)
      */
     public function setCreatedAt($v)
     {
@@ -849,9 +828,9 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
     /**
      * Sets the value of [updated_at] column to a normalized version of the date/time value specified.
      *
-     * @param      mixed $v string, integer (timestamp), or \DateTime value.
-     *               Empty strings are treated as NULL.
-     * @return   \IndexEngine\Model\IndexEngineIndex The current object (for fluent API support)
+     * @param  mixed                               $v string, integer (timestamp), or \DateTime value.
+     *                                                Empty strings are treated as NULL.
+     * @return \IndexEngine\Model\IndexEngineIndex The current object (for fluent API support)
      */
     public function setUpdatedAt($v)
     {
@@ -870,8 +849,8 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
     /**
      * Set the value of [version] column.
      *
-     * @param      int $v new value
-     * @return   \IndexEngine\Model\IndexEngineIndex The current object (for fluent API support)
+     * @param  int                                 $v new value
+     * @return \IndexEngine\Model\IndexEngineIndex The current object (for fluent API support)
      */
     public function setVersion($v)
     {
@@ -884,16 +863,15 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
             $this->modifiedColumns[IndexEngineIndexTableMap::VERSION] = true;
         }
 
-
         return $this;
     } // setVersion()
 
     /**
      * Sets the value of [version_created_at] column to a normalized version of the date/time value specified.
      *
-     * @param      mixed $v string, integer (timestamp), or \DateTime value.
-     *               Empty strings are treated as NULL.
-     * @return   \IndexEngine\Model\IndexEngineIndex The current object (for fluent API support)
+     * @param  mixed                               $v string, integer (timestamp), or \DateTime value.
+     *                                                Empty strings are treated as NULL.
+     * @return \IndexEngine\Model\IndexEngineIndex The current object (for fluent API support)
      */
     public function setVersionCreatedAt($v)
     {
@@ -912,8 +890,8 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
     /**
      * Set the value of [version_created_by] column.
      *
-     * @param      string $v new value
-     * @return   \IndexEngine\Model\IndexEngineIndex The current object (for fluent API support)
+     * @param  string                              $v new value
+     * @return \IndexEngine\Model\IndexEngineIndex The current object (for fluent API support)
      */
     public function setVersionCreatedBy($v)
     {
@@ -925,7 +903,6 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
             $this->version_created_by = $v;
             $this->modifiedColumns[IndexEngineIndexTableMap::VERSION_CREATED_BY] = true;
         }
-
 
         return $this;
     } // setVersionCreatedBy()
@@ -940,13 +917,13 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
      */
     public function hasOnlyDefaultValues()
     {
-            if ($this->visible !== 0) {
-                return false;
-            }
+        if ($this->visible !== 0) {
+            return false;
+        }
 
-            if ($this->version !== 0) {
-                return false;
-            }
+        if ($this->version !== 0) {
+            return false;
+        }
 
         // otherwise, everything was equal, so return TRUE
         return true;
@@ -964,7 +941,7 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
      * @param int     $startcol  0-based offset column which indicates which restultset column to start with.
      * @param boolean $rehydrate Whether this object is being re-hydrated from the database.
      * @param string  $indexType The index type of $row. Mostly DataFetcher->getIndexType().
-                                  One of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_STUDLYPHPNAME
+     One of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_STUDLYPHPNAME
      *                            TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM.
      *
      * @return int             next starting column
@@ -973,8 +950,6 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
     public function hydrate($row, $startcol = 0, $rehydrate = false, $indexType = TableMap::TYPE_NUM)
     {
         try {
-
-
             $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : IndexEngineIndexTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
             $this->id = (null !== $col) ? (int) $col : null;
 
@@ -1034,7 +1009,6 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
             }
 
             return $startcol + 14; // 14 = IndexEngineIndexTableMap::NUM_HYDRATE_COLUMNS.
-
         } catch (Exception $e) {
             throw new PropelException("Error populating \IndexEngine\Model\IndexEngineIndex object", 0, $e);
         }
@@ -1065,10 +1039,10 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
      *
      * This will only work if the object has been saved and has a valid primary key set.
      *
-     * @param      boolean $deep (optional) Whether to also de-associated any related objects.
-     * @param      ConnectionInterface $con (optional) The ConnectionInterface connection to use.
+     * @param  boolean             $deep (optional) Whether to also de-associated any related objects.
+     * @param  ConnectionInterface $con  (optional) The ConnectionInterface connection to use.
      * @return void
-     * @throws PropelException - if this object is deleted, unsaved or doesn't have pk match in db
+     * @throws PropelException     - if this object is deleted, unsaved or doesn't have pk match in db
      */
     public function reload($deep = false, ConnectionInterface $con = null)
     {
@@ -1099,14 +1073,13 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
 
             $this->aIndexEngineDriverConfiguration = null;
             $this->collIndexEngineIndexVersions = null;
-
         } // if (deep)
     }
 
     /**
      * Removes this object from datastore and sets delete attribute.
      *
-     * @param      ConnectionInterface $con
+     * @param  ConnectionInterface $con
      * @return void
      * @throws PropelException
      * @see IndexEngineIndex::setDeleted()
@@ -1149,8 +1122,8 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
      * method.  This method wraps all precipitate database operations in a
      * single transaction.
      *
-     * @param      ConnectionInterface $con
-     * @return int             The number of rows affected by this insert/update and any referring fk objects' save() operations.
+     * @param  ConnectionInterface $con
+     * @return int                 The number of rows affected by this insert/update and any referring fk objects' save() operations.
      * @throws PropelException
      * @see doSave()
      */
@@ -1223,8 +1196,8 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
      * If the object is new, it inserts it; otherwise an update is performed.
      * All related objects are also updated in this method.
      *
-     * @param      ConnectionInterface $con
-     * @return int             The number of rows affected by this insert/update and any referring fk objects' save() operations.
+     * @param  ConnectionInterface $con
+     * @return int                 The number of rows affected by this insert/update and any referring fk objects' save() operations.
      * @throws PropelException
      * @see save()
      */
@@ -1266,8 +1239,8 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
                 }
             }
 
-                if ($this->collIndexEngineIndexVersions !== null) {
-            foreach ($this->collIndexEngineIndexVersions as $referrerFK) {
+            if ($this->collIndexEngineIndexVersions !== null) {
+                foreach ($this->collIndexEngineIndexVersions as $referrerFK) {
                     if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
                         $affectedRows += $referrerFK->save($con);
                     }
@@ -1275,7 +1248,6 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
             }
 
             $this->alreadyInSave = false;
-
         }
 
         return $affectedRows;
@@ -1284,7 +1256,7 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
     /**
      * Insert the row in the database.
      *
-     * @param      ConnectionInterface $con
+     * @param ConnectionInterface $con
      *
      * @throws PropelException
      * @see doSave()
@@ -1296,51 +1268,51 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
 
         $this->modifiedColumns[IndexEngineIndexTableMap::ID] = true;
         if (null !== $this->id) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key (' . IndexEngineIndexTableMap::ID . ')');
+            throw new PropelException('Cannot insert a value for auto-increment primary key ('.IndexEngineIndexTableMap::ID.')');
         }
 
          // check the columns in natural order for more readable SQL queries
         if ($this->isColumnModified(IndexEngineIndexTableMap::ID)) {
-            $modifiedColumns[':p' . $index++]  = 'ID';
+            $modifiedColumns[':p'.$index++]  = 'ID';
         }
         if ($this->isColumnModified(IndexEngineIndexTableMap::VISIBLE)) {
-            $modifiedColumns[':p' . $index++]  = 'VISIBLE';
+            $modifiedColumns[':p'.$index++]  = 'VISIBLE';
         }
         if ($this->isColumnModified(IndexEngineIndexTableMap::CODE)) {
-            $modifiedColumns[':p' . $index++]  = 'CODE';
+            $modifiedColumns[':p'.$index++]  = 'CODE';
         }
         if ($this->isColumnModified(IndexEngineIndexTableMap::TITLE)) {
-            $modifiedColumns[':p' . $index++]  = 'TITLE';
+            $modifiedColumns[':p'.$index++]  = 'TITLE';
         }
         if ($this->isColumnModified(IndexEngineIndexTableMap::TYPE)) {
-            $modifiedColumns[':p' . $index++]  = 'TYPE';
+            $modifiedColumns[':p'.$index++]  = 'TYPE';
         }
         if ($this->isColumnModified(IndexEngineIndexTableMap::ENTITY)) {
-            $modifiedColumns[':p' . $index++]  = 'ENTITY';
+            $modifiedColumns[':p'.$index++]  = 'ENTITY';
         }
         if ($this->isColumnModified(IndexEngineIndexTableMap::SERIALIZED_COLUMNS)) {
-            $modifiedColumns[':p' . $index++]  = 'SERIALIZED_COLUMNS';
+            $modifiedColumns[':p'.$index++]  = 'SERIALIZED_COLUMNS';
         }
         if ($this->isColumnModified(IndexEngineIndexTableMap::SERIALIZED_CONDITION)) {
-            $modifiedColumns[':p' . $index++]  = 'SERIALIZED_CONDITION';
+            $modifiedColumns[':p'.$index++]  = 'SERIALIZED_CONDITION';
         }
         if ($this->isColumnModified(IndexEngineIndexTableMap::INDEX_ENGINE_DRIVER_CONFIGURATION_ID)) {
-            $modifiedColumns[':p' . $index++]  = 'INDEX_ENGINE_DRIVER_CONFIGURATION_ID';
+            $modifiedColumns[':p'.$index++]  = 'INDEX_ENGINE_DRIVER_CONFIGURATION_ID';
         }
         if ($this->isColumnModified(IndexEngineIndexTableMap::CREATED_AT)) {
-            $modifiedColumns[':p' . $index++]  = 'CREATED_AT';
+            $modifiedColumns[':p'.$index++]  = 'CREATED_AT';
         }
         if ($this->isColumnModified(IndexEngineIndexTableMap::UPDATED_AT)) {
-            $modifiedColumns[':p' . $index++]  = 'UPDATED_AT';
+            $modifiedColumns[':p'.$index++]  = 'UPDATED_AT';
         }
         if ($this->isColumnModified(IndexEngineIndexTableMap::VERSION)) {
-            $modifiedColumns[':p' . $index++]  = 'VERSION';
+            $modifiedColumns[':p'.$index++]  = 'VERSION';
         }
         if ($this->isColumnModified(IndexEngineIndexTableMap::VERSION_CREATED_AT)) {
-            $modifiedColumns[':p' . $index++]  = 'VERSION_CREATED_AT';
+            $modifiedColumns[':p'.$index++]  = 'VERSION_CREATED_AT';
         }
         if ($this->isColumnModified(IndexEngineIndexTableMap::VERSION_CREATED_BY)) {
-            $modifiedColumns[':p' . $index++]  = 'VERSION_CREATED_BY';
+            $modifiedColumns[':p'.$index++]  = 'VERSION_CREATED_BY';
         }
 
         $sql = sprintf(
@@ -1416,7 +1388,7 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
     /**
      * Update the row in the database.
      *
-     * @param      ConnectionInterface $con
+     * @param ConnectionInterface $con
      *
      * @return Integer Number of updated rows
      * @see doSave()
@@ -1432,12 +1404,12 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
     /**
      * Retrieves a field from the object by name passed in as a string.
      *
-     * @param      string $name name
-     * @param      string $type The type of fieldname the $name is of:
-     *                     one of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_STUDLYPHPNAME
-     *                     TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM.
-     *                     Defaults to TableMap::TYPE_PHPNAME.
-     * @return mixed Value of field.
+     * @param  string $name name
+     * @param  string $type The type of fieldname the $name is of:
+     *                      one of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_STUDLYPHPNAME
+     *                      TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM.
+     *                      Defaults to TableMap::TYPE_PHPNAME.
+     * @return mixed  Value of field.
      */
     public function getByName($name, $type = TableMap::TYPE_PHPNAME)
     {
@@ -1451,7 +1423,7 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
      * Retrieves a field from the object by Position as specified in the xml schema.
      * Zero-based.
      *
-     * @param      int $pos position in xml schema
+     * @param  int   $pos position in xml schema
      * @return mixed Value of field at $pos
      */
     public function getByPosition($pos)
@@ -1500,7 +1472,7 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
                 return $this->getVersionCreatedBy();
                 break;
             default:
-                return null;
+                return;
                 break;
         } // switch()
     }
@@ -1511,12 +1483,12 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
      * You can specify the key type of the array by passing one of the class
      * type constants.
      *
-     * @param     string  $keyType (optional) One of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_STUDLYPHPNAME,
-     *                    TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM.
-     *                    Defaults to TableMap::TYPE_PHPNAME.
-     * @param     boolean $includeLazyLoadColumns (optional) Whether to include lazy loaded columns. Defaults to TRUE.
-     * @param     array $alreadyDumpedObjects List of objects to skip to avoid recursion
-     * @param     boolean $includeForeignObjects (optional) Whether to include hydrated related objects. Default to FALSE.
+     * @param string  $keyType                (optional) One of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_STUDLYPHPNAME,
+     *                                        TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM.
+     *                                        Defaults to TableMap::TYPE_PHPNAME.
+     * @param boolean $includeLazyLoadColumns (optional) Whether to include lazy loaded columns. Defaults to TRUE.
+     * @param array   $alreadyDumpedObjects   List of objects to skip to avoid recursion
+     * @param boolean $includeForeignObjects  (optional) Whether to include hydrated related objects. Default to FALSE.
      *
      * @return array an associative array containing the field names (as keys) and field values
      */
@@ -1563,12 +1535,12 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
     /**
      * Sets a field from the object by name passed in as a string.
      *
-     * @param      string $name
-     * @param      mixed  $value field value
-     * @param      string $type The type of fieldname the $name is of:
-     *                     one of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_STUDLYPHPNAME
-     *                     TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM.
-     *                     Defaults to TableMap::TYPE_PHPNAME.
+     * @param  string $name
+     * @param  mixed  $value field value
+     * @param  string $type  The type of fieldname the $name is of:
+     *                       one of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_STUDLYPHPNAME
+     *                       TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM.
+     *                       Defaults to TableMap::TYPE_PHPNAME.
      * @return void
      */
     public function setByName($name, $value, $type = TableMap::TYPE_PHPNAME)
@@ -1582,8 +1554,8 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
      * Sets a field from the object by Position as specified in the xml schema.
      * Zero-based.
      *
-     * @param      int $pos position in xml schema
-     * @param      mixed $value field value
+     * @param  int   $pos   position in xml schema
+     * @param  mixed $value field value
      * @return void
      */
     public function setByPosition($pos, $value)
@@ -1647,28 +1619,56 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
      * TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM.
      * The default key type is the column's TableMap::TYPE_PHPNAME.
      *
-     * @param      array  $arr     An array to populate the object from.
-     * @param      string $keyType The type of keys the array uses.
+     * @param  array  $arr     An array to populate the object from.
+     * @param  string $keyType The type of keys the array uses.
      * @return void
      */
     public function fromArray($arr, $keyType = TableMap::TYPE_PHPNAME)
     {
         $keys = IndexEngineIndexTableMap::getFieldNames($keyType);
 
-        if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
-        if (array_key_exists($keys[1], $arr)) $this->setVisible($arr[$keys[1]]);
-        if (array_key_exists($keys[2], $arr)) $this->setCode($arr[$keys[2]]);
-        if (array_key_exists($keys[3], $arr)) $this->setTitle($arr[$keys[3]]);
-        if (array_key_exists($keys[4], $arr)) $this->setType($arr[$keys[4]]);
-        if (array_key_exists($keys[5], $arr)) $this->setEntity($arr[$keys[5]]);
-        if (array_key_exists($keys[6], $arr)) $this->setSerializedColumns($arr[$keys[6]]);
-        if (array_key_exists($keys[7], $arr)) $this->setSerializedCondition($arr[$keys[7]]);
-        if (array_key_exists($keys[8], $arr)) $this->setIndexEngineDriverConfigurationId($arr[$keys[8]]);
-        if (array_key_exists($keys[9], $arr)) $this->setCreatedAt($arr[$keys[9]]);
-        if (array_key_exists($keys[10], $arr)) $this->setUpdatedAt($arr[$keys[10]]);
-        if (array_key_exists($keys[11], $arr)) $this->setVersion($arr[$keys[11]]);
-        if (array_key_exists($keys[12], $arr)) $this->setVersionCreatedAt($arr[$keys[12]]);
-        if (array_key_exists($keys[13], $arr)) $this->setVersionCreatedBy($arr[$keys[13]]);
+        if (array_key_exists($keys[0], $arr)) {
+            $this->setId($arr[$keys[0]]);
+        }
+        if (array_key_exists($keys[1], $arr)) {
+            $this->setVisible($arr[$keys[1]]);
+        }
+        if (array_key_exists($keys[2], $arr)) {
+            $this->setCode($arr[$keys[2]]);
+        }
+        if (array_key_exists($keys[3], $arr)) {
+            $this->setTitle($arr[$keys[3]]);
+        }
+        if (array_key_exists($keys[4], $arr)) {
+            $this->setType($arr[$keys[4]]);
+        }
+        if (array_key_exists($keys[5], $arr)) {
+            $this->setEntity($arr[$keys[5]]);
+        }
+        if (array_key_exists($keys[6], $arr)) {
+            $this->setSerializedColumns($arr[$keys[6]]);
+        }
+        if (array_key_exists($keys[7], $arr)) {
+            $this->setSerializedCondition($arr[$keys[7]]);
+        }
+        if (array_key_exists($keys[8], $arr)) {
+            $this->setIndexEngineDriverConfigurationId($arr[$keys[8]]);
+        }
+        if (array_key_exists($keys[9], $arr)) {
+            $this->setCreatedAt($arr[$keys[9]]);
+        }
+        if (array_key_exists($keys[10], $arr)) {
+            $this->setUpdatedAt($arr[$keys[10]]);
+        }
+        if (array_key_exists($keys[11], $arr)) {
+            $this->setVersion($arr[$keys[11]]);
+        }
+        if (array_key_exists($keys[12], $arr)) {
+            $this->setVersionCreatedAt($arr[$keys[12]]);
+        }
+        if (array_key_exists($keys[13], $arr)) {
+            $this->setVersionCreatedBy($arr[$keys[13]]);
+        }
     }
 
     /**
@@ -1680,20 +1680,48 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
     {
         $criteria = new Criteria(IndexEngineIndexTableMap::DATABASE_NAME);
 
-        if ($this->isColumnModified(IndexEngineIndexTableMap::ID)) $criteria->add(IndexEngineIndexTableMap::ID, $this->id);
-        if ($this->isColumnModified(IndexEngineIndexTableMap::VISIBLE)) $criteria->add(IndexEngineIndexTableMap::VISIBLE, $this->visible);
-        if ($this->isColumnModified(IndexEngineIndexTableMap::CODE)) $criteria->add(IndexEngineIndexTableMap::CODE, $this->code);
-        if ($this->isColumnModified(IndexEngineIndexTableMap::TITLE)) $criteria->add(IndexEngineIndexTableMap::TITLE, $this->title);
-        if ($this->isColumnModified(IndexEngineIndexTableMap::TYPE)) $criteria->add(IndexEngineIndexTableMap::TYPE, $this->type);
-        if ($this->isColumnModified(IndexEngineIndexTableMap::ENTITY)) $criteria->add(IndexEngineIndexTableMap::ENTITY, $this->entity);
-        if ($this->isColumnModified(IndexEngineIndexTableMap::SERIALIZED_COLUMNS)) $criteria->add(IndexEngineIndexTableMap::SERIALIZED_COLUMNS, $this->serialized_columns);
-        if ($this->isColumnModified(IndexEngineIndexTableMap::SERIALIZED_CONDITION)) $criteria->add(IndexEngineIndexTableMap::SERIALIZED_CONDITION, $this->serialized_condition);
-        if ($this->isColumnModified(IndexEngineIndexTableMap::INDEX_ENGINE_DRIVER_CONFIGURATION_ID)) $criteria->add(IndexEngineIndexTableMap::INDEX_ENGINE_DRIVER_CONFIGURATION_ID, $this->index_engine_driver_configuration_id);
-        if ($this->isColumnModified(IndexEngineIndexTableMap::CREATED_AT)) $criteria->add(IndexEngineIndexTableMap::CREATED_AT, $this->created_at);
-        if ($this->isColumnModified(IndexEngineIndexTableMap::UPDATED_AT)) $criteria->add(IndexEngineIndexTableMap::UPDATED_AT, $this->updated_at);
-        if ($this->isColumnModified(IndexEngineIndexTableMap::VERSION)) $criteria->add(IndexEngineIndexTableMap::VERSION, $this->version);
-        if ($this->isColumnModified(IndexEngineIndexTableMap::VERSION_CREATED_AT)) $criteria->add(IndexEngineIndexTableMap::VERSION_CREATED_AT, $this->version_created_at);
-        if ($this->isColumnModified(IndexEngineIndexTableMap::VERSION_CREATED_BY)) $criteria->add(IndexEngineIndexTableMap::VERSION_CREATED_BY, $this->version_created_by);
+        if ($this->isColumnModified(IndexEngineIndexTableMap::ID)) {
+            $criteria->add(IndexEngineIndexTableMap::ID, $this->id);
+        }
+        if ($this->isColumnModified(IndexEngineIndexTableMap::VISIBLE)) {
+            $criteria->add(IndexEngineIndexTableMap::VISIBLE, $this->visible);
+        }
+        if ($this->isColumnModified(IndexEngineIndexTableMap::CODE)) {
+            $criteria->add(IndexEngineIndexTableMap::CODE, $this->code);
+        }
+        if ($this->isColumnModified(IndexEngineIndexTableMap::TITLE)) {
+            $criteria->add(IndexEngineIndexTableMap::TITLE, $this->title);
+        }
+        if ($this->isColumnModified(IndexEngineIndexTableMap::TYPE)) {
+            $criteria->add(IndexEngineIndexTableMap::TYPE, $this->type);
+        }
+        if ($this->isColumnModified(IndexEngineIndexTableMap::ENTITY)) {
+            $criteria->add(IndexEngineIndexTableMap::ENTITY, $this->entity);
+        }
+        if ($this->isColumnModified(IndexEngineIndexTableMap::SERIALIZED_COLUMNS)) {
+            $criteria->add(IndexEngineIndexTableMap::SERIALIZED_COLUMNS, $this->serialized_columns);
+        }
+        if ($this->isColumnModified(IndexEngineIndexTableMap::SERIALIZED_CONDITION)) {
+            $criteria->add(IndexEngineIndexTableMap::SERIALIZED_CONDITION, $this->serialized_condition);
+        }
+        if ($this->isColumnModified(IndexEngineIndexTableMap::INDEX_ENGINE_DRIVER_CONFIGURATION_ID)) {
+            $criteria->add(IndexEngineIndexTableMap::INDEX_ENGINE_DRIVER_CONFIGURATION_ID, $this->index_engine_driver_configuration_id);
+        }
+        if ($this->isColumnModified(IndexEngineIndexTableMap::CREATED_AT)) {
+            $criteria->add(IndexEngineIndexTableMap::CREATED_AT, $this->created_at);
+        }
+        if ($this->isColumnModified(IndexEngineIndexTableMap::UPDATED_AT)) {
+            $criteria->add(IndexEngineIndexTableMap::UPDATED_AT, $this->updated_at);
+        }
+        if ($this->isColumnModified(IndexEngineIndexTableMap::VERSION)) {
+            $criteria->add(IndexEngineIndexTableMap::VERSION, $this->version);
+        }
+        if ($this->isColumnModified(IndexEngineIndexTableMap::VERSION_CREATED_AT)) {
+            $criteria->add(IndexEngineIndexTableMap::VERSION_CREATED_AT, $this->version_created_at);
+        }
+        if ($this->isColumnModified(IndexEngineIndexTableMap::VERSION_CREATED_BY)) {
+            $criteria->add(IndexEngineIndexTableMap::VERSION_CREATED_BY, $this->version_created_by);
+        }
 
         return $criteria;
     }
@@ -1716,7 +1744,7 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
 
     /**
      * Returns the primary key for this object (row).
-     * @return   int
+     * @return int
      */
     public function getPrimaryKey()
     {
@@ -1726,7 +1754,7 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
     /**
      * Generic method to set the primary key (id column).
      *
-     * @param       int $key Primary key.
+     * @param  int  $key Primary key.
      * @return void
      */
     public function setPrimaryKey($key)
@@ -1740,7 +1768,6 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
      */
     public function isPrimaryKeyNull()
     {
-
         return null === $this->getId();
     }
 
@@ -1750,9 +1777,9 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
      * If desired, this method can also make copies of all associated (fkey referrers)
      * objects.
      *
-     * @param      object $copyObj An object of \IndexEngine\Model\IndexEngineIndex (or compatible) type.
-     * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-     * @param      boolean $makeNew Whether to reset autoincrement PKs and make the object new.
+     * @param  object          $copyObj  An object of \IndexEngine\Model\IndexEngineIndex (or compatible) type.
+     * @param  boolean         $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
+     * @param  boolean         $makeNew  Whether to reset autoincrement PKs and make the object new.
      * @throws PropelException
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
@@ -1781,12 +1808,11 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
                     $copyObj->addIndexEngineIndexVersion($relObj->copy($deepCopy));
                 }
             }
-
         } // if ($deepCopy)
 
         if ($makeNew) {
             $copyObj->setNew(true);
-            $copyObj->setId(NULL); // this is a auto-increment column, so set to default value
+            $copyObj->setId(null); // this is a auto-increment column, so set to default value
         }
     }
 
@@ -1798,8 +1824,8 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
      * If desired, this method can also make copies of all associated (fkey referrers)
      * objects.
      *
-     * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-     * @return                 \IndexEngine\Model\IndexEngineIndex Clone of current object.
+     * @param  boolean                             $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
+     * @return \IndexEngine\Model\IndexEngineIndex Clone of current object.
      * @throws PropelException
      */
     public function copy($deepCopy = false)
@@ -1815,14 +1841,14 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
     /**
      * Declares an association between this object and a ChildIndexEngineDriverConfiguration object.
      *
-     * @param                  ChildIndexEngineDriverConfiguration $v
-     * @return                 \IndexEngine\Model\IndexEngineIndex The current object (for fluent API support)
+     * @param  ChildIndexEngineDriverConfiguration $v
+     * @return \IndexEngine\Model\IndexEngineIndex The current object (for fluent API support)
      * @throws PropelException
      */
     public function setIndexEngineDriverConfiguration(ChildIndexEngineDriverConfiguration $v = null)
     {
         if ($v === null) {
-            $this->setIndexEngineDriverConfigurationId(NULL);
+            $this->setIndexEngineDriverConfigurationId(null);
         } else {
             $this->setIndexEngineDriverConfigurationId($v->getId());
         }
@@ -1835,16 +1861,14 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
             $v->addIndexEngineIndex($this);
         }
 
-
         return $this;
     }
-
 
     /**
      * Get the associated ChildIndexEngineDriverConfiguration object
      *
-     * @param      ConnectionInterface $con Optional Connection object.
-     * @return                 ChildIndexEngineDriverConfiguration The associated ChildIndexEngineDriverConfiguration object.
+     * @param  ConnectionInterface                 $con Optional Connection object.
+     * @return ChildIndexEngineDriverConfiguration The associated ChildIndexEngineDriverConfiguration object.
      * @throws PropelException
      */
     public function getIndexEngineDriverConfiguration(ConnectionInterface $con = null)
@@ -1863,13 +1887,12 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
         return $this->aIndexEngineDriverConfiguration;
     }
 
-
     /**
      * Initializes a collection based on the name of a relation.
      * Avoids crafting an 'init[$relationName]s' method name
      * that wouldn't work when StandardEnglishPluralizer is used.
      *
-     * @param      string $relationName The name of the relation to initialize
+     * @param  string $relationName The name of the relation to initialize
      * @return void
      */
     public function initRelation($relationName)
@@ -1908,8 +1931,8 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
      * however, you may wish to override this method in your stub class to provide setting appropriate
      * to your application -- for example, setting the initial array to the values stored in database.
      *
-     * @param      boolean $overrideExisting If set to true, the method call initializes
-     *                                        the collection even if it is not empty
+     * @param boolean $overrideExisting If set to true, the method call initializes
+     *                                  the collection even if it is not empty
      *
      * @return void
      */
@@ -1931,8 +1954,8 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
      * If this ChildIndexEngineIndex is new, it will return
      * an empty collection or the current collection; the criteria is ignored on a new object.
      *
-     * @param      Criteria $criteria optional Criteria object to narrow the query
-     * @param      ConnectionInterface $con optional connection object
+     * @param  Criteria                                  $criteria optional Criteria object to narrow the query
+     * @param  ConnectionInterface                       $con      optional connection object
      * @return Collection|ChildIndexEngineIndexVersion[] List of ChildIndexEngineIndexVersion objects
      * @throws PropelException
      */
@@ -1988,14 +2011,13 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
      * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
      * and new objects from the given Propel collection.
      *
-     * @param      Collection $indexEngineIndexVersions A Propel collection.
-     * @param      ConnectionInterface $con Optional connection object
-     * @return   ChildIndexEngineIndex The current object (for fluent API support)
+     * @param  Collection            $indexEngineIndexVersions A Propel collection.
+     * @param  ConnectionInterface   $con                      Optional connection object
+     * @return ChildIndexEngineIndex The current object (for fluent API support)
      */
     public function setIndexEngineIndexVersions(Collection $indexEngineIndexVersions, ConnectionInterface $con = null)
     {
         $indexEngineIndexVersionsToDelete = $this->getIndexEngineIndexVersions(new Criteria(), $con)->diff($indexEngineIndexVersions);
-
 
         //since at least one column in the foreign key is at the same time a PK
         //we can not just set a PK to NULL in the lines below. We have to store
@@ -2020,10 +2042,10 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
     /**
      * Returns the number of related IndexEngineIndexVersion objects.
      *
-     * @param      Criteria $criteria
-     * @param      boolean $distinct
-     * @param      ConnectionInterface $con
-     * @return int             Count of related IndexEngineIndexVersion objects.
+     * @param  Criteria            $criteria
+     * @param  boolean             $distinct
+     * @param  ConnectionInterface $con
+     * @return int                 Count of related IndexEngineIndexVersion objects.
      * @throws PropelException
      */
     public function countIndexEngineIndexVersions(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
@@ -2055,8 +2077,8 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
      * Method called to associate a ChildIndexEngineIndexVersion object to this object
      * through the ChildIndexEngineIndexVersion foreign key attribute.
      *
-     * @param    ChildIndexEngineIndexVersion $l ChildIndexEngineIndexVersion
-     * @return   \IndexEngine\Model\IndexEngineIndex The current object (for fluent API support)
+     * @param  ChildIndexEngineIndexVersion        $l ChildIndexEngineIndexVersion
+     * @return \IndexEngine\Model\IndexEngineIndex The current object (for fluent API support)
      */
     public function addIndexEngineIndexVersion(ChildIndexEngineIndexVersion $l)
     {
@@ -2077,13 +2099,13 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
      */
     protected function doAddIndexEngineIndexVersion($indexEngineIndexVersion)
     {
-        $this->collIndexEngineIndexVersions[]= $indexEngineIndexVersion;
+        $this->collIndexEngineIndexVersions[] = $indexEngineIndexVersion;
         $indexEngineIndexVersion->setIndexEngineIndex($this);
     }
 
     /**
      * @param  IndexEngineIndexVersion $indexEngineIndexVersion The indexEngineIndexVersion object to remove.
-     * @return ChildIndexEngineIndex The current object (for fluent API support)
+     * @return ChildIndexEngineIndex   The current object (for fluent API support)
      */
     public function removeIndexEngineIndexVersion($indexEngineIndexVersion)
     {
@@ -2093,7 +2115,7 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
                 $this->indexEngineIndexVersionsScheduledForDeletion = clone $this->collIndexEngineIndexVersions;
                 $this->indexEngineIndexVersionsScheduledForDeletion->clear();
             }
-            $this->indexEngineIndexVersionsScheduledForDeletion[]= clone $indexEngineIndexVersion;
+            $this->indexEngineIndexVersionsScheduledForDeletion[] = clone $indexEngineIndexVersion;
             $indexEngineIndexVersion->setIndexEngineIndex(null);
         }
 
@@ -2134,7 +2156,7 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
      * objects with circular references (even in PHP 5.3). This is currently necessary
      * when using Propel in certain daemon or large-volume/high-memory operations.
      *
-     * @param      boolean $deep Whether to also clear the references on all referrer objects.
+     * @param boolean $deep Whether to also clear the references on all referrer objects.
      */
     public function clearAllReferences($deep = false)
     {
@@ -2165,7 +2187,7 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
     /**
      * Mark the current object so that the update date doesn't get updated during next save
      *
-     * @return     ChildIndexEngineIndex The current object (for fluent API support)
+     * @return ChildIndexEngineIndex The current object (for fluent API support)
      */
     public function keepUpdateDateUnchanged()
     {
@@ -2191,7 +2213,7 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
     /**
      * Checks whether the current state must be recorded as a version
      *
-     * @return  boolean
+     * @return boolean
      */
     public function isVersioningNecessary($con = null)
     {
@@ -2213,9 +2235,9 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
     /**
      * Creates a version of the current object and saves it.
      *
-     * @param   ConnectionInterface $con the connection to use
+     * @param ConnectionInterface $con the connection to use
      *
-     * @return  ChildIndexEngineIndexVersion A version object
+     * @return ChildIndexEngineIndexVersion A version object
      */
     public function addVersion($con = null)
     {
@@ -2245,10 +2267,10 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
     /**
      * Sets the properties of the current object to the value they had at a specific version
      *
-     * @param   integer $versionNumber The version number to read
-     * @param   ConnectionInterface $con The connection to use
+     * @param integer             $versionNumber The version number to read
+     * @param ConnectionInterface $con           The connection to use
      *
-     * @return  ChildIndexEngineIndex The current object (for fluent API support)
+     * @return ChildIndexEngineIndex The current object (for fluent API support)
      */
     public function toVersion($versionNumber, $con = null)
     {
@@ -2264,9 +2286,9 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
     /**
      * Sets the properties of the current object to the value they had at a specific version
      *
-     * @param ChildIndexEngineIndexVersion $version The version object to use
-     * @param ConnectionInterface   $con the connection to use
-     * @param array                 $loadedObjects objects that been loaded in a chain of populateFromVersion calls on referrer or fk objects.
+     * @param ChildIndexEngineIndexVersion $version       The version object to use
+     * @param ConnectionInterface          $con           the connection to use
+     * @param array                        $loadedObjects objects that been loaded in a chain of populateFromVersion calls on referrer or fk objects.
      *
      * @return ChildIndexEngineIndex The current object (for fluent API support)
      */
@@ -2294,9 +2316,9 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
     /**
      * Gets the latest persisted version number for the current object
      *
-     * @param   ConnectionInterface $con the connection to use
+     * @param ConnectionInterface $con the connection to use
      *
-     * @return  integer
+     * @return integer
      */
     public function getLastVersionNumber($con = null)
     {
@@ -2314,9 +2336,9 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
     /**
      * Checks whether the current object is the latest one
      *
-     * @param   ConnectionInterface $con the connection to use
+     * @param ConnectionInterface $con the connection to use
      *
-     * @return  Boolean
+     * @return Boolean
      */
     public function isLastVersion($con = null)
     {
@@ -2326,10 +2348,10 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
     /**
      * Retrieves a version object for this entity and a version number
      *
-     * @param   integer $versionNumber The version number to read
-     * @param   ConnectionInterface $con the connection to use
+     * @param integer             $versionNumber The version number to read
+     * @param ConnectionInterface $con           the connection to use
      *
-     * @return  ChildIndexEngineIndexVersion A version object
+     * @return ChildIndexEngineIndexVersion A version object
      */
     public function getOneVersion($versionNumber, $con = null)
     {
@@ -2342,9 +2364,9 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
     /**
      * Gets all the versions of this object, in incremental order
      *
-     * @param   ConnectionInterface $con the connection to use
+     * @param ConnectionInterface $con the connection to use
      *
-     * @return  ObjectCollection A list of ChildIndexEngineIndexVersion objects
+     * @return ObjectCollection A list of ChildIndexEngineIndexVersion objects
      */
     public function getAllVersions($con = null)
     {
@@ -2364,12 +2386,12 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
      * );
      * </code>
      *
-     * @param   integer             $versionNumber
-     * @param   string              $keys Main key used for the result diff (versions|columns)
-     * @param   ConnectionInterface $con the connection to use
-     * @param   array               $ignoredColumns  The columns to exclude from the diff.
+     * @param integer             $versionNumber
+     * @param string              $keys           Main key used for the result diff (versions|columns)
+     * @param ConnectionInterface $con            the connection to use
+     * @param array               $ignoredColumns The columns to exclude from the diff.
      *
-     * @return  array A list of differences
+     * @return array A list of differences
      */
     public function compareVersion($versionNumber, $keys = 'columns', $con = null, $ignoredColumns = array())
     {
@@ -2389,13 +2411,13 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
      * );
      * </code>
      *
-     * @param   integer             $fromVersionNumber
-     * @param   integer             $toVersionNumber
-     * @param   string              $keys Main key used for the result diff (versions|columns)
-     * @param   ConnectionInterface $con the connection to use
-     * @param   array               $ignoredColumns  The columns to exclude from the diff.
+     * @param integer             $fromVersionNumber
+     * @param integer             $toVersionNumber
+     * @param string              $keys              Main key used for the result diff (versions|columns)
+     * @param ConnectionInterface $con               the connection to use
+     * @param array               $ignoredColumns    The columns to exclude from the diff.
      *
-     * @return  array A list of differences
+     * @return array A list of differences
      */
     public function compareVersions($fromVersionNumber, $toVersionNumber, $keys = 'columns', $con = null, $ignoredColumns = array())
     {
@@ -2415,12 +2437,12 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
      * );
      * </code>
      *
-     * @param   array     $fromVersion     An array representing the original version.
-     * @param   array     $toVersion       An array representing the destination version.
-     * @param   string    $keys            Main key used for the result diff (versions|columns).
-     * @param   array     $ignoredColumns  The columns to exclude from the diff.
+     * @param array  $fromVersion    An array representing the original version.
+     * @param array  $toVersion      An array representing the destination version.
+     * @param string $keys           Main key used for the result diff (versions|columns).
+     * @param array  $ignoredColumns The columns to exclude from the diff.
      *
-     * @return  array A list of differences
+     * @return array A list of differences
      */
     protected function computeDiff($fromVersion, $toVersion, $keys = 'columns', $ignoredColumns = array())
     {
@@ -2457,7 +2479,7 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
     /**
      * retrieve the last $number versions.
      *
-     * @param Integer $number the number of record to return.
+     * @param  Integer                $number the number of record to return.
      * @return PropelCollection|array \IndexEngine\Model\IndexEngineIndexVersion[] List of \IndexEngine\Model\IndexEngineIndexVersion objects
      */
     public function getLastVersions($number = 10, $criteria = null, $con = null)
@@ -2484,7 +2506,6 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
      */
     public function postSave(ConnectionInterface $con = null)
     {
-
     }
 
     /**
@@ -2503,7 +2524,6 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
      */
     public function postInsert(ConnectionInterface $con = null)
     {
-
     }
 
     /**
@@ -2522,7 +2542,6 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
      */
     public function postUpdate(ConnectionInterface $con = null)
     {
-
     }
 
     /**
@@ -2541,9 +2560,7 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
      */
     public function postDelete(ConnectionInterface $con = null)
     {
-
     }
-
 
     /**
      * Derived method to catches calls to undefined methods.
@@ -2585,5 +2602,4 @@ abstract class IndexEngineIndex implements ActiveRecordInterface
 
         throw new BadMethodCallException(sprintf('Call to undefined method: %s.', $name));
     }
-
 }

@@ -11,7 +11,6 @@
 /*************************************************************************************/
 namespace IndexEngine\Discovering\Repository;
 
-
 /**
  * Class IndexableEntityRepository
  * @package IndexEngine\Repository

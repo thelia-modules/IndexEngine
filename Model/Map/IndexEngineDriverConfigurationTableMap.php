@@ -14,7 +14,6 @@ use Propel\Runtime\Map\RelationMap;
 use Propel\Runtime\Map\TableMap;
 use Propel\Runtime\Map\TableMapTrait;
 
-
 /**
  * This class defines the structure of the 'index_engine_driver_configuration' table.
  *
@@ -106,13 +105,13 @@ class IndexEngineDriverConfigurationTableMap extends TableMap
      * first dimension keys are the type constants
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
-    protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'Code', 'DriverCode', 'Title', 'SerializedConfiguration', ),
-        self::TYPE_STUDLYPHPNAME => array('id', 'code', 'driverCode', 'title', 'serializedConfiguration', ),
-        self::TYPE_COLNAME       => array(IndexEngineDriverConfigurationTableMap::ID, IndexEngineDriverConfigurationTableMap::CODE, IndexEngineDriverConfigurationTableMap::DRIVER_CODE, IndexEngineDriverConfigurationTableMap::TITLE, IndexEngineDriverConfigurationTableMap::SERIALIZED_CONFIGURATION, ),
-        self::TYPE_RAW_COLNAME   => array('ID', 'CODE', 'DRIVER_CODE', 'TITLE', 'SERIALIZED_CONFIGURATION', ),
-        self::TYPE_FIELDNAME     => array('id', 'code', 'driver_code', 'title', 'serialized_configuration', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, )
+    protected static $fieldNames = array(
+        self::TYPE_PHPNAME       => array('Id', 'Code', 'DriverCode', 'Title', 'SerializedConfiguration'),
+        self::TYPE_STUDLYPHPNAME => array('id', 'code', 'driverCode', 'title', 'serializedConfiguration'),
+        self::TYPE_COLNAME       => array(IndexEngineDriverConfigurationTableMap::ID, IndexEngineDriverConfigurationTableMap::CODE, IndexEngineDriverConfigurationTableMap::DRIVER_CODE, IndexEngineDriverConfigurationTableMap::TITLE, IndexEngineDriverConfigurationTableMap::SERIALIZED_CONFIGURATION),
+        self::TYPE_RAW_COLNAME   => array('ID', 'CODE', 'DRIVER_CODE', 'TITLE', 'SERIALIZED_CONFIGURATION'),
+        self::TYPE_FIELDNAME     => array('id', 'code', 'driver_code', 'title', 'serialized_configuration'),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4),
     );
 
     /**
@@ -121,13 +120,13 @@ class IndexEngineDriverConfigurationTableMap extends TableMap
      * first dimension keys are the type constants
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
-    protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'Code' => 1, 'DriverCode' => 2, 'Title' => 3, 'SerializedConfiguration' => 4, ),
-        self::TYPE_STUDLYPHPNAME => array('id' => 0, 'code' => 1, 'driverCode' => 2, 'title' => 3, 'serializedConfiguration' => 4, ),
-        self::TYPE_COLNAME       => array(IndexEngineDriverConfigurationTableMap::ID => 0, IndexEngineDriverConfigurationTableMap::CODE => 1, IndexEngineDriverConfigurationTableMap::DRIVER_CODE => 2, IndexEngineDriverConfigurationTableMap::TITLE => 3, IndexEngineDriverConfigurationTableMap::SERIALIZED_CONFIGURATION => 4, ),
-        self::TYPE_RAW_COLNAME   => array('ID' => 0, 'CODE' => 1, 'DRIVER_CODE' => 2, 'TITLE' => 3, 'SERIALIZED_CONFIGURATION' => 4, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'code' => 1, 'driver_code' => 2, 'title' => 3, 'serialized_configuration' => 4, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, )
+    protected static $fieldKeys = array(
+        self::TYPE_PHPNAME       => array('Id' => 0, 'Code' => 1, 'DriverCode' => 2, 'Title' => 3, 'SerializedConfiguration' => 4),
+        self::TYPE_STUDLYPHPNAME => array('id' => 0, 'code' => 1, 'driverCode' => 2, 'title' => 3, 'serializedConfiguration' => 4),
+        self::TYPE_COLNAME       => array(IndexEngineDriverConfigurationTableMap::ID => 0, IndexEngineDriverConfigurationTableMap::CODE => 1, IndexEngineDriverConfigurationTableMap::DRIVER_CODE => 2, IndexEngineDriverConfigurationTableMap::TITLE => 3, IndexEngineDriverConfigurationTableMap::SERIALIZED_CONFIGURATION => 4),
+        self::TYPE_RAW_COLNAME   => array('ID' => 0, 'CODE' => 1, 'DRIVER_CODE' => 2, 'TITLE' => 3, 'SERIALIZED_CONFIGURATION' => 4),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'code' => 1, 'driver_code' => 2, 'title' => 3, 'serialized_configuration' => 4),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4),
     );
 
     /**
@@ -158,7 +157,7 @@ class IndexEngineDriverConfigurationTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('IndexEngineIndex', '\\IndexEngine\\Model\\IndexEngineIndex', RelationMap::ONE_TO_MANY, array('id' => 'index_engine_driver_configuration_id', ), 'CASCADE', 'CASCADE', 'IndexEngineIndices');
+        $this->addRelation('IndexEngineIndex', '\\IndexEngine\\Model\\IndexEngineIndex', RelationMap::ONE_TO_MANY, array('id' => 'index_engine_driver_configuration_id'), 'CASCADE', 'CASCADE', 'IndexEngineIndices');
     } // buildRelations()
     /**
      * Method to invalidate the instance pool of all tables related to index_engine_driver_configuration     * by a foreign key with ON DELETE CASCADE
@@ -168,7 +167,7 @@ class IndexEngineDriverConfigurationTableMap extends TableMap
         // Invalidate objects in ".$this->getClassNameFromBuilder($joinedTableTableMapBuilder)." instance pool,
         // since one or more of them may be deleted by ON DELETE CASCADE/SETNULL rule.
                 IndexEngineIndexTableMap::clearInstancePool();
-            }
+    }
 
     /**
      * Retrieves a string version of the primary key from the DB resultset row that can be used to uniquely identify a row in this table.
@@ -179,13 +178,13 @@ class IndexEngineDriverConfigurationTableMap extends TableMap
      * @param array  $row       resultset row.
      * @param int    $offset    The 0-based offset for reading from the resultset row.
      * @param string $indexType One of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_STUDLYPHPNAME
-     *                           TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM
+     *                          TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM
      */
     public static function getPrimaryKeyHashFromRow($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
         // If the PK cannot be derived from the row, return NULL.
         if ($row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)] === null) {
-            return null;
+            return;
         }
 
         return (string) $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
@@ -199,14 +198,13 @@ class IndexEngineDriverConfigurationTableMap extends TableMap
      * @param array  $row       resultset row.
      * @param int    $offset    The 0-based offset for reading from the resultset row.
      * @param string $indexType One of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_STUDLYPHPNAME
-     *                           TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM
+     *                          TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM
      *
      * @return mixed The primary key of the row
      */
     public static function getPrimaryKeyFromRow($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
-
-            return (int) $row[
+        return (int) $row[
                             $indexType == TableMap::TYPE_NUM
                             ? 0 + $offset
                             : self::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)
@@ -221,8 +219,8 @@ class IndexEngineDriverConfigurationTableMap extends TableMap
      * relative to a location on the PHP include_path.
      * (e.g. path.to.MyClass -> 'path/to/MyClass.php')
      *
-     * @param boolean $withPrefix Whether or not to return the path with the class name
-     * @return string path.to.ClassName
+     * @param  boolean $withPrefix Whether or not to return the path with the class name
+     * @return string  path.to.ClassName
      */
     public static function getOMClass($withPrefix = true)
     {
@@ -235,12 +233,12 @@ class IndexEngineDriverConfigurationTableMap extends TableMap
      * @param array  $row       row returned by DataFetcher->fetch().
      * @param int    $offset    The 0-based offset for reading from the resultset row.
      * @param string $indexType The index type of $row. Mostly DataFetcher->getIndexType().
-                                 One of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_STUDLYPHPNAME
+     One of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_STUDLYPHPNAME
      *                           TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM.
      *
      * @throws PropelException Any exceptions caught during processing will be
-     *         rethrown wrapped into a PropelException.
-     * @return array (IndexEngineDriverConfiguration object, last column rank)
+     *                         rethrown wrapped into a PropelException.
+     * @return array           (IndexEngineDriverConfiguration object, last column rank)
      */
     public static function populateObject($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
@@ -264,10 +262,10 @@ class IndexEngineDriverConfigurationTableMap extends TableMap
      * The returned array will contain objects of the default type or
      * objects that inherit from the default.
      *
-     * @param DataFetcherInterface $dataFetcher
+     * @param  DataFetcherInterface $dataFetcher
      * @return array
-     * @throws PropelException Any exceptions caught during processing will be
-     *         rethrown wrapped into a PropelException.
+     * @throws PropelException      Any exceptions caught during processing will be
+     *                                          rethrown wrapped into a PropelException.
      */
     public static function populateObjects(DataFetcherInterface $dataFetcher)
     {
@@ -300,10 +298,10 @@ class IndexEngineDriverConfigurationTableMap extends TableMap
      * XML schema will not be added to the select list and only loaded
      * on demand.
      *
-     * @param Criteria $criteria object containing the columns to add.
-     * @param string   $alias    optional table alias
+     * @param  Criteria        $criteria object containing the columns to add.
+     * @param  string          $alias    optional table alias
      * @throws PropelException Any exceptions caught during processing will be
-     *         rethrown wrapped into a PropelException.
+     *                                  rethrown wrapped into a PropelException.
      */
     public static function addSelectColumns(Criteria $criteria, $alias = null)
     {
@@ -314,11 +312,11 @@ class IndexEngineDriverConfigurationTableMap extends TableMap
             $criteria->addSelectColumn(IndexEngineDriverConfigurationTableMap::TITLE);
             $criteria->addSelectColumn(IndexEngineDriverConfigurationTableMap::SERIALIZED_CONFIGURATION);
         } else {
-            $criteria->addSelectColumn($alias . '.ID');
-            $criteria->addSelectColumn($alias . '.CODE');
-            $criteria->addSelectColumn($alias . '.DRIVER_CODE');
-            $criteria->addSelectColumn($alias . '.TITLE');
-            $criteria->addSelectColumn($alias . '.SERIALIZED_CONFIGURATION');
+            $criteria->addSelectColumn($alias.'.ID');
+            $criteria->addSelectColumn($alias.'.CODE');
+            $criteria->addSelectColumn($alias.'.DRIVER_CODE');
+            $criteria->addSelectColumn($alias.'.TITLE');
+            $criteria->addSelectColumn($alias.'.SERIALIZED_CONFIGURATION');
         }
     }
 
@@ -327,7 +325,7 @@ class IndexEngineDriverConfigurationTableMap extends TableMap
      * This method is not needed for general use but a specific application could have a need.
      * @return TableMap
      * @throws PropelException Any exceptions caught during processing will be
-     *         rethrown wrapped into a PropelException.
+     *                         rethrown wrapped into a PropelException.
      */
     public static function getTableMap()
     {
@@ -339,56 +337,58 @@ class IndexEngineDriverConfigurationTableMap extends TableMap
      */
     public static function buildTableMap()
     {
-      $dbMap = Propel::getServiceContainer()->getDatabaseMap(IndexEngineDriverConfigurationTableMap::DATABASE_NAME);
-      if (!$dbMap->hasTable(IndexEngineDriverConfigurationTableMap::TABLE_NAME)) {
-        $dbMap->addTableObject(new IndexEngineDriverConfigurationTableMap());
-      }
+        $dbMap = Propel::getServiceContainer()->getDatabaseMap(IndexEngineDriverConfigurationTableMap::DATABASE_NAME);
+        if (!$dbMap->hasTable(IndexEngineDriverConfigurationTableMap::TABLE_NAME)) {
+            $dbMap->addTableObject(new IndexEngineDriverConfigurationTableMap());
+        }
     }
 
-    /**
-     * Performs a DELETE on the database, given a IndexEngineDriverConfiguration or Criteria object OR a primary key value.
-     *
-     * @param mixed               $values Criteria or IndexEngineDriverConfiguration object or primary key or array of primary keys
-     *              which is used to create the DELETE statement
-     * @param ConnectionInterface $con the connection to use
-     * @return int The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
-     *                if supported by native driver or if emulated using Propel.
-     * @throws PropelException Any exceptions caught during processing will be
-     *         rethrown wrapped into a PropelException.
-     */
+     /**
+      * Performs a DELETE on the database, given a IndexEngineDriverConfiguration or Criteria object OR a primary key value.
+      *
+      * @param mixed               $values Criteria or IndexEngineDriverConfiguration object or primary key or array of primary keys
+      *              which is used to create the DELETE statement
+      * @param ConnectionInterface $con the connection to use
+      * @return int The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
+      *                if supported by native driver or if emulated using Propel.
+      * @throws PropelException Any exceptions caught during processing will be
+      *         rethrown wrapped into a PropelException.
+      */
      public static function doDelete($values, ConnectionInterface $con = null)
      {
-        if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(IndexEngineDriverConfigurationTableMap::DATABASE_NAME);
-        }
+         if (null === $con) {
+             $con = Propel::getServiceContainer()->getWriteConnection(IndexEngineDriverConfigurationTableMap::DATABASE_NAME);
+         }
 
-        if ($values instanceof Criteria) {
-            // rename for clarity
+         if ($values instanceof Criteria) {
+             // rename for clarity
             $criteria = $values;
-        } elseif ($values instanceof \IndexEngine\Model\IndexEngineDriverConfiguration) { // it's a model object
+         } elseif ($values instanceof \IndexEngine\Model\IndexEngineDriverConfiguration) { // it's a model object
             // create criteria based on pk values
             $criteria = $values->buildPkeyCriteria();
-        } else { // it's a primary key, or an array of pks
+         } else { // it's a primary key, or an array of pks
             $criteria = new Criteria(IndexEngineDriverConfigurationTableMap::DATABASE_NAME);
-            $criteria->add(IndexEngineDriverConfigurationTableMap::ID, (array) $values, Criteria::IN);
-        }
+             $criteria->add(IndexEngineDriverConfigurationTableMap::ID, (array) $values, Criteria::IN);
+         }
 
-        $query = IndexEngineDriverConfigurationQuery::create()->mergeWith($criteria);
+         $query = IndexEngineDriverConfigurationQuery::create()->mergeWith($criteria);
 
-        if ($values instanceof Criteria) { IndexEngineDriverConfigurationTableMap::clearInstancePool();
-        } elseif (!is_object($values)) { // it's a primary key, or an array of pks
-            foreach ((array) $values as $singleval) { IndexEngineDriverConfigurationTableMap::removeInstanceFromPool($singleval);
+         if ($values instanceof Criteria) {
+             IndexEngineDriverConfigurationTableMap::clearInstancePool();
+         } elseif (!is_object($values)) { // it's a primary key, or an array of pks
+            foreach ((array) $values as $singleval) {
+                IndexEngineDriverConfigurationTableMap::removeInstanceFromPool($singleval);
             }
-        }
+         }
 
-        return $query->delete($con);
-    }
+         return $query->delete($con);
+     }
 
     /**
      * Deletes all rows from the index_engine_driver_configuration table.
      *
-     * @param ConnectionInterface $con the connection to use
-     * @return int The number of affected rows (if supported by underlying database driver).
+     * @param  ConnectionInterface $con the connection to use
+     * @return int                 The number of affected rows (if supported by underlying database driver).
      */
     public static function doDeleteAll(ConnectionInterface $con = null)
     {
@@ -398,11 +398,11 @@ class IndexEngineDriverConfigurationTableMap extends TableMap
     /**
      * Performs an INSERT on the database, given a IndexEngineDriverConfiguration or Criteria object.
      *
-     * @param mixed               $criteria Criteria or IndexEngineDriverConfiguration object containing data that is used to create the INSERT statement.
-     * @param ConnectionInterface $con the ConnectionInterface connection to use
-     * @return mixed           The new primary key.
-     * @throws PropelException Any exceptions caught during processing will be
-     *         rethrown wrapped into a PropelException.
+     * @param  mixed               $criteria Criteria or IndexEngineDriverConfiguration object containing data that is used to create the INSERT statement.
+     * @param  ConnectionInterface $con      the ConnectionInterface connection to use
+     * @return mixed               The new primary key.
+     * @throws PropelException     Any exceptions caught during processing will be
+     *                                      rethrown wrapped into a PropelException.
      */
     public static function doInsert($criteria, ConnectionInterface $con = null)
     {
@@ -416,10 +416,9 @@ class IndexEngineDriverConfigurationTableMap extends TableMap
             $criteria = $criteria->buildCriteria(); // build Criteria from IndexEngineDriverConfiguration object
         }
 
-        if ($criteria->containsKey(IndexEngineDriverConfigurationTableMap::ID) && $criteria->keyContainsValue(IndexEngineDriverConfigurationTableMap::ID) ) {
+        if ($criteria->containsKey(IndexEngineDriverConfigurationTableMap::ID) && $criteria->keyContainsValue(IndexEngineDriverConfigurationTableMap::ID)) {
             throw new PropelException('Cannot insert a value for auto-increment primary key ('.IndexEngineDriverConfigurationTableMap::ID.')');
         }
-
 
         // Set the correct dbName
         $query = IndexEngineDriverConfigurationQuery::create()->mergeWith($criteria);
@@ -437,7 +436,6 @@ class IndexEngineDriverConfigurationTableMap extends TableMap
 
         return $pk;
     }
-
 } // IndexEngineDriverConfigurationTableMap
 // This is the static code needed to register the TableMap for this table with the main Propel class.
 //

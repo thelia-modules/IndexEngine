@@ -11,8 +11,8 @@
 /*************************************************************************************/
 
 namespace IndexEngine\Driver\Configuration;
-use IndexEngine\Exception\InvalidArgumentException;
 
+use IndexEngine\Exception\InvalidArgumentException;
 
 /**
  * Class EnumArgument
@@ -41,6 +41,7 @@ class EnumArgument extends AbstractArgument
         }
 
         $this->value = $value;
+
         return $this;
     }
 

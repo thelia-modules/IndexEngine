@@ -123,7 +123,7 @@ class IndexConfigurationManager implements IndexConfigurationManagerInterface
             return $index->getEntity();
         }
 
-        return null;
+        return;
     }
 
     /**
@@ -226,6 +226,7 @@ class IndexConfigurationManager implements IndexConfigurationManagerInterface
         $mapping = $this->getCurrentMapping();
 
         $entity = new IndexMapping();
+
         return $entity->setMapping($mapping);
     }
 
@@ -278,7 +279,7 @@ class IndexConfigurationManager implements IndexConfigurationManagerInterface
     }
 
     /**
-     * @param IndexConfiguration $configuration
+     * @param  IndexConfiguration                  $configuration
      * @return \IndexEngine\Entity\IndexDataVector
      *
      * This method has to collect the data to index and return an IndexData vector

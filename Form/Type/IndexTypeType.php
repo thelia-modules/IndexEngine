@@ -46,7 +46,6 @@ class IndexTypeType extends AbstractType
         ]);
     }
 
-
     public function getParent()
     {
         return "choice";

@@ -21,5 +21,4 @@ use IndexEngine\Exception\InvalidArgumentException;
  */
 class DriverAlreadyRegisteredException extends InvalidArgumentException
 {
-
 }

@@ -66,7 +66,7 @@ abstract class DriverEventSubscriber implements DriverEventSubscriberInterface
     }
 
     /**
-     * @param DriverInterface $driver
+     * @param  DriverInterface $driver
      * @return void
      *
      * Set the current driver instance
@@ -101,10 +101,10 @@ abstract class DriverEventSubscriber implements DriverEventSubscriberInterface
                 ["deleteIndex", 0],
             ],
             DriverEvents::INDEXES_PERSIST => [
-                ["persistIndexes", 0]
+                ["persistIndexes", 0],
             ],
             DriverEvents::INDEX_SEARCH_QUERY => [
-                ["executeSearchQuery", 0]
+                ["executeSearchQuery", 0],
             ]
         ];
     }

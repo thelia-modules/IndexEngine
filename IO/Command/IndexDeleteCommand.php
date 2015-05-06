@@ -36,8 +36,8 @@ class IndexDeleteCommand extends IndexEngineCommand
     }
 
     /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
+     * @param  InputInterface  $input
+     * @param  OutputInterface $output
      * @return int|null|void
      */
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -55,7 +55,7 @@ class IndexDeleteCommand extends IndexEngineCommand
             $output->renderBlock([
                 "",
                 sprintf("The index code '%s' doesn't exist with the configuration '%s'", $indexCode, $driverCode),
-                ""
+                "",
             ], "bg=red;fg=white");
 
             return 1;
@@ -66,7 +66,7 @@ class IndexDeleteCommand extends IndexEngineCommand
         $output->renderBlock([
             "",
             sprintf("The index code '%s' has been delete with the configuration '%s'", $indexCode, $driverCode),
-            ""
+            "",
         ], "bg=green;fg=black");
 
         return 0;

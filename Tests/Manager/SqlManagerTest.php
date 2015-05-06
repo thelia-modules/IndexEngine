@@ -20,7 +20,6 @@ use IndexEngine\Manager\SqlManager;
 use Thelia\Core\Translation\Translator;
 use Symfony\Component\DependencyInjection\Container;
 
-
 /**
  * Class SqlManagerTest
  * @package IndexEngine\Tests\Manager

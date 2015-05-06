@@ -14,7 +14,6 @@ namespace IndexEngine\Driver\Exception;
 
 use IndexEngine\Exception\InvalidArgumentException;
 
-
 /**
  * Class InvalidNameException
  * @package IndexEngine\Driver\Exception

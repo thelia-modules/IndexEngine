@@ -43,7 +43,7 @@ class DriverConfiguration
     }
 
     /**
-     * @param DriverInterface $driver
+     * @param  DriverInterface $driver
      * @return $this
      */
     public function setDriver(DriverInterface $driver)
@@ -62,12 +62,13 @@ class DriverConfiguration
     }
 
     /**
-     * @param ArgumentCollectionInterface|null $configuration
+     * @param  ArgumentCollectionInterface|null $configuration
      * @return $this
      */
     public function setConfiguration(ArgumentCollectionInterface $configuration = null)
     {
         $this->configuration = $configuration;
+
         return $this;
     }
 

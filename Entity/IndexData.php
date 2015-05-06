@@ -30,7 +30,7 @@ class IndexData
     }
 
     /**
-     * @param array $data
+     * @param  array $data
      * @return $this
      */
     public function setData(array $data, IndexMapping $mapping)

@@ -52,7 +52,7 @@ class ConfigurationManager implements ConfigurationManagerInterface
     }
 
     /**
-     * @param bool $loadIntoDriver If true, the found configuration will be loaded into the driver
+     * @param  bool                                    $loadIntoDriver If true, the found configuration will be loaded into the driver
      * @return \IndexEngine\Entity\DriverConfiguration
      *
      * @throws \IndexEngine\Driver\Exception\OutOfBoundsException
@@ -67,8 +67,8 @@ class ConfigurationManager implements ConfigurationManagerInterface
     }
 
     /**
-     * @param int $configurationId
-     * @param bool $loadIntoDriver
+     * @param  int                 $configurationId
+     * @param  bool                $loadIntoDriver
      * @return DriverConfiguration
      *
      * Get the configuration from the ID
@@ -98,8 +98,8 @@ class ConfigurationManager implements ConfigurationManagerInterface
     }
 
     /**
-     * @param string $configurationCode
-     * @param bool $loadIntoDriver
+     * @param  string              $configurationCode
+     * @param  bool                $loadIntoDriver
      * @return DriverConfiguration
      *
      * @throws \IndexEngine\Driver\Exception\InvalidDriverCodeException
@@ -113,7 +113,6 @@ class ConfigurationManager implements ConfigurationManagerInterface
         if (null === $dbConfiguration) {
             throw new InvalidDriverCodeException(sprintf("The driver configuration code '%s' doesn't exist", $configurationCode));
         }
-
 
         return $this->getConfiguration($dbConfiguration->getId(), $loadIntoDriver);
     }

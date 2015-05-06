@@ -47,7 +47,6 @@ class SqlQuerySubscriber implements EventSubscriberInterface
         $this->manager = $manager;
     }
 
-
     public function renderSqlQueryConfiguration(RenderConfigurationEvent $event)
     {
         if ($event->getType() === $type = SqlQueryCollector::TYPE) {

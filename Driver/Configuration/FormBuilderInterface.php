@@ -22,8 +22,8 @@ use Symfony\Component\Form\FormBuilderInterface as SfFormBuilderInterface;
 interface FormBuilderInterface
 {
     /**
-     * @param \Symfony\Component\Form\FormBuilderInterface $builder
-     * @param array $options
+     * @param  \Symfony\Component\Form\FormBuilderInterface $builder
+     * @param  array                                        $options
      * @return void
      *
      * This method is an equivalent of \Symfony\Component\Form\AbstractType::buildForm,

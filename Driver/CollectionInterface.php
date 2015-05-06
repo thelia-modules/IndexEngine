@@ -12,7 +12,6 @@
 
 namespace IndexEngine\Driver;
 
-
 /**
  * Interface CollectionInterface
  * @package IndexEngine\Driver
