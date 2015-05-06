@@ -267,7 +267,7 @@ abstract class BridgeTestCase extends \PHPUnit_Framework_TestCase
         $query = $this->getBaseQuery();
         $group = new CriterionGroup();
         $group
-            ->addCriterion(new Criterion("id", 2, Comparison::NOT_EQUAL), null, Link::LINK_OR)
+            ->addCriterion(new Criterion("id", 1, Comparison::NOT_EQUAL), null, Link::LINK_OR)
             ->addCriterion(new Criterion("id", 2, Comparison::GREATER_EQUAL))
         ;
 
@@ -287,12 +287,64 @@ abstract class BridgeTestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @depends testRetrieveDataWithASimpleOrFilterOnOneField
+     */
+    public function testRetrieveDataWithTwoOrFilterOnOneField()
+    {
+        $query = $this->getBaseQuery();
+        $group = new CriterionGroup();
+        $group
+            ->addCriterion(new Criterion("id", 1, Comparison::NOT_EQUAL), null, Link::LINK_OR)
+            ->addCriterion(new Criterion("id", 2, Comparison::GREATER_EQUAL), null, Link::LINK_OR)
+            ->addCriterion(new Criterion("id", 2, Comparison::LESS_EQUAL))
+        ;
+
+        $query->addCriterionGroup($group);
+
+        $results = $this->driver->executeSearchQuery($query, $this->getMapping());
+        $data = iterator_to_array($results);
+
+        $this->assertCount(4, $data);
+
+        // All the IDs are there
+        for ($i = 1; $i <= 4; ++$i) {
+            /** @var IndexData $row */
+            $row = $data[$i-1];
+            $this->assertEquals($i, $row->getData()["id"]);
+        }
+    }
+
+    /**
+     * @depends testRetrieveDataWithTwoOrFilterOnOneField
+     */
+    public function testRetrieveDataWithOrFilterOnTwoField()
+    {
+        $query = $this->getBaseQuery();
+        $group = new CriterionGroup();
+        $group
+            ->addCriterion(new Criterion("id", 2, Comparison::GREATER), null, Link::LINK_OR)
+            ->addCriterion(new Criterion("price", 45, Comparison::LESS))
+        ;
+
+        $query->addCriterionGroup($group);
+
+        $results = $this->driver->executeSearchQuery($query, $this->getMapping());
+        $data = iterator_to_array($results);
+
+        $this->assertCount(3, $data);
+
+        $this->assertEquals(1, $data[0]->getData()["id"]);
+        $this->assertEquals(3, $data[1]->getData()["id"]);
+        $this->assertEquals(4, $data[2]->getData()["id"]);
+    }
+
+    /**
      * @param $type
      * @param $code
      * @param $name
      *
      * @dataProvider generateIndex
-     * @depends testRetrieveDataWithASimpleOrFilterOnOneField
+     * @depends testRetrieveDataWithOrFilterOnTwoField
      */
     public function testDeleteIndex($type, $code, $name)
     {
