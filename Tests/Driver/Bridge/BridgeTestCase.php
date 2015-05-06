@@ -339,6 +339,43 @@ abstract class BridgeTestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @depends testRetrieveDataWithTwoOrFilterOnOneField
+     *
+     * In that test, we check that for the driver, the following boolean operation is correctly interpreted:
+     *
+     * a.b + c.d
+     *
+     * a,b,c,d being boolean values.
+     *
+     * "." (alias "AND") operator must be prior to "+" (alias "OR")
+     *
+     * We do a XOR operation to check that priority are respected:
+     * _           _
+     * a . b + a . b  = a xor b
+     */
+    public function testRetrieveDataWithBothOrAndAndFiltersChecksThatDriverSupportsOperatorPriority()
+    {
+        $query = $this->getBaseQuery();
+        $group = new CriterionGroup();
+        $group
+            ->addCriterion(new Criterion("id", 2, Comparison::NOT_EQUAL))
+            ->addCriterion(new Criterion("price", 1, Comparison::EQUAL), null, Link::LINK_OR)
+            ->addCriterion(new Criterion("id", 2, Comparison::EQUAL))
+            ->addCriterion(new Criterion("price", 1, Comparison::NOT_EQUAL))
+        ;
+
+        $query->addCriterionGroup($group);
+
+        $results = $this->driver->executeSearchQuery($query, $this->getMapping());
+        $data = iterator_to_array($results);
+
+        $this->assertCount(2, $data);
+
+        $this->assertEquals(2, $data[0]->getData()["id"]);
+        $this->assertEquals(3, $data[1]->getData()["id"]);
+    }
+
+    /**
      * @param $type
      * @param $code
      * @param $name
