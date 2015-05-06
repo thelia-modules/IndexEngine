@@ -78,6 +78,11 @@ abstract class BridgeTestCase extends \PHPUnit_Framework_TestCase
      */
     public function testCreateIndex($type, $code, $name, IndexMapping $mapping)
     {
+        // Delete the index if it already exists
+        if (true === $this->driver->indexExists($type, $code, $name)) {
+            $this->driver->deleteIndex($type, $code, $name);
+        }
+
         $this->driver->createIndex($type, $code, $name, $mapping);
 
         $this->assertTrue($this->driver->indexExists($type, $code, $name));
@@ -376,12 +381,140 @@ abstract class BridgeTestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @depends testRetrieveDataWithBothOrAndAndFiltersChecksThatDriverSupportsOperatorPriority
+     */
+    public function testRetrieveDataWithTwoCriterionGroupsLinkedByAAnd()
+    {
+        $query = $this->getBaseQuery()
+            ->filterBy("id", 1, Comparison::GREATER_EQUAL)
+            ->filterBy("id", 4)
+        ;
+
+        $results = $this->driver->executeSearchQuery($query, $this->getMapping());
+        $data = iterator_to_array($results);
+
+        $this->assertCount(1, $data);
+
+        $this->assertEquals(4, $data[0]->getData()["id"]);
+    }
+
+    /**
+     * @depends testRetrieveDataWithTwoCriterionGroupsLinkedByAAnd
+     */
+    public function testRetrieveDataWithThreeCriterionGroupsLinkedByAAnd()
+    {
+        $query = $this->getBaseQuery()
+            ->filterBy("id", 1, Comparison::GREATER)
+            ->filterBy("id", 4, Comparison::LESS)
+            ->filterBy("id", 3, Comparison::LESS_EQUAL)
+        ;
+
+        $results = $this->driver->executeSearchQuery($query, $this->getMapping());
+        $data = iterator_to_array($results);
+
+        $this->assertCount(2, $data);
+
+        $this->assertEquals(2, $data[0]->getData()["id"]);
+        $this->assertEquals(3, $data[1]->getData()["id"]);
+    }
+
+    /**
+     * @depends testRetrieveDataWithThreeCriterionGroupsLinkedByAAnd
+     */
+    public function testRetrieveDataWithTwoCriterionGroupsLinkedByAndOnTwoFields()
+    {
+        $query = $this->getBaseQuery()
+            ->filterBy("id", 1, Comparison::GREATER)
+            ->filterBy("price", 40, Comparison::LESS)
+        ;
+
+        $results = $this->driver->executeSearchQuery($query, $this->getMapping());
+        $data = iterator_to_array($results);
+
+        $this->assertCount(1, $data);
+
+        $this->assertEquals(3, $data[0]->getData()["id"]);
+    }
+
+    /**
+     * @depends testRetrieveDataWithTwoCriterionGroupsLinkedByAndOnTwoFields
+     */
+    public function testRetrieveDataWithMultipleCriterionGroupsLinkedByAndOnMultipleFields()
+    {
+        $query = $this->getBaseQuery()
+            ->filterBy("price", 50, Comparison::LESS)
+            ->filterBy("code", "T-shi", Comparison::LIKE)
+            ->filterBy("out_date", "2015-01-01", Comparison::GREATER_EQUAL)
+        ;
+
+        $results = $this->driver->executeSearchQuery($query, $this->getMapping());
+        $data = iterator_to_array($results);
+
+        $this->assertCount(1, $data);
+
+        $this->assertEquals(4, $data[0]->getData()["id"]);
+    }
+
+    /**
+     * @depends testRetrieveDataWithMultipleCriterionGroupsLinkedByAndOnMultipleFields
+     */
+    public function testRetrieveDataWithMultipleCriterionFilteredByAOrOnOneField()
+    {
+        $query = $this->getBaseQuery()
+            ->filterBy("id", 1, Comparison::EQUAL, Link::LINK_OR)
+            ->filterBy("id", 3, Comparison::LESS)
+        ;
+
+        $results = $this->driver->executeSearchQuery($query, $this->getMapping());
+        $data = iterator_to_array($results);
+
+        $this->assertCount(2, $data);
+
+        $this->assertEquals(1, $data[0]->getData()["id"]);
+        $this->assertEquals(2, $data[1]->getData()["id"]);
+    }
+
+    /**
+     * @depends testRetrieveDataWithMultipleCriterionFilteredByAOrOnOneField
+     */
+    public function testRetrieveDataWithWeirdGuyComplexQuery()
+    {
+        $criterionGroupOne = new CriterionGroup();
+        $criterionGroupOne
+            ->addCriterion(new Criterion("id", 1, Comparison::NOT_EQUAL))
+            ->addCriterion(new Criterion("description", "This text isn't anywhere", Comparison::LIKE))
+        ;
+
+        $criterionGroupTwo = new CriterionGroup();
+        $criterionGroupTwo
+            ->addCriterion(new Criterion("description", "user experience", Comparison::LIKE))
+            ->addCriterion(new Criterion("description", "Great", Comparison::LIKE))
+        ;
+
+
+
+        $query = $this->getBaseQuery()
+            ->addCriterionGroup($criterionGroupOne, null, Link::LINK_OR)
+            ->addCriterionGroup($criterionGroupTwo)
+            ->filterBy("id", 3, Comparison::LESS_EQUAL)
+            ->filterBy("price", 50, Comparison::GREATER_EQUAL)
+        ;
+
+        $results = $this->driver->executeSearchQuery($query, $this->getMapping());
+        $data = iterator_to_array($results);
+
+        $this->assertCount(1, $data);
+
+        $this->assertEquals(2, $data[0]->getData()["id"]);
+    }
+
+    /**
      * @param $type
      * @param $code
      * @param $name
      *
      * @dataProvider generateIndex
-     * @depends testRetrieveDataWithOrFilterOnTwoField
+     * @depends testRetrieveDataWithWeirdGuyComplexQuery
      */
     public function testDeleteIndex($type, $code, $name)
     {
@@ -455,7 +588,7 @@ abstract class BridgeTestCase extends \PHPUnit_Framework_TestCase
         $dataVector[] = (new IndexData())->setData([
             "id" => 3,
             "code" => "Orange",
-            "description" => "Great orange with a great user experience. Taste very good",
+            "description" => "Great orange. Taste very good",
             "is_default" => false,
             "price" => 1,
             "out_date" => "1970-01-01",

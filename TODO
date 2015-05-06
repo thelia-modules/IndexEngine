@@ -1,13 +1,26 @@
-idea: Add loop parameters field on form
+Thelia bridge:
+- Add loop parameters field on form
+- Implement ```index``` smarty function
+- Implement REST API
 
+Documentation:
+- How to configure the driver
+- How to configure the indexes
+- Write how to create a driver
 
+Tests:
+- Query
+- Managers
+- Driver\Configuration
 
 Drivers:
-- ElasticSearch
-- OpenSearchServer
+- ElasticSearch: Improve query translation
+- OpenSearchServer: Implement create, delete, persist index and search
+
+Full implement:
 - Solr
+
+Study:
 - Splunk
 - MarkLogic
 - Sphinx
-- Redis
-- ...

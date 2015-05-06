@@ -66,7 +66,7 @@ abstract class AbstractIndexQuery extends AbstractCollection implements IndexQue
      */
     public function filterBy($column, $value, $comparison = Comparison::EQUAL, $outerMode = Link::LINK_DEFAULT)
     {
-        return $this->addCriterion(new Criterion($column, $value, $comparison), $outerMode);
+        return $this->addCriterion(new Criterion($column, $value, $comparison), null, $outerMode);
     }
 
     /**

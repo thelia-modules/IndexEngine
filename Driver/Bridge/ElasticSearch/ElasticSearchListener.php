@@ -203,6 +203,8 @@ class ElasticSearchListener extends DriverEventSubscriber
      *
      * This method is used to translate the IndexEngine query into a ElasticSearch one.
      * The result is set into the extra content
+     *
+     * @TODO: IMPROVE THAT WORKING PIECE OF SHIT TO A BEAUTIFUL PIECE OF CODE
      */
     public function prepareSearchQuery(IndexSearchQueryEvent $event)
     {
@@ -232,7 +234,6 @@ class ElasticSearchListener extends DriverEventSubscriber
 
         $groups = $query->getCriterionGroups();
         $totalGroupCount = count($groups);
-        $groupIndex = 0;
 
         $previousGroupLink = null;
 
@@ -245,11 +246,47 @@ class ElasticSearchListener extends DriverEventSubscriber
             $body["query"] = $this->transformCriterionGroup($criterionGroup);
         } else {
             // Handle complex group
+            $splitGroups = [];
+            $i = 0;
+
+            foreach ($groups as $groupTuple) {
+                /** @var CriterionGroupInterface $criterionGroup */
+                list ($criterionGroup, $link) = $groupTuple;
+                $splitGroups[$i][] = $criterionGroup;
+
+                if ($link === Link::LINK_OR) {
+                    $i++;
+                }
+            }
+
+            if (count($splitGroups) === 1) {
+                // Global query without OR
+
+                /** @var CriterionGroupInterface $criterionGroup */
+                foreach ($splitGroups[0] as $criterionGroup) {
+                    $body["query"]["filtered"]["filter"]["and"][]["query"] = $this->transformCriterionGroup($criterionGroup);
+                }
+            } else {
+                // Global query with OR
+                foreach ($splitGroups as $criterionGroups) {
+                    $orNode = &$body["query"]["filtered"]["filter"]["or"][];
+
+                    foreach ($criterionGroups as $criterionGroup) {
+                        $orNode["query"]["filtered"]["filter"]["and"][]["query"] = $this->transformCriterionGroup($criterionGroup);
+                    }
+                }
+            }
         }
 
         $event->setExtraData($body);
     }
 
+    /**
+     * @param CriterionGroupInterface $criterionGroup
+     * @return array
+     *
+     * @TODO: IMPROVE THAT WORKING PIECE OF SHIT TO A BEAUTIFUL PIECE OF CODE
+     */
     public function transformCriterionGroup(CriterionGroupInterface $criterionGroup)
     {
         $criterionCount = $criterionGroup->count();
@@ -321,7 +358,6 @@ class ElasticSearchListener extends DriverEventSubscriber
                 $subQuery = ["filtered" => ["filter" => ["or" => $subQueries]]];
             }
         }
-
 
         return $subQuery;
     }
