@@ -7,11 +7,13 @@
     "symfony/http-kernel": "~2.3"
   },
   "require-dev": {
-    "phpunit/phpunit": "~4.1"
+    "phpunit/phpunit": "~4.1",
+    "thelia/smarty-module": "~2.1.1"
   },
   "suggest": {
     "elasticsearch/elasticsearch:~1.0": "If you want to use the ElasticSearch driver, you must install this library",
-    "opensearchserver/opensearchserver:~3.0": "If you want to use the OpenSearchServer driver, you must install this library"
+    "opensearchserver/opensearchserver:~3.0": "If you want to use the OpenSearchServer driver, you must install this library",
+    "thelia/smarty-module": "If you want to have the index function for Smarty"
   },
   "extra": {
     "installer-name": "IndexEngine"

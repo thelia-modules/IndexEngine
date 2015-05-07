@@ -41,6 +41,9 @@
     <parameter key="index_engine.driver.elastic_search_listener.class">IndexEngine\Driver\Bridge\ElasticSearch\ElasticSearchListener</parameter>
     <parameter key="index_engine.driver.open_search_server.class">IndexEngine\Driver\Bridge\OpenSearchServer\OpenSearchServerDriver</parameter>
     <parameter key="index_engine.driver.open_search_server_listener.class">IndexEngine\Driver\Bridge\OpenSearchServer\OpenSearchServerListener</parameter>
+
+    <!-- Smarty Plugin -->
+    <parameter key="index_engine.smarty.index_plugin.class">IndexEngine\Smarty\Plugin\Index</parameter>
   </parameters>
 
   <loops>
@@ -183,6 +186,13 @@
       </service>
       <service id="index_engine.driver.open_search_server_listener" class="%index_engine.driver.open_search_server_listener.class%">
           <tag name="index_engine.event_subscriber" />
+      </service>
+
+      <!-- Smarty Plugin -->
+      <service id="index_engine.smarty.index_plugin" class="%index_engine.smarty.index_plugin.class%" scope="request">
+        <argument type="service" id="index_engine.search_manager"/>
+        <argument type="service" id="index_engine.index_configuration_manager"/>
+          <tag name="thelia.parser.register_plugin" />
       </service>
     <!-- Well ... -->
     <service id="index_engine.propel_connection_wrapper" factory-class="Propel\Runtime\Propel" factory-method="getConnection" class="Propel\Runtime\Connection\ConnectionWrapper"/>

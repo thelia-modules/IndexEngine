@@ -15,6 +15,9 @@ To run IndexEngine tests, you will need:
 1. Run tests
 ---
 
+First, you have to insert the test fixtures to run them.
+They are in ```module/Resources/tests```.
+
 Run your Thelia test suite, it'll run this module's tests.
 Or you can run for Thelia root: ```php bin/phpunit --bootstrap core/vendor/autoload.php local/modules/IndexEngine/Tests```,
 or for a cool testdox display: ```php bin/phpunit --testdox --bootstrap core/vendor/autoload.php local/modules/IndexEngine/Tests```

@@ -1,6 +1,5 @@
 Thelia bridge:
 - Add loop parameters field on form
-- Implement ```index``` smarty function
 - Implement REST API
 
 Documentation:
@@ -16,6 +15,7 @@ Tests:
 - Query
 - Managers
 - Driver\Configuration
+- Check needed fixtures
 
 Drivers:
 - ElasticSearch: Improve query translation

@@ -37,7 +37,7 @@ class SearchManager implements SearchManagerInterface
      */
     public function findResultsFromParams(IndexConfiguration $configuration, array $params)
     {
-        $limit = intval($this->extractParam($params, "limit", PHP_INT_MAX));
+        $limit = intval($this->extractParam($params, "limit"));
         $offset = intval($this->extractParam($params, "offset", 0));
         $order = $this->extractParam($params, "order", []);
 
