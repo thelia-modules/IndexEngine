@@ -12,6 +12,7 @@
 namespace IndexEngine\Manager;
 
 use IndexEngine\Entity\IndexConfiguration;
+use IndexEngine\Entity\IndexMapping;
 
 /**
  * Class SearchManager
@@ -30,4 +31,28 @@ interface SearchManagerInterface
      * With the given configuration and params, it must return an array with the found values
      */
     public function findResultsFromParams(IndexConfiguration $configuration, array $params);
+
+    /**
+     * @param array $parameters
+     * @return array
+     *
+     * @throws \IndexEngine\Exception\InvalidArgumentException if one of the parameters is not valid
+     *
+     * Parse given parameters and output a valid array.
+     *
+     * Input example:
+     * [
+     *   "id" => 5,
+     *   "foo" => ["like", "some text"]
+     *   0 => ["foo", "=", 5],
+     * ]
+     *
+     * Output example:
+     * [
+     *   ["foo", "like", "5"]
+     *   ["bar", ">=", 2],
+     *   ["baz", "=", 3]
+     * ]
+     */
+    public function parseSearchQuery(array $parameters, IndexMapping $mapping);
 }

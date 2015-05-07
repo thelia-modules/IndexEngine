@@ -95,11 +95,17 @@ class SearchManager implements SearchManagerInterface
             if (is_array($entry)) {
                 $realValue = $entry;
 
-                switch (count($entry)) {
+                if (1 === $count = count($entry)) {
+                    $comparison = Comparison::EQUAL;
+                }
+
+                switch ($count) {
                     case 3:
                         $name = array_shift($entry);
+                        // no break
                     case 2:
                         $comparison = array_shift($entry);
+                        // no break
                     case 1:
                         $entry = array_shift($entry);
                         break;
@@ -112,7 +118,7 @@ class SearchManager implements SearchManagerInterface
             }
 
             if ($mapping->hasColumn($name)) {
-                $output[] = [$name, $comparison, $mapping->getCastedValue($entry, $mappingTable[$name])];
+                $output[] = [$name, strtoupper($comparison), $mapping->getCastedValue($entry, $mappingTable[$name])];
             }
         }
 
