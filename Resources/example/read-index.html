@@ -6,17 +6,23 @@
     </head>
 
     <body>
-        <script src="../../templates/frontOffice/default/assets/js/SearchEngine.js"></script>
+        <script src="SearchEngine.js"></script>
         <script>
             var se = new SearchEngine("http://thelia-contrib.ben/api/public/search");
 
-            var results = se.find("unique_code", {"order": "id"}, {
-                limit:5,
-                offset:2,
-                fail: function(xhr) {
-                    alert(xhr.status);
+            var results = se.find(
+                "unique_code",
+                {
+                    "order": "id"
+                },
+                {
+                    limit:5,
+                    offset:2,
+                    fail: function(xhr) {
+                        alert(xhr.status);
+                    }
                 }
-            });
+            );
 
             function formatTable(results) {
                 if (results.length == 0) {
