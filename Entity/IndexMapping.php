@@ -113,6 +113,9 @@ class IndexMapping
     {
         switch ($type) {
             case IndexMapping::TYPE_BOOLEAN:
+                if ($entry === "false") {
+                    $entry = false;
+                }
                 $castedValue = (bool) $entry;
                 break;
 

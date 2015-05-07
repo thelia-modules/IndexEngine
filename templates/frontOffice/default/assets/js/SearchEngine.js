@@ -18,9 +18,7 @@ var SearchEngine = function (apiUrl, defaults) {
     this.constructor = function(apiUrl, defaults) {
         this.apiUrl = this.__filterUrl(apiUrl);
 
-        if (defaults == undefined) {
-            var defaults = {};
-        }
+        defaults = defaults != undefined ? defaults : {};
 
         this.defaults = this.__mergeTables({
             limit: 10,
@@ -65,23 +63,35 @@ var SearchEngine = function (apiUrl, defaults) {
 
     // Class' inner methods
 
-    this.__formatUrl = function(url, query, anchor) {
+    this.__formatUrl = function(url, query, anchor, keyPrefix) {
         if (anchor && anchor[0] != "#") {
             anchor = "#"+anchor;
         }
 
-        if (anchor == undefined) {
+        if (anchor == undefined || anchor == null) {
             anchor = "";
         }
 
-        // Picked from http://stackoverflow.com/a/1714899
-        // Thanks !
         var queryTable = [];
 
         for(var p in query) {
             if (query.hasOwnProperty(p)) {
-                queryTable.push(encodeURIComponent(p) + "=" + encodeURIComponent(query[p]));
+                if (undefined != keyPrefix) {
+                    key = keyPrefix + "[" + p + "]";
+                } else {
+                    key = p;
+                }
+
+                if (typeof query[p] == "object") {
+                    queryTable.push(this.__formatUrl("", query[p], null, key));
+                } else {
+                    queryTable.push(encodeURIComponent(key) + "=" + encodeURIComponent(query[p]));
+                }
             }
+        }
+
+        if (url == "") {
+            return queryTable.join("&")
         }
 
         return url + "?" + queryTable.join("&") + anchor;

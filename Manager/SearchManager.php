@@ -12,9 +12,12 @@
 
 namespace IndexEngine\Manager;
 
+use IndexEngine\Driver\Query\Comparison;
 use IndexEngine\Driver\Query\IndexQuery;
 use IndexEngine\Driver\Query\Order;
 use IndexEngine\Entity\IndexConfiguration;
+use IndexEngine\Entity\IndexMapping;
+use IndexEngine\Exception\InvalidArgumentException;
 
 /**
  * Class SearchManager
@@ -52,7 +55,68 @@ class SearchManager implements SearchManagerInterface
 
         $this->applyOrder($query, $order);
 
+        foreach ($this->parseSearchQuery($params, $configuration->getMapping()) as $rawComparison) {
+            list ($column, $comparison, $value) = $rawComparison;
+
+            $query->filterBy($column, $value, $comparison);
+        }
+
         return $configuration->getLoadedDriver()->executeSearchQuery($query, $configuration->getMapping());
+    }
+
+    /**
+     * @param array $parameters
+     * @return array
+     *
+     * @throws \IndexEngine\Exception\InvalidArgumentException if one of the parameters is not valid
+     *
+     * Parse given parameters and output a valid array.
+     *
+     * Input example:
+     * [
+     *   "id" => 5,
+     *   "foo" => ["like", "some text"]
+     *   0 => ["foo", "=", 5],
+     * ]
+     *
+     * Output example:
+     * [
+     *   ["foo", "like", "5"]
+     *   ["bar", ">=", 2],
+     *   ["baz", "=", 3]
+     * ]
+     */
+    public function parseSearchQuery(array $parameters, IndexMapping $mapping)
+    {
+        $output = [];
+        $mappingTable = $mapping->getMapping();
+
+        foreach ($parameters as $name => $entry) {
+            if (is_array($entry)) {
+                $realValue = $entry;
+
+                switch (count($entry)) {
+                    case 3:
+                        $name = array_shift($entry);
+                    case 2:
+                        $comparison = array_shift($entry);
+                    case 1:
+                        $entry = array_shift($entry);
+                        break;
+
+                    default:
+                        throw new InvalidArgumentException(sprintf("The given parameter '%s' is not valid: %s", $name, var_export($realValue)));
+                }
+            } else {
+                $comparison = Comparison::EQUAL;
+            }
+
+            if ($mapping->hasColumn($name)) {
+                $output[] = [$name, $comparison, $mapping->getCastedValue($entry, $mappingTable[$name])];
+            }
+        }
+
+        return $output;
     }
 
     protected function applyOrder(IndexQuery $query, array $order)

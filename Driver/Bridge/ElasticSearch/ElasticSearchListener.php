@@ -214,6 +214,7 @@ class ElasticSearchListener extends DriverEventSubscriber
         if (null !== $limit = $query->getLimit()) {
             $body["size"] = $limit;
         }
+
         if (null !== $offset = $query->getOffset()) {
             $body["from"] = $offset;
         }

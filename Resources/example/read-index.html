@@ -13,13 +13,15 @@
             var results = se.find(
                 "unique_code",
                 {
-                    "order": "id"
+                    "order": "id",
+                    "id": [">", 2],
+                    "visible": true
                 },
                 {
                     limit:5,
                     offset:2,
                     fail: function(xhr) {
-                        alert(xhr.status);
+                        //alert(xhr.status);
                     }
                 }
             );
@@ -31,7 +33,6 @@
 
                     document.body.appendChild(elmt);
                 } else {
-                    console.log(typeof results);
                     var table = document.createElement("table");
                     var thead = document.createElement("thead");
                     var tbody = document.createElement("tbody");
