@@ -42,6 +42,13 @@
     <parameter key="index_engine.driver.open_search_server.class">IndexEngine\Driver\Bridge\OpenSearchServer\OpenSearchServerDriver</parameter>
     <parameter key="index_engine.driver.open_search_server_listener.class">IndexEngine\Driver\Bridge\OpenSearchServer\OpenSearchServerListener</parameter>
 
+    <!-- Tasks related classes -->
+      <parameter key="index_engine.task.registry.class">IndexEngine\Driver\Task\TaskRegistry</parameter>
+      <parameter key="index_engine.task.create.class">IndexEngine\Driver\Task\Core\CreateTask</parameter>
+      <parameter key="index_engine.task.update.class">IndexEngine\Driver\Task\Core\UpdateTask</parameter>
+      <parameter key="index_engine.task.persist.class">IndexEngine\Driver\Task\Core\PersistTask</parameter>
+      <parameter key="index_engine.task.delete.class">IndexEngine\Driver\Task\Core\DeleteTask</parameter>
+
     <!-- Smarty Plugin -->
     <parameter key="index_engine.smarty.index_plugin.class">IndexEngine\Smarty\Plugin\Index</parameter>
   </parameters>
@@ -68,6 +75,22 @@
   </commands>
 
   <services>
+    <!-- Task related services -->
+    <service id="index_engine.task.registry" class="%index_engine.task.registry.class%" />
+    <service id="index_engine.task.create" class="%index_engine.task.create.class%">
+      <tag name="index_engine.task" />
+    </service>
+    <service id="index_engine.task.update" class="%index_engine.task.update.class%">
+      <tag name="index_engine.task" />
+    </service>
+    <service id="index_engine.task.persist" class="%index_engine.task.persist.class%">
+      <tag name="index_engine.task" />
+    </service>
+    <service id="index_engine.task.delete" class="%index_engine.task.delete.class%">
+      <tag name="index_engine.task" />
+    </service>
+
+    <!-- Core elements -->
     <service id="index_engine.indexable_entity_repository" class="%index_engine.indexable_entity_repository.class%">
       <argument type="service" id="index_engine.event_dispatcher"/>
     </service>
@@ -75,6 +98,7 @@
     <service id="index_engine.event_dispatcher" class="%index_engine.event_dispatcher.class%">
       <argument type="service" id="service_container"/>
     </service>
+
     <!-- Configuration collectors and rendering services -->
     <service id="index_engine.database_collector" class="%index_engine.database_collector.class%" scope="request">
       <argument type="service" id="index_engine.propel_connection"/>
@@ -114,6 +138,7 @@
       <argument type="service" id="index_engine.index_configuration_manager"/>
       <tag name="kernel.event_subscriber"/>
     </service>
+
     <!-- Configuration related manager -->
     <service id="index_engine.configuration.manager" class="%index_engine.configuration.manager.class%" scope="request">
       <argument type="service" id="request"/>
@@ -131,6 +156,7 @@
       <argument type="service" id="index_engine.propel_connection"/>
     </service>
     <service id="index_engine.search_manager" class="%index_engine.search_manager.class%" />
+
     <!-- Thelia form listener -->
     <service id="index_engine.form.thelia_form_listener" class="%index_engine.form.thelia_form_listener.class%" scope="request">
       <argument type="service" id="index_engine.configuration.manager"/>
@@ -141,11 +167,13 @@
     <service id="index_engine.index_configuration.subscriber" class="%index_engine.index_configuration.subscriber.class%">
       <tag name="kernel.event_subscriber"/>
     </service>
+
     <!-- Form type resolver and builder -->
     <service id="index_engine.form.type_resolver" class="%index_engine.form.type_resolver.class%"/>
     <service id="index_engine.form.argument_form_builder" class="%index_engine.form.argument_form_builder.class%">
       <argument type="service" id="index_engine.form.type_resolver"/>
     </service>
+
     <!-- Form types -->
     <service id="index_engine.form.type.index_engine_driver" class="%index_engine.form.type.index_engine_driver.class%">
       <argument type="service" id="index_engine.driver.registry"/>
@@ -163,15 +191,17 @@
       <argument type="service" id="index_engine.indexable_entity_repository"/>
       <tag name="thelia.form.type"/>
     </service>
-      <service id="index_engine.form.type.index_mapping_type_type" class="%index_engine.form.type.index_mapping_type_type.class%">
-          <argument type="service" id="index_engine.default_index_mapping" />
-          <tag name="thelia.form.type"/>
-      </service>
-      <service id="index_engine.form.type.index_mapping_type" class="%index_engine.form.type.index_mapping_type.class%">
-          <tag name="thelia.form.type"/>
-      </service>
-      <!-- Tools -->
-      <service id="index_engine.default_index_mapping" class="%index_engine.default_index_mapping.class%" />
+    <service id="index_engine.form.type.index_mapping_type_type" class="%index_engine.form.type.index_mapping_type_type.class%">
+      <argument type="service" id="index_engine.default_index_mapping" />
+      <tag name="thelia.form.type"/>
+    </service>
+    <service id="index_engine.form.type.index_mapping_type" class="%index_engine.form.type.index_mapping_type.class%">
+      <tag name="thelia.form.type"/>
+    </service>
+
+    <!-- Tools -->
+    <service id="index_engine.default_index_mapping" class="%index_engine.default_index_mapping.class%" />
+
     <!-- Bridge drivers -->
     <!-- elastic search -->
     <service id="index_engine.driver.elastic_search" class="%index_engine.driver.elastic_search.class%">
@@ -180,25 +210,28 @@
     <service id="index_engine.driver.elastic_search_listener" class="%index_engine.driver.elastic_search_listener.class%">
       <tag name="index_engine.event_subscriber"/>
     </service>
-      <!-- OpenSearchServer -->
-      <service id="index_engine.driver.open_search_server" class="%index_engine.driver.open_search_server.class%">
-          <tag name="index_engine.driver" listener="index_engine.driver.open_search_server_listener" />
-      </service>
-      <service id="index_engine.driver.open_search_server_listener" class="%index_engine.driver.open_search_server_listener.class%">
-          <tag name="index_engine.event_subscriber" />
-      </service>
+    <!-- OpenSearchServer -->
+    <service id="index_engine.driver.open_search_server" class="%index_engine.driver.open_search_server.class%">
+      <tag name="index_engine.driver" listener="index_engine.driver.open_search_server_listener" />
+    </service>
+    <service id="index_engine.driver.open_search_server_listener" class="%index_engine.driver.open_search_server_listener.class%">
+      <tag name="index_engine.event_subscriber" />
+    </service>
 
-      <!-- Smarty Plugin -->
-      <service id="index_engine.smarty.index_plugin" class="%index_engine.smarty.index_plugin.class%" scope="request">
-        <argument type="service" id="index_engine.search_manager"/>
-        <argument type="service" id="index_engine.index_configuration_manager"/>
-          <tag name="thelia.parser.register_plugin" />
-      </service>
+    <!-- Smarty Plugin -->
+    <service id="index_engine.smarty.index_plugin" class="%index_engine.smarty.index_plugin.class%" scope="request">
+      <argument type="service" id="index_engine.search_manager"/>
+      <argument type="service" id="index_engine.index_configuration_manager"/>
+      <tag name="thelia.parser.register_plugin" />
+    </service>
+
     <!-- Well ... -->
     <service id="index_engine.propel_connection_wrapper" factory-class="Propel\Runtime\Propel" factory-method="getConnection" class="Propel\Runtime\Connection\ConnectionWrapper"/>
     <service id="index_engine.propel_connection" factory-service="index_engine.propel_connection_wrapper" factory-method="getWrappedConnection" class="PDO"/>
+
     <!-- FIX FOR THELIA 2.1 -->
     <service id="thelia.logger" class="Thelia\Tlog\Tlog" factory-class="Thelia\Log\Tlog" factory-method="getInstance"/>
+
     <!-- Thelia Studio -->
     <service id="action.indexengine.index_engine_index_table" class="IndexEngine\Action\IndexEngineIndexAction">
       <tag name="kernel.event_subscriber"/>
