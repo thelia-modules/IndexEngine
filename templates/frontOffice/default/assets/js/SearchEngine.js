@@ -38,13 +38,8 @@ var SearchEngine = function (apiUrl, defaults) {
      * @param options
      */
     this.find = function(configurationCode, params, options) {
-        if (options == undefined) {
-            var options = {};
-        }
-
-        if (params == undefined) {
-            var params = {};
-        }
+        options = options != undefined ? options : {};
+        params = params != undefined ? params : {};
 
         var limit = options.limit || this.defaults.limit;
         var offset = options.offset || this.defaults.offset;
@@ -52,6 +47,7 @@ var SearchEngine = function (apiUrl, defaults) {
         var query = this.__mergeTables(params, {limit: limit, offset: offset});
 
         var url = this.__formatUrl(this.apiUrl + "/" + configurationCode, query);
+        var errorHandler = options.fail || function() {};
 
         var results = {};
 
@@ -60,7 +56,8 @@ var SearchEngine = function (apiUrl, defaults) {
             async: false,
             success: function(xhr) {
                 results = JSON.parse(xhr.responseText);
-            }
+            },
+            fail: errorHandler
         });
 
         return results;
@@ -107,9 +104,9 @@ var SearchEngine = function (apiUrl, defaults) {
     this.__ajax = function(options) {
         var client = null;
 
-        var url = options.url || null;
-        var method = options.method || "GET";
-        var async = options.async || true;
+        var url = options.url != undefined ? options.url : null;
+        var method = options.method != undefined ? options.method : "GET";
+        var async = options.async != undefined ? options.async : true;
         var successCallback = options.success || function() {};
         var failCallback = options.fail || function() {};
         var alwaysCallback = options.always || function() {};
@@ -127,6 +124,8 @@ var SearchEngine = function (apiUrl, defaults) {
                     successCallback(client);
                     alwaysCallback(client);
                 } else {
+                    // 1XX Hang on
+                    // 3XX Redirection
                     // 4XX client error
                     // 5XX server error
                     failCallback(client);

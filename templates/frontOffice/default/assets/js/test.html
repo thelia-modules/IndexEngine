@@ -3,6 +3,11 @@
     <head>
         <title>Testing SearchEngine</title>
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <style>
+            body {
+                background-color: pink;
+            }
+        </style>
     </head>
 
     <body>
@@ -10,7 +15,63 @@
         <script>
             var se = new SearchEngine("http://thelia-contrib.ben/api/public/search");
 
-            console.log(se.find("unique_code"));
+            var results = se.find("unique_code", {"order": "id"}, {
+                limit:5,
+                offset:2,
+                fail: function(xhr) {
+                    alert(xhr.status);
+                }
+            });
+
+            function formatTable(results) {
+                if (results.length == 0) {
+                    var elmt = document.createElement("p");
+                    elmt.innerHTML = "No result found";
+
+                    document.body.appendChild(elmt);
+                } else {
+                    console.log(typeof results);
+                    var table = document.createElement("table");
+                    var thead = document.createElement("thead");
+                    var tbody = document.createElement("tbody");
+
+                    for (var i = 0; i < results.length; ++i) {
+                        if (i === 0) {
+                            var headerLine = document.createElement("tr");
+
+                            for (var key in results[0]) {
+                                if (results[0].hasOwnProperty(key)) {
+                                    var headerColumn = document.createElement("th");
+                                    headerColumn.innerHTML = key;
+                                    headerLine.appendChild(headerColumn);
+                                }
+                            }
+
+                            thead.appendChild(headerLine);
+                        }
+
+                        var line = document.createElement("tr");
+
+                        for (key in results[i]) {
+                            if (results[i].hasOwnProperty(key)) {
+                                var column = document.createElement("td");
+                                column.innerHTML = results[i][key];
+                                line.appendChild(column);
+                            }
+
+
+                            tbody.appendChild(line);
+                        }
+
+                        table.appendChild(thead);
+                        table.appendChild(tbody);
+
+                        document.body.appendChild(table);
+                    }
+                }
+            }
+
+            formatTable(results);
         </script>
     </body>
 </html>

@@ -19,10 +19,21 @@ use IndexEngine\Exception\BadTypeException;
  * @package IndexEngine\Entity
  * @author Benjamin Perche <benjamin@thelia.net>
  */
-class IndexDataVector implements \ArrayAccess, \Iterator
+class IndexDataVector implements \ArrayAccess, \Iterator, \JsonSerializable
 {
+    /**
+     * @var IndexData[]
+     */
     private $collection = array();
+
+    /**
+     * @var int
+     */
     private $cursor = 0;
+
+    /**
+     * @var int
+     */
     private $collectionCount = 0;
 
     /**
@@ -164,5 +175,28 @@ class IndexDataVector implements \ArrayAccess, \Iterator
     public function count()
     {
         return $this->collectionCount;
+    }
+
+    /**
+     * (PHP 5 &gt;= 5.4.0)<br/>
+     * Specify data which should be serialized to JSON
+     * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
+     * @return mixed data which can be serialized by <b>json_encode</b>,
+     * which is a value of any type other than a resource.
+     */
+    public function jsonSerialize()
+    {
+        return json_encode($this->collection);
+    }
+
+    public function toArray()
+    {
+        $data = [];
+
+        foreach ($this->collection as $entry) {
+            $data[] = $entry->getData();
+        }
+
+        return $data;
     }
 }

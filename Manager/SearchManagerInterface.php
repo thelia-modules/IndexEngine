@@ -23,7 +23,7 @@ interface SearchManagerInterface
     /**
      * @param  IndexConfiguration $configuration
      * @param  array              $params
-     * @return array
+     * @return \IndexEngine\Entity\IndexDataVector
      *
      * @throws \IndexEngine\Exception\SearchException if something goes wrong
      *

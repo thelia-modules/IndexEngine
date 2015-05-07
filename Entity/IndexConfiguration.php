@@ -280,6 +280,6 @@ class IndexConfiguration
 
     public function createQuery()
     {
-        return new IndexQuery($this->getCode(), $this->getEntity());
+        return new IndexQuery($this->getCode(), $this->getTitle());
     }
 }

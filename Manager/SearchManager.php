@@ -29,7 +29,7 @@ class SearchManager implements SearchManagerInterface
     /**
      * @param  IndexConfiguration $configuration
      * @param  array              $params
-     * @return array
+     * @return \IndexEngine\Entity\IndexDataVector
      *
      * @throws \IndexEngine\Exception\SearchException if something goes wrong
      *
@@ -37,8 +37,8 @@ class SearchManager implements SearchManagerInterface
      */
     public function findResultsFromParams(IndexConfiguration $configuration, array $params)
     {
-        $limit = $this->extractParam($params, "limit", PHP_INT_MAX);
-        $offset = $this->extractParam($params, "offset", 0);
+        $limit = intval($this->extractParam($params, "limit", PHP_INT_MAX));
+        $offset = intval($this->extractParam($params, "offset", 0));
         $order = $this->extractParam($params, "order", []);
 
         if (! is_array($order)) {
@@ -51,6 +51,8 @@ class SearchManager implements SearchManagerInterface
         ;
 
         $this->applyOrder($query, $order);
+
+        return $configuration->getLoadedDriver()->executeSearchQuery($query, $configuration->getMapping());
     }
 
     protected function applyOrder(IndexQuery $query, array $order)

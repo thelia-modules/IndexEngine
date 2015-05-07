@@ -39,7 +39,7 @@ class IndexEngineIndexController extends BaseFrontController
             return JsonResponse::createError(sprintf("An error occurred during the search process: %s", $e->getMessage()), 500);
         }
 
-        return new JsonResponse($results);
+        return new JsonResponse($results->toArray());
     }
 
     /**
