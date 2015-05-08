@@ -12,8 +12,11 @@
 
 namespace IndexEngine\Driver\Task\Core;
 
+use IndexEngine\Driver\Configuration\ArgumentCollection;
+use IndexEngine\Driver\Configuration\StringArgument;
 use IndexEngine\Driver\Task\TaskInterface;
 use IndexEngine\Driver\Configuration\ArgumentCollectionInterface;
+use IndexEngine\Driver\Task\TaskRegistryInterface;
 
 /**
  * Class UpdateTask
@@ -22,6 +25,13 @@ use IndexEngine\Driver\Configuration\ArgumentCollectionInterface;
  */
 class UpdateTask implements TaskInterface
 {
+    /** @var TaskRegistryInterface */
+    private $taskRegistry;
+
+    public function __construct(TaskRegistryInterface $taskRegistry)
+    {
+        $this->taskRegistry = $taskRegistry;
+    }
 
     /**
      * @return void
@@ -30,7 +40,9 @@ class UpdateTask implements TaskInterface
      */
     public function run(ArgumentCollectionInterface $parameters)
     {
-
+        $this->taskRegistry->getTask("delete")->run($parameters);
+        $this->taskRegistry->getTask("create")->run($parameters);
+        $this->taskRegistry->getTask("persist")->run($parameters);
     }
 
     /**
@@ -40,7 +52,10 @@ class UpdateTask implements TaskInterface
      */
     public function getParameters()
     {
+        $collection = new ArgumentCollection();
+        $collection->addArgument(new StringArgument("code"));
 
+        return $collection;
     }
 
     /**
@@ -48,6 +63,6 @@ class UpdateTask implements TaskInterface
      */
     public function getCode()
     {
-
+        return "update";
     }
 }

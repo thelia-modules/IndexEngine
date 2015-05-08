@@ -12,8 +12,11 @@
 
 namespace IndexEngine\Driver\Task\Core;
 
+use IndexEngine\Driver\Configuration\ArgumentCollection;
+use IndexEngine\Driver\Configuration\StringArgument;
 use IndexEngine\Driver\Task\TaskInterface;
 use IndexEngine\Driver\Configuration\ArgumentCollectionInterface;
+use IndexEngine\Manager\IndexConfigurationManagerInterface;
 
 /**
  * Class DeleteTask
@@ -22,15 +25,29 @@ use IndexEngine\Driver\Configuration\ArgumentCollectionInterface;
  */
 class DeleteTask implements TaskInterface
 {
+    /** @var IndexConfigurationManagerInterface  */
+    private $indexConfigurationManager;
+
+    public function __construct(IndexConfigurationManagerInterface $indexConfigurationManager) {
+        $this->indexConfigurationManager = $indexConfigurationManager;
+    }
 
     /**
-     * @return void
+     * @return mixed
      *
      * This method is executed when the task is called.
      */
     public function run(ArgumentCollectionInterface $parameters)
     {
+        $code = $parameters->getArgument("code")->getValue();
 
+        $configuration = $this->indexConfigurationManager->getConfigurationEntityFromCode($code);
+
+        return $configuration->getLoadedDriver()->deleteIndex(
+            $configuration->getType(),
+            $configuration->getCode(),
+            $configuration->getEntity()
+        );
     }
 
     /**
@@ -40,7 +57,10 @@ class DeleteTask implements TaskInterface
      */
     public function getParameters()
     {
+        $collection = new ArgumentCollection();
+        $collection->addArgument(new StringArgument("code"));
 
+        return $collection;
     }
 
     /**
@@ -48,6 +68,6 @@ class DeleteTask implements TaskInterface
      */
     public function getCode()
     {
-
+        return "delete";
     }
 }

@@ -12,25 +12,43 @@
 
 namespace IndexEngine\Driver\Task\Core;
 
+use IndexEngine\Driver\Configuration\ArgumentCollection;
 use IndexEngine\Driver\Configuration\ArgumentCollectionInterface;
+use IndexEngine\Driver\Configuration\StringArgument;
 use IndexEngine\Driver\Task\TaskInterface;
+use IndexEngine\Manager\IndexConfigurationManagerInterface;
 
 /**
  * Class CreateTask
  * @package IndexEngine\Driver\Task\Core
  * @author Benjamin Perche <benjamin@thelia.net>
  */
-class CreateTask implements  TaskInterface
+class CreateTask implements TaskInterface
 {
+    /** @var IndexConfigurationManagerInterface  */
+    private $indexConfigurationManager;
+
+    public function __construct(IndexConfigurationManagerInterface $indexConfigurationManager) {
+        $this->indexConfigurationManager = $indexConfigurationManager;
+    }
 
     /**
-     * @return void
+     * @return mixed
      *
      * This method is executed when the task is called.
      */
     public function run(ArgumentCollectionInterface $parameters)
     {
+        $code = $parameters->getArgument("code")->getValue();
 
+        $configuration = $this->indexConfigurationManager->getConfigurationEntityFromCode($code);
+
+        return $configuration->getLoadedDriver()->createIndex(
+            $configuration->getType(),
+            $configuration->getCode(),
+            $configuration->getEntity(),
+            $configuration->getMapping()
+        );
     }
 
     /**
@@ -40,7 +58,10 @@ class CreateTask implements  TaskInterface
      */
     public function getParameters()
     {
+        $collection = new ArgumentCollection();
+        $collection->addArgument(new StringArgument("code"));
 
+        return $collection;
     }
 
     /**
