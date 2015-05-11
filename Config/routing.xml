@@ -23,6 +23,10 @@
     <default key="_controller">IndexEngine:IndexTask:generateConfigurationForm</default>
     <requirement key="taskCode">.+</requirement>
   </route>
+  <route id="indexengine.tasks.run" path="/admin/module/IndexEngine/task/run/{taskCode}" methods="post">
+    <default key="_controller">IndexEngine:IndexTask:runTask</default>
+    <requirement key="taskCode">.+</requirement>
+  </route>
   <!-- TheliaStudio -->
   <route id="indexengine.index_engine_index.list" path="/admin/module/IndexEngine" methods="get">
     <default key="_controller">IndexEngine:IndexEngineIndex:default</default>

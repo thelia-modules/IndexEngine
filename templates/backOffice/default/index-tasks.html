@@ -46,10 +46,18 @@
                     </select>
                 </div>
                 {/form_field}
+
+
+                <div id="task-configuration-form"></div>
             </form>
             {/form}
 
-            <div id="task-configuration-form">
+
+            <button type="button" class="btn btn-success btn-run-task">
+                <i class="glyphicon glyphicon-play-circle"></i> {intl l="Run"}
+            </button>
+
+            <div class="task-output">
 
             </div>
         </div>
@@ -60,7 +68,39 @@
 {block name="javascript-initialization"}
     <script>
         (function ($) {
-            $("#choice-task-code").change(function() {
+            // Run task
+            var $choice = $("#choice-task-code");
+
+            $(".btn-run-task").click(function() {
+                $.ajax({
+                    url: "{url path="/admin/module/IndexEngine/task/run/"}"+$choice.val(),
+                    method: "post",
+                    data: $("#index-task-form").serialize()
+                }).always(function (output, textStatus, xhr) {
+                    var status = null;
+                    if (xhr.status >= 200 && xhr.status < 300) {
+                        // success
+                        status = $("<span style='color: green'> <i class='glyphicon glyphicon-check'></i> "+xhr.status+"</span>");
+                    } else if(xhr.status >= 400 && xhr.status < 600) {
+                        // 4XX : client error
+                        // 5XX : server error
+                        status = $("<span style='color: red'> <i class='glyphicon glyphicon-remove'></i> "+xhr.status+"</span>");
+                    } else {
+                        // Wait, redirection, ...
+                        status = $("<span style='color: orange'> <i class='glyphicon glyphicon-minus'></i> "+xhr.status+"</span>");
+                    }
+
+                    $(".task-output").html(
+                            $("<h3>").html("{intl l="Output"}")
+                                    .append(status)
+                    ).append(
+                            $("<textarea readonly class='form-control' rows=10>").html(output.replace(/\</g, "&lt;").replace(/\>/, "&gt;"))
+                    );
+                });
+            });
+
+            // Choice configuration form
+            $choice.change(function() {
                 update_configuration_form($(this));
             });
 
@@ -83,12 +123,11 @@
 
                     var message = data.error_message == undefined ? "{intl l="An error occurred"}" : data.error_message;
 
-                    console.log(message);
                     $(".form-error-alert").html(message).show();
                 });
             }
 
-            update_configuration_form($("#choice-task-code"));
+            update_configuration_form($choice);
         })(jQuery)
     </script>
 {/block}

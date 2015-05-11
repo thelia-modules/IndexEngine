@@ -83,6 +83,11 @@ class IndexTaskController extends BaseAdminController
         return new Response($content);
     }
 
+    public function runTaskAction($taskCode)
+    {
+
+    }
+
     /**
      * @return \IndexEngine\Manager\ConfigurationRenderManagerInterface
      */
