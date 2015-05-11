@@ -12,10 +12,8 @@
 
 namespace IndexEngine\Hook;
 
-use IndexEngine\Driver\Configuration\ParserAwareArgumentInterface;
-use IndexEngine\Driver\Configuration\VectorArgumentInterface;
-use IndexEngine\Driver\Configuration\ViewBuilderInterface;
 use IndexEngine\Driver\DriverRegistryInterface;
+use IndexEngine\Manager\ConfigurationRenderManagerInterface;
 use Thelia\Core\Hook\BaseHook;
 use Thelia\Core\Event\Hook\HookRenderEvent;
 
@@ -26,11 +24,16 @@ use Thelia\Core\Event\Hook\HookRenderEvent;
  */
 class DriverConfigurationHook extends BaseHook
 {
+    /** @var DriverRegistryInterface */
     private $registry;
 
-    public function __construct(DriverRegistryInterface $registry)
+    /** @var ConfigurationRenderManagerInterface  */
+    private $configurationRenderManager;
+
+    public function __construct(DriverRegistryInterface $registry, ConfigurationRenderManagerInterface $configurationRenderManager)
     {
         $this->registry = $registry;
+        $this->configurationRenderManager = $configurationRenderManager;
     }
 
     /**
@@ -62,37 +65,10 @@ class DriverConfigurationHook extends BaseHook
 
         if (null !== $driver) {
             $configuration = $driver->getConfiguration();
-            $i = 0;
 
-            $content = "";
-
-            /** @var \IndexEngine\Driver\Configuration\ArgumentInterface $argument */
-            foreach ($configuration->getArguments() as $argument) {
-                if ($argument instanceof ParserAwareArgumentInterface) {
-                    $argument->setParser($this->parser);
-                }
-
-                $formattedTitle = $this->formatTitle($argument->getName());
-
-                $content .= $this->render("form-field/render-form-field.html", [
-                    "driver_code" => $driverCode,
-                    "form_name" => "index_engine_driver_configuration.update",
-                    "form_field" => $argument->getName(),
-                    "argument" => $argument,
-                    "is_vector" => $argument instanceof VectorArgumentInterface,
-                    "is_view_builder" => $argument instanceof ViewBuilderInterface,
-                    "is_field_count_even" => $i % 2 === 0,
-                    "field_count" => $i++,
-                    "formatted_title" => $formattedTitle,
-                ]);
-            }
+            $content = $this->configurationRenderManager->renderFormFromCollection($configuration, "index_engine_driver_configuration.update", $driverCode);
 
             $event->add($content);
         }
-    }
-
-    protected function formatTitle($name)
-    {
-        return preg_replace("/[_\.\-]/", " ", ucfirst($name));
     }
 }

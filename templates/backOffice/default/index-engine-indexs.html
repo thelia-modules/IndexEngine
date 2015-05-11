@@ -27,13 +27,17 @@
                     <caption class="clearfix">
                         {intl l="Index engine index" d="indexengine.bo.default"}
 
-                        <a href="{url path="/admin/module/IndexEngine/index_engine_driver_configuration"}" class="btn btn-default">
-                            {intl l="Configure driver" d="indexengine.bo.default"}
-                        </a>
-
                         {loop name="auth-create" type="auth" role="ADMIN" resource="admin.module" access="CREATE" module="IndexEngine"}
+                            <a href="{url path="/admin/module/IndexEngine/index_engine_driver_configuration"}" class="btn btn-default">
+                                {intl l="Configure driver" d="indexengine.bo.default"}
+                            </a>
+
+                            <a href="{url path="/admin/module/IndexEngine/tasks"}" class="btn btn-primary">
+                                {intl l="Execute a task" d="indexengine.bo.default"}
+                            </a>
+
                             <div class="pull-right">
-                                <a class="btn btn-default btn-primary" title="{intl l='Create a new IndexEngineIndex entry' d='indexengine.bo.default'}" data-target="#index_engine_index-create" data-toggle="modal">
+                                <a class="btn btn-default btn-primary" title="{intl l='Create a new index' d='indexengine.bo.default'}" data-target="#index_engine_index-create" data-toggle="modal">
                                     <i class="glyphicon glyphicon-plus-sign"></i>
                                 </a>
                             </div>

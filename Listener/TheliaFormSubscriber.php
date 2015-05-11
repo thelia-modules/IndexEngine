@@ -12,8 +12,10 @@
 
 namespace IndexEngine\Listener;
 
+use IndexEngine\Driver\Task\TaskInterface;
 use IndexEngine\Form\Builder\ArgumentFormBuilderInterface;
 use IndexEngine\Form\IndexEngineIndexUpdateForm;
+use IndexEngine\Form\IndexTaskConfigurationForm;
 use IndexEngine\Manager\ConfigurationManagerInterface;
 use IndexEngine\Manager\IndexConfigurationManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -72,6 +74,30 @@ class TheliaFormSubscriber implements EventSubscriberInterface
         ;
     }
 
+    public function buildFormFromConfiguration(TheliaFormEvent $event)
+    {
+        $baseForm = $event->getForm();
+
+        if (method_exists($baseForm, "getTask")) {
+            $task = $baseForm->getTask();
+
+            if ($task instanceof TaskInterface) {
+                $builder = $baseForm->getFormBuilder();
+                $argumentCollection = $task->getParameters();
+
+                $defaults = $argumentCollection->getDefaults();
+
+                foreach ($argumentCollection->getArguments() as $argument) {
+                    $this->argumentFormBuilder->addField(
+                        $argument,
+                        $builder,
+                        isset($defaults[$argument->getName()]) ? $defaults[$argument->getName()] : null
+                    );
+                }
+            }
+        }
+    }
+
     /**
      * Returns an array of event names this subscriber wants to listen to.
      *
@@ -100,6 +126,9 @@ class TheliaFormSubscriber implements EventSubscriberInterface
             ],
             TheliaEvents::FORM_AFTER_BUILD.".".IndexEngineIndexUpdateForm::FORM_NAME => [
                 ["addSqlQuery", 128],
+            ],
+            TheliaEvents::FORM_AFTER_BUILD.".".IndexTaskConfigurationForm::FORM_NAME => [
+                ["buildFormFromConfiguration", 128],
             ],
         ];
     }

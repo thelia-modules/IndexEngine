@@ -16,6 +16,13 @@
     <default key="_controller">IndexEngine:Api\IndexEngineIndex:search</default>
     <requirement key="configurationCode">.+</requirement>
   </route>
+  <route id="indexengine.tasks.list" path="/admin/module/IndexEngine/tasks" methods="get">
+    <default key="_controller">IndexEngine:IndexTask:listTask</default>
+  </route>
+  <route id="indexengine.tasks.configuration-form" path="/admin/module/IndexEngine/task/configuration-form/{taskCode}" methods="post">
+    <default key="_controller">IndexEngine:IndexTask:generateConfigurationForm</default>
+    <requirement key="taskCode">.+</requirement>
+  </route>
   <!-- TheliaStudio -->
   <route id="indexengine.index_engine_index.list" path="/admin/module/IndexEngine" methods="get">
     <default key="_controller">IndexEngine:IndexEngineIndex:default</default>

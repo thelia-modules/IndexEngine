@@ -74,6 +74,8 @@ class IndexPluginTest extends \PHPUnit_Framework_TestCase
     {
         $result = $this->plugin->renderIndex(["code" => "unique_code", "limit" => 10, "order" => "id"]);
 
+        $result = $result["results"];
+
         $this->assertInternalType("array", $result);
         $this->assertCount(10, $result);
 

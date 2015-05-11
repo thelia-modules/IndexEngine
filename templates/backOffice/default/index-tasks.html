@@ -1,0 +1,94 @@
+{extends file="admin-layout.tpl"}
+{default_translation_domain domain='indexengine.bo.default'}
+
+{block name="no-return-functions"}
+    {$admin_current_location = 'tools'}
+{/block}
+
+{block name="page-title"}{intl l='Index tasks'}{/block}
+
+{block name="check-resource"}admin.module{/block}
+{block name="check-access"}view{/block}
+{block name="check-module"}IndexEngine{/block}
+
+{block name="main-content"}
+    <div id="wrapper" class="container">
+
+        <div class="alert alert-danger form-error-alert">
+            {if $general_error}
+                {$general_error}
+            {/if}
+        </div>
+
+
+        <!-- IndexEngineIndex list -->
+        <div class="general-block-decorator">
+            <h3 class="title-without-tabs">
+                {intl l="Execute a task"}
+            </h3>
+
+            {form name="index_engine_task.execute"}
+            <form method="post" id="index-task-form">
+                {form_field form=$form field="task_code"}
+                <div class="form-group">
+                    <label for="choice-task-code">
+                        {intl l="Task"}<span class="required">*</span>
+                    </label>
+
+                    {form_error form=$form field="task_code"}
+                        <div class="alert alert-danger">{$form_error_message}</div>
+                    {/form_error}
+
+                    <select id="choice-task-code" name="{$name}" class="form-control">
+                        {foreach from=$choices item=choice}
+                            <option value="{$choice->value}">{$choice->label}</option>
+                        {/foreach}
+                    </select>
+                </div>
+                {/form_field}
+            </form>
+            {/form}
+
+            <div id="task-configuration-form">
+
+            </div>
+        </div>
+    </div>
+
+{/block}
+
+{block name="javascript-initialization"}
+    <script>
+        (function ($) {
+            $("#choice-task-code").change(function() {
+                update_configuration_form($(this));
+            });
+
+            function update_configuration_form($choice) {
+                var $configForm = $("#task-configuration-form");
+
+                $.ajax({
+                    url: "{url path="/admin/module/IndexEngine/task/configuration-form/"}"+$choice.val(),
+                    method: "post",
+                    data: $("#index-task-form").serialize()
+                }).success(function(data) {
+                    $configForm.html(data);
+                    $(".form-error-alert").html("").hide();
+                }).fail(function (data) {
+                    try {
+                        data = JSON.parse(data);
+                    } catch (e) {
+                        data = {};
+                    }
+                    
+                    var message = data.error_message == undefined ? "{intl l="An error occurred"}" : data.error_message;
+
+                    console.log(message);
+                    $(".form-error-alert").html(message).show();
+                });
+            }
+
+            update_configuration_form($("#choice-task-code"));
+        })(jQuery)
+    </script>
+{/block}

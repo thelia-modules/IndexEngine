@@ -7,26 +7,36 @@
     <parameter key="index_engine.database_collector.class">IndexEngine\Discovering\Collector\DatabaseSubscriber</parameter>
     <parameter key="index_engine.loop_collector.class">IndexEngine\Discovering\Collector\LoopSubscriber</parameter>
     <parameter key="index_engine.sql_query_collector.class">IndexEngine\Discovering\Collector\SqlQuerySubscriber</parameter>
-    <parameter key="index_engine.form.type.index_engine_driver.class">IndexEngine\Form\Type\IndexEngineDriverType</parameter>
-    <parameter key="index_engine.form.type_resolver.class">IndexEngine\Driver\Configuration\Resolver\TypeResolver</parameter>
     <parameter key="index_engine.form.thelia_form_listener.class">IndexEngine\Listener\TheliaFormSubscriber</parameter>
-    <parameter key="index_engine.configuration.manager.class">IndexEngine\Manager\ConfigurationManager</parameter>
     <parameter key="index_engine.driver_configuration_form.hook.class">IndexEngine\Hook\DriverConfigurationHook</parameter>
     <parameter key="index_engine.index_configuration_form.hook.class">IndexEngine\Hook\IndexConfigurationHook</parameter>
     <parameter key="index_engine.form.argument_form_builder.class">IndexEngine\Form\Builder\ArgumentFormBuilder</parameter>
-    <parameter key="index_engine.form.type.index_comparison.class">IndexEngine\Form\Type\IndexComparisonType</parameter>
-    <parameter key="index_engine.form.type.index_condition.class">IndexEngine\Form\Type\IndexConditionType</parameter>
-    <parameter key="index_engine.index_configuration_manager.class">IndexEngine\Manager\IndexConfigurationManager</parameter>
-    <parameter key="index_engine.form.type.index_type.class">IndexEngine\Form\Type\IndexTypeType</parameter>
     <parameter key="index_engine.database_collector.render.class">IndexEngine\Discovering\Configuration\DatabaseSubscriber</parameter>
     <parameter key="index_engine.loop_collector.render.class">IndexEngine\Discovering\Configuration\LoopSubscriber</parameter>
     <parameter key="index_engine.sql_query_collector.render.class">IndexEngine\Discovering\Configuration\SqlQuerySubscriber</parameter>
     <parameter key="index_engine.index_configuration.subscriber.class">IndexEngine\Listener\IndexConfigurationSubscriber</parameter>
+    <parameter key="index_engine.default_index_mapping.class">IndexEngine\Entity\IndexMapping</parameter>
+
+    <!-- Managers -->
+    <parameter key="index_engine.configuration_render_manager.class">IndexEngine\Manager\ConfigurationRenderManager</parameter>
     <parameter key="index_engine.sql_manager.class">IndexEngine\Manager\SqlManager</parameter>
     <parameter key="index_engine.search_manager.class">IndexEngine\Manager\SearchManager</parameter>
+    <parameter key="index_engine.index_configuration_manager.class">IndexEngine\Manager\IndexConfigurationManager</parameter>
+    <parameter key="index_engine.configuration.manager.class">IndexEngine\Manager\ConfigurationManager</parameter>
+
+    <!-- Form -->
+    <parameter key="index_engine.form.index_task_execute.class">IndexEngine\Form\IndexTaskExecuteForm</parameter>
+    <parameter key="index_engine.form.index_task_configuration.class">IndexEngine\Form\IndexTaskExecuteForm</parameter>
+
+    <!-- Form type / Resolver -->
+    <parameter key="index_engine.form.type_resolver.class">IndexEngine\Driver\Configuration\Resolver\TypeResolver</parameter>
     <parameter key="index_engine.form.type.index_mapping_type_type.class">IndexEngine\Form\Type\IndexMappingTypeType</parameter>
-    <parameter key="index_engine.default_index_mapping.class">IndexEngine\Entity\IndexMapping</parameter>
     <parameter key="index_engine.form.type.index_mapping_type.class">IndexEngine\Form\Type\IndexMappingType</parameter>
+    <parameter key="index_engine.form.type.index_type.class">IndexEngine\Form\Type\IndexTypeType</parameter>
+    <parameter key="index_engine.form.type.index_comparison.class">IndexEngine\Form\Type\IndexComparisonType</parameter>
+    <parameter key="index_engine.form.type.index_condition.class">IndexEngine\Form\Type\IndexConditionType</parameter>
+    <parameter key="index_engine.form.type.index_engine_driver.class">IndexEngine\Form\Type\IndexEngineDriverType</parameter>
+    <parameter key="index_engine.form.type.index_task.class">IndexEngine\Form\Type\IndexTaskType</parameter>
 
     <!-- Commands -->
     <parameter key="index_engine.command.list_drivers.class">IndexEngine\IO\Command\IndexDriverListCommand</parameter>
@@ -43,11 +53,11 @@
     <parameter key="index_engine.driver.open_search_server_listener.class">IndexEngine\Driver\Bridge\OpenSearchServer\OpenSearchServerListener</parameter>
 
     <!-- Tasks related classes -->
-      <parameter key="index_engine.task.registry.class">IndexEngine\Driver\Task\TaskRegistry</parameter>
-      <parameter key="index_engine.task.create.class">IndexEngine\Driver\Task\Core\CreateTask</parameter>
-      <parameter key="index_engine.task.update.class">IndexEngine\Driver\Task\Core\UpdateTask</parameter>
-      <parameter key="index_engine.task.persist.class">IndexEngine\Driver\Task\Core\PersistTask</parameter>
-      <parameter key="index_engine.task.delete.class">IndexEngine\Driver\Task\Core\DeleteTask</parameter>
+    <parameter key="index_engine.task.registry.class">IndexEngine\Driver\Task\TaskRegistry</parameter>
+    <parameter key="index_engine.task.create.class">IndexEngine\Driver\Task\Core\CreateTask</parameter>
+    <parameter key="index_engine.task.update.class">IndexEngine\Driver\Task\Core\UpdateTask</parameter>
+    <parameter key="index_engine.task.persist.class">IndexEngine\Driver\Task\Core\PersistTask</parameter>
+    <parameter key="index_engine.task.delete.class">IndexEngine\Driver\Task\Core\DeleteTask</parameter>
 
     <!-- Smarty Plugin -->
     <parameter key="index_engine.smarty.index_plugin.class">IndexEngine\Smarty\Plugin\Index</parameter>
@@ -59,6 +69,10 @@
   </loops>
 
   <forms>
+    <form name="index_engine_task.execute" class="%index_engine.form.index_task_execute.class%"/>
+    <form name="index_engine_task.configuration" class="%index_engine.form.index_task_configuration.class%"/>
+
+    <!-- TheliaStudio -->
     <form name="index_engine_index.create" class="IndexEngine\Form\IndexEngineIndexCreateForm"/>
     <form name="index_engine_index.update" class="IndexEngine\Form\IndexEngineIndexUpdateForm"/>
     <form name="index_engine_driver_configuration.create" class="IndexEngine\Form\IndexEngineDriverConfigurationCreateForm"/>
@@ -76,17 +90,21 @@
 
   <services>
     <!-- Task related services -->
-    <service id="index_engine.task.registry" class="%index_engine.task.registry.class%" />
-    <service id="index_engine.task.create" class="%index_engine.task.create.class%">
+    <service id="index_engine.task.registry" class="%index_engine.task.registry.class%"  scope="request"/>
+    <service id="index_engine.task.create" class="%index_engine.task.create.class%" scope="request">
+      <argument type="service" id="index_engine.index_configuration_manager" />
       <tag name="index_engine.task" />
     </service>
-    <service id="index_engine.task.update" class="%index_engine.task.update.class%">
+    <service id="index_engine.task.update" class="%index_engine.task.update.class%" scope="request">
+      <argument type="service" id="index_engine.task.registry" />
       <tag name="index_engine.task" />
     </service>
-    <service id="index_engine.task.persist" class="%index_engine.task.persist.class%">
+    <service id="index_engine.task.persist" class="%index_engine.task.persist.class%" scope="request">
+      <argument type="service" id="index_engine.index_configuration_manager" />
       <tag name="index_engine.task" />
     </service>
-    <service id="index_engine.task.delete" class="%index_engine.task.delete.class%">
+    <service id="index_engine.task.delete" class="%index_engine.task.delete.class%" scope="request">
+      <argument type="service" id="index_engine.index_configuration_manager" />
       <tag name="index_engine.task" />
     </service>
 
@@ -102,8 +120,8 @@
     <!-- Configuration collectors and rendering services -->
     <service id="index_engine.database_collector" class="%index_engine.database_collector.class%" scope="request">
       <argument type="service" id="index_engine.propel_connection"/>
-        <argument type="service" id="index_engine.index_configuration_manager" />
-        <argument type="service" id="index_engine.sql_manager" />
+      <argument type="service" id="index_engine.index_configuration_manager" />
+      <argument type="service" id="index_engine.sql_manager" />
       <tag name="index_engine.event_subscriber"/>
     </service>
     <service id="index_engine.database_collector.render" class="%index_engine.database_collector.render.class%" scope="request">
@@ -156,6 +174,9 @@
       <argument type="service" id="index_engine.propel_connection"/>
     </service>
     <service id="index_engine.search_manager" class="%index_engine.search_manager.class%" />
+    <service id="index_engine.configuration_render_manager" class="%index_engine.configuration_render_manager.class%" scope="request">
+      <argument type="service" id="thelia.parser" />
+    </service>
 
     <!-- Thelia form listener -->
     <service id="index_engine.form.thelia_form_listener" class="%index_engine.form.thelia_form_listener.class%" scope="request">
@@ -196,6 +217,10 @@
       <tag name="thelia.form.type"/>
     </service>
     <service id="index_engine.form.type.index_mapping_type" class="%index_engine.form.type.index_mapping_type.class%">
+      <tag name="thelia.form.type"/>
+    </service>
+    <service id="index_engine.form.type.index_task" class="%index_engine.form.type.index_task.class%" scope="request">
+      <argument type="service" id="index_engine.task.registry" />
       <tag name="thelia.form.type"/>
     </service>
 
@@ -252,6 +277,7 @@
   <hooks>
     <hook id="index_engine.driver_configuration_form.hook" class="%index_engine.driver_configuration_form.hook.class%" scope="request">
       <argument type="service" id="index_engine.driver.registry"/>
+      <argument type="service" id="index_engine.configuration_render_manager"/>
       <tag name="hook.event_listener" type="back" active="1" event="index_engine.driver.form"/>
       <tag name="hook.event_listener" type="back" active="1" event="index_engine.driver.form-javascript"/>
     </hook>
