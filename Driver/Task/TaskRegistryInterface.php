@@ -95,6 +95,7 @@ interface TaskRegistryInterface extends CollectionInterface
     /**
      * @param string|array|TaskInterface[] $codesOrTasks Collection of strings, or TaskInterface, or both.
      * @param ArgumentCollectionInterface $parameters
+     * @return array Tasks outputs
      *
      * Run successively the given tasks
      */

@@ -34,13 +34,13 @@ class UpdateTask implements TaskInterface
     }
 
     /**
-     * @return void
+     * @return mixed
      *
      * This method is executed when the task is called.
      */
     public function run(ArgumentCollectionInterface $parameters)
     {
-        $this->taskRegistry->run(["delete", "create", "update"], $parameters);
+        return $this->taskRegistry->run(["delete", "create", "update"], $parameters);
     }
 
     /**

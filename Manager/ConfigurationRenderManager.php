@@ -39,11 +39,12 @@ class ConfigurationRenderManager implements ConfigurationRenderManagerInterface
      * @param ArgumentCollection $collection
      * @param string $formName
      * @param null|string $driverCode
+     * @param bool $addHiddenFields
      * @return string
      *
      * Transforms an argument collection into a HTML string
      */
-    public function renderFormFromCollection(ArgumentCollection $collection, $formName = "thelia.empty", $driverCode = null)
+    public function renderFormFromCollection(ArgumentCollection $collection, $formName = "thelia.empty", $driverCode = null, $addHiddenFields = false)
     {
         $i = 0;
         $content = "";
@@ -69,7 +70,10 @@ class ConfigurationRenderManager implements ConfigurationRenderManagerInterface
                 "is_field_count_even" => $i % 2 === 0,
                 "field_count" => $i++,
                 "formatted_title" => $formattedTitle,
+                "add_hidden_fields" => $addHiddenFields,
             ]);
+
+            $addHiddenFields = false;
         }
 
         return $content;

@@ -179,6 +179,7 @@ class TaskRegistry extends AbstractCollection implements TaskRegistryInterface
     /**
      * @param string|array|TaskInterface[] $codesOrTasks Collection of strings, or TaskInterface, or both.
      * @param ArgumentCollectionInterface $parameters
+     * @return array Tasks outputs
      *
      * Run successively the given tasks
      */
@@ -188,6 +189,8 @@ class TaskRegistry extends AbstractCollection implements TaskRegistryInterface
             $codesOrTasks = [$codesOrTasks];
         }
 
+        $output = [];
+
         foreach ($codesOrTasks as $codeOrTask) {
             if ($codeOrTask instanceof TaskInterface) {
                 $task = $codeOrTask;
@@ -195,7 +198,9 @@ class TaskRegistry extends AbstractCollection implements TaskRegistryInterface
                 $task = $this->getTask($codeOrTask);
             }
 
-            $task->run($parameters);
+            $output[$task->getCode()] = $task->run($parameters);
         }
+
+        return $output;
     }
 }

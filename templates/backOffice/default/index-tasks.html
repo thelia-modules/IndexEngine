@@ -29,6 +29,7 @@
 
             {form name="index_engine_task.execute"}
             <form method="post" id="index-task-form">
+                {form_hidden_fields form=$form}
                 {form_field form=$form field="task_code"}
                 <div class="form-group">
                     <label for="choice-task-code">
@@ -78,6 +79,14 @@
                     data: $("#index-task-form").serialize()
                 }).always(function (output, textStatus, xhr) {
                     var status = null;
+
+                    // jQuery my love
+                    if ("error" === textStatus) {
+                        xhr = output;
+                    }
+
+                    output = xhr.responseText;
+
                     if (xhr.status >= 200 && xhr.status < 300) {
                         // success
                         status = $("<span style='color: green'> <i class='glyphicon glyphicon-check'></i> "+xhr.status+"</span>");
@@ -107,6 +116,13 @@
             function update_configuration_form($choice) {
                 var $configForm = $("#task-configuration-form");
 
+                var oldValues = [];
+
+                $("input", $configForm).each(function (i, val) {
+                    var $input = $(val);
+                    oldValues[$input.attr("name")] = $input.val();
+                });
+
                 $.ajax({
                     url: "{url path="/admin/module/IndexEngine/task/configuration-form/"}"+$choice.val(),
                     method: "post",
@@ -114,6 +130,13 @@
                 }).success(function(data) {
                     $configForm.html(data);
                     $(".form-error-alert").html("").hide();
+
+                    // Report old values
+                    for (var i in oldValues) {
+                        if (oldValues.hasOwnProperty(i)) {
+                            $("input[name=\""+i+"\"]").val(oldValues[i]);
+                        }
+                    }
                 }).fail(function (data) {
                     try {
                         data = JSON.parse(data);

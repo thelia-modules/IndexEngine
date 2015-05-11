@@ -22,7 +22,7 @@ use IndexEngine\Driver\Configuration\ArgumentCollectionInterface;
 interface TaskInterface
 {
     /**
-     * @return void
+     * @return mixed
      *
      * This method is executed when the task is called.
      */

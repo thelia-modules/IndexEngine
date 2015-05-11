@@ -37,6 +37,54 @@ class IndexTaskController extends BaseAdminController
 
     public function generateConfigurationFormAction($taskCode)
     {
+        if (null !== $response = $this->checkRightsAndTask($taskCode)) {
+            return $response;
+        }
+
+        $manager = $this->getConfigurationRenderManager();
+        $task = $this->getTaskRegistry()->getTask($taskCode);
+
+        $baseForm = $this->createForm("index_engine_task.configuration", "form", [], [
+            "task" => $task
+        ]);
+
+        $this->getParserContext()->addForm($baseForm);
+
+        $content = $manager->renderFormFromCollection($task->getParameters(), "index_engine_task.configuration", null, true);
+
+        return new Response($content);
+    }
+
+    public function runTaskAction($taskCode)
+    {
+        if (null !== $response = $this->checkRightsAndTask($taskCode)) {
+            return $response;
+        }
+
+        $task = $this->getTaskRegistry()->getTask($taskCode);
+
+        $baseForm = $this->createForm("index_engine_task.configuration", "form", [], [
+            "task" => $task
+        ]);
+
+        try {
+            $data = $this->validateForm($baseForm)->getData();
+            $parameters = $task->getParameters()->loadValues($data);
+
+            $returnValue = $task->run($parameters);
+
+            if (is_array($returnValue)) {
+                return new JsonResponse($returnValue);
+            } else {
+                return new Response($returnValue);
+            }
+        } catch (\Exception $e) {
+            return new JsonResponse(["error_message" => $e->getMessage()], 400);
+        }
+    }
+
+    protected function checkRightsAndTask($taskCode)
+    {
         $isXHR = $this->getRequest()->isXmlHttpRequest();
 
         if (null !== $response = $this->checkAuth(AdminResources::MODULE, "IndexEngine", AccessManager::VIEW)) {
@@ -69,23 +117,7 @@ class IndexTaskController extends BaseAdminController
             }
         }
 
-        $manager = $this->getConfigurationRenderManager();
-        $task = $taskRegistry->getTask($taskCode);
-
-        $baseForm = $this->createForm("index_engine_task.configuration", "form", [], [
-            "task" => $task
-        ]);
-
-        $this->getParserContext()->addForm($baseForm);
-
-        $content = $manager->renderFormFromCollection($task->getParameters(), "index_engine_task.configuration");
-
-        return new Response($content);
-    }
-
-    public function runTaskAction($taskCode)
-    {
-
+        return null;
     }
 
     /**

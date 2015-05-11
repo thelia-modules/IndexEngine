@@ -3,6 +3,9 @@
 {/if}
     <div class="col-md-6">
         {form name=$form_name}
+            {if $add_hidden_fields}
+                {form_hidden_fields form=$form}
+            {/if}
             {if $is_view_builder}
                 {$argument->buildView($form) nofilter}
             {else}
