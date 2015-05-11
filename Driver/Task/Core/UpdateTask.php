@@ -40,7 +40,7 @@ class UpdateTask implements TaskInterface
      */
     public function run(ArgumentCollectionInterface $parameters)
     {
-        return $this->taskRegistry->run(["delete", "create", "update"], $parameters);
+        return $this->taskRegistry->run(["delete", "create", "persist"], $parameters);
     }
 
     /**
