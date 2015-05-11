@@ -13,6 +13,7 @@
 namespace IndexEngine\Driver\Task;
 
 use IndexEngine\Driver\AbstractCollection;
+use IndexEngine\Driver\Configuration\ArgumentCollectionInterface;
 use IndexEngine\Driver\Exception\InvalidNameException;
 use IndexEngine\Driver\Task\Exception\InvalidTaskCodeException;
 use IndexEngine\Driver\Task\Exception\TaskAlreadyRegisteredException;
@@ -173,5 +174,28 @@ class TaskRegistry extends AbstractCollection implements TaskRegistryInterface
         }
 
         return $this->resolveString($codeOrTask, $method);
+    }
+
+    /**
+     * @param string|array|TaskInterface[] $codesOrTasks Collection of strings, or TaskInterface, or both.
+     * @param ArgumentCollectionInterface $parameters
+     *
+     * Run successively the given tasks
+     */
+    public function run($codesOrTasks, ArgumentCollectionInterface $parameters)
+    {
+        if (!is_array($codesOrTasks)) {
+            $codesOrTasks = [$codesOrTasks];
+        }
+
+        foreach ($codesOrTasks as $codeOrTask) {
+            if ($codeOrTask instanceof TaskInterface) {
+                $task = $codeOrTask;
+            } else {
+                $task = $this->getTask($codeOrTask);
+            }
+
+            $task->run($parameters);
+        }
     }
 }

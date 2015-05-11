@@ -13,6 +13,7 @@
 namespace IndexEngine\Driver\Task;
 
 use IndexEngine\Driver\CollectionInterface;
+use IndexEngine\Driver\Configuration\ArgumentCollectionInterface;
 
 /**
  * Interface TaskRegistryInterface
@@ -90,4 +91,12 @@ interface TaskRegistryInterface extends CollectionInterface
      * Dump all the task codes into an array
      */
     public function getTaskCodes();
+
+    /**
+     * @param string|array|TaskInterface[] $codesOrTasks Collection of strings, or TaskInterface, or both.
+     * @param ArgumentCollectionInterface $parameters
+     *
+     * Run successively the given tasks
+     */
+    public function run($codesOrTasks, ArgumentCollectionInterface $parameters);
 }

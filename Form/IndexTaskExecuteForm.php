@@ -22,30 +22,6 @@ use Thelia\Form\BaseForm;
  */
 class IndexTaskExecuteForm extends BaseForm
 {
-    protected $task;
-
-    public function __construct()
-    {
-        $args = func_get_args();
-        $options = &$args[3]; // options
-
-        if (isset($options["task"])) {
-            $this->task = $options["task"];
-
-            unset($options["task"]);
-        }
-
-        call_user_func_array(["Thelia\\Form\\BaseForm", "__construct"], $args);
-    }
-
-    /**
-     * @return array
-     */
-    public function getTask()
-    {
-        return $this->task;
-    }
-
     /**
      *
      * in this function you add all the fields you need for your Form.

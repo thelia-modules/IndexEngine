@@ -37,16 +37,36 @@ class IndexTaskController extends BaseAdminController
 
     public function generateConfigurationFormAction($taskCode)
     {
+        $isXHR = $this->getRequest()->isXmlHttpRequest();
+
+        if (null !== $response = $this->checkAuth(AdminResources::MODULE, "IndexEngine", AccessManager::VIEW)) {
+            if ($isXHR) {
+                return new JsonResponse([
+                    "error_message" => $this->getTranslator()->trans(
+                        "You don't have the right to execute a task",
+                        [],
+                        IndexEngine::MESSAGE_DOMAIN
+                    )
+                ], 401);
+            } else {
+                return $response;
+            }
+        }
+
         $taskRegistry = $this->getTaskRegistry();
 
         if (false === $taskRegistry->hasTask($taskCode)) {
-            return new JsonResponse([
-                "error_message" => $this->getTranslator()->trans(
-                    "The task %task doesn't exist",
-                    ["%task" => $taskCode ],
-                    IndexEngine::MESSAGE_DOMAIN
-                )
-            ]);
+            if ($isXHR) {
+                return new JsonResponse([
+                    "error_message" => $this->getTranslator()->trans(
+                        "The task %task doesn't exist",
+                        ["%task" => $taskCode],
+                        IndexEngine::MESSAGE_DOMAIN
+                    )
+                ], 404);
+            } else {
+                return $this->pageNotFound();
+            }
         }
 
         $manager = $this->getConfigurationRenderManager();

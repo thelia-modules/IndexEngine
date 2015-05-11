@@ -39,7 +39,7 @@ class CreateTask implements TaskInterface
      */
     public function run(ArgumentCollectionInterface $parameters)
     {
-        $code = $parameters->getArgument("code")->getValue();
+        $code = $parameters->getArgument("index_configuration_code")->getValue();
 
         $configuration = $this->indexConfigurationManager->getConfigurationEntityFromCode($code);
 
@@ -59,7 +59,7 @@ class CreateTask implements TaskInterface
     public function getParameters()
     {
         $collection = new ArgumentCollection();
-        $collection->addArgument(new StringArgument("code"));
+        $collection->addArgument(new StringArgument("index_configuration_code"));
 
         return $collection;
     }
