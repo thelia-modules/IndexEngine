@@ -15,14 +15,14 @@ namespace IndexEngine\Entity;
 use IndexEngine\Exception\BadTypeException;
 
 /**
- * Class IndexDataVector
+ * Class TaskConfigurationVector
  * @package IndexEngine\Entity
  * @author Benjamin Perche <benjamin@thelia.net>
  */
-class IndexDataVector implements \ArrayAccess, \Iterator, \JsonSerializable
+class TaskConfigurationVector implements \ArrayAccess, \Iterator
 {
     /**
-     * @var IndexData[]
+     * @var TaskConfiguration[]
      */
     private $collection = array();
 
@@ -35,9 +35,6 @@ class IndexDataVector implements \ArrayAccess, \Iterator, \JsonSerializable
      * @var int
      */
     private $collectionCount = 0;
-
-    /** @var int */
-    private $totalCount;
 
     /**
      * (PHP 5 &gt;= 5.0.0)<br/>
@@ -88,8 +85,8 @@ class IndexDataVector implements \ArrayAccess, \Iterator, \JsonSerializable
      */
     public function offsetSet($offset, $value)
     {
-        if (!$value instanceof IndexData) {
-            throw BadTypeException::create("IndexEngine\\Entity\\IndexData", $value);
+        if (!$value instanceof TaskConfiguration) {
+            throw BadTypeException::create("IndexEngine\\Entity\\TaskConfiguration", $value);
         }
 
         if (null === $offset) {
@@ -178,50 +175,5 @@ class IndexDataVector implements \ArrayAccess, \Iterator, \JsonSerializable
     public function count()
     {
         return $this->collectionCount;
-    }
-
-    /**
-     * (PHP 5 &gt;= 5.4.0)<br/>
-     * Specify data which should be serialized to JSON
-     * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
-     * @return mixed data which can be serialized by <b>json_encode</b>,
-     * which is a value of any type other than a resource.
-     */
-    public function jsonSerialize()
-    {
-        return json_encode($this->collection);
-    }
-
-    public function toArray()
-    {
-        $data = [];
-
-        foreach ($this->collection as $entry) {
-            $data[] = $entry->getData();
-        }
-
-        return [
-            "total_count" => $this->totalCount,
-            "count" => $this->collectionCount,
-            "results" => $data,
-        ];
-    }
-
-    /**
-     * @return int
-     */
-    public function getTotalCount()
-    {
-        return $this->totalCount;
-    }
-
-    /**
-     * @param int $totalCount
-     * @return $this
-     */
-    public function setTotalCount($totalCount)
-    {
-        $this->totalCount = $totalCount;
-        return $this;
     }
 }

@@ -422,17 +422,19 @@ class ElasticSearchListener extends DriverEventSubscriber
         }
 
         $event->setResults(
-            $this->filterResults($results["hits"]["hits"], $event->getMapping())
+            $this->filterResults($results["hits"]["hits"], $event->getMapping(), $results["hits"]["total"])
         );
     }
 
-    public function filterResults(array $results, IndexMapping $mapping)
+    public function filterResults(array $results, IndexMapping $mapping, $totalCount = null)
     {
         $resultVector = new IndexDataVector();
 
         foreach ($results as $result) {
             $resultVector[] = (new IndexData())->setData($result["_source"], $mapping);
         }
+
+        $resultVector->setTotalCount($totalCount);
 
         return $resultVector;
     }
