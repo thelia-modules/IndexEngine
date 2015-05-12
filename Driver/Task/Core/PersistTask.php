@@ -47,7 +47,7 @@ class PersistTask implements TaskInterface
         return $configuration->getLoadedDriver()->persistIndexes(
             $configuration->getType(),
             $configuration->getCode(),
-            $configuration->getEntity(),
+            $configuration->getTitle(),
             $this->indexConfigurationManager->collectDataForType($configuration),
             $configuration->getMapping()
         );

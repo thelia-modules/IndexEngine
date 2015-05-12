@@ -46,7 +46,7 @@ class DeleteTask implements TaskInterface
         return $configuration->getLoadedDriver()->deleteIndex(
             $configuration->getType(),
             $configuration->getCode(),
-            $configuration->getEntity()
+            $configuration->getTitle()
         );
     }
 

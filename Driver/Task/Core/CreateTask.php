@@ -46,7 +46,7 @@ class CreateTask implements TaskInterface
         return $configuration->getLoadedDriver()->createIndex(
             $configuration->getType(),
             $configuration->getCode(),
-            $configuration->getEntity(),
+            $configuration->getTitle(),
             $configuration->getMapping()
         );
     }
