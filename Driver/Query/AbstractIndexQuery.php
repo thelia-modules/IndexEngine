@@ -48,7 +48,7 @@ abstract class AbstractIndexQuery extends AbstractCollection implements IndexQue
     protected $currentMode = Link::LINK_AND;
 
     /**
-     * @var \IndexEngine\Driver\Query\Criterion\CriterionGroupInterface
+     * @var array
      *
      * The collection of criterion groups
      */
@@ -227,6 +227,15 @@ abstract class AbstractIndexQuery extends AbstractCollection implements IndexQue
             return $return;
         }
 
+        // Replace last occurrence
+        $lastOccurrence = array_pop($this->criterionGroups);
+
+        if (null !== $lastOccurrence) {
+            $lastOccurrence[1] = Link::LINK_OR;
+
+            array_push($this->criterionGroups, $lastOccurrence);
+        }
+
         $this->currentMode = Link::LINK_OR;
 
         return $this;
@@ -241,6 +250,15 @@ abstract class AbstractIndexQuery extends AbstractCollection implements IndexQue
     {
         if (null !== $return = $this->validateMethodCall()) {
             return $return;
+        }
+
+        // Replace last occurrence
+        $lastOccurrence = array_pop($this->criterionGroups);
+
+        if (null !== $lastOccurrence) {
+            $lastOccurrence[1] = Link::LINK_OR;
+
+            array_push($this->criterionGroups, $lastOccurrence);
         }
 
         $this->currentMode = Link::LINK_AND;

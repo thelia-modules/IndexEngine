@@ -10,12 +10,6 @@ Import/Export:
 - Driver configuration
 - Index configuration
 
-Tests:
-- Query
-- Managers
-- Driver\Configuration
-- Check needed fixtures
-
 Drivers:
 - OpenSearchServer: Implement create, delete, persist index and search
 
