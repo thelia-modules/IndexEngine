@@ -63,6 +63,25 @@ class TheliaFormSubscriber implements EventSubscriberInterface
         }
     }
 
+    public function addLoopFields(TheliaFormEvent $event)
+    {
+        $formBuilder = $event->getForm()->getFormBuilder();
+        $configuration = $this->indexConfigurationManager->getCurrentConditions();
+
+        if (isset($configuration["loopCriteria"]) && is_array($configuration["loopCriteria"])){
+            $data = $configuration["loopCriteria"];
+        } else {
+            $data = [];
+        }
+
+        $formBuilder->add("loop_criteria", "collection", [
+            "type" => "loop_criterion",
+            "allow_add" => true,
+            "allow_delete" => true,
+            "data" => $data
+        ]);
+    }
+
     public function addSqlQuery(TheliaFormEvent $event)
     {
         $conditions = $this->indexConfigurationManager->getCurrentConditions();
@@ -126,6 +145,7 @@ class TheliaFormSubscriber implements EventSubscriberInterface
             ],
             TheliaEvents::FORM_AFTER_BUILD.".".IndexEngineIndexUpdateForm::FORM_NAME => [
                 ["addSqlQuery", 128],
+                ["addLoopFields", 128],
             ],
             TheliaEvents::FORM_AFTER_BUILD.".".IndexTaskConfigurationForm::FORM_NAME => [
                 ["buildFormFromConfiguration", 128],

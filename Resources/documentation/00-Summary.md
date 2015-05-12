@@ -12,6 +12,7 @@ IndexEngine Summary
         - Create a database type index
         - Create a loop type index
         - Create a sql query type index
+        - The mapping
     - Call the index service manually
     - Index building automation
     - Querying the public API with the javascript client

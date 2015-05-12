@@ -12,6 +12,7 @@
 
 namespace IndexEngine\Hook;
 
+use IndexEngine\Discovering\Collector\LoopSubscriber;
 use Thelia\Core\Event\Hook\HookRenderEvent;
 use Thelia\Core\Hook\BaseHook;
 
@@ -33,5 +34,15 @@ class IndexConfigurationHook extends BaseHook
             ->add($this->render("index-configuration/index-configuration-form-js.html"))
             ->add($this->render("index-configuration/sql-query/query-js.html"))
         ;
+    }
+
+    public function onIndexEngineIndexAfterColumns(HookRenderEvent $event)
+    {
+        if ($event->getArgument("entity") === LoopSubscriber::TYPE) {
+            $event
+                ->add($this->render("index-configuration/standard/loop-criteria.html"))
+                ->add($this->render("index-configuration/standard/loop-criteria-js.html"))
+            ;
+        }
     }
 }

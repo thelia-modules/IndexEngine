@@ -2,6 +2,7 @@
 <div class="row">
     <div class="col-md-12">
         {form_field form=$form field="entity"}
+            {$entityValue=$value}
             <div class="form-group">
                 <label for="index_engine_entity">
                     {intl l="Entity" d="indexengine.bo.default"} <span class="required">*</span>
@@ -23,6 +24,8 @@
 <div id="index_engine_inner_column">
 
 </div>
+
+{hook name="index_engine.index.after-columns" entity=$index_type}
 
 <div id="index_engine_criteria">
     <div class="row">

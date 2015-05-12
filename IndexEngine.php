@@ -85,6 +85,15 @@ class IndexEngine extends BaseModule
                 ],
                 "active" => true,
             ],
+            [
+                "code" => "index_engine.index.after-columns",
+                "type" => TemplateDefinition::BACK_OFFICE,
+                "title" => [
+                    "fr_FR" => "Formulaire de configuration d'un index - après la selection des colonnes",
+                    "en_US" => "Config form for an index - after columns binding",
+                ],
+                "active" => true,
+            ],
         ];
     }
 }

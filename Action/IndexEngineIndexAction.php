@@ -18,6 +18,12 @@ class IndexEngineIndexAction extends BaseIndexEngineIndexAction
 {
     protected function createOrUpdate(IndexEngineIndexEvent $event, IndexEngineIndex $model)
     {
+        $loopCriteria = $event->loop_criteria;
+
+        if (null !== $loopCriteria) {
+            $event->addCondition("loopCriteria", $loopCriteria);
+        }
+
         $event->addCondition("mapping", $event->getMapping());
 
         $model

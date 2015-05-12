@@ -16,6 +16,9 @@ B. Create a loop type index
 C. Create a sql query type index
 ---
 
+D. The mapping
+---
+
 3. Call the index service manually
 ===
 

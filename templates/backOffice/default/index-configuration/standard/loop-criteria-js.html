@@ -1,0 +1,22 @@
+<script>
+    (function ($) {
+        if (undefined === indexEngineCurrentLoopCriterionId) {
+            indexEngineCurrentLoopCriterionId = $(".index-engine-loop-criterion").length;
+        }
+
+        $(document).on("click", ".btn-index-engine-add-loop-criterion", function (e) {
+            e.preventDefault();
+
+            var $this = $(this);
+            var prototype = $this.data("prototype").replace(/_ID_/g, indexEngineCurrentLoopCriterionId++);
+
+            $("#index_engine_loop_criteria_container").append(prototype);
+        });
+
+        $(document).on("click", ".btn-index-engine-delete-loop-criterion", function(e) {
+            e.preventDefault();
+
+            $(this).parents(".index-engine-loop-criterion").eq(0).remove();
+        });
+    })(jQuery);
+</script>

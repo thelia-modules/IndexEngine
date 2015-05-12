@@ -1,0 +1,82 @@
+<hr /> <br/> <!-- Shotgun integration -->
+
+{form name="index_engine_index.update"}
+{capture "index_engine_loop_criteria_prototype"}
+    {form_field form=$form field="loop_criteria"}
+        <div class="index-engine-loop-criterion">
+            <div class="row">
+                <div class="col-md-2">
+                    <p>{intl l="The argument" d="indexengine.bo.default"}</p>
+                </div>
+
+                <div class="col-md-2">
+                    <input type="text" name="{$name}[_ID_][argument_name]" class="form-control"/>
+                </div>
+
+                <div class="col-md-1">
+                    =
+                </div>
+
+                <div class="col-md-2">
+                    <input type="text" name="{$name}[_ID_][argument_value]" class="form-control"/>
+                </div>
+
+                <div class="col-md-1">
+                    <a href="#" class="btn btn-danger btn-index-engine-delete-loop-criterion">
+                        <i class="glyphicon glyphicon-minus-sign"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    {/form_field}
+{/capture}
+
+    <h3>
+        {intl l="Loop criteria" d="indexengine.bo.default"}
+
+        <a href="#" class="btn btn-primary btn-xs btn-index-engine-add-loop-criterion" data-prototype="{$smarty.capture.index_engine_loop_criteria_prototype}">
+            <i class="glyphicon glyphicon-plus-sign"></i>
+        </a>
+    </h3>
+
+    <div id="index_engine_loop_criteria_container">
+        {$currentLoopCriterionId=0}
+
+        {form_collection form=$form collection="loop_criteria"}
+            <div class="index-engine-loop-criterion">
+                <div class="row">
+                    <div class="col-md-2">
+                        <p>{intl l="The argument" d="indexengine.bo.default"}</p>
+                    </div>
+
+                    <div class="col-md-2">
+                        {form_collection_field form=$form row=$row field="argument_name"}
+                            <input type="text" name="{$name}" class="form-control" value="{$value}"/>
+                        {/form_collection_field}
+                    </div>
+
+                    <div class="col-md-1">
+                        =
+                    </div>
+
+                    <div class="col-md-2">
+                        {form_collection_field form=$form row=$row field="argument_value"}
+                            <input type="text" name="{$name}" class="form-control" value="{$value}"/>
+                        {/form_collection_field}
+                    </div>
+
+                    <div class="col-md-1">
+                        <a href="#" class="btn btn-danger btn-index-engine-delete-loop-criterion">
+                            <i class="glyphicon glyphicon-minus-sign"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {$currentLoopCriterionId=$currentLoopCriterionId+1}
+        {/form_collection}
+    </div>
+
+    <script>
+        var indexEngineCurrentLoopCriterionId = {$currentLoopCriterionId};
+    </script>
+{/form}

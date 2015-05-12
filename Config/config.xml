@@ -37,6 +37,7 @@
     <parameter key="index_engine.form.type.index_condition.class">IndexEngine\Form\Type\IndexConditionType</parameter>
     <parameter key="index_engine.form.type.index_engine_driver.class">IndexEngine\Form\Type\IndexEngineDriverType</parameter>
     <parameter key="index_engine.form.type.index_task.class">IndexEngine\Form\Type\IndexTaskType</parameter>
+    <parameter key="index_engine.form.type.loop_criterion.class">IndexEngine\Form\Type\LoopCriterionType</parameter>
 
     <!-- Commands -->
     <parameter key="index_engine.command.list_drivers.class">IndexEngine\IO\Command\IndexDriverListCommand</parameter>
@@ -223,6 +224,9 @@
       <argument type="service" id="index_engine.task.registry" />
       <tag name="thelia.form.type"/>
     </service>
+    <service id="index_engine.form.type.loop_criterion" class="%index_engine.form.type.loop_criterion.class%">
+      <tag name="thelia.form.type" />
+    </service>
 
     <!-- Tools -->
     <service id="index_engine.default_index_mapping" class="%index_engine.default_index_mapping.class%" />
@@ -284,6 +288,7 @@
     <hook id="index_engine.index_configuration_form.hook" class="%index_engine.index_configuration_form.hook.class%" scope="request">
       <tag name="hook.event_listener" type="back" active="1" event="index_engine.index.form"/>
       <tag name="hook.event_listener" type="back" active="1" event="index_engine.index.form-javascript"/>
+      <tag name="hook.event_listener" type="back" active="1" event="index_engine.index.after-columns"/>
     </hook>
   </hooks>
 </config>
