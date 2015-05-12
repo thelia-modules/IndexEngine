@@ -13,9 +13,8 @@
 namespace IndexEngine\IO\Command;
 
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Thelia\Command\Output\TheliaConsoleOutput;
+use Symfony\Component\Console\Input\InputInterface;
 
 /**
  * Class IndexExistsCommand
@@ -30,31 +29,22 @@ class IndexExistsCommand extends IndexEngineCommand
 
         $this
             ->setName("index:exists")
-            ->setDescription("Checks if an index exists")
-            ->addArgument("driver-configuration", InputArgument::REQUIRED, "The driver configuration code to use")
-            ->addArgument("index-name", InputArgument::REQUIRED, "The index name to check")
+            ->setDescription("Check that the index for the given index configuration exists")
+            ->addArgument("index-configuration", InputArgument::REQUIRED, "The index configuration code to use")
         ;
     }
 
-    /**
-     * @param  InputInterface      $input
-     * @param  TheliaConsoleOutput $output
-     * @return int|null|void
-     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->enterRequestScope($input);
+        $configurationCode = $input->getArgument("index-configuration");
 
-        $configurationCode = $input->getArgument("driver-configuration");
-        $indexName = $input->getArgument("index-name");
+        $ret = $this->getTaskRegistry()->getTask("exists")->runFromArray(["index_configuration_code" => $configurationCode]);
 
-        $configuration = $this->getDriverManager()->getConfigurationFromCode($configurationCode, true);
-        $driver = $configuration->getDriver();
-
-        if ($driver->indexExists(null, $indexName, $indexName)) {
+        if ($ret) {
             $output->renderBlock([
                 "",
-                sprintf("The index type '%s' exists with the configuration '%s'", $indexName, $configurationCode),
+                sprintf("The index for configuration '%s' exists", $configurationCode),
                 "",
             ], "bg=green;fg=black");
 
@@ -63,7 +53,7 @@ class IndexExistsCommand extends IndexEngineCommand
 
         $output->renderBlock([
             "",
-            sprintf("The index type '%s' doesn't exist with the configuration '%s'", $indexName, $configurationCode),
+            sprintf("The index for configuration '%s' doesn't exist", $configurationCode),
             "",
         ], "bg=red;fg=white");
 

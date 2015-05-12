@@ -39,20 +39,11 @@ class IndexCreateCommand extends IndexEngineCommand
         $this->enterRequestScope($input);
         $configurationCode = $input->getArgument("index-configuration");
 
-        $indexConfiguration = $this->getIndexManager()->getConfigurationEntityFromCode($configurationCode);
-
-        $driver = $indexConfiguration->getLoadedDriver();
-
-        $driver->createIndex(
-            $indexConfiguration->getType(),
-            $code = $indexConfiguration->getCode(),
-            $indexConfiguration->getTitle(),
-            $indexConfiguration->getMapping()
-        );
+        $this->getTaskRegistry()->getTask("create")->runFromArray(["index_configuration_code" => $configurationCode]);
 
         $output->renderBlock([
             "",
-            sprintf("The index '%s' has been created", $code),
+            sprintf("The index from '%s' has been created", $configurationCode),
             "",
         ], "bg=green;fg=black");
     }

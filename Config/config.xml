@@ -42,8 +42,10 @@
     <!-- Commands -->
     <parameter key="index_engine.command.list_drivers.class">IndexEngine\IO\Command\IndexDriverListCommand</parameter>
     <parameter key="index_engine.command.index_exists.class">IndexEngine\IO\Command\IndexExistsCommand</parameter>
+    <parameter key="index_engine.command.index_exists.raw.class">IndexEngine\IO\Command\IndexExistsRawCommand</parameter>
     <parameter key="index_engine.command.index_create.class">IndexEngine\IO\Command\IndexCreateCommand</parameter>
     <parameter key="index_engine.command.index_delete.class">IndexEngine\IO\Command\IndexDeleteCommand</parameter>
+    <parameter key="index_engine.command.index_delete.raw.class">IndexEngine\IO\Command\IndexDeleteRawCommand</parameter>
     <parameter key="index_engine.command.index_persist.class">IndexEngine\IO\Command\IndexPersistCommand</parameter>
     <parameter key="index_engine.command.configuration_list.class">IndexEngine\IO\Command\IndexDriverConfigurationListCommand</parameter>
 
@@ -59,6 +61,7 @@
     <parameter key="index_engine.task.update.class">IndexEngine\Driver\Task\Core\UpdateTask</parameter>
     <parameter key="index_engine.task.persist.class">IndexEngine\Driver\Task\Core\PersistTask</parameter>
     <parameter key="index_engine.task.delete.class">IndexEngine\Driver\Task\Core\DeleteTask</parameter>
+    <parameter key="index_engine.task.exists.class">IndexEngine\Driver\Task\Core\ExistsTask</parameter>
 
     <!-- Smarty Plugin -->
     <parameter key="index_engine.smarty.index_plugin.class">IndexEngine\Smarty\Plugin\Index</parameter>
@@ -83,9 +86,11 @@
   <commands>
     <command class="%index_engine.command.list_drivers.class%"/>
     <command class="%index_engine.command.index_exists.class%"/>
+    <command class="%index_engine.command.index_exists.raw.class%"/>
     <command class="%index_engine.command.index_create.class%"/>
     <command class="%index_engine.command.configuration_list.class%"/>
     <command class="%index_engine.command.index_delete.class%"/>
+    <command class="%index_engine.command.index_delete.raw.class%"/>
     <command class="%index_engine.command.index_persist.class%"/>
   </commands>
 
@@ -105,6 +110,10 @@
       <tag name="index_engine.task" />
     </service>
     <service id="index_engine.task.delete" class="%index_engine.task.delete.class%" scope="request">
+      <argument type="service" id="index_engine.index_configuration_manager" />
+      <tag name="index_engine.task" />
+    </service>
+    <service id="index_engine.task.exists" class="%index_engine.task.exists.class%" scope="request">
       <argument type="service" id="index_engine.index_configuration_manager" />
       <tag name="index_engine.task" />
     </service>

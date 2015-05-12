@@ -15,37 +15,58 @@ namespace IndexEngine\IO\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-
+use Thelia\Command\Output\TheliaConsoleOutput;
 
 /**
- * Class IndexDeleteCommand
+ * Class IndexExistsRawCommand
  * @package IndexEngine\IO\Command
  * @author Benjamin Perche <benjamin@thelia.net>
  */
-class IndexDeleteCommand extends IndexEngineCommand
+class IndexExistsRawCommand extends IndexEngineCommand
 {
     protected function configure()
     {
         parent::configure();
 
         $this
-            ->setName("index:delete")
-            ->setDescription("Delete the index for the given index configuration")
-            ->addArgument("index-configuration", InputArgument::REQUIRED, "The index configuration code to use")
+            ->setName("index:exists:raw")
+            ->setDescription("Checks if an index exists")
+            ->addArgument("driver-configuration", InputArgument::REQUIRED, "The driver configuration code to use")
+            ->addArgument("index-name", InputArgument::REQUIRED, "The index name to check")
         ;
     }
 
+    /**
+     * @param  InputInterface      $input
+     * @param  TheliaConsoleOutput $output
+     * @return int|null|void
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->enterRequestScope($input);
-        $configurationCode = $input->getArgument("index-configuration");
 
-        $this->getTaskRegistry()->getTask("delete")->runFromArray(["index_configuration_code" => $configurationCode]);
+        $configurationCode = $input->getArgument("driver-configuration");
+        $indexName = $input->getArgument("index-name");
+
+        $configuration = $this->getDriverManager()->getConfigurationFromCode($configurationCode, true);
+        $driver = $configuration->getDriver();
+
+        if ($driver->indexExists(null, $indexName, $indexName)) {
+            $output->renderBlock([
+                "",
+                sprintf("The index type '%s' exists with the configuration '%s'", $indexName, $configurationCode),
+                "",
+            ], "bg=green;fg=black");
+
+            return 0;
+        }
 
         $output->renderBlock([
             "",
-            sprintf("The index from '%s' has been deleted", $configurationCode),
+            sprintf("The index type '%s' doesn't exist with the configuration '%s'", $indexName, $configurationCode),
             "",
-        ], "bg=green;fg=black");
+        ], "bg=red;fg=white");
+
+        return 1;
     }
 }

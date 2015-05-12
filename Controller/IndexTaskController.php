@@ -76,10 +76,25 @@ class IndexTaskController extends BaseAdminController
             if (is_array($returnValue)) {
                 return new JsonResponse($returnValue);
             } else {
-                return new Response($returnValue);
+                return new Response($this->formatString($returnValue));
             }
         } catch (\Exception $e) {
             return new JsonResponse(["error_message" => $e->getMessage()], 400);
+        }
+    }
+
+    protected function formatString($rawValue)
+    {
+        switch (gettype($rawValue)) {
+            case "boolean":
+                if ($rawValue) {
+                    return "Yes";
+                } else {
+                    return "No";
+                }
+
+            default:
+                return (string) $rawValue;
         }
     }
 

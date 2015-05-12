@@ -21,3 +21,4 @@ IndexEngine Summary
     - Launch test suite
     - Write a task
     - Write a driver
+    - Add an index type

@@ -79,4 +79,12 @@ class IndexEngineCommand extends ContainerAwareCommand
             new URL($container);
         }
     }
+
+    /**
+     * @return \IndexEngine\Driver\Task\TaskRegistryInterface
+     */
+    protected function getTaskRegistry()
+    {
+        return $this->getContainer()->get("index_engine.task.registry");
+    }
 }

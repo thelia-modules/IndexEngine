@@ -15,7 +15,7 @@ namespace IndexEngine\Driver\Task\Core;
 use IndexEngine\Driver\Configuration\ArgumentCollection;
 use IndexEngine\Driver\Configuration\ArgumentCollectionInterface;
 use IndexEngine\Driver\Configuration\StringArgument;
-use IndexEngine\Driver\Task\TaskInterface;
+use IndexEngine\Driver\Task\AbstractTask;
 use IndexEngine\Manager\IndexConfigurationManagerInterface;
 
 /**
@@ -23,12 +23,13 @@ use IndexEngine\Manager\IndexConfigurationManagerInterface;
  * @package IndexEngine\Driver\Task\Core
  * @author Benjamin Perche <benjamin@thelia.net>
  */
-class CreateTask implements TaskInterface
+class CreateTask extends AbstractTask
 {
     /** @var IndexConfigurationManagerInterface  */
     private $indexConfigurationManager;
 
-    public function __construct(IndexConfigurationManagerInterface $indexConfigurationManager) {
+    public function __construct(IndexConfigurationManagerInterface $indexConfigurationManager)
+    {
         $this->indexConfigurationManager = $indexConfigurationManager;
     }
 

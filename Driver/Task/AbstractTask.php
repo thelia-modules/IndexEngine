@@ -12,33 +12,18 @@
 
 namespace IndexEngine\Driver\Task;
 
-use IndexEngine\Driver\Configuration\ArgumentCollectionInterface;
 
 /**
- * Interface TaskInterface
+ * Class AbstractTask
  * @package IndexEngine\Driver\Task
  * @author Benjamin Perche <benjamin@thelia.net>
  */
-interface TaskInterface
+abstract class AbstractTask implements TaskInterface
 {
-    /**
-     * @return mixed
-     *
-     * This method is executed when the task is called.
-     */
-    public function run(ArgumentCollectionInterface $parameters);
+    public function runFromArray(array $parameters)
+    {
+        $parameters = $this->getParameters()->loadValues($parameters);
 
-    public function runFromArray(array $parameters);
-
-    /**
-     * @return ArgumentCollectionInterface
-     *
-     * In this method, you have to return the needed parameters for the run method.
-     */
-    public function getParameters();
-
-    /**
-     * @return mixed
-     */
-    public function getCode();
+        return $this->run($parameters);
+    }
 }

@@ -15,22 +15,22 @@ namespace IndexEngine\Driver\Task\Core;
 use IndexEngine\Driver\Configuration\ArgumentCollection;
 use IndexEngine\Driver\Configuration\StringArgument;
 use IndexEngine\Driver\Task\AbstractTask;
+use IndexEngine\Manager\IndexConfigurationManagerInterface;
 use IndexEngine\Driver\Configuration\ArgumentCollectionInterface;
-use IndexEngine\Driver\Task\TaskRegistryInterface;
 
 /**
- * Class UpdateTask
+ * Class ExistsTask
  * @package IndexEngine\Driver\Task\Core
  * @author Benjamin Perche <benjamin@thelia.net>
  */
-class UpdateTask extends AbstractTask
+class ExistsTask extends AbstractTask
 {
-    /** @var TaskRegistryInterface */
-    private $taskRegistry;
+    /** @var IndexConfigurationManagerInterface  */
+    private $indexConfigurationManager;
 
-    public function __construct(TaskRegistryInterface $taskRegistry)
+    public function __construct(IndexConfigurationManagerInterface $indexConfigurationManager)
     {
-        $this->taskRegistry = $taskRegistry;
+        $this->indexConfigurationManager = $indexConfigurationManager;
     }
 
     /**
@@ -40,7 +40,15 @@ class UpdateTask extends AbstractTask
      */
     public function run(ArgumentCollectionInterface $parameters)
     {
-        return $this->taskRegistry->run(["delete", "create", "persist"], $parameters);
+        $code = $parameters->getArgument("index_configuration_code")->getValue();
+
+        $configuration = $this->indexConfigurationManager->getConfigurationEntityFromCode($code);
+
+        return $configuration->getLoadedDriver()->indexExists(
+            $configuration->getType(),
+            $configuration->getCode(),
+            $configuration->getTitle()
+        );
     }
 
     /**
@@ -61,6 +69,6 @@ class UpdateTask extends AbstractTask
      */
     public function getCode()
     {
-        return "update";
+        return "exists";
     }
 }

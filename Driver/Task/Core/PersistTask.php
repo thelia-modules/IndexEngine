@@ -14,7 +14,7 @@ namespace IndexEngine\Driver\Task\Core;
 
 use IndexEngine\Driver\Configuration\ArgumentCollection;
 use IndexEngine\Driver\Configuration\StringArgument;
-use IndexEngine\Driver\Task\TaskInterface;
+use IndexEngine\Driver\Task\AbstractTask;
 use IndexEngine\Driver\Configuration\ArgumentCollectionInterface;
 use IndexEngine\Manager\IndexConfigurationManagerInterface;
 
@@ -23,7 +23,7 @@ use IndexEngine\Manager\IndexConfigurationManagerInterface;
  * @package IndexEngine\Driver\Task\Core
  * @author Benjamin Perche <benjamin@thelia.net>
  */
-class PersistTask implements TaskInterface
+class PersistTask extends AbstractTask
 {
     /** @var IndexConfigurationManagerInterface  */
     private $indexConfigurationManager;

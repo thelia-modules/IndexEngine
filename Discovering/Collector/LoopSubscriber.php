@@ -13,6 +13,7 @@
 namespace IndexEngine\Discovering\Collector;
 
 use IndexEngine\Driver\Event\IndexEvent;
+use IndexEngine\Driver\Query\Comparison;
 use IndexEngine\Entity\IndexData;
 use IndexEngine\Event\Module\CollectEvent;
 use IndexEngine\Event\Module\EntityCollectEvent;
@@ -129,12 +130,76 @@ class LoopSubscriber implements EventSubscriberInterface
                 $indexDataVector = $event->getIndexDataVector();
                 $mapping = $event->getMapping();
 
+                $criteria = $configuration->getCriteria();
+
                 /** @var \Thelia\Core\Template\Element\LoopResultRow $loopResultRow */
                 foreach ($loopResult as $loopResultRow) {
-                    $indexDataVector[] = (new IndexData())->setData($loopResultRow->getVarVal(), $mapping);
+                    $entry = $loopResultRow->getVarVal();
+
+                    if ($this->checkCriteria($criteria, $entry)) {
+                        $indexDataVector[] = (new IndexData())->setData($entry, $mapping);
+                    }
                 }
             }
         }
+    }
+
+    public function checkCriteria(array $criteria, array $entry)
+    {
+        if (empty($criteria)) {
+            return true;
+        }
+
+        foreach ($criteria as $criterion) {
+            if (count($criterion) !== 3) {
+                continue;
+            }
+
+            $value = array_pop($criterion);
+            $comparison = array_pop($criterion);
+            $column = array_pop($criterion);
+
+            if (isset($entry[$column])) {
+                switch ($comparison) {
+                    case Comparison::EQUAL:
+                        if ($entry[$column] != $value) {
+                            return false;
+                        }
+                        break;
+                    case Comparison::NOT_EQUAL:
+                        if ($entry[$column] == $value) {
+                            return false;
+                        }
+                        break;
+                    case Comparison::GREATER_EQUAL:
+                        if ($entry[$column] < $value) {
+                            return false;
+                        }
+                        break;
+                    case Comparison::GREATER:
+                        if ($entry[$column] <= $value) {
+                            return false;
+                        }
+                        break;
+                    case Comparison::LESS_EQUAL:
+                        if ($entry[$column] > $value) {
+                            return false;
+                        }
+                        break;
+                    case Comparison::LESS:
+                        if ($entry[$column] >= $value) {
+                            return false;
+                        }
+                        break;
+                    case Comparison::LIKE:
+                        if (false === strpos($entry[$column], $value)) {
+                            return false;
+                        }
+                }
+            }
+        }
+
+        return true;
     }
 
     /**
