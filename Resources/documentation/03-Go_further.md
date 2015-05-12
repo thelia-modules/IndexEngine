@@ -1,4 +1,4 @@
-1. Launch test suite
+1. Launch test suite <a name="tests"></a>
 ===
 
 A. Requirements
@@ -33,14 +33,14 @@ If your driver is EventDispatcherAware, you'll have to override the ```protected
 If your driver needs a configuration, you can override the ```public function setConfiguration(ArgumentCollection $collection = null)``` method to apply it.
 
 
-2. Write a task
+2. Write a task <a name="task"></a>
 ===
 
 In order to create a task, you have to create a class that extends ```IndexEngine\Driver\Task\AbstractTask```, or that implements ```IndexEngine\Driver\Task\TaskInterface```
 
 Then you have to create a service that have the ```index_engine.task``` tag, and it will be registered in the task registry.
 
-3. Write a driver
+3. Write a driver <a name="driver"></a>
 ===
 
 There are two types of driver: those that uses events and those that doesn't.
@@ -83,7 +83,7 @@ Example:
 </service>
 ```
 
-4. Add an index type
+4. Add an index type <a name="index_type"></a>
 ===
 
 In order to add an index type, you'll have to create a class that implements ```Symfony\Component\EventDispatcher\EventSubscriberInterface```,

@@ -1,4 +1,4 @@
-1. Getting started with search engines
+1. Getting started with search engines <a name="getting_started"></a>
 ===
 
 Here's a definition of a search engine, found on [Wikipedia](https://en.wikipedia.org/wiki/Search_engine_%28computing%29):
@@ -9,7 +9,7 @@ The search results are usually presented in a list and are commonly called hits.
 Search engines help to minimize the time required to find information and the amount of information which must be consulted, akin to other techniques for managing information overload.
 ```
 
-2. What does this module ?
+2. What does this module ? <a name="the_module"></a>
 ===
 
 This module provides a Back Office interfaces to manage its index and drivers configurations, execute tasks.
@@ -22,7 +22,7 @@ and use them regardless of the endpoint server.
 An index configuration is a collection of data and criteria that are executed to retrieve data from Thelia database.
 A task is like a command, but a command that can be executed from the Back Office interface.
 
-3. Installation
+3. Installation <a name="install"></a>
 ===
 
 With composer:

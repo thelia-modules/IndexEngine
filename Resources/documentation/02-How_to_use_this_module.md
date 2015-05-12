@@ -1,32 +1,104 @@
-1. Create a driver configuration
+1. Create a driver configuration <a name="driver_configuration"></a>
 ===
 
-First, 
+Go on your Back Office, then configure the IndexEngine module.
 
-2. Create an index configuration
+Click the "Driver configuration" button, then click the "+" one on the new page.
+
+Enter the driver code and choose the driver you want to use.
+
+Then on the update page, you'll have to give the driver's inner configuration, save and you're done. 
+
+2. Create an index configuration <a name="index_configuration"></a>
 ===
 
-foobar ....
+Go on your Back Office, then configure the IndexEngine module then click the "+" button, enter the code, the name and choose a driver configuration.
+
+Then on the update page, you'll have to choose the index type.
 
 A. Create a database type index
 ---
 
+Choose the ```database``` type.
+Then choose the table that you want to index.
+After, you can choose the columns that you want to save into the index.
+
+If you want to filter the rows that will be sent to the search server, you can use criteria.
+
+Save once before configuring the mapping.
+
 B. Create a loop type index
 ---
+
+Choose the ```loop``` type.
+Then choose the table that you want to index.
+After, you can choose the variables that you want to save into the index.
+The variables may not be available if the loop can't be executed "as-is".
+If you're having this, you'll have to enter them manually.
+
+If you want to filter the rows that will be sent to the search server, you can use criteria.
+You can give the loop arguments too with the "Loop criteria" section.
+
+Save once before configuring the mapping.
 
 C. Create a sql query type index
 ---
 
+Choose the ```sql query``` type.
+
+Enter your sql query. You can test the query result.
+
+Then you'll have to do the mapping manually.
+
 D. The mapping
 ---
 
-3. Call the index service manually
+The mapping is the part where you define your columns type for the search engine.
+
+If a column isn't present in the mapping, it won't be exported to the search server.
+
+3. Call the index service manually <a name="tasks"></a>
 ===
 
-4. Index building automation
+Go on your Back Office, then configure the IndexEngine module.
+
+Click the "Execute a task" button, then chose the task, enter its configuration and click "Run".
+
+4. Index building automation <a name="cron"></a>
 ===
 
-5. Querying the public API with the javascript client
+The tasks can be executed in a terminal too.
+
+If you want to automatically refresh your index, you can define a cron with the following command:
+ 
+```sh
+$ php Thelia index:update your_index_code
+```
+
+5. Use the search engine in the template <a name="template"></a>
+---
+
+You can use the search engine directly in your templates with the ```index``` smarty function.
+
+This function takes a mandatory parameter ```code``` that is your index configuration code.
+
+Then you can use all the parameters to define your filters.
+Just give your field's name as parameter name, then given a single value for an equal comparison,
+or an array with 2 entries: the first is the comparison ( =, <>, <, <=, >, >=, LIKE ), the second is the compare value.
+
+Example:
+```smarty
+{$results={index code="foo"}}
+
+{* Or you can do *}
+
+{foreach from={index code="foo" order="id,ref-reverse" id=[">", 5] ref=["like", "some text"]} item=result}
+    {$result.id} {$result.ref}
+    ...
+{/foreach}
+```
+
+6. Querying the public API with the javascript client <a name="api_client"></a> 
 ===
 
 First, you have to require the client's file asset in your template:
@@ -80,3 +152,18 @@ The ```find``` method returns an array with 3 keys:
 - total_count: the total number of results ( ignoring offset and limit )
 - count: the current number of results
 - results: The results matrix
+
+
+7. Querying the API without the client <a name="api_without_client"></a> 
+---
+
+The IndexEngine comes with a public API to retrieve data easily.
+This API is on the route ```/api/public/search/your-index-configuration-code```.
+
+You can use the query string to add your search filters: It works like smarty function.
+
+Example:
+
+```
+GET api/public/search/unique_code?order=id,ref-reverse&id[]=%3E&id[]=5&ref[]=like&ref[]=some%20text
+```

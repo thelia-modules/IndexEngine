@@ -17,7 +17,6 @@ Tests:
 - Check needed fixtures
 
 Drivers:
-- ElasticSearch: Improve query translation
 - OpenSearchServer: Implement create, delete, persist index and search
 
 Full implement:
