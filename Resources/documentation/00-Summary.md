@@ -1,12 +1,12 @@
 IndexEngine Summary
 ===
 
-1. Introduction
+1. [Introduction](01-Introduction.md)
     - Getting started with search engines
     - What does this module ?
     - Installation
     
-2. How to use this module ?
+2. [How to use this module ?](02-How_to_use_this_module.md)
     - Create a driver configuration
     - Create an index configuration
         - Create a database type index
@@ -17,7 +17,7 @@ IndexEngine Summary
     - Index building automation
     - Querying the public API with the javascript client
 
-3. Go further
+3. [Go further](03.Go_further.md)
     - Launch test suite
     - Write a task
     - Write a driver

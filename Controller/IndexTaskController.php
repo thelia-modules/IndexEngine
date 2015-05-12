@@ -93,6 +93,9 @@ class IndexTaskController extends BaseAdminController
                     return "No";
                 }
 
+            case "NULL":
+                return "null";
+
             default:
                 return (string) $rawValue;
         }

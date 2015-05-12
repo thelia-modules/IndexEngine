@@ -1,6 +1,7 @@
 1. Create a driver configuration
 ===
 
+First, 
 
 2. Create an index configuration
 ===
@@ -74,3 +75,8 @@ Then you can query the search engine:
     })(jQuery);
 </script>
 ```
+
+The ```find``` method returns an array with 3 keys:
+- total_count: the total number of results ( ignoring offset and limit )
+- count: the current number of results
+- results: The results matrix
