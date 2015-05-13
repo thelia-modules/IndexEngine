@@ -89,6 +89,7 @@ class ProductIndex extends BaseLoop implements ArraySearchLoopInterface
             foreach ($this->locales as $locale) {
                 $translation = $product->getTranslation($locale);
 
+                $row["url_".$locale] = $product->getUrl($locale);
                 $row["title_".$locale] =  $translation->getTitle();
                 $row["description_".$locale] =  $translation->getDescription();
             }

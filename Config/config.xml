@@ -47,6 +47,7 @@
     <parameter key="index_engine.command.index_delete.class">IndexEngine\IO\Command\IndexDeleteCommand</parameter>
     <parameter key="index_engine.command.index_delete.raw.class">IndexEngine\IO\Command\IndexDeleteRawCommand</parameter>
     <parameter key="index_engine.command.index_persist.class">IndexEngine\IO\Command\IndexPersistCommand</parameter>
+    <parameter key="index_engine.command.index_update.class">IndexEngine\IO\Command\IndexUpdateCommand</parameter>
     <parameter key="index_engine.command.configuration_list.class">IndexEngine\IO\Command\IndexDriverConfigurationListCommand</parameter>
 
     <!-- Drivers -->
@@ -99,6 +100,7 @@
     <command class="%index_engine.command.index_delete.class%"/>
     <command class="%index_engine.command.index_delete.raw.class%"/>
     <command class="%index_engine.command.index_persist.class%"/>
+    <command class="%index_engine.command.index_update.class%"/>
   </commands>
 
   <services>
