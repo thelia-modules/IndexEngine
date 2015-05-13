@@ -9,10 +9,12 @@ namespace IndexEngine\Controller;
 use IndexEngine\Controller\Base\IndexEngineIndexController as BaseIndexEngineIndexController;
 use IndexEngine\Event\IndexEngineIndexEvent;
 use IndexEngine\Form\Transformer\IndexMappingTransformer;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Thelia\Core\HttpFoundation\JsonResponse;
 use Thelia\Core\HttpFoundation\Response;
 use Thelia\Core\Security\AccessManager;
 use Thelia\Core\Security\Resource\AdminResources;
+use Thelia\Tools\URL;
 
 /**
  * Class IndexEngineIndexController
@@ -151,6 +153,14 @@ class IndexEngineIndexController extends BaseIndexEngineIndexController
             "mappingChoices" => $this->getDefaultMapping()->getTypes()
         ]);
     }
+
+    protected function redirectToListTemplate()
+    {
+        return new RedirectResponse(
+            URL::getInstance()->absoluteUrl("/admin/module/IndexEngine")
+        );
+    }
+
 
     /**
      * @return \IndexEngine\Entity\IndexMapping

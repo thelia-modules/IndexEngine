@@ -19,6 +19,7 @@ use IndexEngine\Driver\Event\IndexEvent;
 use IndexEngine\Driver\Event\IndexSearchQueryEvent;
 use IndexEngine\Driver\Exception\IndexNotFoundException;
 use OpenSearchServer\Handler;
+use OpenSearchServer\Index\Create;
 use OpenSearchServer\Index\Exists;
 
 /**
@@ -90,6 +91,8 @@ class OpenSearchServerListener extends DriverEventSubscriber
      */
     public function createIndex(IndexEvent $event)
     {
+        $request = new Create();
+        $request->index($event->getIndexCode());
     }
 
     /**

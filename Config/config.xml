@@ -65,11 +65,16 @@
 
     <!-- Smarty Plugin -->
     <parameter key="index_engine.smarty.index_plugin.class">IndexEngine\Smarty\Plugin\Index</parameter>
+
+    <!-- loops -->
+    <parameter key="index_engine.loop.product_index.class">IndexEngine\Loop\ProductIndex</parameter>
   </parameters>
 
   <loops>
     <loop name="index-engine-index" class="IndexEngine\Loop\IndexEngineIndex"/>
     <loop name="index-engine-driver-configuration" class="IndexEngine\Loop\IndexEngineDriverConfiguration"/>
+
+    <loop name="product-index" class="%index_engine.loop.product_index.class%" />
   </loops>
 
   <forms>

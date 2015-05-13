@@ -160,7 +160,7 @@
                         <tr>
                             <td colspan="1000">
                                 <div class="alert alert-info">
-                                    {intl l="There is no IndexEngineIndex" d="indexengine.bo.default"}
+                                    {intl l="There is no index configuration" d="indexengine.bo.default"}
                                 </div>
                             </td>
                         </tr>
@@ -256,7 +256,7 @@
 
 
         dialog_id       = "index_engine_index-create"
-        dialog_title    = {intl l="Create an entry of IndexEngineIndex" d="indexengine.bo.default"}
+        dialog_title    = {intl l="Create an index configuration" d="indexengine.bo.default"}
         dialog_body     = {$smarty.capture.index_engine_index_create nofilter}
 
         dialog_ok_label     = {intl l="Create"}
@@ -271,14 +271,14 @@
     {* DELETE modal *}
 
     {capture "index_engine_index_delete"}
-        {intl l="Do you really want to delete this IndexEngineIndex entry ?" d="indexengine.bo.default"}
+        {intl l="Do you really want to delete this index configuration ?" d="indexengine.bo.default"}
         <input type="hidden" name="index_engine_index_id" id="index_engine_index_delete_id" value="" />
     {/capture}
 
     {include file="includes/generic-confirm-dialog.html"
 
         dialog_id       = "index_engine_index-delete"
-        dialog_title    = {intl l="Delete an entry of IndexEngineIndex" d="indexengine.bo.default"}
+        dialog_title    = {intl l="Delete an index configuration" d="indexengine.bo.default"}
         dialog_message  = {$smarty.capture.index_engine_index_delete nofilter}
 
         dialog_ok_label     = {intl l="Delete"}

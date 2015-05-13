@@ -37,7 +37,7 @@
                             <input type="hidden" name="{$name}" value="{$value}"/>
                         {/form_field}
                         {form_field form=$form field="success_url"}
-                            <input type="hidden" name="{$name}" value="{url path='/admin/module/IndexEngine'}/index_engine_index"/>
+                            <input type="hidden" name="{$name}" value="{url path='/admin/module/IndexEngine'}"/>
                         {/form_field}
                         {form_hidden_fields form=$form}
 
@@ -56,7 +56,7 @@
 
                                                     {form_error form=$form field="code"}{$message}{/form_error}
 
-                                                    <input type="text" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$CODE}" placeholder="{intl l='The IndexEngineIndex code'}" />
+                                                    <input type="text" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$CODE}" placeholder="{intl l='The Index configuration code'}" />
                                                 </div>
                                             {/form_field}
                                         </div>
@@ -70,7 +70,7 @@
 
                                                     {form_error form=$form field="title"}{$message}{/form_error}
 
-                                                    <input type="text" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$TITLE}" placeholder="{intl l='The IndexEngineIndex title'}" />
+                                                    <input type="text" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$TITLE}" placeholder="{intl l='The Index configuration title'}" />
                                                 </div>
                                             {/form_field}
                                         </div>
@@ -105,7 +105,7 @@
 
                                     <small>
                                         {intl
-                                            l="IndexEngineIndex created on %created_at. Last modification: %updated_at"
+                                            l="Index configuration created on %created_at. Last modification: %updated_at"
                                             created_at={format_date date=$CREATE_DATE}
                                             updated_at={format_date date=$UPDATE_DATE}
                                             d="indexengine.bo.default"
