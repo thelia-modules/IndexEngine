@@ -71,10 +71,12 @@
   </parameters>
 
   <loops>
+    <loop name="product-index" class="%index_engine.loop.product_index.class%" />
+
+    <!-- TheliaStudio -->
     <loop name="index-engine-index" class="IndexEngine\Loop\IndexEngineIndex"/>
     <loop name="index-engine-driver-configuration" class="IndexEngine\Loop\IndexEngineDriverConfiguration"/>
 
-    <loop name="product-index" class="%index_engine.loop.product_index.class%" />
   </loops>
 
   <forms>
