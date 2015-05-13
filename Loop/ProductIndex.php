@@ -71,11 +71,17 @@ class ProductIndex extends BaseLoop implements ArraySearchLoopInterface
             $query->filterByVisible($visible);
         }
 
+        $limit = $this->getLimit();
+
         // Array building
         $results = [];
 
         /** @var \Thelia\Model\Product $product */
-        foreach ($query->find() as $product) {
+        foreach ($query->find() as $i => $product) {
+            if ($i >= $limit) {
+                break;
+            }
+
             $row = &$results[];
             $productPrices = [];
 
