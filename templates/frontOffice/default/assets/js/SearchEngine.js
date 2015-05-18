@@ -43,7 +43,6 @@ var SearchEngine = function (apiUrl, defaults) {
         var offset = options.offset || this.defaults.offset;
 
         var query = this.__mergeTables(params, {limit: limit, offset: offset});
-
         var url = this.__formatUrl(this.apiUrl + "/" + configurationCode, query);
         var errorHandler = options.fail || function() {};
 
