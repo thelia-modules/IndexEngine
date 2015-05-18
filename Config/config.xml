@@ -308,11 +308,5 @@
       <tag name="hook.event_listener" type="back" active="1" event="index_engine.index.form-javascript"/>
       <tag name="hook.event_listener" type="back" active="1" event="index_engine.index.after-columns"/>
     </hook>
-        <hook id="index_engine.hook.front" class="IndexEngine\Hook\FrontHook" scope="request">
-            <tag name="hook.event_listener" event="main.head-bottom" />
-            <tag name="hook.event_listener" event="main.navbar-secondary" />
-            <tag name="hook.event_listener" event="main.body-bottom" />
-            <tag name="hook.event_listener" event="main.javascript-initialization" />
-        </hook>         
   </hooks>
 </config>
