@@ -278,6 +278,9 @@ class IndexConfiguration
         return $this;
     }
 
+    /**
+     * @return \IndexEngine\Driver\Query\IndexQueryInterface
+     */
     public function createQuery()
     {
         return new IndexQuery($this->getCode(), $this->getTitle());

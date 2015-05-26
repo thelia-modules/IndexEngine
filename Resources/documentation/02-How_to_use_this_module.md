@@ -131,7 +131,14 @@ Then you can query the search engine:
               // Available filters: >, >=, <, <=, =, <>, LIKE
               "order": "id",
               "id": [">", 1],
-              "visible": true
+              "visible": true,
+              
+              // You can use an OR operator between multiple criteria:
+              "or" => [
+                ["id", "=", 1],  
+                ["id", "=", 2],  
+                ["code", "like", "foo"],  
+              ]
           },
           {
               // Here you can play with the client's behaviour

@@ -11,6 +11,7 @@
 /*************************************************************************************/
 namespace IndexEngine\Manager;
 
+use IndexEngine\Driver\Query\IndexQueryInterface;
 use IndexEngine\Entity\IndexConfiguration;
 use IndexEngine\Entity\IndexMapping;
 
@@ -34,7 +35,9 @@ interface SearchManagerInterface
 
     /**
      * @param array $parameters
-     * @return array
+     * @param IndexMapping $mapping
+     * @param IndexQueryInterface $query
+     * @return IndexQueryInterface The built query
      *
      * @throws \IndexEngine\Exception\InvalidArgumentException if one of the parameters is not valid
      *
@@ -45,14 +48,11 @@ interface SearchManagerInterface
      *   "id" => 5,
      *   "foo" => ["like", "some text"]
      *   0 => ["foo", "=", 5],
-     * ]
-     *
-     * Output example:
-     * [
-     *   ["foo", "like", "5"]
-     *   ["bar", ">=", 2],
-     *   ["baz", "=", 3]
+     *   "or" => [
+     *      "id" => 5,
+     *      "foo" => ["like", "some text"]
+     *   ]
      * ]
      */
-    public function parseSearchQuery(array $parameters, IndexMapping $mapping);
+    public function parseSearchQuery(array $parameters, IndexMapping $mapping, IndexQueryInterface $query);
 }

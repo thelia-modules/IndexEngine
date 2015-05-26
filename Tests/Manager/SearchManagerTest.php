@@ -13,7 +13,11 @@
 namespace IndexEngine\Tests\Manager;
 
 use IndexEngine\Driver\Query\Comparison;
+use IndexEngine\Driver\Query\Criterion\Criterion;
+use IndexEngine\Driver\Query\Criterion\CriterionGroup;
 use IndexEngine\Driver\Query\IndexQuery;
+use IndexEngine\Driver\Query\IndexQueryInterface;
+use IndexEngine\Driver\Query\Link;
 use IndexEngine\Driver\Query\Order;
 use IndexEngine\Entity\IndexMapping;
 use IndexEngine\Manager\SearchManager;
@@ -89,9 +93,9 @@ class SearchManagerTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider rawQueryTableProvider
      */
-    public function testParsesQueryVeryWellSoMuchWow(array $given, IndexMapping $mapping, array $expected)
+    public function testParsesQueryVeryWellSoMuchWow(array $given, IndexMapping $mapping, IndexQueryInterface $expected)
     {
-        $computed = $this->manager->parseSearchQuery($given, $mapping);
+        $computed = $this->manager->parseSearchQuery($given, $mapping, new IndexQuery("foo", "bar"));
 
         $this->assertEquals($expected, $computed);
     }
@@ -108,9 +112,7 @@ class SearchManagerTest extends \PHPUnit_Framework_TestCase
                 ],
                 $mapping,
                 // Expected
-                [
-                    ["id", Comparison::EQUAL, 1]
-                ],
+                IndexQuery::create("foo", "bar")->filterBy("id", 1, Comparison::EQUAL, Link::LINK_AND)
             ],
             [
                 // Given
@@ -119,9 +121,7 @@ class SearchManagerTest extends \PHPUnit_Framework_TestCase
                 ],
                 $mapping,
                 // Expected
-                [
-                    ["id", Comparison::EQUAL, 1]
-                ],
+                IndexQuery::create("foo", "bar")->filterBy("id", 1, Comparison::EQUAL, Link::LINK_AND)
             ],
             [
                 // Given
@@ -131,10 +131,9 @@ class SearchManagerTest extends \PHPUnit_Framework_TestCase
                 ],
                 $mapping,
                 // Expected
-                [
-                    ["id", Comparison::GREATER, 1],
-                    ["code", Comparison::LIKE, "foo"],
-                ],
+                IndexQuery::create("foo", "bar")
+                    ->filterBy("id", 1, Comparison::GREATER, Link::LINK_AND)
+                    ->filterBy("code", "foo", Comparison::LIKE, Link::LINK_AND)
             ],
             [
                 // Given
@@ -144,10 +143,47 @@ class SearchManagerTest extends \PHPUnit_Framework_TestCase
                 ],
                 $mapping,
                 // Expected
+                IndexQuery::create("foo", "bar")
+                    ->filterBy("id", 2, Comparison::GREATER, Link::LINK_AND)
+                    ->filterBy("id", 5, Comparison::LESS, Link::LINK_AND)
+            ],
+            [
+                // Given
                 [
-                    ["id", Comparison::GREATER, 2],
-                    ["id", Comparison::LESS, 5],
+                    ["id", ">", "2"],
+                    "or" => [
+                        "id" => 1,
+                        "code" => "foo"
+                    ]
                 ],
+                $mapping,
+                // Expected
+                IndexQuery::create("foo", "bar")
+                    ->filterBy("id", 2, Comparison::GREATER, Link::LINK_AND)
+                    ->addCriterionGroup(
+                        (new CriterionGroup())
+                            ->addCriterion(new Criterion("id", 1, Comparison::EQUAL), null, Link::LINK_OR)
+                            ->addCriterion(new Criterion("code", "foo", Comparison::EQUAL), null, Link::LINK_OR)
+                    )
+            ],
+            [
+                // Given
+                [
+                    "or" => [
+                        ["id", "=", 1],
+                        ["id", "=", 2],
+                        ["code", "like", "foo"]
+                    ]
+                ],
+                $mapping,
+                // Expected
+                IndexQuery::create("foo", "bar")
+                    ->addCriterionGroup(
+                        (new CriterionGroup())
+                            ->addCriterion(new Criterion("id", 1, Comparison::EQUAL), null, Link::LINK_OR)
+                            ->addCriterion(new Criterion("id", 2, Comparison::EQUAL), null, Link::LINK_OR)
+                            ->addCriterion(new Criterion("code", "foo", Comparison::LIKE), null, Link::LINK_OR)
+                    )
             ],
         ];
     }

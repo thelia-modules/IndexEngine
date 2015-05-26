@@ -13,7 +13,12 @@
 namespace IndexEngine\Manager;
 
 use IndexEngine\Driver\Query\Comparison;
+use IndexEngine\Driver\Query\Criterion\Criterion;
+use IndexEngine\Driver\Query\Criterion\CriterionGroup;
+use IndexEngine\Driver\Query\Criterion\CriterionGroupInterface;
 use IndexEngine\Driver\Query\IndexQuery;
+use IndexEngine\Driver\Query\IndexQueryInterface;
+use IndexEngine\Driver\Query\Link;
 use IndexEngine\Driver\Query\Order;
 use IndexEngine\Entity\IndexConfiguration;
 use IndexEngine\Entity\IndexMapping;
@@ -55,18 +60,17 @@ class SearchManager implements SearchManagerInterface
 
         $this->applyOrder($query, $order);
 
-        foreach ($this->parseSearchQuery($params, $configuration->getMapping()) as $rawComparison) {
-            list ($column, $comparison, $value) = $rawComparison;
-
-            $query->filterBy($column, $value, $comparison);
-        }
-
-        return $configuration->getLoadedDriver()->executeSearchQuery($query, $configuration->getMapping());
+        return $configuration->getLoadedDriver()->executeSearchQuery(
+            $this->parseSearchQuery($params, $configuration->getMapping(), $query),
+            $configuration->getMapping()
+        );
     }
 
     /**
      * @param array $parameters
-     * @return array
+     * @param IndexMapping $mapping
+     * @param IndexQueryInterface $query
+     * @return IndexQueryInterface The built query
      *
      * @throws \IndexEngine\Exception\InvalidArgumentException if one of the parameters is not valid
      *
@@ -77,22 +81,45 @@ class SearchManager implements SearchManagerInterface
      *   "id" => 5,
      *   "foo" => ["like", "some text"]
      *   0 => ["foo", "=", 5],
-     * ]
-     *
-     * Output example:
-     * [
-     *   ["foo", "like", "5"]
-     *   ["bar", ">=", 2],
-     *   ["baz", "=", 3]
+     *   "or" => [
+     *      "id" => 5,
+     *      "foo" => ["like", "some text"]
+     *   ]
      * ]
      */
-    public function parseSearchQuery(array $parameters, IndexMapping $mapping)
+    public function parseSearchQuery(array $parameters, IndexMapping $mapping, IndexQueryInterface $query)
     {
-        $output = [];
-        $mappingTable = $mapping->getMapping();
-
         foreach ($parameters as $name => $entry) {
-            if (is_array($entry)) {
+            if (null !== $criterionGroup = $this->resolveCriterionGroup($name, $entry, $mapping, $mapping->getMapping())) {
+                $query->addCriterionGroup($criterionGroup);
+            }
+        }
+
+        return $query;
+    }
+
+    protected function resolveCriterionGroup(
+        $name,
+        $entry,
+        IndexMapping $mapping,
+        array $mappingTable,
+        CriterionGroupInterface $criterionGroup = null,
+        $link = Link::LINK_AND
+    ) {
+        $isInRecursion = null !== $criterionGroup;
+
+        if (! $isInRecursion) {
+            $criterionGroup = new CriterionGroup();
+        }
+
+        if (is_array($entry)) {
+            if (! $isInRecursion && Link::LINK_OR === $name) {
+                foreach ($entry as $name => $subEntry) {
+                    $this->resolveCriterionGroup($name, $subEntry, $mapping, $mappingTable, $criterionGroup, Link::LINK_OR);
+                }
+
+                return $criterionGroup;
+            } else {
                 $realValue = $entry;
 
                 if (1 === $count = count($entry)) {
@@ -102,10 +129,10 @@ class SearchManager implements SearchManagerInterface
                 switch ($count) {
                     case 3:
                         $name = array_shift($entry);
-                        // no break
+                    // no break
                     case 2:
                         $comparison = array_shift($entry);
-                        // no break
+                    // no break
                     case 1:
                         $entry = array_shift($entry);
                         break;
@@ -113,16 +140,18 @@ class SearchManager implements SearchManagerInterface
                     default:
                         throw new InvalidArgumentException(sprintf("The given parameter '%s' is not valid: %s", $name, var_export($realValue)));
                 }
-            } else {
-                $comparison = Comparison::EQUAL;
             }
-
-            if ($mapping->hasColumn($name)) {
-                $output[] = [$name, strtoupper($comparison), $mapping->getCastedValue($entry, $mappingTable[$name])];
-            }
+        } else {
+            $comparison = Comparison::EQUAL;
         }
 
-        return $output;
+        if ($mapping->hasColumn($name)) {
+            $criterionGroup->addCriterion(new Criterion($name,  $mapping->getCastedValue($entry, $mappingTable[$name]), strtoupper($comparison)), null, $link);
+
+            return $criterionGroup;
+        }
+
+        return null;
     }
 
     protected function applyOrder(IndexQuery $query, array $order)
