@@ -15,7 +15,7 @@ namespace IndexEngine\Driver\Bridge\ElasticSearch;
 use Elasticsearch\Client;
 use IndexEngine\Driver\Configuration\BooleanArgument;
 use IndexEngine\Driver\Configuration\IntegerArgument;
-use IndexEngine\Driver\Configuration\StringVectorArgument;
+use IndexEngine\Driver\Configuration\ParserAwareStringVectorArgument;
 use IndexEngine\Driver\DriverEventSubscriber;
 use IndexEngine\Driver\Event\DriverConfigurationEvent;
 use IndexEngine\Driver\Event\DriverEvents;
@@ -49,7 +49,7 @@ class ElasticSearchListener extends DriverEventSubscriber
     {
         $collection = $event->getArgumentCollection();
 
-        $collection->addArgument(new StringVectorArgument("servers"));
+        $collection->addArgument(new ParserAwareStringVectorArgument("servers"));
         $collection->addArgument(new IntegerArgument("number_of_shards"));
         $collection->addArgument(new IntegerArgument("number_of_replicas"));
         $collection->addArgument(new BooleanArgument("save_source"));

@@ -13,28 +13,20 @@
 namespace IndexEngine\Driver\Configuration;
 
 use IndexEngine\Driver\AbstractCollection;
-use IndexEngine\Driver\Configuration\Exception\LogicException;
 use IndexEngine\Driver\Exception\InvalidNameException;
-use Thelia\Core\Template\ParserInterface;
-use Thelia\Form\BaseForm;
 
 /**
  * Class StringVectorArgument
  * @package IndexEngine\Driver\Configuration
  * @author Benjamin Perche <benjamin@thelia.net>
  */
-class StringVectorArgument extends AbstractCollection implements
-    VectorArgumentInterface,
-    ViewBuilderParserAwareInterface
+class StringVectorArgument extends AbstractCollection implements VectorArgumentInterface
 {
     /** @var string */
     private $name;
 
     /** @var array */
     private $collection = array();
-
-    /** @var ParserInterface */
-    private $parser;
 
     /** @var bool */
     private $allowNullValue = false;
@@ -190,57 +182,6 @@ class StringVectorArgument extends AbstractCollection implements
     }
 
     /**
-     * @param BaseForm
-     * @return string
-     *
-     * Generates the view for the configuration form.
-     * It must return a valid html view.
-     */
-    public function buildView(BaseForm $form)
-    {
-        if (null === $this->parser) {
-            throw new LogicException(sprintf("You must inject a parser before call %s", __METHOD__));
-        }
-
-        return $this->parser->render("form-field/render-string-vector.html", [
-            "form" => $form,
-            "field_name" => $this->name,
-            "filtered_name" => str_replace(".", "-", $this->name),
-        ]);
-    }
-
-    /**
-     * @param  ParserInterface $parser
-     * @return $this
-     *
-     * Inject the parser into the argument
-     */
-    public function setParser(ParserInterface $parser)
-    {
-        $this->parser = $parser;
-
-        return $this;
-    }
-
-    /**
-     * @return null|ParserInterface
-     *
-     * Retrieves the current parser, or null if there is currently no parser
-     */
-    public function getParser()
-    {
-        return $this->parser;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isAllowNullValue()
-    {
-        return $this->allowNullValue;
-    }
-
-    /**
      * @param  boolean $allowNullValue
      * @return $this
      */
@@ -305,5 +246,13 @@ class StringVectorArgument extends AbstractCollection implements
     public function rewind()
     {
         reset($this->collection);
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isAllowNullValue()
+    {
+        return $this->allowNullValue;
     }
 }
