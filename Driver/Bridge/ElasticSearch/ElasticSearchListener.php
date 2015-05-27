@@ -14,6 +14,7 @@ namespace IndexEngine\Driver\Bridge\ElasticSearch;
 
 use Elasticsearch\Client;
 use IndexEngine\Driver\Configuration\BooleanArgument;
+use IndexEngine\Driver\Configuration\FloatArgument;
 use IndexEngine\Driver\Configuration\IntegerArgument;
 use IndexEngine\Driver\Configuration\ParserAwareStringVectorArgument;
 use IndexEngine\Driver\DriverEventSubscriber;
@@ -39,6 +40,8 @@ use IndexEngine\Entity\IndexMapping;
  */
 class ElasticSearchListener extends DriverEventSubscriber
 {
+    private $fuzzySimilarity;
+
     /**
      * @param DriverConfigurationEvent $event
      *
@@ -53,12 +56,14 @@ class ElasticSearchListener extends DriverEventSubscriber
         $collection->addArgument(new IntegerArgument("number_of_shards"));
         $collection->addArgument(new IntegerArgument("number_of_replicas"));
         $collection->addArgument(new BooleanArgument("save_source"));
+        $collection->addArgument(new FloatArgument("fuzzy_similarity"));
 
         $collection->setDefaults([
             "servers" => [ElasticSearchDriver::DEFAULT_SERVER],
             "number_of_shards" => ElasticSearchDriver::DEFAULT_SHARDS,
             "number_of_replicas" => ElasticSearchDriver::DEFAULT_REPLICAS,
             "save_source" => ElasticSearchDriver::DEFAULT_SAVE_SOURCE,
+            "fuzzy_similarity" => ElasticSearchDriver::DEFAULT_FUZZY_SIMILARITY
         ]);
     }
 
@@ -82,6 +87,8 @@ class ElasticSearchListener extends DriverEventSubscriber
             ->addExtraConfiguration("number_of_replicas", $configuration->getArgument("number_of_replicas"))
             ->addExtraConfiguration("save_source", $configuration->getArgument("save_source"))
         ;
+
+        $this->fuzzySimilarity = $configuration->getArgument("fuzzy_similarity")->getValue();
     }
 
     /**
@@ -381,7 +388,7 @@ class ElasticSearchListener extends DriverEventSubscriber
             case Comparison::LIKE:
                 $subQuery["query"][$keyBag[2]++]["fuzzy_like_this_field"][$criterion->getColumn()] = [
                     "like_text" => $criterion->getValue(),
-                    "min_similarity" => 0.2,
+                    "min_similarity" => $this->fuzzySimilarity,
                 ];
                 break;
             case Comparison::LESS:

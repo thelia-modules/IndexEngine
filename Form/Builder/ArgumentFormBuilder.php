@@ -15,6 +15,7 @@ namespace IndexEngine\Form\Builder;
 use IndexEngine\Driver\Configuration\ArgumentInterface;
 use IndexEngine\Driver\Configuration\EnumArgument;
 use IndexEngine\Driver\Configuration\Exception\InvalidTypeException;
+use IndexEngine\Driver\Configuration\FloatArgument;
 use IndexEngine\Driver\Configuration\FormBuilderInterface;
 use IndexEngine\Driver\Configuration\VectorArgumentInterface;
 use Symfony\Component\Form\DataTransformerInterface;
@@ -85,6 +86,10 @@ class ArgumentFormBuilder implements ArgumentFormBuilderInterface
 
                 if ($argument instanceof EnumArgument) {
                     $options["choices"] = $argument->getChoices();
+                }
+
+                if ($argument instanceof FloatArgument) {
+                    $options["attr"]["step"] = 0.01;
                 }
             }
 

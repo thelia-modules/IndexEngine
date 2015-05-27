@@ -26,6 +26,7 @@ class ElasticSearchDriver extends AbstractEventDispatcherAwareDriver
     const DEFAULT_SHARDS = 1;
     const DEFAULT_REPLICAS = 0;
     const DEFAULT_SAVE_SOURCE = true;
+    const DEFAULT_FUZZY_SIMILARITY = 0.2;
 
     /**
      * @return string
