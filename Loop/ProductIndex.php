@@ -95,6 +95,7 @@ class ProductIndex extends BaseLoop implements ArraySearchLoopInterface
             }
 
             $row["id"] = $product->getId();
+            $row["ref"] = $product->getRef();
 
             $row["attribute"] = "";
             $row["attribute_av"] = "";

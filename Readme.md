@@ -30,3 +30,10 @@ $ php composer.phar require elasticsearch/elasticsearch:~1.0
 ---
 
 See [here](Resources/documentation/00-Summary.md) for the documentation summary.
+
+3. Common problems
+---
+
+When I use the console to index data, all my URL leads to http://localhost
+
+*You have to configure the ```url_site``` system variable to get the proper urls while indexing data with the console

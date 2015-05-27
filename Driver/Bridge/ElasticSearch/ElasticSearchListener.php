@@ -204,7 +204,7 @@ class ElasticSearchListener extends DriverEventSubscriber
      * This method is used to translate the IndexEngine query into a ElasticSearch one.
      * The result is set into the extra content
      *
-     * @TODO: IMPROVE THAT WORKING PIECE OF SHIT TO A BEAUTIFUL PIECE OF CODE
+     * Can be improved
      */
     public function prepareSearchQuery(IndexSearchQueryEvent $event)
     {
@@ -288,7 +288,7 @@ class ElasticSearchListener extends DriverEventSubscriber
      * @param  CriterionGroupInterface $criterionGroup
      * @return array
      *
-     * @TODO: IMPROVE THAT WORKING PIECE OF SHIT TO A BEAUTIFUL PIECE OF CODE
+     * Can be improved
      */
     public function transformCriterionGroup(CriterionGroupInterface $criterionGroup)
     {
@@ -379,7 +379,10 @@ class ElasticSearchListener extends DriverEventSubscriber
                 $subQuery["filter"]["bool"]["must_not"][$keyBag[1]++]["term"][$criterion->getColumn()] = $criterion->getValue();
                 break;
             case Comparison::LIKE:
-                $subQuery["query"][$keyBag[2]++]["fuzzy_like_this_field"][$criterion->getColumn()]["like_text"] = $criterion->getValue();
+                $subQuery["query"][$keyBag[2]++]["fuzzy_like_this_field"][$criterion->getColumn()] = [
+                    "like_text" => $criterion->getValue(),
+                    "min_similarity" => 0.2,
+                ];
                 break;
             case Comparison::LESS:
                 $subQuery["filter"]["bool"]["must"][$keyBag[0]++]["range"][$criterion->getColumn()]["lt"] = $criterion->getValue();
