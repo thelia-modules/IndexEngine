@@ -1,0 +1,481 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>IndexEngine - Thelia search engine</title>
+
+		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+		<meta name="author" content="Hakim El Hattab">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/blood.css" id="theme">
+
+		<!-- Code syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<h1>Index Engine</h1>
+					<h3>Thelia search engine</h3>
+				</section>
+
+                <section>
+                    <section data-background="img/cloc.png">
+                        <h2>Module overview</h2>
+                    </section>
+
+                    <section data-background="img/cloc.png">
+                        <img src="vendor/img/its-over-9000.gif" />
+                        <h3>Lines of code</h3>
+                    </section>
+
+                    <section>
+                        <h2>What does it do ?</h2>
+
+                        <ul>
+                            <li>Offers a GUI for configuring the search engine driver</li>
+                            <li>Offers a GUI for configuring the data you want to index</li>
+                            <li>Allow you to index
+                                <ul>
+                                    <li>A database table</li>
+                                    <li>A loop</li>
+                                    <li>A sql query</li>
+                                </ul>
+                                But it can be easily extended with events/hooks
+                            </li>
+                        </ul>
+                    </section>
+
+                    <section>
+                        <h2>What does it do ?</h2>
+
+                        <ul>
+                            <li>Abstracts the data structure and the querying language to use any search engine indifferently</li>
+                            <li>Gives a standard public JSON api to use any search engine indifferently, even in front-end development</li>
+                            <li>Allow you to extend each action (index creation and deletion, sending data to the search engine, ...) with events</li>
+                        </ul>
+                    </section>
+
+                    <section>
+                        <h2>What search engine does it use ?</h2>
+
+                        <p>
+                            For now: Elasticsearch
+                            <br/>
+                            In the future: OpenSearchServer, Apache Solr, ... ?
+                        </p>
+                    </section>
+                </section>
+
+                <section>
+                    <section>
+                        <h2>The components</h2>
+                        <p>
+                            Each part of the module has been designed to allow them to be refactored and be used as standalone PHP libraries, or with small dependencies
+                        </p>
+                    </section>
+
+                    <section>
+                        <h2>The event dispatcher</h2>
+                        <h4>
+                            <small>
+                                Dependencies: symfony/event-dispatcher
+                                <br/>
+                                Namespace: ~
+                            </small>
+                        </h4>
+
+                        <ul>
+                            <li>Thelia's one can be very fat with some modules</li>
+                            <li>A refactored application of the module may embed this one</li>
+                            <li>Task separation between actions that requires Thelia and those which doesn't</li>
+                        </ul>
+                    </section>
+
+                    <section>
+                        <h2>Configuration</h2>
+                        <h4>
+                            <small>
+                                Dependencies: None
+                                <br/>
+                                Namespace: IndexEngine\Driver\Configuration
+                            </small>
+                        </h4>
+
+                        <ul>
+                            <li>Looks like Thelia's loop argument collection</li>
+                            <li>Abstraction of the Symfony Form component</li>
+                            <li>Support vectors ( type collection )</li>
+                            <li>Existing arguments type
+                                <ul>
+                                    <li>string</li>
+                                    <li>integer</li>
+                                    <li>number (float)</li>
+                                    <li>boolean</li>
+                                    <li>enum</li>
+                                    <li>string vector</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </section>
+
+                    <section>
+                        <h2>Configuration</h2>
+                        <h4>
+                            <small>
+                                Dependencies: None
+                                <br/>
+                                Namespace: IndexEngine\Driver\Configuration
+                            </small>
+                        </h4>
+
+                        <ul>
+                            <li>Provides interfaces for Thelia form building and rendering customization (with Configuration Render component)</li>
+                            <li>Used for Driver configuration form and tasks arguments</li>
+                        </ul>
+                    </section>
+
+                    <section>
+                        <h2>Configuration Render</h2>
+                        <h4>
+                            <small>
+                                Dependencies: Thelia, TheliaSmarty
+                                <br/>
+                                Classes:
+                                <ul>
+                                    <li>IndexEngine\Manager\ConfigurationRenderManager</li>
+                                    <li>IndexEngine\Hook\DriverConfigurationHook</li>
+                                </ul>
+                                <br/>
+                                Templates: backOffice/default/form-field/*
+                            </small>
+                        </h4>
+
+                        <ul>
+                            <li>Has standard templates for rendering form and form fields</li>
+                            <li>Used for Driver configuration form and tasks arguments</li>
+                        </ul>
+                    </section>
+
+                    <section>
+                        <h2>The query language</h2>
+
+                        <h4>
+                            <small>
+                                Dependencies: None
+                                <br/>
+                                Namespace: IndexEngine\Driver\Query
+                            </small>
+                        </h4>
+
+                        <ul>
+                            <li>Support 2 levels of criteria links</li>
+                            <li>Looks like Propel's query language</li>
+                            <li>Compiles into SQL and Elasticsearch query</li>
+                            <li>Used in the data collection</li>
+                            <li>Used in the search engine querying</li>
+                        </ul>
+                    </section>
+
+                    <section>
+                        <h2>The data collector</h2>
+
+                        <h4>
+                            <small>
+                                Dependencies: IndexEngine core (Events), symfony/event-dispatcher, Sql manager
+                                <br/>
+                                (PDO | Thelia) [optional]
+                                <br/>
+                                Namespace: IndexEngine\Discovering\{Collector, Repository}
+                            </small>
+                        </h4>
+
+                        <ul>
+                            <li>Mysql database analysis (tables, columns)</li>
+                            <li>Executes Thelia loops to collect the outputs</li>
+                            <li>Executes sql queries (only SELECT)</li>
+                            <li>Event-driven</li>
+                        </ul>
+                    </section>
+
+                    <section>
+                        <h2>Tasks</h2>
+
+                        <h4>
+                            <small>
+                                Dependencies: Configuration
+                                <br/>
+                                Namespace: IndexEngine\Driver\Task
+                            </small>
+                        </h4>
+
+                        <ul>
+                            <li>Simple tasks to be run</li>
+                            <li>Uses Configuration component to manage their arguments</li>
+                            <li>Dependency-Injection friendly</li>
+                        </ul>
+                    </section>
+
+                    <section>
+                        <h2>Tasks UI</h2>
+
+                        <h4>
+                            <small>
+                                Dependencies: Thelia, Tasks, Configuration Render
+                            </small>
+                        </h4>
+
+                        <ul>
+                            <li>Gives a BackOffice UI for executing tasks and display returned data</li>
+                        </ul>
+                    </section>
+
+                    <section>
+                        <h2>Sql manager</h2>
+
+                        <h4>
+                            <small>
+                                Dependencies: Query language, IndexEngine core (Message domain), symfony/translation
+                                <br/>
+                                Classes: IndexEngine\Manager\SqlManager(Interface)
+                            </small>
+                        </h4>
+
+                        <ul>
+                            <li>Compiles an index query into an SQL query</li>
+                            <li>Executes SQL queries (SELECT only)</li>
+                        </ul>
+                    </section>
+
+                    <section>
+                        <h2>Index configuration UI</h2>
+
+                        <h4>
+                            <small>
+                                Dependencies: Thelia, TheliaSmarty, IndexEngine core, Data collector
+                            </small>
+
+                            <ul>
+                                <li>Provides an UI for configuring index data mapping and collection criteria</li>
+                            </ul>
+                        </h4>
+                    </section>
+                </section>
+
+                <section>
+                    <section>
+                        <h2>The query language</h2>
+
+                        <p>
+                            Criterion, Criteria, Criterion group, Link, Comparison, ...
+                        </p>
+                    </section>
+
+                    <section>
+                        <h2>You were waiting for a scheme ?</h2>
+
+                        <p>
+                            <span class="fragment" data-frament-index="0">Really ?</span>
+                            <span class="fragment" data-frament-index="1">You're serious ?</span>
+                        </p>
+
+                        <p class="fragment" data-frament-index="2">
+                            Ok, here's one
+                        </p>
+                    </section>
+
+                    <section>
+                        <p>
+                           <pre>
+                            <code>
+                        ________ Query ________
+                       /           |           \
+                      /            |            \
+              Criterion  link  Criterion  link   Criterion
+                  group            group             group
+                  |                /\                |
+                  |               /  \               |
+                  |              /    \              |
+              Criterion         /      \         Criterion
+                               /        \
+                      Criterion   link   Criterion
+                            </code>
+                        </pre>
+                        </p>
+                    </section>
+
+                    <section>
+                        <h2>How does it work ?</h2>
+
+                        <ul>
+                            <li>The query contains 0..n criterion groups, a name and a type</li>
+                            <li>The groups are linked with binary operations (AND, OR)</li>
+                            <li>As links are operations, they are affected by the order of operations (AND > OR)</li>
+                            <li>Criterion groups contains 0..n criteria</li>
+                            <li>The criteria are also linked with binary operations</li>
+                            <li>A criterion contains a column name, a value, and a comparison operator</li>
+                        </ul>
+                    </section>
+
+                    <section>
+                        <h2>Example</h2>
+
+                        <pre>
+                            <code class="php">
+&lt;?php
+
+$query = new IndexQuery("foo", "bar");
+// Creates a Criterion group that contains one criterion.
+$query-&gt;filterBy("id", 5);
+// Trigger the default link to OR. Replaces the last link by OR.
+$query-&gt;_or();
+// Creates a new Criterion group. It will be linked with the first group by an OR.
+$query-&gt;filterBy("id", 6);
+                            </code>
+                        </pre>
+                    </section>
+                </section>
+
+                <section>
+                    <section>
+                        <h2>How does drivers work ?</h2>
+                    </section>
+
+                    <section>
+                        <h2>A driver is a class</h2>
+                        <p>that implements IndexEngine\Driver\DriverInterface</p>
+
+                        <pre>
+                            <code class="php">
+public function getConfiguration();
+public function loadConfiguration(ArgumentCollectionInterface $configuration = null);
+public function createIndex($type, $code, $name, IndexMapping $mapping);
+public function indexExists($type, $code, $name);
+public function deleteIndex($type, $code, $name);
+public function persistIndexes($type, $code, $name, IndexDataVector $indexDataVector, IndexMapping $mapping);
+public function executeSearchQuery(IndexQueryInterface $query, IndexMapping $mapping);
+public function addExtraConfiguration($name, $value);
+public function hasExtraConfiguration($name);
+public function deleteExtraConfiguration($name);
+public function getExtraConfiguration($name);
+public function getExtraConfigurations();
+public static function getCode();
+public function checkDependencies();
+                            </code>
+                        </pre>
+                    </section>
+
+                    <section>
+                        <h2>Drivers and DI</h2>
+
+                        <p>There is a driver registry, and you can add your driver with the tag index_engine.driver</p>
+                    </section>
+
+                    <section>
+                        <h2>Drivers and events (1/2)</h2>
+
+                        <p>
+                            You can create an event-driven driver by creating two classes:
+                        </p>
+                        <ul>
+                            <li>The driver's one that extends <br/> IndexEngine\Driver\AbstractEventDispatcherAwareDriver</li>
+                            <li>The listener's one that extends <br/> IndexEngine\Driver\DriverEventSubscriber</li>
+                        </ul>
+                    </section>
+
+                    <section>
+                        <h2>Drivers and events (2/2)</h2>
+
+                        <p>
+                            Then you have to register them like this in your configuration:
+                        </p>
+
+
+                            <pre>
+                                <code class="xml">
+&lt;service id="index_engine.driver.elastic_search" class="%index_engine.driver.elastic_search.class%"&gt;
+    &lt;tag name="index_engine.driver" listener="index_engine.driver.elastic_search_listener"/&gt;
+&lt;/service&gt;
+&lt;service id="index_engine.driver.elastic_search_listener" class="%index_engine.driver.elastic_search_listener.class%"&gt;
+    &lt;tag name="index_engine.event_subscriber"/&gt;
+&lt;/service&gt;
+                                </code>
+                            </pre>
+                    </section>
+                </section>
+
+                <section>
+                        <h2>Simple workflow</h2>
+
+                        <ul>
+                            <li>Go to module configuration page on BO</li>
+                            <li>Create a driver configuration</li>
+                            <li>Choose the index configuration to use</li>
+                            <li>php Thelia index:update foo</li>
+                            <li>Done</li>
+                        </ul>
+                </section>
+
+                <section>
+                    <h1>Any question ?</h1>
+                </section>
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+
+			// Full list of configuration options available at:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				// Optional reveal.js plugins
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/notes/notes.js', async: true }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
